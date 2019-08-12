@@ -220,6 +220,7 @@ function getRearrangement(req, res) {
 
     var collection = 'rearrangement';
     var query = '{ filename_uuid: "' + req.swagger.params['rearrangement_id'].value + '" }';
+    //var query = '{rearrangement_id:"' + req.swagger.params['rearrangement_id'].value + '"}';
 
     agaveIO.performQuery(collection, query)
 	.then(function(record) {
@@ -298,15 +299,6 @@ function queryRearrangements(req, res) {
 	    res.status(400).json({"success":false,"message":result_message});
 	    return;
 	}
-
-	// turn query string into JSON for mongo
-	try {
-	    query = JSON.parse(query);
-	} catch (e) {
-	    result_message = "Could not construct valid query: " + e;
-	    res.status(400).json({"success":false,"message":result_message});
-	    return;
-	}
     }
 
     // facets parameter
@@ -337,60 +329,42 @@ function queryRearrangements(req, res) {
 	abortQuery = true;
     });
 
-    MongoClient.connect(url, function(err, db) {
-	assert.equal(null, err);
-	console.log("Connected successfully to mongo");
+    if (!facets) {
+	// format parameter
+	var headers = [];
+	if (format == 'json') {
+	    res.setHeader('Content-Type', 'application/json');
+	    res.setHeader('Content-Disposition', 'attachment;filename="data.json"');
+	} else if (format == 'airr') {
+	    res.setHeader('Content-Type', 'text/tsv');
+	    res.setHeader('Content-Disposition', 'attachment;filename="data.tsv"');
 
-	var v1airr = db.db(mongoSettings.dbname);
-	var collection = v1airr.collection('rearrangement');
-
-	if (facets) {
-	    // perform a facets aggregation query
-	    collection.aggregate(agg).toArray()
-		.then(function(records) {
-		    //console.log(records);
-		    console.log('Retrieve ' + records.length + ' records.');
-		    
-		    db.close();
-		    res.json({"Info":info,"Rearrangement":records});
-		    return;
-		})
-		.catch(function() {
-		    db.close();
-		    res.json({"success":result_flag,"message":result_message});
-		    return;
-		});
-	} else {
-	    // format parameter
-	    var headers = [];
-	    if (format == 'json') {
-		res.setHeader('Content-Type', 'application/json');
-		res.setHeader('Content-Disposition', 'attachment;filename="data.json"');
-	    } else if (format == 'airr') {
-		res.setHeader('Content-Type', 'text/tsv');
-		res.setHeader('Content-Disposition', 'attachment;filename="data.tsv"');
-
-		// Load AIRR spec for field names
-		var schema = global.airr['Rearrangement'];
-		if (!schema) {
-		    console.error('Rearrangement schema missing.');
-		    res.status(500).end();
-		    return;
-		}
-		for (var p in schema['properties']) headers.push(p);
-
-		res.write(headers.join('\t'));
-		res.write('\n');
-		console.log(headers);
+	    // Load AIRR spec for field names
+	    var schema = global.airr['Rearrangement'];
+	    if (!schema) {
+		console.error('Rearrangement schema missing.');
+		res.status(500).end();
+		return;
 	    }
+	    for (var p in schema['properties']) headers.push(p);
 
-	    var first = true;
-	    if (format == 'json')
-		res.write('{"Info":' + JSON.stringify(info) + ',"Rearrangement": [\n');
+	    res.write(headers.join('\t'));
+	    res.write('\n');
+	    console.log(headers);
+	}
 
-	    // perform a normal query
-	    var cursor = collection.find(query).skip(from).limit(size).project(projection);
-	    cursor.forEach(function(entry) {
+	var first = true;
+	if (format == 'json')
+	    res.write('{"Info":' + JSON.stringify(info) + ',"Rearrangement": [\n');
+
+	var collection = 'rearrangement';
+	console.log(query);
+	agaveIO.performQuery(collection, query)
+	    .then(function(records) {
+		console.log(records);
+
+		var entry = null;
+
 		if (abortQuery) {
 		    console.log('aborting query');
 		    cursor.close(function(err, result) {
@@ -424,12 +398,9 @@ function queryRearrangements(req, res) {
 			res.write(vals.join('\t'));
 		    }
 		}
-	    }, function(err) {
-	        db.close();
 	        if (format == 'json') res.write(']}\n');
 	        if (format == 'airr') res.write('\n');
 	        res.end();
 	    });
-	}
-    });
+    }
 }

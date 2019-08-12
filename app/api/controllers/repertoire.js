@@ -4,14 +4,12 @@ var util = require('util');
 
 // Server environment config
 var config = require('../../config/config');
-var mongoSettings = require('../../config/mongoSettings');
+var agaveSettings = require('../../config/tapisSettings');
 
-var MongoClient = require('mongodb').MongoClient;
 var assert = require('assert');
 
-var url = 'mongodb://'
-    + mongoSettings.username + ':' + mongoSettings.userSecret + '@'
-    + mongoSettings.hostname + ':27017/admin';
+// Processing
+var agaveIO = require('../vendor/agaveIO');
 
 // API customization
 var custom_file = undefined;
@@ -220,24 +218,18 @@ function constructQueryOperation(filter) {
 function getRepertoire(req, res) {
     console.log('getRepertoire: ' + req.swagger.params['repertoire_id'].value);
 
-    MongoClient.connect(url, function(err, db) {
-	assert.equal(null, err);
-	console.log("Connected successfully to mongo");
+    var collection = 'repertoire';
+    var query = '{repertoire_id:"' + req.swagger.params['repertoire_id'].value + '"}';
 
-	var v1airr = db.db(mongoSettings.dbname);
-	var collection = v1airr.collection('repertoire');
-
-	collection.findOne({ repertoire_id: req.swagger.params['repertoire_id'].value })
-	    .then(function(record) {
-		db.close();
-		if (record) {
-		    if (record['_id']) delete record['_id'];
-		    res.json(record);
-		} else
-		    res.status(404).json({});
-	    });
-		
-    });
+    agaveIO.performQuery(collection, query)
+	.then(function(record) {
+	    console.log(record);
+	    if (record) {
+		if (record['_id']) delete record['_id'];
+		res.json(record);
+	    } else
+		res.status(404).json({});
+	});
 }
 
 function queryRepertoires(req, res) {

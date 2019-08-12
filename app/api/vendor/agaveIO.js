@@ -241,13 +241,15 @@ agaveIO.performQuery = function(collection, query) {
 	    var requestSettings = {
 		host:     agaveSettings.hostname,
 		method:   'GET',
-		path:     '/rh/v2/v1public/' + collection + '?filter=' + encodeURIComponent(query),
+		path:     '/rh/v2/v1public/' + collection,
 		rejectUnauthorized: false,
 		headers: {
 		    'Accept':   'application/json',
 		    'Authorization': 'Bearer ' + GuestAccount.accessToken()
 		}
 	    };
+	    if (query)
+		requestSettings['path'] += '?filter=' + encodeURIComponent(query)
 	    console.log(requestSettings);
 
 	    return agaveIO.sendRequest(requestSettings, null);
