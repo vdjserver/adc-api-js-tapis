@@ -256,7 +256,7 @@ function queryRearrangements(req, res) {
 	console.log('fields: ', fields);
 	if (! (fields instanceof Array)) {
 	    result_message = "fields parameter is not an array.";
-	    res.status(400).json({"success":false,"message":result_message});
+	    res.status(400).json({"message":result_message});
 	    return;
 	}
 	for (var i = 0; i < fields.length; ++i) {
