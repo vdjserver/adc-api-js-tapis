@@ -1,7 +1,7 @@
 # Base Image
-FROM ubuntu:16.04
+FROM ubuntu:18.04
 
-MAINTAINER Scott Christley <scott.christley@utsouthwestern.edu>
+LABEL maintainer="VDJServer <vdjserver@utsouthwestern.edu>"
 
 # PROXY: uncomment these if building behind UTSW proxy
 #ENV http_proxy 'http://proxy.swmed.edu:3128/'
@@ -10,12 +10,24 @@ MAINTAINER Scott Christley <scott.christley@utsouthwestern.edu>
 #ENV HTTPS_PROXY 'https://proxy.swmed.edu:3128/'
 
 # Install OS Dependencies
-RUN DEBIAN_FRONTEND='noninteractive' apt-get update && DEBIAN_FRONTEND='noninteractive' apt-get install -y \
+RUN export DEBIAN_FRONTEND=noninteractive && apt-get update && apt-get install -y --fix-missing \
     make \
     wget \
     xz-utils \
     default-jre \
-    git
+    git \
+    python3 \
+    python3-pip \
+    python3-sphinx \
+    python3-scipy \
+    libyaml-dev \
+    wget
+
+RUN pip3 install \
+    pandas \
+    biopython \
+    airr \
+    python-dotenv
 
 ##################
 ##################
