@@ -20,11 +20,36 @@ module.exports = {
 };
 
 function getStatus(req, res) {
-    //console.log('getStatus');
-    res.json({"result":"success"});
+    // Verify we can login with guest account
+    var GuestAccount = require('../models/guestAccount');
+    GuestAccount.getToken()
+	.then(function(guestToken) {
+	    res.json({"result":"success"});
+	})
+	.fail(function(error) {
+	    console.error('VDJServer ADC API ERROR: Could not acquire guest token.\n.' + error);
+	    res.status(500).json({"message":"Internal service error."});
+	    //webhookIO.postToSlack('VDJServer ADC API ERROR: Unable to login with guest account.\nSystem may need to be restarted.\n' + error);
+	});
 }
 
 function getInfo(req, res) {
-    //console.log('getStatus');
-    res.json({ name: config.info.name, description: config.info.description, version: config.info.version, customization: config.custom_file});
+    // Verify we can login with guest account
+    var GuestAccount = require('../models/guestAccount');
+    GuestAccount.getToken()
+	.then(function(guestToken) {
+	    res.json({ name: config.title,
+		       description: config.info.description,
+		       version: config.info.version,
+		       airr_schema_version: global.airr['Info']['version'],
+		       customization: config.custom_file,
+		       max_size: config.max_size,
+		       max_query_size: config.max_query_size,
+		       contact: config.contact});
+	})
+	.fail(function(error) {
+	    console.error('VDJServer ADC API ERROR: Could not acquire guest token.\n.' + error);
+	    res.status(500).json({"message":"Internal service error."});
+	    //webhookIO.postToSlack('VDJServer ADC API ERROR: Unable to login with guest account.\nSystem may need to be restarted.\n' + error);
+	});
 }
