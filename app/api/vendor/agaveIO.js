@@ -41,13 +41,13 @@ agaveIO.sendRequest = function(requestSettings, postData) {
 
             if (output && jsonApprover.isJSON(output)) {
                 responseObject = JSON.parse(output);
-		console.log(responseObject);
+		//console.log(responseObject);
                 deferred.resolve(responseObject);
             }
             else {
 
                 if (agaveSettings.debugConsole === true) {
-                    console.error('VDJ-API ERROR: Agave response is not json.');
+                    console.error('VDJ-ADC-API ERROR: Agave response is not json.');
                 }
 
                 deferred.reject(new Error('Agave response is not json'));
@@ -58,7 +58,7 @@ agaveIO.sendRequest = function(requestSettings, postData) {
 
     request.on('error', function(error) {
         if (agaveSettings.debugConsole === true) {
-            console.error('VDJ-API ERROR: Agave connection error.' + JSON.stringify(error));
+            console.error('VDJ-ADC-API ERROR: Agave connection error.' + JSON.stringify(error));
         }
 
         deferred.reject(new Error('Agave connection error'));
@@ -99,7 +99,7 @@ agaveIO.sendFormRequest = function(requestSettings, formData) {
             else {
 
                 if (agaveSettings.debugConsole === true) {
-                    console.error('VDJ-API ERROR: Agave response is not json.');
+                    console.error('VDJ-ADC-API ERROR: Agave response is not json.');
                 }
 
                 deferred.reject(new Error('Agave response is not json'));
@@ -111,8 +111,8 @@ agaveIO.sendFormRequest = function(requestSettings, formData) {
             else {
 
                 if (agaveSettings.debugConsole === true) {
-                    console.error('VDJ-API ERROR: Agave returned an error. it is: ' + JSON.stringify(responseObject));
-                    console.error('VDJ-API ERROR: Agave returned an error. it is: ' + responseObject);
+                    console.error('VDJ-ADC-API ERROR: Agave returned an error. it is: ' + JSON.stringify(responseObject));
+                    console.error('VDJ-ADC0API ERROR: Agave returned an error. it is: ' + responseObject);
                 }
 
                 deferred.reject(new Error('Agave response returned an error: ' + JSON.stringify(responseObject)));
@@ -123,7 +123,7 @@ agaveIO.sendFormRequest = function(requestSettings, formData) {
 
     request.on('error', function(error) {
         if (agaveSettings.debugConsole === true) {
-            console.error('VDJ-API ERROR: Agave connection error.' + JSON.stringify(error));
+            console.error('VDJ-ADC-API ERROR: Agave connection error.' + JSON.stringify(error));
         }
 
         deferred.reject(new Error('Agave connection error. ' + JSON.stringify(error)));
@@ -154,7 +154,7 @@ agaveIO.sendTokenRequest = function(requestSettings, postData) {
             else {
 
                 if (agaveSettings.debugConsole === true) {
-                    console.error('VDJ-API ERROR: Agave token response is not json.');
+                    console.error('VDJ-ADC-API ERROR: Agave token response is not json.');
                 }
 
                 deferred.reject(new Error('Agave response is not json'));
@@ -172,8 +172,8 @@ agaveIO.sendTokenRequest = function(requestSettings, postData) {
             else {
 
                 if (agaveSettings.debugConsole === true) {
-                    console.error('VDJ-API ERROR: Agave returned a token error. it is: ' + JSON.stringify(responseObject));
-                    console.error('VDJ-API ERROR: Agave returned a token error. it is: ' + responseObject);
+                    console.error('VDJ-ADC-API ERROR: Agave returned a token error. it is: ' + JSON.stringify(responseObject));
+                    console.error('VDJ-ADC-API ERROR: Agave returned a token error. it is: ' + responseObject);
                 }
 
                 deferred.reject(new Error('Agave response returned an error: ' + JSON.stringify(responseObject)));
@@ -185,7 +185,7 @@ agaveIO.sendTokenRequest = function(requestSettings, postData) {
     request.on('error', function() {
 
         if (agaveSettings.debugConsole === true) {
-            console.error('VDJ-API ERROR: Agave token connection error.');
+            console.error('VDJ-ADC-API ERROR: Agave token connection error.');
         }
 
         deferred.reject(new Error('Agave connection error'));
@@ -232,24 +232,48 @@ agaveIO.getToken = function(auth) {
     return deferred.promise;
 };
 
-agaveIO.performQuery = function(collection, query) {
+agaveIO.performQuery = function(collection, query, projection, page, pagesize) {
 
     var deferred = Q.defer();
 
     GuestAccount.getToken()
 	.then(function(token) {
+	    var mark = false;
 	    var requestSettings = {
 		host:     agaveSettings.hostname,
 		method:   'GET',
-		path:     '/rh/v2/v1public/' + collection,
+		path:     '/meta/v3/v1public/' + collection,
 		rejectUnauthorized: false,
 		headers: {
 		    'Accept':   'application/json',
 		    'Authorization': 'Bearer ' + GuestAccount.accessToken()
 		}
 	    };
-	    if (query)
-		requestSettings['path'] += '?filter=' + encodeURIComponent(query)
+	    if (query) {
+		if (mark) requestSettings['path'] += '&';
+		else requestSettings['path'] += '?';
+		mark = true;
+		requestSettings['path'] += 'filter=' + encodeURIComponent(query);
+	    }
+	    if (projection) {
+		if (mark) requestSettings['path'] += '&';
+		else requestSettings['path'] += '?';
+		mark = true;
+		requestSettings['path'] += 'keys=' + encodeURIComponent(JSON.stringify(projection));
+	    }
+	    if (page) {
+		if (mark) requestSettings['path'] += '&';
+		else requestSettings['path'] += '?';
+		mark = true;
+		requestSettings['path'] += 'page=' + encodeURIComponent(page);
+	    }
+	    if (pagesize) {
+		if (mark) requestSettings['path'] += '&';
+		else requestSettings['path'] += '?';
+		mark = true;
+		requestSettings['path'] += 'pagesize=' + encodeURIComponent(pagesize);
+	    }
+
 	    console.log(requestSettings);
 
 	    return agaveIO.sendRequest(requestSettings, null);
