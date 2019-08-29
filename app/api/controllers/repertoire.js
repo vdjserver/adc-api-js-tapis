@@ -57,7 +57,6 @@ function constructQueryOperation(filter) {
 	for (var i = 0; i < objs.length; ++i) {
 	    var p = objs[i];
 	    if (props.type == 'array') {
-		console.log(props.items);
 		if (props.items.type == 'object') {
 		    props = props.items.properties[p];
 		} else if (props.items['allOf'] != undefined) {
@@ -80,10 +79,10 @@ function constructQueryOperation(filter) {
 	if (props != undefined) {
 	    if (props['type'] != undefined) content_type = props['type'];
 	} else {
-	    console.error(content['field'] + ' is not found in AIRR schema.');
+	    console.log('VDJ-ADC-API INFO: ' + content['field'] + ' is not found in AIRR schema.');
 	}
     }
-    console.log('type: ' + content_type);
+    //console.log('type: ' + content_type);
 
     var content_value = undefined;
     if (content['value'] != undefined) {
@@ -107,7 +106,7 @@ function constructQueryOperation(filter) {
 	    break;
 	}
     }
-    console.log('value: ' + content_value);
+    //console.log('value: ' + content_value);
 
     switch(filter['op']) {
     case '=':
@@ -201,7 +200,7 @@ function constructQueryOperation(filter) {
 	return null;
 
     default:
-	console.error('Unknown operator in filters:', filter['op']);
+	console.error('VDJ-ADC-API ERROR: Unknown operator in filters:', filter['op']);
 	return null;
     }
 
@@ -216,30 +215,42 @@ function constructQueryOperation(filter) {
   Param 2: a handle to the response object
  */
 function getRepertoire(req, res) {
-    console.log('getRepertoire: ' + req.swagger.params['repertoire_id'].value);
+    console.log('VDJ-ADC-API INFO: getRepertoire: ' + req.swagger.params['repertoire_id'].value);
+
+    var result = {};
+    var result_message = "Server error";
+    var results = [];
 
     var collection = 'repertoire';
     var query = '{repertoire_id:"' + req.swagger.params['repertoire_id'].value + '"}';
 
-    agaveIO.performQuery(collection, query)
+    // construct info object for response
+    var info = { };
+    var schema = global.airr['Info'];
+    info['title'] = config.title;
+    info['description'] = 'VDJServer ADC API response for repertoire query'
+    info['version'] = schema.version;
+    info['contact'] = config.contact;
+
+    agaveIO.performQuery(collection, query, null, null, null)
 	.then(function(record) {
-	    console.log(record);
-	    if (record) {
+	    if (record['_returned'] == 0) {
+		res.json({"Info":info,"Repertoire":[]});
+	    } else {
+		record = record['_embedded'][0];
 		if (record['_id']) delete record['_id'];
-		res.json(record);
-	    } else
-		res.status(404).json({});
-	});
+		if (record['_etag']) delete record['_etag'];
+		res.json({"Info":info,"Repertoire":[record]});
+	    }
+	})
+	.catch(function() {
+	    res.status(500).json({"message":result_message});
+	    return;
+        });
 }
 
 function queryRepertoires(req, res) {
-    console.log('queryRepertoires');
-
-    req.swagger.operation.parameterObjects.forEach(function(parameter) {
-	console.log(parameter.name);
-	console.log(parameter.type);
-	console.log(req.swagger.params[parameter.name].value);
-    });
+    console.log('VDJ-ADC-API INFO: queryRepertoires');
 
     var results = [];
     var result = {};
@@ -253,50 +264,74 @@ function queryRepertoires(req, res) {
     var projection = {};
     if (bodyData['fields'] != undefined) {
 	var fields = bodyData['fields'];
-	console.log('fields: ', fields);
+	//console.log('fields: ', fields);
 	if (! (fields instanceof Array)) {
 	    result_message = "fields parameter is not an array.";
-	    res.json({"success":false,"message":result_message});
+	    res.status(400).json({"message":result_message});
 	    return;
 	}
 	for (var i = 0; i < fields.length; ++i) {
 	    if (fields[i] == '_id') continue;
+	    if (fields[i] == '_etag') continue;
 	    projection[fields[i]] = 1;
 	}
     }
     projection['_id'] = 0;
 
-    // from parameter
-    var from = 0;
-    if (bodyData['from'] != undefined)
-	from = bodyData['from'];
+    // we need to convert ADC API from/size to page/pagesize
+    var page = 0;
+    var pagesize = config.max_size;
 
     // size parameter
     var size = 0;
     if (bodyData['size'] != undefined)
 	size = bodyData['size'];
+    if (size > config.max_size) {
+	result_message = "Size too large (" + size + "), maximum size is " + config.max_size;
+	res.status(400).json({"message":result_message});
+	return;
+    }
+    if (size < 0) {
+	result_message = "Negative size (" + size + ") not allowed.";
+	res.status(400).json({"message":result_message});
+	return;
+    }
+
+    // from parameter
+    var from = 0;
+    var from_skip = 0;
+    var size_stop = pagesize;
+    if (bodyData['from'] != undefined)
+	from = bodyData['from'];
+    if (from < 0) {
+	result_message = "Negative from (" + from + ") not allowed.";
+	res.status(400).json({"message":result_message});
+	return;
+    }
+    if (from != 0) {
+	page = Math.trunc(from / pagesize);
+	from_skip = from % pagesize;
+	size_stop = from_skip + size;
+    }
+
+    // we might need to do a second query to get the rest
+    var second_size = 0;
+    if ((from + size) > (page + 1)*pagesize) {
+	second_size = (from + size) - (page + 1)*pagesize;
+    }
 
     // construct query string
     var filter = {};
     var query = undefined;
     if (bodyData['filters'] != undefined) {
 	filter = bodyData['filters'];
-	console.log(filter);
+	//console.log(filter);
 	query = constructQueryOperation(filter);
-	console.log(query);
+	//console.log(query);
 
 	if (!query) {
 	    result_message = "Could not construct valid query.";
-	    res.json({"success":false,"message":result_message});
-	    return;
-	}
-
-	// turn query string into JSON for mongo
-	try {
-	    query = JSON.parse(query);
-	} catch (e) {
-	    result_message = "Could not construct valid query: " + e;
-	    res.json({"success":false,"message":result_message});
+	    res.status(400).json({"message":result_message});
 	    return;
 	}
     }
@@ -316,50 +351,73 @@ function queryRepertoires(req, res) {
     // construct info object for response
     var info = { };
     var schema = global.airr['Info'];
-    info['title'] = 'AIRR Data Commons API'
-    info['description'] = 'API response for repertoire query'
+    info['title'] = config.title;
+    info['description'] = 'VDJServer ADC API response for repertoire query'
     info['version'] = schema.version;
-    info['contact'] = schema.contact;
+    info['contact'] = config.contact;
 
-    MongoClient.connect(url, function(err, db) {
-	assert.equal(null, err);
-	console.log("Connected successfully to mongo");
-
-	var v1airr = db.db(mongoSettings.dbname);
-	var collection = v1airr.collection('repertoire');
-
-	if (facets) {
-	    // perform a facets aggregation query
-	    collection.aggregate(agg).toArray()
-		.then(function(records) {
-		    //console.log(records);
-		    console.log('Retrieve ' + records.length + ' records.');
-		    
-		    db.close();
-		    res.json({"Info":info,"Repertoire":records});
-		    return;
-		})
-		.catch(function() {
-		    db.close();
-		    res.json({"success":result_flag,"message":result_message});
-		    return;
-		});
-	} else {
-	    // perform a normal query
-	    collection.find(query).skip(from).limit(size).project(projection).toArray()
-		.then(function(records) {
-		    //console.log(records);
-		    console.log('Retrieve ' + records.length + ' records.');
-
-		    db.close();
-		    res.json({"Info":info,"Repertoire":records});
-		    return;
-		})
-		.catch(function() {
-		    db.close();
-		    res.json({"success":result_flag,"message":result_message});
-		    return;
-		});
-	}
+    // Handle client HTTP request abort
+    var abortQuery = false;
+    req.on("close", function() {
+	console.log('VDJ-ADC-API INFO: Client request closed unexpectedly.');
+	abortQuery = true;
     });
+
+    // perform non-facets query
+    if (!facets) {
+	var collection = 'repertoire';
+	//console.log(query);
+	agaveIO.performQuery(collection, query, projection, page, pagesize)
+	    .then(function(records) {
+		if (abortQuery) {
+		    console.log('VDJ-ADC-API INFO: client aborted query.');
+		    return;
+		}
+
+		console.log('VDJ-ADC-API INFO: query returned ' + records['_returned'] + ' records.');
+		if (records['_returned'] == 0) {
+		    res.json({"Info":info,"Repertoire":[]});
+		} else {
+		    // loop through records, clean data
+		    // and only retrieve desired from/size
+		    for (var i in records['_embedded']) {
+			if (i < from_skip) continue;
+			if (i >= size_stop) break;
+			var record = records['_embedded'][i];
+			if (record['_id']) delete record['_id'];
+			if (record['_etag']) delete record['_etag'];
+			results.push(record);
+		    }
+
+		    if ((!second_size) || (records['_returned'] < pagesize)) {
+			// only one query so return the results	
+			console.log('VDJ-ADC-API INFO: returning ' + results.length + ' records to client.');
+			res.json({"Info":info,"Repertoire":results});
+		    } else {
+			// we need to do a second query for the rest
+			page += 1;
+			agaveIO.performQuery(collection, query, projection, page, pagesize)
+			    .then(function(records) {
+				console.log('VDJ-ADC-API INFO: second query returned ' + records['_returned'] + ' records.')
+
+				// loop through records, clean data
+				// and only retrieve desired from/size
+				for (var i in records['_embedded']) {
+				    if (i >= second_size) break;
+				    var record = records['_embedded'][i];
+				    if (record['_id']) delete record['_id'];
+				    if (record['_etag']) delete record['_etag'];
+				    results.push(record);
+				}
+				console.log('VDJ-ADC-API INFO: returning ' + results.length + ' records to client.');
+				res.json({"Info":info,"Repertoire":results});
+			    });
+		    }
+		}
+	    })
+	    .fail(function(error) {
+		console.error("VDJ-ADC-API ERROR: " + error);
+		res.status(500).json({"message":result_message});
+	    });
+    }
 }
