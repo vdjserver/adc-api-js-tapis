@@ -27,17 +27,16 @@ GuestAccount.getToken()
 	// Load swagger API
 	//console.log(config.appRoot);
 	var swaggerFile = path.resolve(swaggerConfig.appRoot, 'api/swagger/adc-api.yaml');
-	console.log('Using ADC API file: ' + swaggerFile);
+	console.log('Using ADC API specification: ' + swaggerFile);
 	swaggerConfig.swagger = yaml.safeLoad(fs.readFileSync(swaggerFile, 'utf8'));
-	//swaggerConfig.swagger['basePath'] = '/airr' + swaggerConfig.swagger['basePath']
-	//swaggerConfig.swagger['host'] = 'vdjserver.org'
+	console.log('Loaded ADC API version: ' + swaggerConfig.swagger.info.version);
 
 	// Load AIRR Schema
 	return airr.schema();
     })
     .then(function(schema) {
 	// store the schema as a global so all code can see it
-	console.log('Loaded AIRR Schema.');
+	console.log('Loaded AIRR Schema, version ' + schema['Info']['version']);
 	global.airr = schema;
 
 	Runner.create(swaggerConfig, function(err, runner) {
