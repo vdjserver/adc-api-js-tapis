@@ -48,6 +48,7 @@ function constructQueryOperation(filter) {
 
     // determine type from schema, default is string
     var content_type = 'string';
+    var content_properties = null;
     if (content['field'] != undefined) {
 	var schema = global.airr['Rearrangement'];
 	var props = schema;
@@ -57,7 +58,6 @@ function constructQueryOperation(filter) {
 	for (var i = 0; i < objs.length; ++i) {
 	    var p = objs[i];
 	    if (props.type == 'array') {
-		console.log(props.items);
 		if (props.items.type == 'object') {
 		    props = props.items.properties[p];
 		} else if (props.items['allOf'] != undefined) {
@@ -78,12 +78,28 @@ function constructQueryOperation(filter) {
 	}
 
 	if (props != undefined) {
-	    if (props['type'] != undefined) content_type = props['type'];
+	    if (props['type'] != undefined) {
+		content_type = props['type'];
+		content_properties = props;
+	    }
 	} else {
-	    console.error(content['field'] + ' is not found in AIRR schema.');
+	    console.log('VDJ-ADC-API INFO:' + content['field'] + ' is not found in AIRR schema.');
 	}
     }
-    console.log('type: ' + content_type);
+
+    // Check if query field is required. By default, the ADC API will not allow
+    // queries on the rearrangement endpoint for optional fields.
+    if (content_properties != undefined) {
+	if (content_properties['x-airr'] != undefined) {
+	    if (content_properties['x-airr']['adc-api-optional'] != undefined) {
+		if (content_properties['x-airr']['adc-api-optional']) {
+		    // optional field, reject
+		    console.log('VDJ-ADC-API INFO: ' + content['field'] + ' is an optional query field.');
+		    return null;
+		}
+	    }
+	}
+    }
 
     var content_value = undefined;
     if (content['value'] != undefined) {
@@ -107,7 +123,6 @@ function constructQueryOperation(filter) {
 	    break;
 	}
     }
-    console.log('value: ' + content_value);
 
     switch(filter['op']) {
     case '=':
@@ -201,7 +216,7 @@ function constructQueryOperation(filter) {
 	return null;
 
     default:
-	console.error('Unknown operator in filters:', filter['op']);
+	console.error('VDJ-ADC-API ERROR: Unknown operator in filters:', filter['op']);
 	return null;
     }
 
@@ -216,31 +231,43 @@ function constructQueryOperation(filter) {
   Param 2: a handle to the response object
  */
 function getRearrangement(req, res) {
-    console.log('getRearrangement: ' + req.swagger.params['rearrangement_id'].value);
+    console.log('VDJ-ADC-API INFO: getRearrangement: ' + req.swagger.params['rearrangement_id'].value);
 
-    var collection = 'rearrangement';
-    var query = '{ filename_uuid: "' + req.swagger.params['rearrangement_id'].value + '" }';
-    //var query = '{rearrangement_id:"' + req.swagger.params['rearrangement_id'].value + '"}';
+    var result = {};
+    var result_message = "Server error";
+    var results = [];
 
-    agaveIO.performQuery(collection, query)
+    // TEST: use "rearrangements" instead of "rearrangement"
+    var collection = 'rearrangements/' + req.swagger.params['rearrangement_id'].value;
+
+    // construct info object for response
+    var info = { };
+    var schema = global.airr['Info'];
+    info['title'] = config.title;
+    info['description'] = 'VDJServer ADC API response for rearrangement query'
+    info['version'] = schema.version;
+    info['contact'] = config.contact;
+
+    agaveIO.performQuery(collection, null, null, null, null)
 	.then(function(record) {
-	    console.log(record);
-	    if (record) {
+	    if (record['http status code'] == 404) {
+		res.json({"Info":info,"Rearrangement":[]});
+	    } else {
+		record['rearrangement_id'] = record['_id']['$oid'];
 		if (record['_id']) delete record['_id'];
-		res.json(record);
-	    } else
-		res.status(404).json({});
-	});
+		if (record['_etag']) delete record['_etag'];
+		res.json({"Info":info,"Rearrangement":[record]});
+	    }
+	})
+	.fail(function(error) {
+	    console.error('VDJ-ADC-API INFO: getRearrangment error: ' + error);
+	    res.status(500).json({"message":result_message});
+	    return;
+        });
 }
 
 function queryRearrangements(req, res) {
-    console.log('queryRearrangements');
-
-    req.swagger.operation.parameterObjects.forEach(function(parameter) {
-	console.log(parameter.name);
-	console.log(parameter.type);
-	console.log(req.swagger.params[parameter.name].value);
-    });
+    console.log('VDJ-ADC-API INFO: queryRearrangements');
 
     var results = [];
     var result = {};
@@ -261,6 +288,7 @@ function queryRearrangements(req, res) {
 	}
 	for (var i = 0; i < fields.length; ++i) {
 	    if (fields[i] == '_id') continue;
+	    if (fields[i] == '_etag') continue;
 	    projection[fields[i]] = 1;
 	}
     }
@@ -271,19 +299,52 @@ function queryRearrangements(req, res) {
     if (bodyData['format'] != undefined)
 	format = bodyData['format'];
     if ((format != 'json') && (format != 'airr')) {
-	res.status(400).end();
+	result_message = "Unsupported format (" + format + ").";
+	res.status(400).json({"message":result_message});
 	return;
     }
 
-    // from parameter
-    var from = 0;
-    if (bodyData['from'] != undefined)
-	from = bodyData['from'];
+    // we need to convert ADC API from/size to page/pagesize
+    var page = 0;
+    var pagesize = config.max_size;
 
     // size parameter
     var size = 0;
     if (bodyData['size'] != undefined)
 	size = bodyData['size'];
+    if (size > config.max_size) {
+	result_message = "Size too large (" + size + "), maximum size is " + config.max_size;
+	res.status(400).json({"message":result_message});
+	return;
+    }
+    if (size < 0) {
+	result_message = "Negative size (" + size + ") not allowed.";
+	res.status(400).json({"message":result_message});
+	return;
+    }
+
+    // from parameter
+    var from = 0;
+    var from_skip = 0;
+    var size_stop = pagesize;
+    if (bodyData['from'] != undefined)
+	from = bodyData['from'];
+    if (from < 0) {
+	result_message = "Negative from (" + from + ") not allowed.";
+	res.status(400).json({"message":result_message});
+	return;
+    }
+    if (from != 0) {
+	page = Math.trunc(from / pagesize);
+	from_skip = from % pagesize;
+	size_stop = from_skip + size;
+    }
+
+    // we might need to do a second query to get the rest
+    var second_size = 0;
+    if ((from + size) > (page + 1)*pagesize) {
+	second_size = (from + size) - (page + 1)*pagesize;
+    }
 
     // construct query string
     var filter = {};
@@ -296,7 +357,7 @@ function queryRearrangements(req, res) {
 
 	if (!query) {
 	    result_message = "Could not construct valid query.";
-	    res.status(400).json({"success":false,"message":result_message});
+	    res.status(400).json({"message":result_message});
 	    return;
 	}
     }
@@ -317,78 +378,118 @@ function queryRearrangements(req, res) {
     // construct info object for response
     var info = { };
     var schema = global.airr['Info'];
-    info['title'] = 'AIRR Data Commons API'
-    info['description'] = 'API response for rearrangement query'
+    info['title'] = config.title;
+    info['description'] = 'VDJServer ADC API response for rearrangement query'
     info['version'] = schema.version;
-    info['contact'] = schema.contact;
+    info['contact'] = config.contact;
 
     // Handle client HTTP request abort
     var abortQuery = false;
     req.on("close", function() {
-	console.log('Client request closed unexpectedly');
+	console.log('VDJ-ADC-API INFO: Client request closed unexpectedly');
 	abortQuery = true;
     });
 
+    // perform non-facets query
     if (!facets) {
-	// format parameter
-	var headers = [];
-	if (format == 'json') {
-	    res.setHeader('Content-Type', 'application/json');
-	    res.setHeader('Content-Disposition', 'attachment;filename="data.json"');
-	} else if (format == 'airr') {
-	    res.setHeader('Content-Type', 'text/tsv');
-	    res.setHeader('Content-Disposition', 'attachment;filename="data.tsv"');
-
-	    // Load AIRR spec for field names
-	    var schema = global.airr['Rearrangement'];
-	    if (!schema) {
-		console.error('Rearrangement schema missing.');
-		res.status(500).end();
-		return;
-	    }
-	    for (var p in schema['properties']) headers.push(p);
-
-	    res.write(headers.join('\t'));
-	    res.write('\n');
-	    console.log(headers);
-	}
-
-	var first = true;
-	if (format == 'json')
-	    res.write('{"Info":' + JSON.stringify(info) + ',"Rearrangement": [\n');
-
-	var collection = 'rearrangement';
-	console.log(query);
-	agaveIO.performQuery(collection, query)
+	var collection = 'rearrangements';
+	//console.log(query);
+	agaveIO.performQuery(collection, query, projection, page, pagesize)
 	    .then(function(records) {
-		console.log(records);
-
-		var entry = null;
-
 		if (abortQuery) {
-		    console.log('aborting query');
-		    cursor.close(function(err, result) {
-			// db will be closed by callback
-		    });
+		    return;
+		}
+
+		console.log('VDJ-ADC-API INFO: query returned ' + records['_returned'] + ' records.');
+		if (records['_returned'] == 0) {
+		    results = [];
 		} else {
-		    // data cleanup
-		    var record = '';
-		    for (var p in entry) {
-			if (!entry[p]) delete entry[p];
-			else if ((typeof entry[p] == 'string') && (entry[p].length == 0)) delete entry[p];
-			else if (p == '_id') delete entry[p];
-			//else if (custom_file) custom_file.dataCleanForQuerySequencesData(p, entry, req, res);
+		    // loop through records, clean data
+		    // and only retrieve desired from/size
+		    for (var i in records['_embedded']) {
+			if (i < from_skip) continue;
+			if (i >= size_stop) break;
+			var record = records['_embedded'][i];
+			if (record['_id']) delete record['_id'];
+			if (record['_etag']) delete record['_etag'];
+			results.push(record);
+		    }
+		}
+	    })
+	    .then(function() {
+		if (abortQuery) {
+		    return;
+		}
+
+		if ((!second_size) || (results.length < pagesize)) {
+		    // only one query so return the results
+		    return;
+		} else {
+		    // we need to do a second query for the rest
+		    page += 1;
+		    agaveIO.performQuery(collection, query, projection, page, pagesize)
+			.then(function(records) {
+			    console.log('VDJ-ADC-API INFO: second query returned ' + records['_returned'] + ' records.')
+
+			    // loop through records, clean data
+			    // and only retrieve desired from/size
+			    for (var i in records['_embedded']) {
+				if (i >= second_size) break;
+				var record = records['_embedded'][i];
+				if (record['_id']) delete record['_id'];
+				if (record['_etag']) delete record['_etag'];
+				results.push(record);
+			    }
+			});
+		}
+	    })
+	    .then(function() {
+		if (abortQuery) {
+		    console.log('VDJ-ADC-API INFO: client aborted query.');
+		    return;
+		}
+
+		// format results and return them
+		if (format == 'json') {
+		    console.log('VDJ-ADC-API INFO: returning ' + results.length + ' records to client.');
+		    res.json({"Info":info,"Rearrangement":results});
+		} else if (format == 'airr') {
+		    res.setHeader('Content-Type', 'text/tsv');
+
+		    // Load AIRR spec for field names
+		    var schema = global.airr['Rearrangement'];
+		    if (!schema) {
+			console.error('VDJ-ADC-API ERROR: Rearrangement schema missing.');
+			res.status(500).json({"message":result_message});
+			return;
 		    }
 
-		    if (!first) {
-			if (format == 'json') res.write(',\n');
-			if (format == 'airr') res.write('\n');
-		    }  else {
-			first = false;
+		    // write headers
+		    var headers = [];
+		    // schema fields
+		    for (var p in schema['properties']) {
+			if (projection[p]) headers.push(p);
 		    }
+		    // add custom fields on end
+		    for (var p in projection) {
+			if (projection[p]) {
+			    if (schema['properties'][p]) continue;
+			    else headers.push(p);
+			}
+		    }
+		    res.write(headers.join('\t'));
+		    res.write('\n');
+		    console.log(headers);
 
-		    if (format == 'json') res.write(JSON.stringify(entry));
-		    if (format == 'airr') {
+		    var first = true;
+		    for (var r in results) {
+			var entry = results[r]
+			if (!first) {
+			    res.write('\n');
+			}  else {
+			    first = false;
+			}
+
 			var vals = [];
 			for (var i = 0; i < headers.length; ++i) {
 			    var p = headers[i];
@@ -398,9 +499,12 @@ function queryRearrangements(req, res) {
 			res.write(vals.join('\t'));
 		    }
 		}
-	        if (format == 'json') res.write(']}\n');
 	        if (format == 'airr') res.write('\n');
 	        res.end();
+	    })
+	    .fail(function(error) {
+		console.error("VDJ-ADC-API ERROR: " + error);
+		res.status(500).json({"message":result_message});
 	    });
     }
 }
