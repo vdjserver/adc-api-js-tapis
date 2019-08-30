@@ -21,7 +21,8 @@ RUN export DEBIAN_FRONTEND=noninteractive && apt-get update && apt-get install -
     python3-sphinx \
     python3-scipy \
     libyaml-dev \
-    wget
+    wget \
+    supervisor
 
 RUN pip3 install \
     pandas \
@@ -85,7 +86,7 @@ RUN cd /api-js-tapis/app && npm install https://github.com/apigee-127/sway.git#9
 #COPY docker/redis/redis.conf /etc/redis/redis.conf
 
 # Setup supervisor
-#COPY docker/supervisor/supervisor.conf /etc/supervisor/conf.d/
+COPY docker/supervisor/supervisor.conf /etc/supervisor/conf.d/
 
 # Copy project source
 COPY . /api-js-tapis
@@ -94,4 +95,5 @@ COPY . /api-js-tapis
 RUN cp /api-js-tapis/airr-standards/specs/adc-api.yaml /api-js-tapis/app/api/swagger/adc-api.yaml
 RUN cp /api-js-tapis/airr-standards/specs/airr-schema.yaml /api-js-tapis/app/config/airr-schema.yaml
 
-CMD ["node", "--harmony", "/api-js-tapis/app/app.js"]
+#CMD ["node", "/api-js-tapis/app/app.js"]
+CMD ["bash", "/api-js-tapis/docker/scripts/vdjserver-adc-api.sh"]
