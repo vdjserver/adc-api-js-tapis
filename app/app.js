@@ -10,6 +10,8 @@ var Runner = require('swagger-node-runner');
 var config = require('./config/config');
 var airr = require('./api/helpers/airr-schema');
 
+var webhookIO = require('./api/vendor/webhookIO');
+
 module.exports = app; // for testing
 
 // Swagger middleware config
@@ -53,7 +55,7 @@ GuestAccount.getToken()
 	});
     })
     .fail(function(error) {
-	console.error('VDJServer ADC API ERROR: Service could not be start.\n.' + error);
-	//webhookIO.postToSlack('VDJServer ADC API ERROR: Unable to login with guest account.\nSystem may need to be restarted.\n' + error);
+	console.error('VDJServer ADC API ERROR: Service could not be start.\n' + error);
+	webhookIO.postToSlack('VDJServer ADC API ERROR: Unable to login with guest account.\nSystem may need to be restarted.\n' + error);
 	//process.exit(1);
     });

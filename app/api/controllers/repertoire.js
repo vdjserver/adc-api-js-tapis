@@ -10,6 +10,7 @@ var assert = require('assert');
 
 // Processing
 var agaveIO = require('../vendor/agaveIO');
+var webhookIO = require('../vendor/webhookIO');
 
 // API customization
 var custom_file = undefined;
@@ -200,7 +201,9 @@ function constructQueryOperation(filter) {
 	return null;
 
     default:
-	console.error('VDJ-ADC-API ERROR: Unknown operator in filters:', filter['op']);
+	var msg = 'VDJ-ADC-API ERROR (repertoire): Unknown operator in filters: ' + filter['op'];
+	console.error(msg);
+	webhookIO.postToSlack(msg);
 	return null;
     }
 
@@ -244,8 +247,10 @@ function getRepertoire(req, res) {
 	    }
 	})
 	.fail(function(error) {
-	    console.error('VDJ-ADC-API INFO: getRepertoire error: ' + error);
+	    var msg = 'VDJ-ADC-API ERROR (getRepertoire): ' + error;
 	    res.status(500).json({"message":result_message});
+	    console.error(msg);
+	    webhookIO.postToSlack(msg);
 	    return;
         });
 }
@@ -421,8 +426,10 @@ function queryRepertoires(req, res) {
 		}
 	    })
 	    .fail(function(error) {
-		console.error("VDJ-ADC-API ERROR: " + error);
+		var msg = "VDJ-ADC-API ERROR (queryRepertoires): " + error;
 		res.status(500).json({"message":result_message});
+		console.error(msg);
+		webhookIO.postToSlack(msg);
 	    });
     }
 }

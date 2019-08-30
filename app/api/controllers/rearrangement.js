@@ -216,7 +216,9 @@ function constructQueryOperation(filter) {
 	return null;
 
     default:
-	console.error('VDJ-ADC-API ERROR: Unknown operator in filters:', filter['op']);
+	var msg = 'VDJ-ADC-API ERROR (rearrangement): Unknown operator in filters: ' + filter['op'];
+	console.error(msg);
+	webhookIO.postToSlack(msg);
 	return null;
     }
 
@@ -260,8 +262,10 @@ function getRearrangement(req, res) {
 	    }
 	})
 	.fail(function(error) {
-	    console.error('VDJ-ADC-API INFO: getRearrangment error: ' + error);
+	    var msg = 'VDJ-ADC-API ERROR (getRearrangment): ' + error;
 	    res.status(500).json({"message":result_message});
+	    console.error(msg);
+	    webhookIO.postToSlack(msg);
 	    return;
         });
 }
@@ -459,8 +463,10 @@ function queryRearrangements(req, res) {
 		    // Load AIRR spec for field names
 		    var schema = global.airr['Rearrangement'];
 		    if (!schema) {
-			console.error('VDJ-ADC-API ERROR: Rearrangement schema missing.');
+			var msg = 'VDJ-ADC-API ERROR: Rearrangement schema missing.';
 			res.status(500).json({"message":result_message});
+			console.error(msg);
+			webhookIO.postToSlack(msg);
 			return;
 		    }
 
@@ -503,8 +509,10 @@ function queryRearrangements(req, res) {
 	        res.end();
 	    })
 	    .fail(function(error) {
-		console.error("VDJ-ADC-API ERROR: " + error);
+		var msg = "VDJ-ADC-API ERROR (queryRearrangements): " + error;
 		res.status(500).json({"message":result_message});
+		console.error(msg);
+		webhookIO.postToSlack(msg);
 	    });
     }
 }

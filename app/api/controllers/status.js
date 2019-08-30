@@ -27,9 +27,10 @@ function getStatus(req, res) {
 	    res.json({"result":"success"});
 	})
 	.fail(function(error) {
-	    console.error('VDJServer ADC API ERROR: Could not acquire guest token.\n.' + error);
+	    var msg = 'VDJServer ADC API ERROR (getStatus): Could not acquire guest token.\n.' + error;
 	    res.status(500).json({"message":"Internal service error."});
-	    //webhookIO.postToSlack('VDJServer ADC API ERROR: Unable to login with guest account.\nSystem may need to be restarted.\n' + error);
+	    console.error(msg);
+	    webhookIO.postToSlack(msg);
 	});
 }
 
@@ -48,8 +49,9 @@ function getInfo(req, res) {
 		       contact: config.contact});
 	})
 	.fail(function(error) {
-	    console.error('VDJServer ADC API ERROR: Could not acquire guest token.\n.' + error);
+	    var msg = 'VDJServer ADC API ERROR (getInfo): Could not acquire guest token.\n.' + error;
 	    res.status(500).json({"message":"Internal service error."});
-	    //webhookIO.postToSlack('VDJServer ADC API ERROR: Unable to login with guest account.\nSystem may need to be restarted.\n' + error);
+	    console.error(msg);
+	    webhookIO.postToSlack(msg);
 	});
 }
