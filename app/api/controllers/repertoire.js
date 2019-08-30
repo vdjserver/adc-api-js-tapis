@@ -243,7 +243,8 @@ function getRepertoire(req, res) {
 		res.json({"Info":info,"Repertoire":[record]});
 	    }
 	})
-	.catch(function() {
+	.fail(function(error) {
+	    console.error('VDJ-ADC-API INFO: getRepertoire error: ' + error);
 	    res.status(500).json({"message":result_message});
 	    return;
         });
@@ -256,7 +257,6 @@ function queryRepertoires(req, res) {
     var result = {};
     var result_flag = false;
     var result_message = "Unknown error";
-
 
     var bodyData = req.swagger.params['data'].value;
 
@@ -376,7 +376,7 @@ function queryRepertoires(req, res) {
 
 		console.log('VDJ-ADC-API INFO: query returned ' + records['_returned'] + ' records.');
 		if (records['_returned'] == 0) {
-		    res.json({"Info":info,"Repertoire":[]});
+		    results = [];
 		} else {
 		    // loop through records, clean data
 		    // and only retrieve desired from/size
@@ -388,31 +388,36 @@ function queryRepertoires(req, res) {
 			if (record['_etag']) delete record['_etag'];
 			results.push(record);
 		    }
+		}
+	    })
+	    .then(function() {
+		if (abortQuery) {
+		    return;
+		}
 
-		    if ((!second_size) || (records['_returned'] < pagesize)) {
-			// only one query so return the results	
-			console.log('VDJ-ADC-API INFO: returning ' + results.length + ' records to client.');
-			res.json({"Info":info,"Repertoire":results});
-		    } else {
-			// we need to do a second query for the rest
-			page += 1;
-			agaveIO.performQuery(collection, query, projection, page, pagesize)
-			    .then(function(records) {
-				console.log('VDJ-ADC-API INFO: second query returned ' + records['_returned'] + ' records.')
+		if ((!second_size) || (results.length < pagesize)) {
+		    // only one query so return the results	
+		    console.log('VDJ-ADC-API INFO: returning ' + results.length + ' records to client.');
+		    res.json({"Info":info,"Repertoire":results});
+		} else {
+		    // we need to do a second query for the rest
+		    page += 1;
+		    agaveIO.performQuery(collection, query, projection, page, pagesize)
+			.then(function(records) {
+			    console.log('VDJ-ADC-API INFO: second query returned ' + records['_returned'] + ' records.')
 
-				// loop through records, clean data
-				// and only retrieve desired from/size
-				for (var i in records['_embedded']) {
-				    if (i >= second_size) break;
-				    var record = records['_embedded'][i];
-				    if (record['_id']) delete record['_id'];
-				    if (record['_etag']) delete record['_etag'];
-				    results.push(record);
-				}
-				console.log('VDJ-ADC-API INFO: returning ' + results.length + ' records to client.');
-				res.json({"Info":info,"Repertoire":results});
-			    });
-		    }
+			    // loop through records, clean data
+			    // and only retrieve desired from/size
+			    for (var i in records['_embedded']) {
+				if (i >= second_size) break;
+				var record = records['_embedded'][i];
+				if (record['_id']) delete record['_id'];
+				if (record['_etag']) delete record['_etag'];
+				results.push(record);
+			    }
+			    console.log('VDJ-ADC-API INFO: returning ' + results.length + ' records to client.');
+			    res.json({"Info":info,"Repertoire":results});
+			});
 		}
 	    })
 	    .fail(function(error) {
