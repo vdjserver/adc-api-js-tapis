@@ -342,16 +342,6 @@ function queryRepertoires(req, res) {
     }
 
     var facets = bodyData['facets'];
-    var agg = [];
-    if (facets != undefined) {
-	if (query) agg.push({ $match: query });
-	agg.push(
-		{ $group: {
-		    _id: '$' + facets,
-		    count: { $sum: 1}
-		}});
-	console.log(agg);
-    }
 
     // construct info object for response
     var info = { };
@@ -369,8 +359,8 @@ function queryRepertoires(req, res) {
     });
 
     // perform non-facets query
+    var collection = 'repertoire';
     if (!facets) {
-	var collection = 'repertoire';
 	//console.log(query);
 	agaveIO.performQuery(collection, query, projection, page, pagesize)
 	    .then(function(records) {
@@ -427,6 +417,33 @@ function queryRepertoires(req, res) {
 	    })
 	    .fail(function(error) {
 		var msg = "VDJ-ADC-API ERROR (queryRepertoires): " + error;
+		res.status(500).json({"message":result_message});
+		console.error(msg);
+		webhookIO.postToSlack(msg);
+	    });
+    } else {
+	// perform facets query
+	var field = '$' + facets;
+	if (!query) query = '{}';
+	agaveIO.performAggregation(collection, 'facets', query, field)
+	    .then(function(records) {
+		if (records['_returned'] == 0) {
+		    results = [];
+		} else {
+		    // loop through records, clean data
+		    // and only retrieve desired from/size
+		    for (var i in records['_embedded']) {
+			var entry = records['_embedded'][i];
+			var new_entry = {}
+			new_entry[facets] = entry['_id'];
+			new_entry['count'] = entry['count'];
+			results.push(new_entry);
+		    }
+		}
+		res.json({"Info":info,"Facet":results});
+	    })
+	    .fail(function(error) {
+		var msg = "VDJ-ADC-API ERROR (queryRepertoires, facets): " + error;
 		res.status(500).json({"message":result_message});
 		console.error(msg);
 		webhookIO.postToSlack(msg);

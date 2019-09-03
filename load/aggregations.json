@@ -1,0 +1,10 @@
+{ "aggrs": [
+  {
+    "type":"pipeline",
+    "uri":"facets",
+    "stages": [
+      { "$match": { "$var":"match" } },
+      { "$group": { "_id": { "$var":"field" }, "count": { "$sum": 1}}}
+    ]
+  }
+]}

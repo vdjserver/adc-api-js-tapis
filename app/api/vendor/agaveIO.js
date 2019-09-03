@@ -287,3 +287,38 @@ agaveIO.performQuery = function(collection, query, projection, page, pagesize) {
 
     return deferred.promise;
 };
+
+agaveIO.performAggregation = function(collection, aggregation, query, field) {
+
+    var deferred = Q.defer();
+
+    GuestAccount.getToken()
+	.then(function(token) {
+	    var requestSettings = {
+		host:     agaveSettings.hostname,
+		method:   'GET',
+		path:     '/meta/v3/v1public/' + collection + '/_aggrs/' + aggregation,
+		rejectUnauthorized: false,
+		headers: {
+		    'Content-Type': 'application/json',
+		    'Accept': 'application/json',
+		    'Authorization': 'Bearer ' + GuestAccount.accessToken()
+		}
+	    };
+
+	    requestSettings['path'] += '?avars=';
+	    requestSettings['path'] += encodeURIComponent('{"match":' + query + ',"field":"' + field + '"}');
+
+	    console.log(requestSettings);
+
+	    return agaveIO.sendRequest(requestSettings, null);
+	})
+	.then(function(responseObject) {
+            deferred.resolve(responseObject);
+	})
+	.fail(function(errorObject) {
+            deferred.reject(errorObject);
+        });
+
+    return deferred.promise;
+};
