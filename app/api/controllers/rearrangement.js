@@ -10,6 +10,7 @@ var assert = require('assert');
 
 // Processing
 var agaveIO = require('../vendor/agaveIO');
+var webhookIO = require('../vendor/webhookIO');
 
 // API customization
 var custom_file = undefined;
@@ -295,7 +296,8 @@ function queryRearrangements(req, res) {
 	    projection[fields[i]] = 1;
 	}
     }
-    projection['_id'] = 0;
+    projection['_id'] = 1;
+    projection['_etag'] = 0;
 
     // format parameter
     var format = 'json';
@@ -354,12 +356,18 @@ function queryRearrangements(req, res) {
     var query = undefined;
     if (bodyData['filters'] != undefined) {
 	filter = bodyData['filters'];
-	console.log(filter);
-	query = constructQueryOperation(filter);
-	console.log(query);
+	//console.log(filter);
+	try {
+	    query = constructQueryOperation(filter);
+	    //console.log(query);
 
-	if (!query) {
-	    result_message = "Could not construct valid query.";
+	    if (!query) {
+		result_message = "Could not construct valid query.";
+		res.status(400).json({"message":result_message});
+		return;
+	    }
+	} catch (e) {
+	    result_message = "Could not construct valid query: " + e;
 	    res.status(400).json({"message":result_message});
 	    return;
 	}

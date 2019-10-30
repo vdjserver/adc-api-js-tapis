@@ -331,16 +331,21 @@ function queryRepertoires(req, res) {
     if (bodyData['filters'] != undefined) {
 	filter = bodyData['filters'];
 	//console.log(filter);
-	query = constructQueryOperation(filter);
-	//console.log(query);
+	try {
+	    query = constructQueryOperation(filter);
+	    //console.log(query);
 
-	if (!query) {
-	    result_message = "Could not construct valid query.";
+	    if (!query) {
+		result_message = "Could not construct valid query.";
+		res.status(400).json({"message":result_message});
+		return;
+	    }
+	} catch (e) {
+	    result_message = "Could not construct valid query: " + e;
 	    res.status(400).json({"message":result_message});
 	    return;
 	}
     }
-
     var facets = bodyData['facets'];
 
     // construct info object for response
