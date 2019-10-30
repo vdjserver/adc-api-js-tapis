@@ -54,15 +54,17 @@ def insertRepertoire(token, config, rep):
     }
 
     # delete that repertoire_id
-    url = 'https://' + config['api_server'] + '/meta/v3/v1public/repertoire/*?filter=' + requests.utils.quote('{"repertoire_id":"' + rep['repertoire_id'] + '"}')
+    url = 'https://' + config['api_server'] + '/meta/v3/v1airr/repertoire/*?filter=' + requests.utils.quote('{"repertoire_id":"' + rep['repertoire_id'] + '"}')
     print(url)
     resp = requests.delete(url, headers=headers)
+    print(resp)
     print(resp.json())
 
     # insert the repertoire
-    url = 'https://' + config['api_server'] + '/meta/v3/v1public/repertoire/'
+    url = 'https://' + config['api_server'] + '/meta/v3/v1airr/repertoire/'
     data = [ rep ]
     resp = requests.post(url, json=data, headers=headers)
+    print(resp)
     print(resp.json())
 
 

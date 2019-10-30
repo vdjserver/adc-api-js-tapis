@@ -242,7 +242,7 @@ agaveIO.performQuery = function(collection, query, projection, page, pagesize) {
 	    var requestSettings = {
 		host:     agaveSettings.hostname,
 		method:   'GET',
-		path:     '/meta/v3/v1public/' + collection,
+		path:     '/meta/v3/v1airr/' + collection,
 		rejectUnauthorized: false,
 		headers: {
 		    'Accept':   'application/json',
@@ -297,7 +297,7 @@ agaveIO.performAggregation = function(collection, aggregation, query, field) {
 	    var requestSettings = {
 		host:     agaveSettings.hostname,
 		method:   'GET',
-		path:     '/meta/v3/v1public/' + collection + '/_aggrs/' + aggregation,
+		path:     '/meta/v3/v1airr/' + collection + '/_aggrs/' + aggregation,
 		rejectUnauthorized: false,
 		headers: {
 		    'Content-Type': 'application/json',

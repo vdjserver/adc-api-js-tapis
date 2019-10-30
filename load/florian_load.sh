@@ -1,6 +1,6 @@
-export SCRIPT=/work/vdjserver/vdjserver-tapis/api-js-tapis/load/rearrangement_load.py
-export BCR_PATH=/work/vdjserver/vdjserver-repair/3059369183532618216-242ac11b-0001-007
-export TCR_PATH=/work/vdjserver/vdjserver-repair/2018-03-21-19-20-20-09-t-cells
+export SCRIPT=/work/vdjserver/vdjserver-repository/api-js-tapis/load/rearrangement_load.py
+export BCR_PATH=/work/6414d653-edd2-4d26-be1d-98a82f5e9c98-007
+export TCR_PATH=/work/d097e851-c2ac-4bc9-89ca-93845f3cfbc0-007
 
 python3 $SCRIPT 1841923116114776551-242ac11c-0001-012 ${BCR_PATH}/TW01A_B_naive.igblast.airr.tsv
 python3 $SCRIPT 1602908186092376551-242ac11c-0001-012 ${BCR_PATH}/TW01A_B_memory.igblast.airr.tsv

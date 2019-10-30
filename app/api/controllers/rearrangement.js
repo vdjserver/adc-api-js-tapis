@@ -239,8 +239,7 @@ function getRearrangement(req, res) {
     var result_message = "Server error";
     var results = [];
 
-    // TEST: use "rearrangements" instead of "rearrangement"
-    var collection = 'rearrangements/' + req.swagger.params['rearrangement_id'].value;
+    var collection = 'rearrangement/' + req.swagger.params['rearrangement_id'].value;
 
     // construct info object for response
     var info = { };
@@ -395,7 +394,7 @@ function queryRearrangements(req, res) {
     });
 
     // perform non-facets query
-    var collection = 'rearrangements';
+    var collection = 'rearrangement';
     if (!facets) {
 	//console.log(query);
 	agaveIO.performQuery(collection, query, projection, page, pagesize)
@@ -414,6 +413,7 @@ function queryRearrangements(req, res) {
 			if (i < from_skip) continue;
 			if (i >= size_stop) break;
 			var record = records['_embedded'][i];
+			record['rearrangement_id'] = record['_id']['$oid'];
 			if (record['_id']) delete record['_id'];
 			if (record['_etag']) delete record['_etag'];
 			results.push(record);
@@ -440,6 +440,7 @@ function queryRearrangements(req, res) {
 			    for (var i in records['_embedded']) {
 				if (i >= second_size) break;
 				var record = records['_embedded'][i];
+				record['rearrangement_id'] = record['_id']['$oid'];
 				if (record['_id']) delete record['_id'];
 				if (record['_etag']) delete record['_etag'];
 				results.push(record);

@@ -61,7 +61,7 @@ def deleteRepertoire(token, config, repertoire_id):
     }
 
     # delete rearrangements for given repertoire_id
-    url = 'https://' + config['api_server'] + '/meta/v3/v1public/rearrangements/*?filter=' + requests.utils.quote('{"repertoire_id":"' + repertoire_id + '"}')
+    url = 'https://' + config['api_server'] + '/meta/v3/v1airr/rearrangement/*?filter=' + requests.utils.quote('{"repertoire_id":"' + repertoire_id + '"}')
     print(url)
     resp = requests.delete(url, headers=headers)
     print(resp.json())
@@ -75,7 +75,7 @@ def insertRearrangement(token, config, records):
     }
 
     # insert the rearrangement
-    url = 'https://' + config['api_server'] + '/meta/v3/v1public/rearrangements/'
+    url = 'https://' + config['api_server'] + '/meta/v3/v1airr/rearrangement/'
     #data = [ record ]
     resp = requests.post(url, json=records, headers=headers)
     data = resp.json()
@@ -89,7 +89,7 @@ def insertRearrangement(token, config, records):
     #rearrangement_id = href.split('/')[-1]
     #print(rearrangement_id)
     #data = {"_id":rearrangement_id,"rearrangement_id":rearrangement_id}
-    #url = 'https://' + config['api_server'] + '/meta/v3/v1public/rearrangements/' + rearrangement_id
+    #url = 'https://' + config['api_server'] + '/meta/v3/v1airr/rearrangement/' + rearrangement_id
     #print(url)
     #resp = requests.patch(url, json=data, headers=headers)
     #print(resp.status_code)
