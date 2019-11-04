@@ -311,7 +311,7 @@ function queryRearrangements(req, res) {
     }
 
     // we need to convert ADC API from/size to page/pagesize
-    var page = 0;
+    var page = 1;
     var pagesize = config.max_size;
 
     // size parameter
@@ -330,6 +330,7 @@ function queryRearrangements(req, res) {
     }
 
     // from parameter
+    // page is 1-indexed
     var from = 0;
     var from_skip = 0;
     var size_stop = pagesize;
@@ -341,15 +342,15 @@ function queryRearrangements(req, res) {
 	return;
     }
     if (from != 0) {
-	page = Math.trunc(from / pagesize);
+	page = Math.trunc(from / pagesize) + 1;
 	from_skip = from % pagesize;
 	size_stop = from_skip + size;
     }
 
     // we might need to do a second query to get the rest
     var second_size = 0;
-    if ((from + size) > (page + 1)*pagesize) {
-	second_size = (from + size) - (page + 1)*pagesize;
+    if ((from + size) > page * pagesize) {
+	second_size = (from + size) - page * pagesize;
     }
 
     // construct query string
