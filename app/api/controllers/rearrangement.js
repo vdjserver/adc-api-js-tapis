@@ -295,9 +295,10 @@ function queryRearrangements(req, res) {
 	    if (fields[i] == '_etag') continue;
 	    projection[fields[i]] = 1;
 	}
+	projection['_id'] = 1;
+    } else {
+	projection['_etag'] = 0;
     }
-    projection['_id'] = 1;
-    projection['_etag'] = 0;
 
     // format parameter
     var format = 'json';
