@@ -60,7 +60,7 @@ def insertAggregation(token, config, collection, aggregations):
     }
 
     # put the aggregation
-    url = 'https://' + config['api_server'] + '/meta/v3/v1public/' + collection
+    url = 'https://' + config['api_server'] + '/meta/v3/v1airr/' + collection
     resp = requests.put(url, json=aggregations, headers=headers)
     if resp.status_code != 200:
         print('Got unexpected status code: ' + str(resp.status_code))
@@ -75,7 +75,7 @@ def showCollections(token, config):
     }
 
     # show collection info
-    url = 'https://' + config['api_server'] + '/meta/v3/v1public/'
+    url = 'https://' + config['api_server'] + '/meta/v3/v1airr/'
     resp = requests.get(url, headers=headers)
     print(json.dumps(resp.json(), indent=2))
 
@@ -86,7 +86,5 @@ if (__name__=="__main__"):
 
     aggs = json.load(open('/api-js-tapis/load/aggregations.json','r'))
     insertAggregation(token, config, 'repertoire', aggs)
-    # TODO: temporary name until DB is hooked up
-    #insertAggregation(token, config, 'rearrangement', aggs)
-    insertAggregation(token, config, 'rearrangements', aggs)
+    insertAggregation(token, config, 'rearrangement', aggs)
     showCollections(token, config)
