@@ -1,0 +1,24 @@
+Conversion from VDJServer's old metadata format into AIRR repertoire
+metadata, and import the data into VDJServer's ADC API repository.
+
+The basic steps are:
+
+* Get study_metadata.json for an IgBlast job.
+
+* Run convert_repertoires.py from vdjserver-agave for initial
+  conversion.
+
+* Write script to perform any hand-coded modifications to the
+  repertoire metadata. Save this script in the conversion directory
+  of api-js-tapis.
+
+* Once the repertoire metadata looks good, generate repertoire_ids
+
+* Save the final repertoire metadata file in the conversion directory
+  of api-js-tapis.
+
+* Write load script for the rearrangement data.
+
+* Import the repertoire metadata.
+
+* Import the rearrangement data.
