@@ -27,7 +27,6 @@ RUN export DEBIAN_FRONTEND=noninteractive && apt-get update && apt-get install -
 RUN pip3 install \
     pandas \
     biopython \
-    airr \
     python-dotenv
 
 ##################
@@ -90,6 +89,9 @@ COPY docker/supervisor/supervisor.conf /etc/supervisor/conf.d/
 
 # Copy project source
 COPY . /api-js-tapis
+
+# Install the local airr-standards
+RUN cd /api-js-tapis/airr-standards/lang/python && python3 setup.py install
 
 # Copy AIRR spec
 RUN cp /api-js-tapis/airr-standards/specs/adc-api.yaml /api-js-tapis/app/api/swagger/adc-api.yaml
