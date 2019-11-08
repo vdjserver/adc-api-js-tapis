@@ -40,6 +40,11 @@ for r in reps:
     if r['subject']['sex'] == 'Female':
         r['subject']['sex'] = 'female'
     r['data_processing'][0]['data_processing_id'] = '72775635-b44e-41ac-8acc-a6d92dac052c-007'
+    r['data_processing'][0]['primary_annotation'] = True
+    fname = r['sample'][0]['sequencing_files']['filename']
+    fsplit = fname.split('.')
+    fname = fsplit[0] + '_assemble-pass_collapse-unique.igblast.airr.tsv'
+    r['data_processing'][0]['final_rearrangement_file'] = fname
 
     #airr.schema.RepertoireSchema.validate_object(r)
 
