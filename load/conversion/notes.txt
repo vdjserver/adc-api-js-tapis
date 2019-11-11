@@ -13,6 +13,8 @@ The basic steps are:
   of api-js-tapis.
 
 * Once the repertoire metadata looks good, generate repertoire_ids
+  with the assign_repertoire_ids.py script in the load directory of
+  api-js-tapis.
 
 * Save the final repertoire metadata file in the conversion directory
   of api-js-tapis.
