@@ -1,0 +1,713 @@
+{
+  "Info": {
+    "title": "Repertoire metadata",
+    "description": "Repertoire metadata written by AIRR Standards Python Library",
+    "version": 1.3,
+    "contact": {
+      "name": "AIRR Community",
+      "url": "https://github.com/airr-community"
+    },
+    "license": {
+      "name": "Creative Commons Attribution 4.0 International",
+      "url": "https://creativecommons.org/licenses/by/4.0/"
+    }
+  },
+  "Repertoire": [
+    {
+      "repertoire_id": "",
+      "study": {
+        "study_id": "PRJNA283640",
+        "study_title": "A Model of Somatic Hypermutation Targeting in Mice Based on High-Throughput Ig Sequencing Data",
+        "study_type": {
+          "id": "C147138",
+          "value": "Observational Study Model"
+        },
+        "study_description": "Analyses of somatic hypermutation (SHM) patterns in B cell Ig sequences have important basic science and clinical applications, but they are often confounded by the intrinsic biases of SHM targeting on specific DNA motifs (i.e., hot and cold spots). Modeling these biases has been hindered by the difficulty in identifying mutated Ig sequences in vivo in the absence of selection pressures, which skew the observed mutation patterns. To generate a large number of unselected mutations, we immunized B1-8 H chain transgenic mice with nitrophenyl to stimulate nitrophenyl-specific \u03bb+ germinal center B cells and sequenced the unexpressed \u03ba L chains using next-generation methods. Most of these \u03ba sequences had out-of-frame junctions and were presumably uninfluenced by selection. Despite being nonfunctionally rearranged, they were targeted by SHM and displayed a higher mutation frequency than functional sequences. We used 39,173 mutations to construct a quantitative SHM targeting model. The model showed targeting biases that were consistent with classic hot and cold spots, yet revealed additional highly mutable motifs. We observed comparable targeting for functional and nonfunctional sequences, suggesting similar biological processes operate at both loci. However, we observed species- and chain-specific targeting patterns, demonstrating the need for multiple SHM targeting models. Interestingly, the targeting of C/G bases and the frequency of transition mutations at C/G bases was higher in mice compared with humans, suggesting lower levels of DNA repair activity in mice. Our models of SHM targeting provide insights into the SHM process and support future analyses of mutation patterns.",
+        "inclusion_exclusion_criteria": "",
+        "lab_name": "Steven H. Kleinstein",
+        "lab_address": "Yale University",
+        "submitted_by": "Scott Christley <scott.christley@utsouthwestern.edu>",
+        "collected_by": "",
+        "grants": "",
+        "pub_ids": "PMID: 27707999",
+        "keywords_study": [
+          "contains_ig"
+        ],
+        "vdjserver_uuid": "9034294729772110311-242ac11c-0001-012"
+      },
+      "subject": {
+        "subject_id": "C2",
+        "synthetic": false,
+        "organism": {
+          "id": "10090",
+          "value": "Mus musculus"
+        },
+        "sex": "female",
+        "age_min": 6,
+        "age_max": 10,
+        "age_unit": {
+          "id": "UO_0000034",
+          "value": "week"
+        },
+        "age_event": null,
+        "ancestry_population": null,
+        "ethnicity": null,
+        "race": null,
+        "strain_name": "JHD-/- MRL/MpJ-Faslp",
+        "linked_subjects": null,
+        "link_type": null,
+        "diagnosis": null
+      },
+      "sample": [
+        {
+          "sample_processing_id": "",
+          "sample_id": "C2",
+          "sample_type": null,
+          "tissue": "Spleen Non-germinal center",
+          "anatomic_site": "spleen",
+          "disease_state_sample": "control",
+          "collection_time_point_relative": null,
+          "collection_time_point_reference": null,
+          "biomaterial_provider": null,
+          "tissue_processing": null,
+          "cell_subset": {
+            "id": "CL_0000236",
+            "value": "B Cell"
+          },
+          "cell_phenotype": "B220+, CD95-, CD38+, lambda-",
+          "single_cell": false,
+          "cell_number": 400000,
+          "cells_per_reaction": null,
+          "cell_storage": false,
+          "cell_quality": null,
+          "cell_isolation": "FACS",
+          "cell_processing_protocol": null,
+          "template_class": "RNA",
+          "template_quality": null,
+          "template_amount": null,
+          "library_generation_method": "RT(specific+UMI)+PCR",
+          "library_generation_protocol": null,
+          "library_generation_kit_version": null,
+          "pcr_target": [
+            {
+              "pcr_target_locus": "IGH",
+              "forward_pcr_primer_target_location": null,
+              "reverse_pcr_primer_target_location": null
+            }
+          ],
+          "complete_sequences": "partial",
+          "physical_linkage": "none",
+          "sequencing_run_id": null,
+          "total_reads_passing_qc_filter": null,
+          "sequencing_platform": null,
+          "read_length": null,
+          "sequencing_facility": null,
+          "sequencing_run_date": null,
+          "sequencing_kit": null,
+          "sequencing_files": {
+            "file_type": "fastq",
+            "filename": "SRR4038227_2.fastq",
+            "read_direction": "forward",
+            "paired_filename": "SRR4038227_1.fastq",
+            "paired_read_direction": "reverse"
+          }
+        }
+      ],
+      "data_processing": [
+        {
+          "data_processing_id": "f606f648-87fa-40f1-8bc8-3d7f3648873c-007",
+          "primary_annotation": true,
+          "software_versions": "",
+          "paired_reads_assembly": "",
+          "quality_thresholds": "",
+          "primer_match_cutoffs": "",
+          "collapsing_method": "",
+          "data_processing_protocols": "",
+          "germline_database": "",
+          "analysis_provenance_id": "",
+          "final_rearrangement_file": "SRR4038227_2_assemble-pass_collapse-unique.igblast.airr.tsv"
+        }
+      ]
+    },
+    {
+      "repertoire_id": "",
+      "study": {
+        "study_id": "PRJNA283640",
+        "study_title": "A Model of Somatic Hypermutation Targeting in Mice Based on High-Throughput Ig Sequencing Data",
+        "study_type": {
+          "id": "C147138",
+          "value": "Observational Study Model"
+        },
+        "study_description": "Analyses of somatic hypermutation (SHM) patterns in B cell Ig sequences have important basic science and clinical applications, but they are often confounded by the intrinsic biases of SHM targeting on specific DNA motifs (i.e., hot and cold spots). Modeling these biases has been hindered by the difficulty in identifying mutated Ig sequences in vivo in the absence of selection pressures, which skew the observed mutation patterns. To generate a large number of unselected mutations, we immunized B1-8 H chain transgenic mice with nitrophenyl to stimulate nitrophenyl-specific \u03bb+ germinal center B cells and sequenced the unexpressed \u03ba L chains using next-generation methods. Most of these \u03ba sequences had out-of-frame junctions and were presumably uninfluenced by selection. Despite being nonfunctionally rearranged, they were targeted by SHM and displayed a higher mutation frequency than functional sequences. We used 39,173 mutations to construct a quantitative SHM targeting model. The model showed targeting biases that were consistent with classic hot and cold spots, yet revealed additional highly mutable motifs. We observed comparable targeting for functional and nonfunctional sequences, suggesting similar biological processes operate at both loci. However, we observed species- and chain-specific targeting patterns, demonstrating the need for multiple SHM targeting models. Interestingly, the targeting of C/G bases and the frequency of transition mutations at C/G bases was higher in mice compared with humans, suggesting lower levels of DNA repair activity in mice. Our models of SHM targeting provide insights into the SHM process and support future analyses of mutation patterns.",
+        "inclusion_exclusion_criteria": "",
+        "lab_name": "Steven H. Kleinstein",
+        "lab_address": "Yale University",
+        "submitted_by": "Scott Christley <scott.christley@utsouthwestern.edu>",
+        "collected_by": "",
+        "grants": "",
+        "pub_ids": "PMID: 27707999",
+        "keywords_study": [
+          "contains_ig"
+        ],
+        "vdjserver_uuid": "9034294729772110311-242ac11c-0001-012"
+      },
+      "subject": {
+        "subject_id": "C1",
+        "synthetic": false,
+        "organism": {
+          "id": "10090",
+          "value": "Mus musculus"
+        },
+        "sex": "female",
+        "age_min": 6,
+        "age_max": 10,
+        "age_unit": {
+          "id": "UO_0000034",
+          "value": "week"
+        },
+        "age_event": null,
+        "ancestry_population": null,
+        "ethnicity": null,
+        "race": null,
+        "strain_name": "JHD-/- MRL/MpJ-Faslp",
+        "linked_subjects": null,
+        "link_type": null,
+        "diagnosis": null
+      },
+      "sample": [
+        {
+          "sample_processing_id": "",
+          "sample_id": "C1",
+          "sample_type": null,
+          "tissue": "Spleen Non-germinal center",
+          "anatomic_site": "spleen",
+          "disease_state_sample": "control",
+          "collection_time_point_relative": null,
+          "collection_time_point_reference": null,
+          "biomaterial_provider": null,
+          "tissue_processing": null,
+          "cell_subset": {
+            "id": "CL_0000236",
+            "value": "B Cell"
+          },
+          "cell_phenotype": "B220+, CD95-, CD38+, lambda-",
+          "single_cell": false,
+          "cell_number": 500000,
+          "cells_per_reaction": null,
+          "cell_storage": false,
+          "cell_quality": null,
+          "cell_isolation": "FACS",
+          "cell_processing_protocol": null,
+          "template_class": "RNA",
+          "template_quality": null,
+          "template_amount": null,
+          "library_generation_method": "RT(specific+UMI)+PCR",
+          "library_generation_protocol": null,
+          "library_generation_kit_version": null,
+          "pcr_target": [
+            {
+              "pcr_target_locus": "IGH",
+              "forward_pcr_primer_target_location": null,
+              "reverse_pcr_primer_target_location": null
+            }
+          ],
+          "complete_sequences": "partial",
+          "physical_linkage": "none",
+          "sequencing_run_id": null,
+          "total_reads_passing_qc_filter": null,
+          "sequencing_platform": null,
+          "read_length": null,
+          "sequencing_facility": null,
+          "sequencing_run_date": null,
+          "sequencing_kit": null,
+          "sequencing_files": {
+            "file_type": "fastq",
+            "filename": "SRR4038226_2.fastq",
+            "read_direction": "forward",
+            "paired_filename": "SRR4038226_1.fastq",
+            "paired_read_direction": "reverse"
+          }
+        }
+      ],
+      "data_processing": [
+        {
+          "data_processing_id": "f606f648-87fa-40f1-8bc8-3d7f3648873c-007",
+          "primary_annotation": true,
+          "software_versions": "",
+          "paired_reads_assembly": "",
+          "quality_thresholds": "",
+          "primer_match_cutoffs": "",
+          "collapsing_method": "",
+          "data_processing_protocols": "",
+          "germline_database": "",
+          "analysis_provenance_id": "",
+          "final_rearrangement_file": "SRR4038226_2_assemble-pass_collapse-unique.igblast.airr.tsv"
+        }
+      ]
+    },
+    {
+      "repertoire_id": "",
+      "study": {
+        "study_id": "PRJNA283640",
+        "study_title": "A Model of Somatic Hypermutation Targeting in Mice Based on High-Throughput Ig Sequencing Data",
+        "study_type": {
+          "id": "C147138",
+          "value": "Observational Study Model"
+        },
+        "study_description": "Analyses of somatic hypermutation (SHM) patterns in B cell Ig sequences have important basic science and clinical applications, but they are often confounded by the intrinsic biases of SHM targeting on specific DNA motifs (i.e., hot and cold spots). Modeling these biases has been hindered by the difficulty in identifying mutated Ig sequences in vivo in the absence of selection pressures, which skew the observed mutation patterns. To generate a large number of unselected mutations, we immunized B1-8 H chain transgenic mice with nitrophenyl to stimulate nitrophenyl-specific \u03bb+ germinal center B cells and sequenced the unexpressed \u03ba L chains using next-generation methods. Most of these \u03ba sequences had out-of-frame junctions and were presumably uninfluenced by selection. Despite being nonfunctionally rearranged, they were targeted by SHM and displayed a higher mutation frequency than functional sequences. We used 39,173 mutations to construct a quantitative SHM targeting model. The model showed targeting biases that were consistent with classic hot and cold spots, yet revealed additional highly mutable motifs. We observed comparable targeting for functional and nonfunctional sequences, suggesting similar biological processes operate at both loci. However, we observed species- and chain-specific targeting patterns, demonstrating the need for multiple SHM targeting models. Interestingly, the targeting of C/G bases and the frequency of transition mutations at C/G bases was higher in mice compared with humans, suggesting lower levels of DNA repair activity in mice. Our models of SHM targeting provide insights into the SHM process and support future analyses of mutation patterns.",
+        "inclusion_exclusion_criteria": "",
+        "lab_name": "Steven H. Kleinstein",
+        "lab_address": "Yale University",
+        "submitted_by": "Scott Christley <scott.christley@utsouthwestern.edu>",
+        "collected_by": "",
+        "grants": "",
+        "pub_ids": "PMID: 27707999",
+        "keywords_study": [
+          "contains_ig"
+        ],
+        "vdjserver_uuid": "9034294729772110311-242ac11c-0001-012"
+      },
+      "subject": {
+        "subject_id": "NP4",
+        "synthetic": false,
+        "organism": {
+          "id": "10090",
+          "value": "Mus musculus"
+        },
+        "sex": "female",
+        "age_min": 6,
+        "age_max": 10,
+        "age_unit": {
+          "id": "UO_0000034",
+          "value": "week"
+        },
+        "age_event": null,
+        "ancestry_population": null,
+        "ethnicity": null,
+        "race": null,
+        "strain_name": "JHD-/- MRL/MpJ-Faslp",
+        "linked_subjects": null,
+        "link_type": null,
+        "diagnosis": null
+      },
+      "sample": [
+        {
+          "sample_processing_id": "",
+          "sample_id": "NP4",
+          "sample_type": null,
+          "tissue": "Spleen Germinal Center",
+          "anatomic_site": "spleen",
+          "disease_state_sample": "NP-CGG",
+          "collection_time_point_relative": "28 days",
+          "collection_time_point_reference": "immunization",
+          "biomaterial_provider": null,
+          "tissue_processing": "harvested spleen",
+          "cell_subset": {
+            "id": "CL_0000844",
+            "value": "germinal center B Cell"
+          },
+          "cell_phenotype": "live, B220+, NIP+, CD95+, CD38-",
+          "single_cell": false,
+          "cell_number": 107000,
+          "cells_per_reaction": null,
+          "cell_storage": false,
+          "cell_quality": null,
+          "cell_isolation": "FACS",
+          "cell_processing_protocol": null,
+          "template_class": "RNA",
+          "template_quality": null,
+          "template_amount": null,
+          "library_generation_method": "RT(specific+UMI)+PCR",
+          "library_generation_protocol": null,
+          "library_generation_kit_version": null,
+          "pcr_target": [
+            {
+              "pcr_target_locus": "IGH",
+              "forward_pcr_primer_target_location": null,
+              "reverse_pcr_primer_target_location": null
+            }
+          ],
+          "complete_sequences": "partial",
+          "physical_linkage": "none",
+          "sequencing_run_id": null,
+          "total_reads_passing_qc_filter": null,
+          "sequencing_platform": null,
+          "read_length": null,
+          "sequencing_facility": null,
+          "sequencing_run_date": null,
+          "sequencing_kit": null,
+          "sequencing_files": {
+            "file_type": "fastq",
+            "filename": "SRR2017554_2.fastq",
+            "read_direction": "forward",
+            "paired_filename": "SRR2017554_1.fastq",
+            "paired_read_direction": "reverse"
+          }
+        }
+      ],
+      "data_processing": [
+        {
+          "data_processing_id": "f606f648-87fa-40f1-8bc8-3d7f3648873c-007",
+          "primary_annotation": true,
+          "software_versions": "",
+          "paired_reads_assembly": "",
+          "quality_thresholds": "",
+          "primer_match_cutoffs": "",
+          "collapsing_method": "",
+          "data_processing_protocols": "",
+          "germline_database": "",
+          "analysis_provenance_id": "",
+          "final_rearrangement_file": "SRR2017554_2_assemble-pass_collapse-unique.igblast.airr.tsv"
+        }
+      ]
+    },
+    {
+      "repertoire_id": "",
+      "study": {
+        "study_id": "PRJNA283640",
+        "study_title": "A Model of Somatic Hypermutation Targeting in Mice Based on High-Throughput Ig Sequencing Data",
+        "study_type": {
+          "id": "C147138",
+          "value": "Observational Study Model"
+        },
+        "study_description": "Analyses of somatic hypermutation (SHM) patterns in B cell Ig sequences have important basic science and clinical applications, but they are often confounded by the intrinsic biases of SHM targeting on specific DNA motifs (i.e., hot and cold spots). Modeling these biases has been hindered by the difficulty in identifying mutated Ig sequences in vivo in the absence of selection pressures, which skew the observed mutation patterns. To generate a large number of unselected mutations, we immunized B1-8 H chain transgenic mice with nitrophenyl to stimulate nitrophenyl-specific \u03bb+ germinal center B cells and sequenced the unexpressed \u03ba L chains using next-generation methods. Most of these \u03ba sequences had out-of-frame junctions and were presumably uninfluenced by selection. Despite being nonfunctionally rearranged, they were targeted by SHM and displayed a higher mutation frequency than functional sequences. We used 39,173 mutations to construct a quantitative SHM targeting model. The model showed targeting biases that were consistent with classic hot and cold spots, yet revealed additional highly mutable motifs. We observed comparable targeting for functional and nonfunctional sequences, suggesting similar biological processes operate at both loci. However, we observed species- and chain-specific targeting patterns, demonstrating the need for multiple SHM targeting models. Interestingly, the targeting of C/G bases and the frequency of transition mutations at C/G bases was higher in mice compared with humans, suggesting lower levels of DNA repair activity in mice. Our models of SHM targeting provide insights into the SHM process and support future analyses of mutation patterns.",
+        "inclusion_exclusion_criteria": "",
+        "lab_name": "Steven H. Kleinstein",
+        "lab_address": "Yale University",
+        "submitted_by": "Scott Christley <scott.christley@utsouthwestern.edu>",
+        "collected_by": "",
+        "grants": "",
+        "pub_ids": "PMID: 27707999",
+        "keywords_study": [
+          "contains_ig"
+        ],
+        "vdjserver_uuid": "9034294729772110311-242ac11c-0001-012"
+      },
+      "subject": {
+        "subject_id": "NP2",
+        "synthetic": false,
+        "organism": {
+          "id": "10090",
+          "value": "Mus musculus"
+        },
+        "sex": "female",
+        "age_min": 6,
+        "age_max": 10,
+        "age_unit": {
+          "id": "UO_0000034",
+          "value": "week"
+        },
+        "age_event": null,
+        "ancestry_population": null,
+        "ethnicity": null,
+        "race": null,
+        "strain_name": "JHD-/- MRL/MpJ-Faslp",
+        "linked_subjects": null,
+        "link_type": null,
+        "diagnosis": null
+      },
+      "sample": [
+        {
+          "sample_processing_id": "",
+          "sample_id": "NP2",
+          "sample_type": null,
+          "tissue": "Spleen Germinal Center",
+          "anatomic_site": "spleen",
+          "disease_state_sample": "NP-CGG",
+          "collection_time_point_relative": "28 days",
+          "collection_time_point_reference": "immunization",
+          "biomaterial_provider": null,
+          "tissue_processing": "harvested spleen",
+          "cell_subset": {
+            "id": "CL_0000844",
+            "value": "germinal center B Cell"
+          },
+          "cell_phenotype": "live, B220+, NIP+, CD95+, CD38-",
+          "single_cell": false,
+          "cell_number": 87000,
+          "cells_per_reaction": null,
+          "cell_storage": false,
+          "cell_quality": null,
+          "cell_isolation": "FACS",
+          "cell_processing_protocol": null,
+          "template_class": "RNA",
+          "template_quality": null,
+          "template_amount": null,
+          "library_generation_method": "RT(specific+UMI)+PCR",
+          "library_generation_protocol": null,
+          "library_generation_kit_version": null,
+          "pcr_target": [
+            {
+              "pcr_target_locus": "IGH",
+              "forward_pcr_primer_target_location": null,
+              "reverse_pcr_primer_target_location": null
+            }
+          ],
+          "complete_sequences": "partial",
+          "physical_linkage": "none",
+          "sequencing_run_id": null,
+          "total_reads_passing_qc_filter": null,
+          "sequencing_platform": null,
+          "read_length": null,
+          "sequencing_facility": null,
+          "sequencing_run_date": null,
+          "sequencing_kit": null,
+          "sequencing_files": {
+            "file_type": "fastq",
+            "filename": "SRR2017526_2.fastq",
+            "read_direction": "forward",
+            "paired_filename": "SRR2017526_1.fastq",
+            "paired_read_direction": "reverse"
+          }
+        }
+      ],
+      "data_processing": [
+        {
+          "data_processing_id": "f606f648-87fa-40f1-8bc8-3d7f3648873c-007",
+          "primary_annotation": true,
+          "software_versions": "",
+          "paired_reads_assembly": "",
+          "quality_thresholds": "",
+          "primer_match_cutoffs": "",
+          "collapsing_method": "",
+          "data_processing_protocols": "",
+          "germline_database": "",
+          "analysis_provenance_id": "",
+          "final_rearrangement_file": "SRR2017526_2_assemble-pass_collapse-unique.igblast.airr.tsv"
+        }
+      ]
+    },
+    {
+      "repertoire_id": "",
+      "study": {
+        "study_id": "PRJNA283640",
+        "study_title": "A Model of Somatic Hypermutation Targeting in Mice Based on High-Throughput Ig Sequencing Data",
+        "study_type": {
+          "id": "C147138",
+          "value": "Observational Study Model"
+        },
+        "study_description": "Analyses of somatic hypermutation (SHM) patterns in B cell Ig sequences have important basic science and clinical applications, but they are often confounded by the intrinsic biases of SHM targeting on specific DNA motifs (i.e., hot and cold spots). Modeling these biases has been hindered by the difficulty in identifying mutated Ig sequences in vivo in the absence of selection pressures, which skew the observed mutation patterns. To generate a large number of unselected mutations, we immunized B1-8 H chain transgenic mice with nitrophenyl to stimulate nitrophenyl-specific \u03bb+ germinal center B cells and sequenced the unexpressed \u03ba L chains using next-generation methods. Most of these \u03ba sequences had out-of-frame junctions and were presumably uninfluenced by selection. Despite being nonfunctionally rearranged, they were targeted by SHM and displayed a higher mutation frequency than functional sequences. We used 39,173 mutations to construct a quantitative SHM targeting model. The model showed targeting biases that were consistent with classic hot and cold spots, yet revealed additional highly mutable motifs. We observed comparable targeting for functional and nonfunctional sequences, suggesting similar biological processes operate at both loci. However, we observed species- and chain-specific targeting patterns, demonstrating the need for multiple SHM targeting models. Interestingly, the targeting of C/G bases and the frequency of transition mutations at C/G bases was higher in mice compared with humans, suggesting lower levels of DNA repair activity in mice. Our models of SHM targeting provide insights into the SHM process and support future analyses of mutation patterns.",
+        "inclusion_exclusion_criteria": "",
+        "lab_name": "Steven H. Kleinstein",
+        "lab_address": "Yale University",
+        "submitted_by": "Scott Christley <scott.christley@utsouthwestern.edu>",
+        "collected_by": "",
+        "grants": "",
+        "pub_ids": "PMID: 27707999",
+        "keywords_study": [
+          "contains_ig"
+        ],
+        "vdjserver_uuid": "9034294729772110311-242ac11c-0001-012"
+      },
+      "subject": {
+        "subject_id": "NP3",
+        "synthetic": false,
+        "organism": {
+          "id": "10090",
+          "value": "Mus musculus"
+        },
+        "sex": "female",
+        "age_min": 6,
+        "age_max": 10,
+        "age_unit": {
+          "id": "UO_0000034",
+          "value": "week"
+        },
+        "age_event": null,
+        "ancestry_population": null,
+        "ethnicity": null,
+        "race": null,
+        "strain_name": "JHD-/- MRL/MpJ-Faslp",
+        "linked_subjects": null,
+        "link_type": null,
+        "diagnosis": null
+      },
+      "sample": [
+        {
+          "sample_processing_id": "",
+          "sample_id": "NP3",
+          "sample_type": null,
+          "tissue": "Spleen Germinal Center",
+          "anatomic_site": "spleen",
+          "disease_state_sample": "NP-CGG",
+          "collection_time_point_relative": "28 days",
+          "collection_time_point_reference": "immunization",
+          "biomaterial_provider": null,
+          "tissue_processing": "harvested spleen",
+          "cell_subset": {
+            "id": "CL_0000844",
+            "value": "germinal center B Cell"
+          },
+          "cell_phenotype": "live, B220+, NIP+, CD95+, CD38-",
+          "single_cell": false,
+          "cell_number": 120000,
+          "cells_per_reaction": null,
+          "cell_storage": false,
+          "cell_quality": null,
+          "cell_isolation": "FACS",
+          "cell_processing_protocol": null,
+          "template_class": "RNA",
+          "template_quality": null,
+          "template_amount": null,
+          "library_generation_method": "RT(specific+UMI)+PCR",
+          "library_generation_protocol": null,
+          "library_generation_kit_version": null,
+          "pcr_target": [
+            {
+              "pcr_target_locus": "IGH",
+              "forward_pcr_primer_target_location": null,
+              "reverse_pcr_primer_target_location": null
+            }
+          ],
+          "complete_sequences": "partial",
+          "physical_linkage": "none",
+          "sequencing_run_id": null,
+          "total_reads_passing_qc_filter": null,
+          "sequencing_platform": null,
+          "read_length": null,
+          "sequencing_facility": null,
+          "sequencing_run_date": null,
+          "sequencing_kit": null,
+          "sequencing_files": {
+            "file_type": "fastq",
+            "filename": "SRR2017553_2.fastq",
+            "read_direction": "forward",
+            "paired_filename": "SRR2017553_1.fastq",
+            "paired_read_direction": "reverse"
+          }
+        }
+      ],
+      "data_processing": [
+        {
+          "data_processing_id": "f606f648-87fa-40f1-8bc8-3d7f3648873c-007",
+          "primary_annotation": true,
+          "software_versions": "",
+          "paired_reads_assembly": "",
+          "quality_thresholds": "",
+          "primer_match_cutoffs": "",
+          "collapsing_method": "",
+          "data_processing_protocols": "",
+          "germline_database": "",
+          "analysis_provenance_id": "",
+          "final_rearrangement_file": "SRR2017553_2_assemble-pass_collapse-unique.igblast.airr.tsv"
+        }
+      ]
+    },
+    {
+      "repertoire_id": "",
+      "study": {
+        "study_id": "PRJNA283640",
+        "study_title": "A Model of Somatic Hypermutation Targeting in Mice Based on High-Throughput Ig Sequencing Data",
+        "study_type": {
+          "id": "C147138",
+          "value": "Observational Study Model"
+        },
+        "study_description": "Analyses of somatic hypermutation (SHM) patterns in B cell Ig sequences have important basic science and clinical applications, but they are often confounded by the intrinsic biases of SHM targeting on specific DNA motifs (i.e., hot and cold spots). Modeling these biases has been hindered by the difficulty in identifying mutated Ig sequences in vivo in the absence of selection pressures, which skew the observed mutation patterns. To generate a large number of unselected mutations, we immunized B1-8 H chain transgenic mice with nitrophenyl to stimulate nitrophenyl-specific \u03bb+ germinal center B cells and sequenced the unexpressed \u03ba L chains using next-generation methods. Most of these \u03ba sequences had out-of-frame junctions and were presumably uninfluenced by selection. Despite being nonfunctionally rearranged, they were targeted by SHM and displayed a higher mutation frequency than functional sequences. We used 39,173 mutations to construct a quantitative SHM targeting model. The model showed targeting biases that were consistent with classic hot and cold spots, yet revealed additional highly mutable motifs. We observed comparable targeting for functional and nonfunctional sequences, suggesting similar biological processes operate at both loci. However, we observed species- and chain-specific targeting patterns, demonstrating the need for multiple SHM targeting models. Interestingly, the targeting of C/G bases and the frequency of transition mutations at C/G bases was higher in mice compared with humans, suggesting lower levels of DNA repair activity in mice. Our models of SHM targeting provide insights into the SHM process and support future analyses of mutation patterns.",
+        "inclusion_exclusion_criteria": "",
+        "lab_name": "Steven H. Kleinstein",
+        "lab_address": "Yale University",
+        "submitted_by": "Scott Christley <scott.christley@utsouthwestern.edu>",
+        "collected_by": "",
+        "grants": "",
+        "pub_ids": "PMID: 27707999",
+        "keywords_study": [
+          "contains_ig"
+        ],
+        "vdjserver_uuid": "9034294729772110311-242ac11c-0001-012"
+      },
+      "subject": {
+        "subject_id": "NP1",
+        "synthetic": false,
+        "organism": {
+          "id": "10090",
+          "value": "Mus musculus"
+        },
+        "sex": "female",
+        "age_min": 6,
+        "age_max": 10,
+        "age_unit": {
+          "id": "UO_0000034",
+          "value": "week"
+        },
+        "age_event": null,
+        "ancestry_population": null,
+        "ethnicity": null,
+        "race": null,
+        "strain_name": "JHD-/- MRL/MpJ-Faslp",
+        "linked_subjects": null,
+        "link_type": null,
+        "diagnosis": null
+      },
+      "sample": [
+        {
+          "sample_processing_id": "",
+          "sample_id": "NP1",
+          "sample_type": null,
+          "tissue": "Spleen Germinal Center",
+          "anatomic_site": "spleen",
+          "disease_state_sample": "NP-CGG",
+          "collection_time_point_relative": "28 days",
+          "collection_time_point_reference": "immunization",
+          "biomaterial_provider": null,
+          "tissue_processing": "harvested splenocytes",
+          "cell_subset": {
+            "id": "CL_0000844",
+            "value": "germinal center B Cell"
+          },
+          "cell_phenotype": "live, B220+, NIP+, CD95+, CD38-",
+          "single_cell": false,
+          "cell_number": 64000,
+          "cells_per_reaction": null,
+          "cell_storage": false,
+          "cell_quality": null,
+          "cell_isolation": "FACS",
+          "cell_processing_protocol": null,
+          "template_class": "RNA",
+          "template_quality": null,
+          "template_amount": null,
+          "library_generation_method": "RT(specific+UMI)+PCR",
+          "library_generation_protocol": null,
+          "library_generation_kit_version": null,
+          "pcr_target": [
+            {
+              "pcr_target_locus": "IGH",
+              "forward_pcr_primer_target_location": null,
+              "reverse_pcr_primer_target_location": null
+            }
+          ],
+          "complete_sequences": "partial",
+          "physical_linkage": "none",
+          "sequencing_run_id": null,
+          "total_reads_passing_qc_filter": null,
+          "sequencing_platform": null,
+          "read_length": null,
+          "sequencing_facility": null,
+          "sequencing_run_date": null,
+          "sequencing_kit": null,
+          "sequencing_files": {
+            "file_type": "fastq",
+            "filename": "SRR2017485_2.fastq",
+            "read_direction": "forward",
+            "paired_filename": "SRR2017485_1.fastq",
+            "paired_read_direction": "reverse"
+          }
+        }
+      ],
+      "data_processing": [
+        {
+          "data_processing_id": "f606f648-87fa-40f1-8bc8-3d7f3648873c-007",
+          "primary_annotation": true,
+          "software_versions": "",
+          "paired_reads_assembly": "",
+          "quality_thresholds": "",
+          "primer_match_cutoffs": "",
+          "collapsing_method": "",
+          "data_processing_protocols": "",
+          "germline_database": "",
+          "analysis_provenance_id": "",
+          "final_rearrangement_file": "SRR2017485_2_assemble-pass_collapse-unique.igblast.airr.tsv"
+        }
+      ]
+    }
+  ]
+}
