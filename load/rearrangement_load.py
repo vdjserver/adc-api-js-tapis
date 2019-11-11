@@ -3,12 +3,11 @@
 # the repertoire metadata. This assumes you are running in the docker container.
 #
 # This is a partial hack because currently VDJServer does not produce AIRR TSV
-# files with repertoire_id's assigned to the rearrangements.
+# files with repertoire_id's and data_processing_id's assigned to the rearrangements.
 #
 # This script assumes that all the rearrangements for a single repertoire are
-# in a single file.
-#
-# TEST: using "rerrangements" instead of "rearrangment" for the collection
+# in a single file. It also assumes that the VDJServer specific field
+# final_rearrangement_file has been added to the data_processing.
 #
 
 import json
@@ -100,35 +99,44 @@ def insertRearrangement(token, config, records):
 # main entry
 if (__name__=="__main__"):
     parser = argparse.ArgumentParser(description='Load AIRR rearrangements into VDJServer data repository.')
-    parser.add_argument('repertoire_id', type=str, help='Repertoire identifier for the rearrangements')
-    parser.add_argument('rearrangement_file', type=str, help='Rearrangement AIRR TSV file name')
+    parser.add_argument('repertoire_file', type=str, help='AIRR repertoire metadata file name')
+    parser.add_argument('file_prefix', type=str, help='Directory prefix to find the rearrangements files')
     args = parser.parse_args()
 
     if args:
-        reader = airr.read_rearrangement(args.rearrangement_file)
-
         config = getConfig()
-        print(config)
         token = getToken(config)
         print(token['access_token'])
 
-        deleteRepertoire(token, config, args.repertoire_id)
+        data = airr.load_repertoire(args.repertoire_file)
+        reps = data['Repertoire']
 
-        total = 0
-        cnt = 0
-        records = []
-        for r in reader:
-            if r.get('repertoire_id') is None:
-                r['repertoire_id'] = args.repertoire_id
-            if len(r['repertoire_id']) == 0:
-                r['repertoire_id'] = args.repertoire_id
-            records.append(r)
-            cnt += 1
-            total += 1
-            if cnt == 1000:
+        for rep in reps:
+            print('Loading AIRR rearrangements for repertoire: ' + rep['repertoire_id'])
+            print('AIRR rearrangement file: ' + args.file_prefix + '/' + rep['data_processing'][0]['final_rearrangement_file'])
+            reader = airr.read_rearrangement(args.file_prefix + '/' + rep['data_processing'][0]['final_rearrangement_file'])
+
+            deleteRepertoire(token, config, rep['repertoire_id'])
+
+            total = 0
+            cnt = 0
+            records = []
+            for r in reader:
+                if r.get('repertoire_id') is None:
+                    r['repertoire_id'] = rep['repertoire_id']
+                if len(r['repertoire_id']) == 0:
+                    r['repertoire_id'] = rep['repertoire_id']
+                if r.get('data_processing_id') is None:
+                    r['data_processing_id'] = rep['data_processing'][0]['data_processing_id']
+                if len(r['data_processing_id']) == 0:
+                    r['data_processing_id'] = rep['data_processing'][0]['repertoire_id']
+                records.append(r)
+                cnt += 1
+                total += 1
+                if cnt == 1000:
+                    insertRearrangement(token, config, records)
+                    cnt = 0
+                    records = []
+            if cnt != 0:
                 insertRearrangement(token, config, records)
-                cnt = 0
-                records = []
-        if cnt != 0:
-            insertRearrangement(token, config, records)
-        print("Total records inserted: " + str(total))
+            print("Total records inserted: " + str(total))
