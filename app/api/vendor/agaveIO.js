@@ -29,40 +29,40 @@ agaveIO.sendRequest = function(requestSettings, postData) {
 
     var request = require('https').request(requestSettings, function(response) {
 
-        var output = '';
+            var output = '';
 
-        response.on('data', function(chunk) {
-            output += chunk;
+            response.on('data', function(chunk) {
+                    output += chunk;
+                });
+
+            response.on('end', function() {
+
+                    var responseObject;
+
+                    if (output && jsonApprover.isJSON(output)) {
+                        responseObject = JSON.parse(output);
+                        //console.log(responseObject);
+                        deferred.resolve(responseObject);
+                    }
+                    else {
+
+                        if (agaveSettings.debugConsole === true) {
+                            console.error('VDJ-ADC-API ERROR: Agave response is not json.');
+                        }
+
+                        deferred.reject(new Error('Agave response is not json'));
+                    }
+
+                });
         });
-
-        response.on('end', function() {
-
-            var responseObject;
-
-            if (output && jsonApprover.isJSON(output)) {
-                responseObject = JSON.parse(output);
-		//console.log(responseObject);
-                deferred.resolve(responseObject);
-            }
-            else {
-
-                if (agaveSettings.debugConsole === true) {
-                    console.error('VDJ-ADC-API ERROR: Agave response is not json.');
-                }
-
-                deferred.reject(new Error('Agave response is not json'));
-            }
-
-        });
-    });
 
     request.on('error', function(error) {
-        if (agaveSettings.debugConsole === true) {
-            console.error('VDJ-ADC-API ERROR: Agave connection error.' + JSON.stringify(error));
-        }
+            if (agaveSettings.debugConsole === true) {
+                console.error('VDJ-ADC-API ERROR: Agave connection error.' + JSON.stringify(error));
+            }
 
-        deferred.reject(new Error('Agave connection error'));
-    });
+            deferred.reject(new Error('Agave connection error'));
+        });
 
     if (postData) {
         // Request body parameters
@@ -83,51 +83,51 @@ agaveIO.sendFormRequest = function(requestSettings, formData) {
 
     var request = formData.submit(requestSettings, function(error, response) {
 
-        var output = '';
+            var output = '';
 
-        response.on('data', function(chunk) {
-            output += chunk;
+            response.on('data', function(chunk) {
+                    output += chunk;
+                });
+
+            response.on('end', function() {
+
+                    var responseObject;
+
+                    if (output && jsonApprover.isJSON(output)) {
+                        responseObject = JSON.parse(output);
+                    }
+                    else {
+
+                        if (agaveSettings.debugConsole === true) {
+                            console.error('VDJ-ADC-API ERROR: Agave response is not json.');
+                        }
+
+                        deferred.reject(new Error('Agave response is not json'));
+                    }
+
+                    if (responseObject && responseObject.status && responseObject.status.toLowerCase() === 'success') {
+                        deferred.resolve(responseObject);
+                    }
+                    else {
+
+                        if (agaveSettings.debugConsole === true) {
+                            console.error('VDJ-ADC-API ERROR: Agave returned an error. it is: ' + JSON.stringify(responseObject));
+                            console.error('VDJ-ADC0API ERROR: Agave returned an error. it is: ' + responseObject);
+                        }
+
+                        deferred.reject(new Error('Agave response returned an error: ' + JSON.stringify(responseObject)));
+                    }
+
+                });
         });
-
-        response.on('end', function() {
-
-            var responseObject;
-
-            if (output && jsonApprover.isJSON(output)) {
-                responseObject = JSON.parse(output);
-            }
-            else {
-
-                if (agaveSettings.debugConsole === true) {
-                    console.error('VDJ-ADC-API ERROR: Agave response is not json.');
-                }
-
-                deferred.reject(new Error('Agave response is not json'));
-            }
-
-            if (responseObject && responseObject.status && responseObject.status.toLowerCase() === 'success') {
-                deferred.resolve(responseObject);
-            }
-            else {
-
-                if (agaveSettings.debugConsole === true) {
-                    console.error('VDJ-ADC-API ERROR: Agave returned an error. it is: ' + JSON.stringify(responseObject));
-                    console.error('VDJ-ADC0API ERROR: Agave returned an error. it is: ' + responseObject);
-                }
-
-                deferred.reject(new Error('Agave response returned an error: ' + JSON.stringify(responseObject)));
-            }
-
-        });
-    });
 
     request.on('error', function(error) {
-        if (agaveSettings.debugConsole === true) {
-            console.error('VDJ-ADC-API ERROR: Agave connection error.' + JSON.stringify(error));
-        }
+            if (agaveSettings.debugConsole === true) {
+                console.error('VDJ-ADC-API ERROR: Agave connection error.' + JSON.stringify(error));
+            }
 
-        deferred.reject(new Error('Agave connection error. ' + JSON.stringify(error)));
-    });
+            deferred.reject(new Error('Agave connection error. ' + JSON.stringify(error)));
+        });
 
     return deferred.promise;
 };
@@ -138,58 +138,58 @@ agaveIO.sendTokenRequest = function(requestSettings, postData) {
 
     var request = require('https').request(requestSettings, function(response) {
 
-        var output = '';
+            var output = '';
 
-        response.on('data', function(chunk) {
-            output += chunk;
+            response.on('data', function(chunk) {
+                    output += chunk;
+                });
+
+            response.on('end', function() {
+
+                    var responseObject;
+
+                    if (output && jsonApprover.isJSON(output)) {
+                        responseObject = JSON.parse(output);
+                    }
+                    else {
+
+                        if (agaveSettings.debugConsole === true) {
+                            console.error('VDJ-ADC-API ERROR: Agave token response is not json.');
+                        }
+
+                        deferred.reject(new Error('Agave response is not json'));
+                    }
+
+                    if (
+                        responseObject
+                        && responseObject.access_token
+                        && responseObject.refresh_token
+                        && responseObject.token_type
+                        && responseObject.expires_in
+                        ) {
+                        deferred.resolve(responseObject);
+                    }
+                    else {
+
+                        if (agaveSettings.debugConsole === true) {
+                            console.error('VDJ-ADC-API ERROR: Agave returned a token error. it is: ' + JSON.stringify(responseObject));
+                            console.error('VDJ-ADC-API ERROR: Agave returned a token error. it is: ' + responseObject);
+                        }
+
+                        deferred.reject(new Error('Agave response returned an error: ' + JSON.stringify(responseObject)));
+                    }
+
+                });
         });
-
-        response.on('end', function() {
-
-            var responseObject;
-
-            if (output && jsonApprover.isJSON(output)) {
-                responseObject = JSON.parse(output);
-            }
-            else {
-
-                if (agaveSettings.debugConsole === true) {
-                    console.error('VDJ-ADC-API ERROR: Agave token response is not json.');
-                }
-
-                deferred.reject(new Error('Agave response is not json'));
-            }
-
-            if (
-                responseObject
-                && responseObject.access_token
-                && responseObject.refresh_token
-                && responseObject.token_type
-                && responseObject.expires_in
-            ) {
-                deferred.resolve(responseObject);
-            }
-            else {
-
-                if (agaveSettings.debugConsole === true) {
-                    console.error('VDJ-ADC-API ERROR: Agave returned a token error. it is: ' + JSON.stringify(responseObject));
-                    console.error('VDJ-ADC-API ERROR: Agave returned a token error. it is: ' + responseObject);
-                }
-
-                deferred.reject(new Error('Agave response returned an error: ' + JSON.stringify(responseObject)));
-            }
-
-        });
-    });
 
     request.on('error', function() {
 
-        if (agaveSettings.debugConsole === true) {
-            console.error('VDJ-ADC-API ERROR: Agave token connection error.');
-        }
+            if (agaveSettings.debugConsole === true) {
+                console.error('VDJ-ADC-API ERROR: Agave token connection error.');
+            }
 
-        deferred.reject(new Error('Agave connection error'));
-    });
+            deferred.reject(new Error('Agave connection error'));
+        });
 
     if (postData) {
         // Request body parameters
@@ -222,10 +222,10 @@ agaveIO.getToken = function(auth) {
     };
 
     agaveIO.sendTokenRequest(requestSettings, postData)
-        .then(function(responseObject) {
+    .then(function(responseObject) {
             deferred.resolve(responseObject);
         })
-        .fail(function(errorObject) {
+    .fail(function(errorObject) {
             deferred.reject(errorObject);
         });
 
@@ -237,51 +237,51 @@ agaveIO.performQuery = function(collection, query, projection, page, pagesize) {
     var deferred = Q.defer();
 
     GuestAccount.getToken()
-	.then(function(token) {
-	    var mark = false;
-	    var requestSettings = {
-		host:     agaveSettings.hostname,
-		method:   'GET',
-		path:     '/meta/v3/v1airr/' + collection,
-		rejectUnauthorized: false,
-		headers: {
-		    'Accept':   'application/json',
-		    'Authorization': 'Bearer ' + GuestAccount.accessToken()
-		}
-	    };
-	    if (query) {
-		if (mark) requestSettings['path'] += '&';
-		else requestSettings['path'] += '?';
-		mark = true;
-		requestSettings['path'] += 'filter=' + encodeURIComponent(query);
-	    }
-	    if (projection) {
-		if (mark) requestSettings['path'] += '&';
-		else requestSettings['path'] += '?';
-		mark = true;
-		requestSettings['path'] += 'keys=' + encodeURIComponent(JSON.stringify(projection));
-	    }
-	    if (page) {
-		if (mark) requestSettings['path'] += '&';
-		else requestSettings['path'] += '?';
-		mark = true;
-		requestSettings['path'] += 'page=' + encodeURIComponent(page);
-	    }
-	    if (pagesize) {
-		if (mark) requestSettings['path'] += '&';
-		else requestSettings['path'] += '?';
-		mark = true;
-		requestSettings['path'] += 'pagesize=' + encodeURIComponent(pagesize);
-	    }
+    .then(function(token) {
+            var mark = false;
+            var requestSettings = {
+                host:     agaveSettings.hostname,
+                method:   'GET',
+                path:     '/meta/v3/v1airr/' + collection,
+                rejectUnauthorized: false,
+                headers: {
+                    'Accept':   'application/json',
+                    'Authorization': 'Bearer ' + GuestAccount.accessToken()
+                }
+            };
+            if (query) {
+                if (mark) requestSettings['path'] += '&';
+                else requestSettings['path'] += '?';
+                mark = true;
+                requestSettings['path'] += 'filter=' + encodeURIComponent(query);
+            }
+            if (projection) {
+                if (mark) requestSettings['path'] += '&';
+                else requestSettings['path'] += '?';
+                mark = true;
+                requestSettings['path'] += 'keys=' + encodeURIComponent(JSON.stringify(projection));
+            }
+            if (page) {
+                if (mark) requestSettings['path'] += '&';
+                else requestSettings['path'] += '?';
+                mark = true;
+                requestSettings['path'] += 'page=' + encodeURIComponent(page);
+            }
+            if (pagesize) {
+                if (mark) requestSettings['path'] += '&';
+                else requestSettings['path'] += '?';
+                mark = true;
+                requestSettings['path'] += 'pagesize=' + encodeURIComponent(pagesize);
+            }
 
-	    console.log(requestSettings);
+            console.log(requestSettings);
 
-	    return agaveIO.sendRequest(requestSettings, null);
-	})
-	.then(function(responseObject) {
+            return agaveIO.sendRequest(requestSettings, null);
+        })
+    .then(function(responseObject) {
             deferred.resolve(responseObject);
-	})
-	.fail(function(errorObject) {
+        })
+    .fail(function(errorObject) {
             deferred.reject(errorObject);
         });
 
@@ -293,30 +293,30 @@ agaveIO.performAggregation = function(collection, aggregation, query, field) {
     var deferred = Q.defer();
 
     GuestAccount.getToken()
-	.then(function(token) {
-	    var requestSettings = {
-		host:     agaveSettings.hostname,
-		method:   'GET',
-		path:     '/meta/v3/v1airr/' + collection + '/_aggrs/' + aggregation,
-		rejectUnauthorized: false,
-		headers: {
-		    'Content-Type': 'application/json',
-		    'Accept': 'application/json',
-		    'Authorization': 'Bearer ' + GuestAccount.accessToken()
-		}
-	    };
+    .then(function(token) {
+            var requestSettings = {
+                host:     agaveSettings.hostname,
+                method:   'GET',
+                path:     '/meta/v3/v1airr/' + collection + '/_aggrs/' + aggregation,
+                rejectUnauthorized: false,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'Authorization': 'Bearer ' + GuestAccount.accessToken()
+                }
+            };
 
-	    requestSettings['path'] += '?avars=';
-	    requestSettings['path'] += encodeURIComponent('{"match":' + query + ',"field":"' + field + '"}');
+            requestSettings['path'] += '?avars=';
+            requestSettings['path'] += encodeURIComponent('{"match":' + query + ',"field":"' + field + '"}');
 
-	    console.log(requestSettings);
+            console.log(requestSettings);
 
-	    return agaveIO.sendRequest(requestSettings, null);
-	})
-	.then(function(responseObject) {
+            return agaveIO.sendRequest(requestSettings, null);
+        })
+    .then(function(responseObject) {
             deferred.resolve(responseObject);
-	})
-	.fail(function(errorObject) {
+        })
+    .fail(function(errorObject) {
             deferred.reject(errorObject);
         });
 
