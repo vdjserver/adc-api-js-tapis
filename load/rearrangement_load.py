@@ -113,30 +113,32 @@ if (__name__=="__main__"):
 
         for rep in reps:
             print('Loading AIRR rearrangements for repertoire: ' + rep['repertoire_id'])
-            print('AIRR rearrangement file: ' + args.file_prefix + '/' + rep['data_processing'][0]['final_rearrangement_file'])
-            reader = airr.read_rearrangement(args.file_prefix + '/' + rep['data_processing'][0]['final_rearrangement_file'])
-
             deleteRepertoire(token, config, rep['repertoire_id'])
 
-            total = 0
-            cnt = 0
-            records = []
-            for r in reader:
-                if r.get('repertoire_id') is None:
-                    r['repertoire_id'] = rep['repertoire_id']
-                if len(r['repertoire_id']) == 0:
-                    r['repertoire_id'] = rep['repertoire_id']
-                if r.get('data_processing_id') is None:
-                    r['data_processing_id'] = rep['data_processing'][0]['data_processing_id']
-                if len(r['data_processing_id']) == 0:
-                    r['data_processing_id'] = rep['data_processing'][0]['repertoire_id']
-                records.append(r)
-                cnt += 1
-                total += 1
-                if cnt == 1000:
+            files = rep['data_processing'][0]['final_rearrangement_file'].split(',')
+            for f in files:
+                print('AIRR rearrangement file: ' + args.file_prefix + '/' + f)
+                reader = airr.read_rearrangement(args.file_prefix + '/' + f)
+
+                total = 0
+                cnt = 0
+                records = []
+                for r in reader:
+                    if r.get('repertoire_id') is None:
+                        r['repertoire_id'] = rep['repertoire_id']
+                    if len(r['repertoire_id']) == 0:
+                        r['repertoire_id'] = rep['repertoire_id']
+                    if r.get('data_processing_id') is None:
+                        r['data_processing_id'] = rep['data_processing'][0]['data_processing_id']
+                    if len(r['data_processing_id']) == 0:
+                        r['data_processing_id'] = rep['data_processing'][0]['data_processing_id']
+                    records.append(r)
+                    cnt += 1
+                    total += 1
+                    if cnt == 1000:
+                        insertRearrangement(token, config, records)
+                        cnt = 0
+                        records = []
+                if cnt != 0:
                     insertRearrangement(token, config, records)
-                    cnt = 0
-                    records = []
-            if cnt != 0:
-                insertRearrangement(token, config, records)
-            print("Total records inserted: " + str(total))
+                print("Total records inserted: " + str(total))
