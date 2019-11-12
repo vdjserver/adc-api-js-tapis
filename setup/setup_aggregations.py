@@ -81,10 +81,15 @@ def showCollections(token, config):
 
 # main entry
 if (__name__=="__main__"):
-    config = getConfig()
-    token = getToken(config)
+    parser = argparse.ArgumentParser(description='Load aggregations.')
+    parser.add_argument('aggr_script', type=str, help='script')
+    args = parser.parse_args()
 
-    aggs = json.load(open('/api-js-tapis/load/aggregations.json','r'))
-    insertAggregation(token, config, 'repertoire', aggs)
-    insertAggregation(token, config, 'rearrangement', aggs)
-    showCollections(token, config)
+    if args:
+        config = getConfig()
+        token = getToken(config)
+
+        aggs = json.load(open(args.aggr_script,'r'))
+        insertAggregation(token, config, 'repertoire', aggs)
+        insertAggregation(token, config, 'rearrangement', aggs)
+        showCollections(token, config)
