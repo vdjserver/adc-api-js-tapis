@@ -51,176 +51,176 @@ function constructQueryOperation(filter) {
     var content_type = 'string';
     var content_properties = null;
     if (content['field'] != undefined) {
-	var schema = global.airr['Rearrangement'];
-	var props = schema;
+        var schema = global.airr['Rearrangement'];
+        var props = schema;
 
-	// traverse down the object schema hierarchy to find field definition
-	var objs = content['field'].split('.');
-	for (var i = 0; i < objs.length; ++i) {
-	    var p = objs[i];
-	    if (props.type == 'array') {
-		if (props.items.type == 'object') {
-		    props = props.items.properties[p];
-		} else if (props.items['allOf'] != undefined) {
-		    var new_props = undefined;
-		    for (var j = 0; j < props.items['allOf'].length; ++j) {
-			if (props.items['allOf'][j].properties != undefined)
-			    if (props.items['allOf'][j].properties[p] != undefined) {
-				new_props = props.items['allOf'][j].properties[p];
-				break;
-			    }
-		    }
-		    props = new_props;
-		}
-	    } else if (props.type == 'object') {
-		props = props.properties[p];
-	    } else props = undefined;
-	    if (props == undefined) break;
-	}
+        // traverse down the object schema hierarchy to find field definition
+        var objs = content['field'].split('.');
+        for (var i = 0; i < objs.length; ++i) {
+            var p = objs[i];
+            if (props.type == 'array') {
+                if (props.items.type == 'object') {
+                    props = props.items.properties[p];
+                } else if (props.items['allOf'] != undefined) {
+                    var new_props = undefined;
+                    for (var j = 0; j < props.items['allOf'].length; ++j) {
+                    if (props.items['allOf'][j].properties != undefined)
+                        if (props.items['allOf'][j].properties[p] != undefined) {
+                        new_props = props.items['allOf'][j].properties[p];
+                        break;
+                        }
+                    }
+                    props = new_props;
+                }
+            } else if (props.type == 'object') {
+            props = props.properties[p];
+            } else props = undefined;
+            if (props == undefined) break;
+        }
 
-	if (props != undefined) {
-	    if (props['type'] != undefined) {
-		content_type = props['type'];
-		content_properties = props;
-	    }
-	} else {
-	    console.log('VDJ-ADC-API INFO:' + content['field'] + ' is not found in AIRR schema.');
-	}
+        if (props != undefined) {
+            if (props['type'] != undefined) {
+            content_type = props['type'];
+            content_properties = props;
+            }
+        } else {
+            console.log('VDJ-ADC-API INFO:' + content['field'] + ' is not found in AIRR schema.');
+        }
     }
 
     // Check if query field is required. By default, the ADC API will not allow
     // queries on the rearrangement endpoint for optional fields.
     if (content_properties != undefined) {
-	if (content_properties['x-airr'] != undefined) {
-	    if (content_properties['x-airr']['adc-api-optional'] != undefined) {
-		if (content_properties['x-airr']['adc-api-optional']) {
-		    // optional field, reject
-		    console.log('VDJ-ADC-API INFO: ' + content['field'] + ' is an optional query field.');
-		    return null;
-		}
-	    }
-	}
+        if (content_properties['x-airr'] != undefined) {
+            if (content_properties['x-airr']['adc-api-optional'] != undefined) {
+                if (content_properties['x-airr']['adc-api-optional']) {
+                    // optional field, reject
+                    console.log('VDJ-ADC-API INFO: ' + content['field'] + ' is an optional query field.');
+                    return null;
+                }
+            }
+        }
     }
 
     var content_value = undefined;
     if (content['value'] != undefined) {
-	switch(content_type) {
-	case 'integer':
-	case 'number':
-	case 'boolean':
-	    if (content['value'] instanceof Array) {
-		content_value = JSON.stringify(content['value']);
-	    } else {
-		content_value = content['value'];
-	    }
-	    break;
-	case 'string':
-	default:
-	    if (content['value'] instanceof Array) {
-		content_value = JSON.stringify(content['value']);
-	    } else {
-		content_value = '"' + content['value'] + '"';
-	    }
-	    break;
-	}
+        switch(content_type) {
+        case 'integer':
+        case 'number':
+        case 'boolean':
+            if (content['value'] instanceof Array) {
+                content_value = JSON.stringify(content['value']);
+            } else {
+                content_value = content['value'];
+            }
+            break;
+        case 'string':
+        default:
+            if (content['value'] instanceof Array) {
+                content_value = JSON.stringify(content['value']);
+            } else {
+                content_value = '"' + content['value'] + '"';
+            }
+            break;
+        }
     }
 
     switch(filter['op']) {
     case '=':
-	if ((content['field'] != undefined) && (content_value != undefined)) {
-	    return '{"' + content['field'] + '":' + content_value + '}';
-	}
-	return null;
+    if ((content['field'] != undefined) && (content_value != undefined)) {
+        return '{"' + content['field'] + '":' + content_value + '}';
+    }
+    return null;
 
     case '!=':
-	if ((content['field'] != undefined) && (content_value != undefined)) {
-	    return '{"' + content['field'] + '": { "$ne":"' + content_value + '"}}';
-	}
-	return null;
+    if ((content['field'] != undefined) && (content_value != undefined)) {
+        return '{"' + content['field'] + '": { "$ne":"' + content_value + '"}}';
+    }
+    return null;
 
     case '<':
-	if ((content['field'] != undefined) && (content_value != undefined)) {
-	    return '{"' + content['field'] + '": { "$lt":"' + content_value + '"}}';
-	}
-	return null;
+    if ((content['field'] != undefined) && (content_value != undefined)) {
+        return '{"' + content['field'] + '": { "$lt":"' + content_value + '"}}';
+    }
+    return null;
 
     case '<=':
-	if ((content['field'] != undefined) && (content_value != undefined)) {
-	    return '{"' + content['field'] + '": { "$lte":"' + content_value + '"}}';
-	}
-	return null;
+    if ((content['field'] != undefined) && (content_value != undefined)) {
+        return '{"' + content['field'] + '": { "$lte":"' + content_value + '"}}';
+    }
+    return null;
 
     case '>':
-	if ((content['field'] != undefined) && (content_value != undefined)) {
-	    return '{"' + content['field'] + '": { "$gt":"' + content_value + '"}}';
-	}
-	return null;
+    if ((content['field'] != undefined) && (content_value != undefined)) {
+        return '{"' + content['field'] + '": { "$gt":"' + content_value + '"}}';
+    }
+    return null;
 
     case '>=':
-	if ((content['field'] != undefined) && (content_value != undefined)) {
-	    return '{"' + content['field'] + '": { "$gte":"' + content_value + '"}}';
-	}
-	return null;
+    if ((content['field'] != undefined) && (content_value != undefined)) {
+        return '{"' + content['field'] + '": { "$gte":"' + content_value + '"}}';
+    }
+    return null;
 
     case 'contains':
-	if ((content['field'] != undefined) && (content_value != undefined)) {
-	    return '{"' + content['field'] + '": { "$regex":' + content_value + ', "$options": "i"}}';
-	}
-	return null;
+    if ((content['field'] != undefined) && (content_value != undefined)) {
+        return '{"' + content['field'] + '": { "$regex":' + content_value + ', "$options": "i"}}';
+    }
+    return null;
 
     case 'is': // is missing
-	if (content['field'] != undefined) {
-	    return '{"' + content['field'] + '": { "$exists": false } }';
-	}
-	return null;
+    if (content['field'] != undefined) {
+        return '{"' + content['field'] + '": { "$exists": false } }';
+    }
+    return null;
 
     case 'not': // is not missing
-	if (content['field'] != undefined) {
-	    return '{"' + content['field'] + '": { "$exists": true } }';
-	}
-	return null;
+    if (content['field'] != undefined) {
+        return '{"' + content['field'] + '": { "$exists": true } }';
+    }
+    return null;
 
     case 'in':
-	if ((content['field'] != undefined) && (content_value != undefined) && (content['value'] instanceof Array)) {
-	    return '{"' + content['field'] + '": { "$in":' + content_value + '}}';
-	}
-	return null;
+    if ((content['field'] != undefined) && (content_value != undefined) && (content['value'] instanceof Array)) {
+        return '{"' + content['field'] + '": { "$in":' + content_value + '}}';
+    }
+    return null;
 
     case 'exclude':
-	if ((content['field'] != undefined) && (content_value != undefined) && (content['value'] instanceof Array)) {
-	    return '{"' + content['field'] + '": { "$in":' + content_value + '}}';
-	}
-	return null;
+    if ((content['field'] != undefined) && (content_value != undefined) && (content['value'] instanceof Array)) {
+        return '{"' + content['field'] + '": { "$in":' + content_value + '}}';
+    }
+    return null;
 
     case 'and':
-	if ((content instanceof Array) && (content.length > 1)) {
-	    var exp_list = [];
-	    for (var i = 0; i < content.length; ++i) {
-		var exp = constructQueryOperation(content[i]);
-		if (exp == null) return null;
-		exp_list.push(exp);
-	    }
-	    return '{ "$and":[' + exp_list + ']}';
-	}
-	return null;
+    if ((content instanceof Array) && (content.length > 1)) {
+        var exp_list = [];
+        for (var i = 0; i < content.length; ++i) {
+        var exp = constructQueryOperation(content[i]);
+        if (exp == null) return null;
+        exp_list.push(exp);
+        }
+        return '{ "$and":[' + exp_list + ']}';
+    }
+    return null;
 
     case 'or':
-	if ((content instanceof Array) && (content.length > 1)) {
-	    var exp_list = [];
-	    for (var i = 0; i < content.length; ++i) {
-		var exp = constructQueryOperation(content[i]);
-		if (exp == null) return null;
-		exp_list.push(exp);
-	    }
-	    return '{ "$or":[' + exp_list + ']}';
-	}
-	return null;
+    if ((content instanceof Array) && (content.length > 1)) {
+        var exp_list = [];
+        for (var i = 0; i < content.length; ++i) {
+        var exp = constructQueryOperation(content[i]);
+        if (exp == null) return null;
+        exp_list.push(exp);
+        }
+        return '{ "$or":[' + exp_list + ']}';
+    }
+    return null;
 
     default:
-	var msg = 'VDJ-ADC-API ERROR (rearrangement): Unknown operator in filters: ' + filter['op'];
-	console.error(msg);
-	webhookIO.postToSlack(msg);
-	return null;
+    var msg = 'VDJ-ADC-API ERROR (rearrangement): Unknown operator in filters: ' + filter['op'];
+    console.error(msg);
+    webhookIO.postToSlack(msg);
+    return null;
     }
 
     // should not get here
@@ -251,22 +251,22 @@ function getRearrangement(req, res) {
     info['contact'] = config.contact;
 
     agaveIO.performQuery(collection, null, null, null, null)
-	.then(function(record) {
-	    if (record['http status code'] == 404) {
-		res.json({"Info":info,"Rearrangement":[]});
-	    } else {
-		record['rearrangement_id'] = record['_id']['$oid'];
-		if (record['_id']) delete record['_id'];
-		if (record['_etag']) delete record['_etag'];
-		res.json({"Info":info,"Rearrangement":[record]});
-	    }
-	})
-	.fail(function(error) {
-	    var msg = 'VDJ-ADC-API ERROR (getRearrangment): ' + error;
-	    res.status(500).json({"message":result_message});
-	    console.error(msg);
-	    webhookIO.postToSlack(msg);
-	    return;
+    .then(function(record) {
+        if (record['http status code'] == 404) {
+        res.json({"Info":info,"Rearrangement":[]});
+        } else {
+        record['rearrangement_id'] = record['_id']['$oid'];
+        if (record['_id']) delete record['_id'];
+        if (record['_etag']) delete record['_etag'];
+        res.json({"Info":info,"Rearrangement":[record]});
+        }
+    })
+    .fail(function(error) {
+        var msg = 'VDJ-ADC-API ERROR (getRearrangment): ' + error;
+        res.status(500).json({"message":result_message});
+        console.error(msg);
+        webhookIO.postToSlack(msg);
+        return;
         });
 }
 
@@ -283,31 +283,31 @@ function queryRearrangements(req, res) {
     // field projection
     var projection = {};
     if (bodyData['fields'] != undefined) {
-	var fields = bodyData['fields'];
-	console.log('fields: ', fields);
-	if (! (fields instanceof Array)) {
-	    result_message = "fields parameter is not an array.";
-	    res.status(400).json({"message":result_message});
-	    return;
-	}
-	for (var i = 0; i < fields.length; ++i) {
-	    if (fields[i] == '_id') continue;
-	    if (fields[i] == '_etag') continue;
-	    projection[fields[i]] = 1;
-	}
-	projection['_id'] = 1;
+    var fields = bodyData['fields'];
+    console.log('fields: ', fields);
+    if (! (fields instanceof Array)) {
+        result_message = "fields parameter is not an array.";
+        res.status(400).json({"message":result_message});
+        return;
+    }
+    for (var i = 0; i < fields.length; ++i) {
+        if (fields[i] == '_id') continue;
+        if (fields[i] == '_etag') continue;
+        projection[fields[i]] = 1;
+    }
+    projection['_id'] = 1;
     } else {
-	projection['_etag'] = 0;
+    projection['_etag'] = 0;
     }
 
     // format parameter
     var format = 'json';
     if (bodyData['format'] != undefined)
-	format = bodyData['format'];
+    format = bodyData['format'];
     if ((format != 'json') && (format != 'airr')) {
-	result_message = "Unsupported format (" + format + ").";
-	res.status(400).json({"message":result_message});
-	return;
+    result_message = "Unsupported format (" + format + ").";
+    res.status(400).json({"message":result_message});
+    return;
     }
 
     // we need to convert ADC API from/size to page/pagesize
@@ -317,16 +317,16 @@ function queryRearrangements(req, res) {
     // size parameter
     var size = 0;
     if (bodyData['size'] != undefined)
-	size = bodyData['size'];
+    size = bodyData['size'];
     if (size > config.max_size) {
-	result_message = "Size too large (" + size + "), maximum size is " + config.max_size;
-	res.status(400).json({"message":result_message});
-	return;
+    result_message = "Size too large (" + size + "), maximum size is " + config.max_size;
+    res.status(400).json({"message":result_message});
+    return;
     }
     if (size < 0) {
-	result_message = "Negative size (" + size + ") not allowed.";
-	res.status(400).json({"message":result_message});
-	return;
+    result_message = "Negative size (" + size + ") not allowed.";
+    res.status(400).json({"message":result_message});
+    return;
     }
 
     // from parameter
@@ -335,57 +335,57 @@ function queryRearrangements(req, res) {
     var from_skip = 0;
     var size_stop = pagesize;
     if (bodyData['from'] != undefined)
-	from = bodyData['from'];
+    from = bodyData['from'];
     if (from < 0) {
-	result_message = "Negative from (" + from + ") not allowed.";
-	res.status(400).json({"message":result_message});
-	return;
+    result_message = "Negative from (" + from + ") not allowed.";
+    res.status(400).json({"message":result_message});
+    return;
     }
     if (from != 0) {
-	page = Math.trunc(from / pagesize) + 1;
-	from_skip = from % pagesize;
-	size_stop = from_skip + size;
+    page = Math.trunc(from / pagesize) + 1;
+    from_skip = from % pagesize;
+    size_stop = from_skip + size;
     }
 
     // we might need to do a second query to get the rest
     var second_size = 0;
     if ((from + size) > page * pagesize) {
-	second_size = (from + size) - page * pagesize;
+    second_size = (from + size) - page * pagesize;
     }
 
     // construct query string
     var filter = {};
     var query = undefined;
     if (bodyData['filters'] != undefined) {
-	filter = bodyData['filters'];
-	//console.log(filter);
-	try {
-	    query = constructQueryOperation(filter);
-	    //console.log(query);
+    filter = bodyData['filters'];
+    //console.log(filter);
+    try {
+        query = constructQueryOperation(filter);
+        //console.log(query);
 
-	    if (!query) {
-		result_message = "Could not construct valid query.";
-		res.status(400).json({"message":result_message});
-		return;
-	    }
-	} catch (e) {
-	    result_message = "Could not construct valid query: " + e;
-	    res.status(400).json({"message":result_message});
-	    return;
-	}
+        if (!query) {
+        result_message = "Could not construct valid query.";
+        res.status(400).json({"message":result_message});
+        return;
+        }
+    } catch (e) {
+        result_message = "Could not construct valid query: " + e;
+        res.status(400).json({"message":result_message});
+        return;
+    }
     }
 
     // facets parameter
     var facets = bodyData['facets'];
     var agg = [];
     if (facets != undefined) {
-	if (query) agg.push({ $match: query });
-	agg.push(
-		{ $group: {
-		    _id: '$' + facets,
-		    count: { $sum: 1}
-		}});
-	console.log(agg);
+    if (query) agg.push({ $match: query });
+    agg.push(
+        { $group: {
+            _id: '$' + facets,
+            count: { $sum: 1}
+        }});
+    console.log(agg);
     }
 
     // construct info object for response
@@ -399,158 +399,158 @@ function queryRearrangements(req, res) {
     // Handle client HTTP request abort
     var abortQuery = false;
     req.on("close", function() {
-	console.log('VDJ-ADC-API INFO: Client request closed unexpectedly');
-	abortQuery = true;
+    console.log('VDJ-ADC-API INFO: Client request closed unexpectedly');
+    abortQuery = true;
     });
 
     // perform non-facets query
     var collection = 'rearrangement';
     if (!facets) {
-	//console.log(query);
-	agaveIO.performQuery(collection, query, projection, page, pagesize)
-	    .then(function(records) {
-		if (abortQuery) {
-		    return;
-		}
+    //console.log(query);
+    agaveIO.performQuery(collection, query, projection, page, pagesize)
+        .then(function(records) {
+        if (abortQuery) {
+            return;
+        }
 
-		console.log('VDJ-ADC-API INFO: query returned ' + records['_returned'] + ' records.');
-		if (records['_returned'] == 0) {
-		    results = [];
-		} else {
-		    // loop through records, clean data
-		    // and only retrieve desired from/size
-		    for (var i in records['_embedded']) {
-			if (i < from_skip) continue;
-			if (i >= size_stop) break;
-			var record = records['_embedded'][i];
-			record['rearrangement_id'] = record['_id']['$oid'];
-			if (record['_id']) delete record['_id'];
-			if (record['_etag']) delete record['_etag'];
-			results.push(record);
-		    }
-		}
-	    })
-	    .then(function() {
-		if (abortQuery) {
-		    return;
-		}
+        console.log('VDJ-ADC-API INFO: query returned ' + records['_returned'] + ' records.');
+        if (records['_returned'] == 0) {
+            results = [];
+        } else {
+            // loop through records, clean data
+            // and only retrieve desired from/size
+            for (var i in records['_embedded']) {
+            if (i < from_skip) continue;
+            if (i >= size_stop) break;
+            var record = records['_embedded'][i];
+            record['rearrangement_id'] = record['_id']['$oid'];
+            if (record['_id']) delete record['_id'];
+            if (record['_etag']) delete record['_etag'];
+            results.push(record);
+            }
+        }
+        })
+        .then(function() {
+        if (abortQuery) {
+            return;
+        }
 
-		if ((!second_size) || (results.length < pagesize)) {
-		    // only one query so return the results
-		    return;
-		} else {
-		    // we need to do a second query for the rest
-		    page += 1;
-		    agaveIO.performQuery(collection, query, projection, page, pagesize)
-			.then(function(records) {
-			    console.log('VDJ-ADC-API INFO: second query returned ' + records['_returned'] + ' records.')
+        if ((!second_size) || (results.length < pagesize)) {
+            // only one query so return the results
+            return;
+        } else {
+            // we need to do a second query for the rest
+            page += 1;
+            agaveIO.performQuery(collection, query, projection, page, pagesize)
+            .then(function(records) {
+                console.log('VDJ-ADC-API INFO: second query returned ' + records['_returned'] + ' records.')
 
-			    // loop through records, clean data
-			    // and only retrieve desired from/size
-			    for (var i in records['_embedded']) {
-				if (i >= second_size) break;
-				var record = records['_embedded'][i];
-				record['rearrangement_id'] = record['_id']['$oid'];
-				if (record['_id']) delete record['_id'];
-				if (record['_etag']) delete record['_etag'];
-				results.push(record);
-			    }
-			});
-		}
-	    })
-	    .then(function() {
-		if (abortQuery) {
-		    console.log('VDJ-ADC-API INFO: client aborted query.');
-		    return;
-		}
+                // loop through records, clean data
+                // and only retrieve desired from/size
+                for (var i in records['_embedded']) {
+                if (i >= second_size) break;
+                var record = records['_embedded'][i];
+                record['rearrangement_id'] = record['_id']['$oid'];
+                if (record['_id']) delete record['_id'];
+                if (record['_etag']) delete record['_etag'];
+                results.push(record);
+                }
+            });
+        }
+        })
+        .then(function() {
+        if (abortQuery) {
+            console.log('VDJ-ADC-API INFO: client aborted query.');
+            return;
+        }
 
-		// format results and return them
-		if (format == 'json') {
-		    console.log('VDJ-ADC-API INFO: returning ' + results.length + ' records to client.');
-		    res.json({"Info":info,"Rearrangement":results});
-		} else if (format == 'airr') {
-		    res.setHeader('Content-Type', 'text/tsv');
+        // format results and return them
+        if (format == 'json') {
+            console.log('VDJ-ADC-API INFO: returning ' + results.length + ' records to client.');
+            res.json({"Info":info,"Rearrangement":results});
+        } else if (format == 'airr') {
+            res.setHeader('Content-Type', 'text/tsv');
 
-		    // Load AIRR spec for field names
-		    var schema = global.airr['Rearrangement'];
-		    if (!schema) {
-			var msg = 'VDJ-ADC-API ERROR: Rearrangement schema missing.';
-			res.status(500).json({"message":result_message});
-			console.error(msg);
-			webhookIO.postToSlack(msg);
-			return;
-		    }
+            // Load AIRR spec for field names
+            var schema = global.airr['Rearrangement'];
+            if (!schema) {
+            var msg = 'VDJ-ADC-API ERROR: Rearrangement schema missing.';
+            res.status(500).json({"message":result_message});
+            console.error(msg);
+            webhookIO.postToSlack(msg);
+            return;
+            }
 
-		    // write headers
-		    var headers = [];
-		    // schema fields
-		    for (var p in schema['properties']) {
-			if (projection[p]) headers.push(p);
-		    }
-		    // add custom fields on end
-		    for (var p in projection) {
-			if (projection[p]) {
-			    if (schema['properties'][p]) continue;
-			    else headers.push(p);
-			}
-		    }
-		    res.write(headers.join('\t'));
-		    res.write('\n');
-		    console.log(headers);
+            // write headers
+            var headers = [];
+            // schema fields
+            for (var p in schema['properties']) {
+            if (projection[p]) headers.push(p);
+            }
+            // add custom fields on end
+            for (var p in projection) {
+            if (projection[p]) {
+                if (schema['properties'][p]) continue;
+                else headers.push(p);
+            }
+            }
+            res.write(headers.join('\t'));
+            res.write('\n');
+            console.log(headers);
 
-		    var first = true;
-		    for (var r in results) {
-			var entry = results[r]
-			if (!first) {
-			    res.write('\n');
-			}  else {
-			    first = false;
-			}
+            var first = true;
+            for (var r in results) {
+            var entry = results[r]
+            if (!first) {
+                res.write('\n');
+            }  else {
+                first = false;
+            }
 
-			var vals = [];
-			for (var i = 0; i < headers.length; ++i) {
-			    var p = headers[i];
-			    if (!entry[p]) vals.push('');
-			    else vals.push(entry[p]);
-			}
-			res.write(vals.join('\t'));
-		    }
-		}
-	        if (format == 'airr') res.write('\n');
-	        res.end();
-	    })
-	    .fail(function(error) {
-		var msg = "VDJ-ADC-API ERROR (queryRearrangements): " + error;
-		res.status(500).json({"message":result_message});
-		console.error(msg);
-		webhookIO.postToSlack(msg);
-	    });
+            var vals = [];
+            for (var i = 0; i < headers.length; ++i) {
+                var p = headers[i];
+                if (!entry[p]) vals.push('');
+                else vals.push(entry[p]);
+            }
+            res.write(vals.join('\t'));
+            }
+        }
+            if (format == 'airr') res.write('\n');
+            res.end();
+        })
+        .fail(function(error) {
+        var msg = "VDJ-ADC-API ERROR (queryRearrangements): " + error;
+        res.status(500).json({"message":result_message});
+        console.error(msg);
+        webhookIO.postToSlack(msg);
+        });
     } else {
-	// perform facets query
-	var field = '$' + facets;
-	if (!query) query = '{}';
-	agaveIO.performAggregation(collection, 'facets', query, field)
-	    .then(function(records) {
-		if (records['_returned'] == 0) {
-		    results = [];
-		} else {
-		    // loop through records, clean data
-		    // and only retrieve desired from/size
-		    for (var i in records['_embedded']) {
-			var entry = records['_embedded'][i];
-			var new_entry = {}
-			new_entry[facets] = entry['_id'];
-			new_entry['count'] = entry['count'];
-			results.push(new_entry);
-		    }
-		}
-		res.json({"Info":info,"Facet":results});
-	    })
-	    .fail(function(error) {
-		var msg = "VDJ-ADC-API ERROR (queryRearrangements, facets): " + error;
-		res.status(500).json({"message":result_message});
-		console.error(msg);
-		webhookIO.postToSlack(msg);
-	    });
+    // perform facets query
+    var field = '$' + facets;
+    if (!query) query = '{}';
+    agaveIO.performAggregation(collection, 'facets', query, field)
+        .then(function(records) {
+        if (records['_returned'] == 0) {
+            results = [];
+        } else {
+            // loop through records, clean data
+            // and only retrieve desired from/size
+            for (var i in records['_embedded']) {
+            var entry = records['_embedded'][i];
+            var new_entry = {}
+            new_entry[facets] = entry['_id'];
+            new_entry['count'] = entry['count'];
+            results.push(new_entry);
+            }
+        }
+        res.json({"Info":info,"Facet":results});
+        })
+        .fail(function(error) {
+        var msg = "VDJ-ADC-API ERROR (queryRearrangements, facets): " + error;
+        res.status(500).json({"message":result_message});
+        console.error(msg);
+        webhookIO.postToSlack(msg);
+        });
     }
 }
