@@ -374,19 +374,7 @@ function queryRearrangements(req, res) {
             return;
         }
     }
-
-    // facets parameter
     var facets = bodyData['facets'];
-    var agg = [];
-    if (facets != undefined) {
-        if (query) agg.push({ $match: query });
-        agg.push(
-            { $group: {
-                _id: '$' + facets,
-                count: { $sum: 1}
-            }});
-        console.log(agg);
-    }
 
     // construct info object for response
     var info = { };
