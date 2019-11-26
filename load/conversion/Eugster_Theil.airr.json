@@ -1883,7 +1883,7 @@
           "data_processing_protocols": "",
           "germline_database": "",
           "analysis_provenance_id": "",
-          "final_rearrangement_file": "L4899_L4899_Treg83_R1.fastq.unique.igblast.airr.tsv,L5382_Treg83_R1.fastq.unique.igblast.airr.tsv"
+          "final_rearrangement_file": "L4899_L4899_Treg83_R1.unique.igblast.airr.tsv,L5382_Treg83_R1.fastq.unique.igblast.airr.tsv"
         }
       ]
     },
@@ -3979,7 +3979,7 @@
           "data_processing_protocols": "",
           "germline_database": "",
           "analysis_provenance_id": "",
-          "final_rearrangement_file": "L10387_Track-28667_R1.fastq.unique.igblast.airr.tsv,L10387_Track-29486_R1.fastq.unique.igblast.airr.tsv"
+          "final_rearrangement_file": "L10387_Track-28667_R1.unique.igblast.airr.tsv,L10387_Track-29486_R1.unique.igblast.airr.tsv"
         }
       ]
     },
@@ -4159,7 +4159,7 @@
           "data_processing_protocols": "",
           "germline_database": "",
           "analysis_provenance_id": "",
-          "final_rearrangement_file": "L10388_Track-28668_R1.fastq.unique.igblast.airr.tsv,L10388_Track-29487_R1.fastq.unique.igblast.airr.tsv"
+          "final_rearrangement_file": "L10388_Track-28668_R1.unique.igblast.airr.tsv,L10388_Track-29487_R1.unique.igblast.airr.tsv"
         }
       ]
     },
@@ -4339,7 +4339,7 @@
           "data_processing_protocols": "",
           "germline_database": "",
           "analysis_provenance_id": "",
-          "final_rearrangement_file": "L10389_Track-28669_R1.fastq.unique.igblast.airr.tsv,L10389_Track-29488_R1.fastq.unique.igblast.airr.tsv"
+          "final_rearrangement_file": "L10389_Track-28669_R1.unique.igblast.airr.tsv,L10389_Track-29488_R1.unique.igblast.airr.tsv"
         }
       ]
     },
@@ -4519,7 +4519,7 @@
           "data_processing_protocols": "",
           "germline_database": "",
           "analysis_provenance_id": "",
-          "final_rearrangement_file": "L10390_Track-29489_R1.fastq.unique.igblast.airr.tsv,L10390_Track-28670_R1.fastq.unique.igblast.airr.tsv"
+          "final_rearrangement_file": "L10390_Track-29489_R1.unique.igblast.airr.tsv,L10390_Track-28670_R1.unique.igblast.airr.tsv"
         }
       ]
     },
@@ -4699,7 +4699,7 @@
           "data_processing_protocols": "",
           "germline_database": "",
           "analysis_provenance_id": "",
-          "final_rearrangement_file": "L10391_Track-28671_R1.fastq.unique.igblast.airr.tsv,L10391_Track-29490_R1.fastq.unique.igblast.airr.tsv"
+          "final_rearrangement_file": "L10391_Track-28671_R1.unique.igblast.airr.tsv,L10391_Track-29490_R1.unique.igblast.airr.tsv"
         }
       ]
     }
