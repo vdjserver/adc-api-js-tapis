@@ -51,8 +51,8 @@ def getToken(config):
     token = resp.json()
     return token
 
-# Delete all rearrangements for the repertoire_id
-def deleteRepertoire(token, config, repertoire_id):
+# Delete all rearrangements from a load set for the repertoire_id
+def deleteLoadSet(token, config, repertoire_id, load_set):
     headers = {
         "Content-Type":"application/json",
         "Accept": "application/json",
@@ -60,7 +60,7 @@ def deleteRepertoire(token, config, repertoire_id):
     }
 
     # delete rearrangements for given repertoire_id
-    url = 'https://' + config['api_server'] + '/meta/v3/v1airr/rearrangement/*?filter=' + requests.utils.quote('{"repertoire_id":"' + repertoire_id + '"}')
+    url = 'https://' + config['api_server'] + '/meta/v3/v1airr/rearrangement/*?filter=' + requests.utils.quote('{"repertoire_id":"' + repertoire_id + '","vdjserver_load_set":' + str(load_set) + '}')
     print(url)
     resp = requests.delete(url, headers=headers)
     print(resp.json())
@@ -99,21 +99,25 @@ def insertRearrangement(token, config, records):
 # main entry
 if (__name__=="__main__"):
     parser = argparse.ArgumentParser(description='Load AIRR rearrangements into VDJServer data repository.')
+    parser.add_argument('load_set_start', type=int, help='Starting load set')
     parser.add_argument('repertoire_file', type=str, help='AIRR repertoire metadata file name')
     parser.add_argument('file_prefix', type=str, help='Directory prefix to find the rearrangements files')
     args = parser.parse_args()
 
     if args:
-        config = getConfig()
-        token = getToken(config)
-        print(token['access_token'])
-
         data = airr.load_repertoire(args.repertoire_file)
         reps = data['Repertoire']
 
+        load_set_start = args.load_set_start
         for rep in reps:
+            config = getConfig()
+            token = getToken(config)
+            print(token['access_token'])
+
             print('Loading AIRR rearrangements for repertoire: ' + rep['repertoire_id'])
-            deleteRepertoire(token, config, rep['repertoire_id'])
+            print('Starting load set: ' + str(load_set_start))
+            deleteLoadSet(token, config, rep['repertoire_id'], load_set_start)
+            load_set = 0
 
             files = rep['data_processing'][0]['final_rearrangement_file'].split(',')
             for f in files:
@@ -132,13 +136,21 @@ if (__name__=="__main__"):
                         r['data_processing_id'] = rep['data_processing'][0]['data_processing_id']
                     if len(r['data_processing_id']) == 0:
                         r['data_processing_id'] = rep['data_processing'][0]['data_processing_id']
+                    r['vdjserver_load_set'] = load_set
                     records.append(r)
                     cnt += 1
                     total += 1
-                    if cnt == 1000:
-                        insertRearrangement(token, config, records)
+                    if cnt == 10000:
+                        if load_set >= load_set_start:
+                            print('Inserting load set: ' + str(load_set))
+                            insertRearrangement(token, config, records)
+                            print('Total records: ' + str(total))
+                        else:
+                            print('Skipping load set: ' + str(load_set))
                         cnt = 0
+                        load_set += 1
                         records = []
                 if cnt != 0:
                     insertRearrangement(token, config, records)
                 print("Total records inserted: " + str(total))
+            load_set_start = 0
