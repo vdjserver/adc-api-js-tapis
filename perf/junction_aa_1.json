@@ -1,0 +1,10 @@
+{
+  "filters": {
+    "op": "contains",
+    "content": {
+      "field": "junction_aa",
+      "value": "CARAGSGW"
+    }
+  },
+  "facets":"repertoire_id"
+}

@@ -65,14 +65,17 @@ RUN cp -rf /node-v8.10.0-linux-x64/lib/* /usr/local/lib
 RUN cp -rf /node-v8.10.0-linux-x64/include/* /usr/local/include
 RUN cp -rf /node-v8.10.0-linux-x64/share/* /usr/local/share
 
+# PROXY: More UTSW proxy settings
+#RUN npm config set proxy http://proxy.swmed.edu:3128
+#RUN npm config set https-proxy http://proxy.swmed.edu:3128
+#RUN git config --global http.proxy http://proxy.swmed.edu:3128
+#RUN git config --global https.proxy https://proxy.swmed.edu:3128
+
+
 RUN npm install -g swagger
 
 RUN mkdir /api-js-tapis
 RUN mkdir /api-js-tapis/app
-
-# PROXY: More UTSW proxy settings
-#RUN npm config set proxy http://proxy.swmed.edu:3128
-#RUN npm config set https-proxy http://proxy.swmed.edu:3128
 
 # Install npm dependencies (optimized for cache)
 COPY app/package.json /api-js-tapis/app

@@ -37,7 +37,11 @@ Repertoire:
         id: "9606"
         value: Homo sapiens
       sex: F
-      age: 27yr
+      age_min: 27
+      age_max: 27
+      age_unit:
+        id: "UO_0000036"
+        value: "year"
       linked_subjects: TW01B
       link_type: twin
     sample:
@@ -86,7 +90,11 @@ Repertoire:
         id: "9606"
         value: Homo sapiens
       sex: F
-      age: 27yr
+      age_min: 27
+      age_max: 27
+      age_unit:
+        id: "UO_0000036"
+        value: "year"
       linked_subjects: TW01B
       link_type: twin
     sample:
@@ -135,7 +143,11 @@ Repertoire:
         id: "9606"
         value: Homo sapiens
       sex: F
-      age: 27yr
+      age_min: 27
+      age_max: 27
+      age_unit:
+        id: "UO_0000036"
+        value: "year"
       linked_subjects: TW01B
       link_type: twin
     sample:
@@ -184,7 +196,11 @@ Repertoire:
         id: "9606"
         value: Homo sapiens
       sex: F
-      age: 27yr
+      age_min: 27
+      age_max: 27
+      age_unit:
+        id: "UO_0000036"
+        value: "year"
       linked_subjects: TW01B
       link_type: twin
     sample:
@@ -233,7 +249,11 @@ Repertoire:
         id: "9606"
         value: Homo sapiens
       sex: F
-      age: 27yr
+      age_min: 27
+      age_max: 27
+      age_unit:
+        id: "UO_0000036"
+        value: "year"
       linked_subjects: TW01B
       link_type: twin
     sample:
@@ -282,7 +302,11 @@ Repertoire:
         id: "9606"
         value: Homo sapiens
       sex: F
-      age: 27yr
+      age_min: 27
+      age_max: 27
+      age_unit:
+        id: "UO_0000036"
+        value: "year"
       linked_subjects: TW01B
       link_type: twin
     sample:
@@ -331,7 +355,11 @@ Repertoire:
         id: "9606"
         value: Homo sapiens
       sex: F
-      age: 27yr
+      age_min: 27
+      age_max: 27
+      age_unit:
+        id: "UO_0000036"
+        value: "year"
       linked_subjects: TW01A
       link_type: twin
     sample:
@@ -380,7 +408,11 @@ Repertoire:
         id: "9606"
         value: Homo sapiens
       sex: F
-      age: 27yr
+      age_min: 27
+      age_max: 27
+      age_unit:
+        id: "UO_0000036"
+        value: "year"
       linked_subjects: TW01A
       link_type: twin
     sample:
@@ -429,7 +461,11 @@ Repertoire:
         id: "9606"
         value: Homo sapiens
       sex: F
-      age: 27yr
+      age_min: 27
+      age_max: 27
+      age_unit:
+        id: "UO_0000036"
+        value: "year"
       linked_subjects: TW01A
       link_type: twin
     sample:
@@ -478,7 +514,11 @@ Repertoire:
         id: "9606"
         value: Homo sapiens
       sex: F
-      age: 27yr
+      age_min: 27
+      age_max: 27
+      age_unit:
+        id: "UO_0000036"
+        value: "year"
       linked_subjects: TW01A
       link_type: twin
     sample:
@@ -527,7 +567,11 @@ Repertoire:
         id: "9606"
         value: Homo sapiens
       sex: F
-      age: 27yr
+      age_min: 27
+      age_max: 27
+      age_unit:
+        id: "UO_0000036"
+        value: "year"
       linked_subjects: TW01A
       link_type: twin
     sample:
@@ -576,7 +620,11 @@ Repertoire:
         id: "9606"
         value: Homo sapiens
       sex: F
-      age: 27yr
+      age_min: 27
+      age_max: 27
+      age_unit:
+        id: "UO_0000036"
+        value: "year"
       linked_subjects: TW01A
       link_type: twin
     sample:
@@ -625,7 +673,11 @@ Repertoire:
         id: "9606"
         value: Homo sapiens
       sex: F
-      age: 25yr
+      age_min: 25
+      age_max: 25
+      age_unit:
+        id: "UO_0000036"
+        value: "year"
       linked_subjects: TW02B
       link_type: twin
     sample:
@@ -674,7 +726,11 @@ Repertoire:
         id: "9606"
         value: Homo sapiens
       sex: F
-      age: 25yr
+      age_min: 25
+      age_max: 25
+      age_unit:
+        id: "UO_0000036"
+        value: "year"
       linked_subjects: TW02B
       link_type: twin
     sample:
@@ -723,7 +779,11 @@ Repertoire:
         id: "9606"
         value: Homo sapiens
       sex: F
-      age: 25yr
+      age_min: 25
+      age_max: 25
+      age_unit:
+        id: "UO_0000036"
+        value: "year"
       linked_subjects: TW02B
       link_type: twin
     sample:
@@ -772,7 +832,11 @@ Repertoire:
         id: "9606"
         value: Homo sapiens
       sex: F
-      age: 25yr
+      age_min: 25
+      age_max: 25
+      age_unit:
+        id: "UO_0000036"
+        value: "year"
       linked_subjects: TW02B
       link_type: twin
     sample:
@@ -821,7 +885,11 @@ Repertoire:
         id: "9606"
         value: Homo sapiens
       sex: F
-      age: 25yr
+      age_min: 25
+      age_max: 25
+      age_unit:
+        id: "UO_0000036"
+        value: "year"
       linked_subjects: TW02B
       link_type: twin
     sample:
@@ -870,7 +938,11 @@ Repertoire:
         id: "9606"
         value: Homo sapiens
       sex: F
-      age: 25yr
+      age_min: 25
+      age_max: 25
+      age_unit:
+        id: "UO_0000036"
+        value: "year"
       linked_subjects: TW02B
       link_type: twin
     sample:
@@ -919,7 +991,11 @@ Repertoire:
         id: "9606"
         value: Homo sapiens
       sex: F
-      age: 25yr
+      age_min: 25
+      age_max: 25
+      age_unit:
+        id: "UO_0000036"
+        value: "year"
       linked_subjects: TW02A
       link_type: twin
     sample:
@@ -968,7 +1044,11 @@ Repertoire:
         id: "9606"
         value: Homo sapiens
       sex: F
-      age: 25yr
+      age_min: 25
+      age_max: 25
+      age_unit:
+        id: "UO_0000036"
+        value: "year"
       linked_subjects: TW02A
       link_type: twin
     sample:
@@ -1017,7 +1097,11 @@ Repertoire:
         id: "9606"
         value: Homo sapiens
       sex: F
-      age: 25yr
+      age_min: 25
+      age_max: 25
+      age_unit:
+        id: "UO_0000036"
+        value: "year"
       linked_subjects: TW02A
       link_type: twin
     sample:
@@ -1066,7 +1150,11 @@ Repertoire:
         id: "9606"
         value: Homo sapiens
       sex: F
-      age: 25yr
+      age_min: 25
+      age_max: 25
+      age_unit:
+        id: "UO_0000036"
+        value: "year"
       linked_subjects: TW02A
       link_type: twin
     sample:
@@ -1115,7 +1203,11 @@ Repertoire:
         id: "9606"
         value: Homo sapiens
       sex: F
-      age: 25yr
+      age_min: 25
+      age_max: 25
+      age_unit:
+        id: "UO_0000036"
+        value: "year"
       linked_subjects: TW02A
       link_type: twin
     sample:
@@ -1164,7 +1256,11 @@ Repertoire:
         id: "9606"
         value: Homo sapiens
       sex: F
-      age: 25yr
+      age_min: 25
+      age_max: 25
+      age_unit:
+        id: "UO_0000036"
+        value: "year"
       linked_subjects: TW02A
       link_type: twin
     sample:
@@ -1213,7 +1309,11 @@ Repertoire:
         id: "9606"
         value: Homo sapiens
       sex: M
-      age: 24yr
+      age_min: 24
+      age_max: 24
+      age_unit:
+        id: "UO_0000036"
+        value: "year"
       linked_subjects: TW03B
       link_type: twin
     sample:
@@ -1262,7 +1362,11 @@ Repertoire:
         id: "9606"
         value: Homo sapiens
       sex: M
-      age: 24yr
+      age_min: 24
+      age_max: 24
+      age_unit:
+        id: "UO_0000036"
+        value: "year"
       linked_subjects: TW03B
       link_type: twin
     sample:
@@ -1311,7 +1415,11 @@ Repertoire:
         id: "9606"
         value: Homo sapiens
       sex: M
-      age: 24yr
+      age_min: 24
+      age_max: 24
+      age_unit:
+        id: "UO_0000036"
+        value: "year"
       linked_subjects: TW03B
       link_type: twin
     sample:
@@ -1360,7 +1468,11 @@ Repertoire:
         id: "9606"
         value: Homo sapiens
       sex: M
-      age: 24yr
+      age_min: 24
+      age_max: 24
+      age_unit:
+        id: "UO_0000036"
+        value: "year"
       linked_subjects: TW03B
       link_type: twin
     sample:
@@ -1409,7 +1521,11 @@ Repertoire:
         id: "9606"
         value: Homo sapiens
       sex: M
-      age: 24yr
+      age_min: 24
+      age_max: 24
+      age_unit:
+        id: "UO_0000036"
+        value: "year"
       linked_subjects: TW03B
       link_type: twin
     sample:
@@ -1458,7 +1574,11 @@ Repertoire:
         id: "9606"
         value: Homo sapiens
       sex: M
-      age: 24yr
+      age_min: 24
+      age_max: 24
+      age_unit:
+        id: "UO_0000036"
+        value: "year"
       linked_subjects: TW03B
       link_type: twin
     sample:
@@ -1507,7 +1627,11 @@ Repertoire:
         id: "9606"
         value: Homo sapiens
       sex: M
-      age: 24yr
+      age_min: 24
+      age_max: 24
+      age_unit:
+        id: "UO_0000036"
+        value: "year"
       linked_subjects: TW03A
       link_type: twin
     sample:
@@ -1556,7 +1680,11 @@ Repertoire:
         id: "9606"
         value: Homo sapiens
       sex: M
-      age: 24yr
+      age_min: 24
+      age_max: 24
+      age_unit:
+        id: "UO_0000036"
+        value: "year"
       linked_subjects: TW03A
       link_type: twin
     sample:
@@ -1605,7 +1733,11 @@ Repertoire:
         id: "9606"
         value: Homo sapiens
       sex: M
-      age: 24yr
+      age_min: 24
+      age_max: 24
+      age_unit:
+        id: "UO_0000036"
+        value: "year"
       linked_subjects: TW03A
       link_type: twin
     sample:
@@ -1654,7 +1786,11 @@ Repertoire:
         id: "9606"
         value: Homo sapiens
       sex: M
-      age: 24yr
+      age_min: 24
+      age_max: 24
+      age_unit:
+        id: "UO_0000036"
+        value: "year"
       linked_subjects: TW03A
       link_type: twin
     sample:
@@ -1703,7 +1839,11 @@ Repertoire:
         id: "9606"
         value: Homo sapiens
       sex: M
-      age: 24yr
+      age_min: 24
+      age_max: 24
+      age_unit:
+        id: "UO_0000036"
+        value: "year"
       linked_subjects: TW03A
       link_type: twin
     sample:
@@ -1752,7 +1892,11 @@ Repertoire:
         id: "9606"
         value: Homo sapiens
       sex: M
-      age: 24yr
+      age_min: 24
+      age_max: 24
+      age_unit:
+        id: "UO_0000036"
+        value: "year"
       linked_subjects: TW03A
       link_type: twin
     sample:
@@ -1801,7 +1945,11 @@ Repertoire:
         id: "9606"
         value: Homo sapiens
       sex: M
-      age: 22yr
+      age_min: 22
+      age_max: 22
+      age_unit:
+        id: "UO_0000036"
+        value: "year"
       linked_subjects: TW04B
       link_type: twin
     sample:
@@ -1850,7 +1998,11 @@ Repertoire:
         id: "9606"
         value: Homo sapiens
       sex: M
-      age: 22yr
+      age_min: 22
+      age_max: 22
+      age_unit:
+        id: "UO_0000036"
+        value: "year"
       linked_subjects: TW04B
       link_type: twin
     sample:
@@ -1899,7 +2051,11 @@ Repertoire:
         id: "9606"
         value: Homo sapiens
       sex: M
-      age: 22yr
+      age_min: 22
+      age_max: 22
+      age_unit:
+        id: "UO_0000036"
+        value: "year"
       linked_subjects: TW04B
       link_type: twin
     sample:
@@ -1948,7 +2104,11 @@ Repertoire:
         id: "9606"
         value: Homo sapiens
       sex: M
-      age: 22yr
+      age_min: 22
+      age_max: 22
+      age_unit:
+        id: "UO_0000036"
+        value: "year"
       linked_subjects: TW04B
       link_type: twin
     sample:
@@ -1997,7 +2157,11 @@ Repertoire:
         id: "9606"
         value: Homo sapiens
       sex: M
-      age: 22yr
+      age_min: 22
+      age_max: 22
+      age_unit:
+        id: "UO_0000036"
+        value: "year"
       linked_subjects: TW04B
       link_type: twin
     sample:
@@ -2046,7 +2210,11 @@ Repertoire:
         id: "9606"
         value: Homo sapiens
       sex: M
-      age: 22yr
+      age_min: 22
+      age_max: 22
+      age_unit:
+        id: "UO_0000036"
+        value: "year"
       linked_subjects: TW04B
       link_type: twin
     sample:
@@ -2095,7 +2263,11 @@ Repertoire:
         id: "9606"
         value: Homo sapiens
       sex: M
-      age: 22yr
+      age_min: 22
+      age_max: 22
+      age_unit:
+        id: "UO_0000036"
+        value: "year"
       linked_subjects: TW04A
       link_type: twin
     sample:
@@ -2144,7 +2316,11 @@ Repertoire:
         id: "9606"
         value: Homo sapiens
       sex: M
-      age: 22yr
+      age_min: 22
+      age_max: 22
+      age_unit:
+        id: "UO_0000036"
+        value: "year"
       linked_subjects: TW04A
       link_type: twin
     sample:
@@ -2193,7 +2369,11 @@ Repertoire:
         id: "9606"
         value: Homo sapiens
       sex: M
-      age: 22yr
+      age_min: 22
+      age_max: 22
+      age_unit:
+        id: "UO_0000036"
+        value: "year"
       linked_subjects: TW04A
       link_type: twin
     sample:
@@ -2242,7 +2422,11 @@ Repertoire:
         id: "9606"
         value: Homo sapiens
       sex: M
-      age: 22yr
+      age_min: 22
+      age_max: 22
+      age_unit:
+        id: "UO_0000036"
+        value: "year"
       linked_subjects: TW04A
       link_type: twin
     sample:
@@ -2291,7 +2475,11 @@ Repertoire:
         id: "9606"
         value: Homo sapiens
       sex: M
-      age: 22yr
+      age_min: 22
+      age_max: 22
+      age_unit:
+        id: "UO_0000036"
+        value: "year"
       linked_subjects: TW04A
       link_type: twin
     sample:
@@ -2340,7 +2528,11 @@ Repertoire:
         id: "9606"
         value: Homo sapiens
       sex: M
-      age: 22yr
+      age_min: 22
+      age_max: 22
+      age_unit:
+        id: "UO_0000036"
+        value: "year"
       linked_subjects: TW04A
       link_type: twin
     sample:
@@ -2389,7 +2581,11 @@ Repertoire:
         id: "9606"
         value: Homo sapiens
       sex: M
-      age: 27yr
+      age_min: 27
+      age_max: 27
+      age_unit:
+        id: "UO_0000036"
+        value: "year"
       linked_subjects: TW05B
       link_type: twin
     sample:
@@ -2438,7 +2634,11 @@ Repertoire:
         id: "9606"
         value: Homo sapiens
       sex: M
-      age: 27yr
+      age_min: 27
+      age_max: 27
+      age_unit:
+        id: "UO_0000036"
+        value: "year"
       linked_subjects: TW05B
       link_type: twin
     sample:
@@ -2487,7 +2687,11 @@ Repertoire:
         id: "9606"
         value: Homo sapiens
       sex: M
-      age: 27yr
+      age_min: 27
+      age_max: 27
+      age_unit:
+        id: "UO_0000036"
+        value: "year"
       linked_subjects: TW05B
       link_type: twin
     sample:
@@ -2536,7 +2740,11 @@ Repertoire:
         id: "9606"
         value: Homo sapiens
       sex: M
-      age: 27yr
+      age_min: 27
+      age_max: 27
+      age_unit:
+        id: "UO_0000036"
+        value: "year"
       linked_subjects: TW05B
       link_type: twin
     sample:
@@ -2585,7 +2793,11 @@ Repertoire:
         id: "9606"
         value: Homo sapiens
       sex: M
-      age: 27yr
+      age_min: 27
+      age_max: 27
+      age_unit:
+        id: "UO_0000036"
+        value: "year"
       linked_subjects: TW05B
       link_type: twin
     sample:
@@ -2634,7 +2846,11 @@ Repertoire:
         id: "9606"
         value: Homo sapiens
       sex: M
-      age: 27yr
+      age_min: 27
+      age_max: 27
+      age_unit:
+        id: "UO_0000036"
+        value: "year"
       linked_subjects: TW05B
       link_type: twin
     sample:
@@ -2683,7 +2899,11 @@ Repertoire:
         id: "9606"
         value: Homo sapiens
       sex: M
-      age: 27yr
+      age_min: 27
+      age_max: 27
+      age_unit:
+        id: "UO_0000036"
+        value: "year"
       linked_subjects: TW05A
       link_type: twin
     sample:
@@ -2732,7 +2952,11 @@ Repertoire:
         id: "9606"
         value: Homo sapiens
       sex: M
-      age: 27yr
+      age_min: 27
+      age_max: 27
+      age_unit:
+        id: "UO_0000036"
+        value: "year"
       linked_subjects: TW05A
       link_type: twin
     sample:
@@ -2781,7 +3005,11 @@ Repertoire:
         id: "9606"
         value: Homo sapiens
       sex: M
-      age: 27yr
+      age_min: 27
+      age_max: 27
+      age_unit:
+        id: "UO_0000036"
+        value: "year"
       linked_subjects: TW05A
       link_type: twin
     sample:
@@ -2830,7 +3058,11 @@ Repertoire:
         id: "9606"
         value: Homo sapiens
       sex: M
-      age: 27yr
+      age_min: 27
+      age_max: 27
+      age_unit:
+        id: "UO_0000036"
+        value: "year"
       linked_subjects: TW05A
       link_type: twin
     sample:
@@ -2879,7 +3111,11 @@ Repertoire:
         id: "9606"
         value: Homo sapiens
       sex: M
-      age: 27yr
+      age_min: 27
+      age_max: 27
+      age_unit:
+        id: "UO_0000036"
+        value: "year"
       linked_subjects: TW05A
       link_type: twin
     sample:
@@ -2928,7 +3164,11 @@ Repertoire:
         id: "9606"
         value: Homo sapiens
       sex: M
-      age: 27yr
+      age_min: 27
+      age_max: 27
+      age_unit:
+        id: "UO_0000036"
+        value: "year"
       linked_subjects: TW05A
       link_type: twin
     sample:
