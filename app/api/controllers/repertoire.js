@@ -232,15 +232,15 @@ function getRepertoire(req, res) {
     var schema = global.airr['Info'];
     info['title'] = config.title;
     info['description'] = 'VDJServer ADC API response for repertoire query'
-        info['version'] = schema.version;
+    info['version'] = schema.version;
     info['contact'] = config.contact;
 
     agaveIO.performQuery(collection, query, null, null, null)
         .then(function(record) {
-                if (record['_returned'] == 0) {
+                if (record.length == 0) {
                     res.json({"Info":info,"Repertoire":[]});
                 } else {
-                    record = record['_embedded'][0];
+                    record = record[0];
                     if (record['_id']) delete record['_id'];
                     if (record['_etag']) delete record['_etag'];
                     res.json({"Info":info,"Repertoire":[record]});
@@ -375,16 +375,16 @@ function queryRepertoires(req, res) {
                         return;
                     }
 
-                    console.log('VDJ-ADC-API INFO: query returned ' + records['_returned'] + ' records.');
-                    if (records['_returned'] == 0) {
+                    console.log('VDJ-ADC-API INFO: query returned ' + records.length + ' records.');
+                    if (records.length == 0) {
                         results = [];
                     } else {
                         // loop through records, clean data
                         // and only retrieve desired from/size
-                        for (var i in records['_embedded']) {
+                        for (var i in records) {
                             if (i < from_skip) continue;
                             if (i >= size_stop) break;
-                            var record = records['_embedded'][i];
+                            var record = records[i];
                             if (record['_id']) delete record['_id'];
                             if (record['_etag']) delete record['_etag'];
                             results.push(record);
@@ -405,13 +405,13 @@ function queryRepertoires(req, res) {
                         page += 1;
                         agaveIO.performQuery(collection, query, projection, page, pagesize)
                             .then(function(records) {
-                                    console.log('VDJ-ADC-API INFO: second query returned ' + records['_returned'] + ' records.')
+                                    console.log('VDJ-ADC-API INFO: second query returned ' + records.length + ' records.')
 
                                         // loop through records, clean data
                                         // and only retrieve desired from/size
-                                        for (var i in records['_embedded']) {
+                                        for (var i in records) {
                                             if (i >= second_size) break;
-                                            var record = records['_embedded'][i];
+                                            var record = records[i];
                                             if (record['_id']) delete record['_id'];
                                             if (record['_etag']) delete record['_etag'];
                                             results.push(record);
@@ -433,13 +433,13 @@ function queryRepertoires(req, res) {
         if (!query) query = '{}';
         agaveIO.performAggregation(collection, 'facets', query, field)
             .then(function(records) {
-                    if (records['_returned'] == 0) {
+                    if (records.length == 0) {
                         results = [];
                     } else {
                         // loop through records, clean data
                         // and only retrieve desired from/size
-                        for (var i in records['_embedded']) {
-                            var entry = records['_embedded'][i];
+                        for (var i in records) {
+                            var entry = records[i];
                             var new_entry = {}
                             new_entry[facets] = entry['_id'];
                             new_entry['count'] = entry['count'];

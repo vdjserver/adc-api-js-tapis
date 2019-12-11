@@ -401,16 +401,16 @@ function queryRearrangements(req, res) {
                     return;
                 }
 
-                console.log('VDJ-ADC-API INFO: query returned ' + records['_returned'] + ' records.');
-                if (records['_returned'] == 0) {
+                console.log('VDJ-ADC-API INFO: query returned ' + records.length + ' records.');
+                if (records.length == 0) {
                     results = [];
                 } else {
                     // loop through records, clean data
                     // and only retrieve desired from/size
-                    for (var i in records['_embedded']) {
+                    for (var i in records) {
                         if (i < from_skip) continue;
                         if (i >= size_stop) break;
-                        var record = records['_embedded'][i];
+                        var record = records[i];
                         record['rearrangement_id'] = record['_id']['$oid'];
                         if (record['_id']) delete record['_id'];
                         if (record['_etag']) delete record['_etag'];
@@ -431,13 +431,13 @@ function queryRearrangements(req, res) {
                     page += 1;
                     agaveIO.performQuery(collection, query, projection, page, pagesize)
                         .then(function(records) {
-                            console.log('VDJ-ADC-API INFO: second query returned ' + records['_returned'] + ' records.')
+                            console.log('VDJ-ADC-API INFO: second query returned ' + records.length + ' records.')
 
                             // loop through records, clean data
                             // and only retrieve desired from/size
-                            for (var i in records['_embedded']) {
+                            for (var i in records) {
                                 if (i >= second_size) break;
-                                var record = records['_embedded'][i];
+                                var record = records[i];
                                 record['rearrangement_id'] = record['_id']['$oid'];
                                 if (record['_id']) delete record['_id'];
                                 if (record['_etag']) delete record['_etag'];
@@ -519,13 +519,13 @@ function queryRearrangements(req, res) {
         if (!query) query = '{}';
         agaveIO.performAggregation(collection, 'facets', query, field)
             .then(function(records) {
-                if (records['_returned'] == 0) {
+                if (records.length == 0) {
                     results = [];
                 } else {
                     // loop through records, clean data
                     // and only retrieve desired from/size
-                    for (var i in records['_embedded']) {
-                        var entry = records['_embedded'][i];
+                    for (var i in records) {
+                        var entry = records[i];
                         var new_entry = {}
                         new_entry[facets] = entry['_id'];
                         new_entry['count'] = entry['count'];
