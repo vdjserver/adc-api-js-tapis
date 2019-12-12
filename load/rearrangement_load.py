@@ -60,7 +60,10 @@ def deleteLoadSet(token, config, repertoire_id, load_set):
     }
 
     # delete rearrangements for given repertoire_id
-    url = 'https://' + config['api_server'] + '/meta/v3/v1airr/rearrangement/*?filter=' + requests.utils.quote('{"repertoire_id":"' + repertoire_id + '","vdjserver_load_set":' + str(load_set) + '}')
+    if load_set == 0:
+        url = 'https://' + config['api_server'] + '/meta/v3/v1airr/rearrangement/*?filter=' + requests.utils.quote('{"repertoire_id":"' + repertoire_id + '"}')
+    else:
+        url = 'https://' + config['api_server'] + '/meta/v3/v1airr/rearrangement/*?filter=' + requests.utils.quote('{"repertoire_id":"' + repertoire_id + '","vdjserver_load_set":' + str(load_set) + '}')
     print(url)
     resp = requests.delete(url, headers=headers)
     print(resp.json())
