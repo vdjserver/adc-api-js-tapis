@@ -44,18 +44,7 @@ query = {
     "from":0
 }
 
-# Loop through each repertoire and query rearrangement data for
-# each. In this example, we only download 10000 rearrangements for each
-# repertoire in chunks of 1000 using the from and size parameters.
-
-# Not all repertoires have 10000 productive rearrangements, this code
-# should download a total of 293,414 rearrangements.
-
-# If you wanted to download all rearrangements, keep looping until
-# zero rearrangements are returned for each repertoire. In that case,
-# you might also want to increase the size parameter to return more
-# rearrangements with each request. Be careful though because some
-# repositories might have a maximum size for a single request.
+# Loop through each repertoire and query rearrangement data for each.
 
 first = True
 for rep_id in repertoires:
@@ -83,10 +72,7 @@ for rep_id in repertoires:
         for row in rearrangements:
             out_file.write(row)
 
-        # stop when downloaded at most 10,000 rearrangements or if the
-        # response doesn't return the full amount, which indicates no more
-        # data. If you wanted to download all rearrangements, keep
-        # looping until zero rearrangements are returned from the query.
+        # keep looping until all rearrangements are downloaded.
         cnt += len(rearrangements)
         if len(rearrangements) < 1000:
             break

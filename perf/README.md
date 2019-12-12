@@ -27,15 +27,15 @@ python3 script.py
 
 ### Normal queries
 
-* `rearrangements_single_repertoire.json`: Get rearrangements for a `repertoire_id`. Actually this will only get the first 1000 rearrangements.
+* `rearrangements_single_repertoire.json` (PASSING): Get rearrangements for a `repertoire_id`. Actually this will only get the first 1000 rearrangements.
 
-* `rearrangements_single_repertoire.py`: Get all rearrangements for a `repertoire_id`, need to iterate and query each page until all are downloaded.
+* `rearrangements_single_repertoire.py` (FAILING): Get all rearrangements for a `repertoire_id`, need to iterate and query each page until all are downloaded.
 
-* `prod_rearrangements_single_repertoire.py`: Get all productive rearrangements for a `repertoire_id`, need to iterate and query each page until all are downloaded.
+* `prod_rearrangements_single_repertoire.py` (FAILING): Get all productive rearrangements for a `repertoire_id`, need to iterate and query each page until all are downloaded.
 
-* `rearrangements_multi_repertoire.json`: Get rearrangements for a set of `repertoire_ids`. Actually this will only get the first 100 rearrangements.
+* `rearrangements_multi_repertoire.json` (PASSING): Get rearrangements for a set of `repertoire_ids`. Actually this will only get the first 100 rearrangements.
 
-* `rearrangements_multi_repertoire.py`: Get all rearrangements for a set of `repertoire_id`, need to iterate and query each page until all are downloaded.
+* `rearrangements_multi_repertoire.py` (FAILING): Get all rearrangements for a set of `repertoire_id`, need to iterate and query each page until all are downloaded.
 
 * all productive (or non-productive) rearrangements for a set of `repertoire_id`
 
