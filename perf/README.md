@@ -11,21 +11,21 @@ be for `repertoire_id`.
 
 ## Rearrangement entry point
 
-### Normal queries
-
 To run a single query JSON:
 
 ```
 curl --data @filename.json https://vdjserver.org/airr/v1/rearrangement
 ```
 
-To run the python scripts, you might want to use the `airrc/airr-standards` docker image which has the latest AIRR tools.
+To run the python scripts, you might want to use the `airrc/airr-standards` docker image which has the latest AIRR tools and dependencies already installed.
 
 ```
 docker run -v $PWD:/work -it airrc/airr-standards bash
 cd /work
 python3 script.py
 ```
+
+### Normal queries
 
 * `rearrangements_single_repertoire.json`: Get rearrangements for a `repertoire_id`. Actually this will only get the first 1000 rearrangements.
 
