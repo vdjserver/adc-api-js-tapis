@@ -48,7 +48,7 @@ function constructQueryOperation(filter) {
     // TODO: validate queryable field names?
 
     // determine type from schema, default is string
-    var content_type = 'string';
+    var content_type = null;
     var content_properties = null;
     if (content['field'] != undefined) {
         var schema = global.airr['Rearrangement'];
@@ -103,6 +103,11 @@ function constructQueryOperation(filter) {
     }
 
     var content_value = undefined;
+    if (! content_type) {
+        if (typeof content['value'] == 'number') content_type = 'number';
+        else content_type = 'string';
+    }
+
     if (content['value'] != undefined) {
         switch(content_type) {
         case 'integer':
@@ -315,7 +320,7 @@ function queryRearrangements(req, res) {
     var pagesize = config.max_size;
 
     // size parameter
-    var size = 0;
+    var size = config.max_size;
     if (bodyData['size'] != undefined)
         size = bodyData['size'];
     if (size > config.max_size) {
@@ -340,8 +345,7 @@ function queryRearrangements(req, res) {
         result_message = "Negative from (" + from + ") not allowed.";
         res.status(400).json({"message":result_message});
         return;
-    }
-    if (from != 0) {
+    } else {
         page = Math.trunc(from / pagesize) + 1;
         from_skip = from % pagesize;
         size_stop = from_skip + size;
@@ -519,6 +523,7 @@ function queryRearrangements(req, res) {
         if (!query) query = '{}';
         agaveIO.performAggregation(collection, 'facets', query, field)
             .then(function(records) {
+                //console.log(records);
                 if (records.length == 0) {
                     results = [];
                 } else {
