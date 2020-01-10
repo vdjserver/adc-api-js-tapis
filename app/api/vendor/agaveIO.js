@@ -46,9 +46,9 @@ agaveIO.sendRequest = function(requestSettings, postData) {
                     }
                     else {
 
-                        console.error('VDJ-ADC-API ERROR: Agave response is not json.');
+                        console.error('VDJ-ADC-API ERROR: Agave response is not json: ' + output);
 
-                        deferred.reject(new Error('Agave response is not json'));
+                        deferred.reject(new Error('Agave response is not json: ' + output));
                     }
 
                 });
