@@ -293,7 +293,7 @@ function queryRepertoires(req, res) {
     var pagesize = config.max_size;
 
     // size parameter
-    var size = 0;
+    var size = config.max_size;
     if (bodyData['size'] != undefined)
         size = bodyData['size'];
     if (size > config.max_size) {
@@ -400,7 +400,7 @@ function queryRepertoires(req, res) {
                         return;
                     }
 
-                    if ((!second_size) || (results.length < pagesize)) {
+                    if ((second_size <= 0) || (results.length < pagesize)) {
                         // only one query so return the results 
                         console.log('VDJ-ADC-API INFO: returning ' + results.length + ' records to client.');
                         res.json({"Info":info,"Repertoire":results});
