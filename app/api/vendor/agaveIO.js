@@ -256,6 +256,13 @@ agaveIO.performQuery = function(collection, query, projection, page, pagesize) {
                 mark = true;
                 requestSettings['path'] += 'pagesize=' + encodeURIComponent(pagesize);
             }
+            var sort = {};
+            if (sort) {
+                if (mark) requestSettings['path'] += '&';
+                else requestSettings['path'] += '?';
+                mark = true;
+                requestSettings['path'] += 'sort=' + encodeURIComponent(JSON.stringify(sort));
+            }
 
             console.log(requestSettings);
 
