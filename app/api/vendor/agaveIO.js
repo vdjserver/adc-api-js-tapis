@@ -46,9 +46,9 @@ agaveIO.sendRequest = function(requestSettings, postData) {
                     }
                     else {
 
-                        console.error('VDJ-ADC-API ERROR: Agave response is not json.');
+                        console.error('VDJ-ADC-API ERROR: Agave response is not json: ' + output);
 
-                        deferred.reject(new Error('Agave response is not json'));
+                        deferred.reject(new Error('Agave response is not json: ' + output));
                     }
 
                 });
@@ -255,6 +255,13 @@ agaveIO.performQuery = function(collection, query, projection, page, pagesize) {
                 else requestSettings['path'] += '?';
                 mark = true;
                 requestSettings['path'] += 'pagesize=' + encodeURIComponent(pagesize);
+            }
+            var sort = {};
+            if (sort) {
+                if (mark) requestSettings['path'] += '&';
+                else requestSettings['path'] += '?';
+                mark = true;
+                requestSettings['path'] += 'sort=' + encodeURIComponent(JSON.stringify(sort));
             }
 
             console.log(requestSettings);
