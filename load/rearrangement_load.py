@@ -13,6 +13,7 @@
 import json
 from dotenv import load_dotenv
 import os
+import sys
 import airr
 import yaml
 import requests
@@ -83,7 +84,8 @@ def insertRearrangement(token, config, records):
     data = resp.json()
     if data.get('inserted'):
         print("Inserted records: " + str(data['inserted']))
-    #print(resp.json())
+    else:
+        print(resp.json())
 
     # pull out mongo id and make it the rearrangement_id
     #newdoc = resp.json()
@@ -119,13 +121,20 @@ if (__name__=="__main__"):
 
             print('Loading AIRR rearrangements for repertoire: ' + rep['repertoire_id'])
             print('Starting load set: ' + str(load_set_start))
-            deleteLoadSet(token, config, rep['repertoire_id'], load_set_start)
+            #deleteLoadSet(token, config, rep['repertoire_id'], load_set_start)
             load_set = 0
 
             files = rep['data_processing'][0]['final_rearrangement_file'].split(',')
             for f in files:
-                print('AIRR rearrangement file: ' + args.file_prefix + '/' + f)
-                reader = airr.read_rearrangement(args.file_prefix + '/' + f)
+                if os.path.isfile(args.file_prefix + '/' + f):
+                    print('AIRR rearrangement file: ' + args.file_prefix + '/' + f)
+                    reader = airr.read_rearrangement(args.file_prefix + '/' + f)
+                elif os.path.isfile(args.file_prefix + '/' + rep['data_processing'][0]['data_processing_id'] + '/' + f):
+                    print('AIRR rearrangement file: ' + args.file_prefix + '/' + rep['data_processing'][0]['data_processing_id'] + '/' + f)
+                    reader = airr.read_rearrangement(args.file_prefix + '/' + rep['data_processing'][0]['data_processing_id'] + '/' + f)
+                else:
+                    print('ERROR: cannot find file: ' + f)
+                    sys.exit(1)
 
                 total = 0
                 cnt = 0
@@ -153,7 +162,10 @@ if (__name__=="__main__"):
                         cnt = 0
                         load_set += 1
                         records = []
-                if cnt != 0:
+                if load_set >= load_set_start and cnt != 0:
+                    print('Inserting load set: ' + str(load_set))
                     insertRearrangement(token, config, records)
+                    print('Total records: ' + str(total))
+                    load_set += 1
                 print("Total records inserted: " + str(total))
             load_set_start = 0
