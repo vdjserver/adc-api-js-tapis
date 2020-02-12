@@ -69,10 +69,37 @@ def countRearrangements(token, config, rep):
     print(result['Facet'])
     return result
 
+# count number of rearrangements for repertoire
+def countRearrangementsInFiles(token, config, rep, file_prefix):
+    total = 0
+    files = rep['data_processing'][0]['final_rearrangement_file'].split(',')
+    for f in files:
+        if os.path.isfile(file_prefix + '/' + f):
+            print('AIRR rearrangement file: ' + file_prefix + '/' + f)
+            reader = open(file_prefix + '/' + f, 'r')
+        elif os.path.isfile(file_prefix + '/' + rep['data_processing'][0]['data_processing_id'] + '/' + f):
+            print('AIRR rearrangement file: ' + file_prefix + '/' + rep['data_processing'][0]['data_processing_id'] + '/' + f)
+            reader = open(file_prefix + '/' + rep['data_processing'][0]['data_processing_id'] + '/' + f, 'r')
+        else:
+            print('ERROR: cannot find file: ' + f)
+            sys.exit(1)
+
+        # count lines, subtract header
+        cnt = 0
+        records = []
+        for line in reader:
+            cnt += 1
+        if cnt > 0: cnt -= 1
+        total += cnt
+        print('File count: ' + str(cnt))
+    print('Total count: ' + str(total))
+    return total
+
 # main entry
 if (__name__=="__main__"):
     parser = argparse.ArgumentParser(description='Count rearrangements for repertoire metadata.')
     parser.add_argument('repertoire_file', type=str, help='Repertoire metadata file name')
+    parser.add_argument('--file_prefix', type=str, help='Directory prefix to find the rearrangements files')
     args = parser.parse_args()
 
     if args:
@@ -92,5 +119,10 @@ if (__name__=="__main__"):
                 print('Repertoire is missing repertoire_id')
                 sys.exit(0)
             result = countRearrangements(token, config, r)
-            total += int(result['Facet'][0]['count'])
+            if len(result['Facet']) > 0:
+                total += int(result['Facet'][0]['count'])
+                if args.file_prefix:
+                    cnt = countRearrangementsInFiles(token, config, r, args.file_prefix)
+                    if cnt != int(result['Facet'][0]['count']):
+                        print('ERROR: database count != file count')
         print("Total rearrangements: " + str(total))
