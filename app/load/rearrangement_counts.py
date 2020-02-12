@@ -1,6 +1,6 @@
 #
-# Import data into AIRR mongo repository for a public project. This is for
-# the repertoire metadata. This assumes you are running in the docker container.
+# Count rearrangements for list of repertoires.
+# This assumes you are running in the docker container.
 #
 
 import json
