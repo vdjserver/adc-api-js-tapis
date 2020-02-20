@@ -158,12 +158,14 @@ function constructQueryOperation(filter) {
         return null;
 
     case 'is': // is missing
+    case 'is missing':
         if (content['field'] != undefined) {
             return '{"' + content['field'] + '": { "$exists": false } }';
         }
         return null;
 
     case 'not': // is not missing
+    case 'is not missing':
         if (content['field'] != undefined) {
             return '{"' + content['field'] + '": { "$exists": true } }';
         }
@@ -177,7 +179,7 @@ function constructQueryOperation(filter) {
 
     case 'exclude':
         if ((content['field'] != undefined) && (content_value != undefined) && (content['value'] instanceof Array)) {
-            return '{"' + content['field'] + '": { "$in":' + content_value + '}}';
+            return '{"' + content['field'] + '": { "$nin":' + content_value + '}}';
         }
         return null;
 
@@ -294,8 +296,10 @@ function queryRepertoires(req, res) {
 
     // size parameter
     var size = config.max_size;
-    if (bodyData['size'] != undefined)
+    if (bodyData['size'] != undefined) {
         size = bodyData['size'];
+        size = Math.floor(size);
+    }
     if (size > config.max_size) {
         result_message = "Size too large (" + size + "), maximum size is " + config.max_size;
         res.status(400).json({"message":result_message});
@@ -312,8 +316,10 @@ function queryRepertoires(req, res) {
     var from = 0;
     var from_skip = 0;
     var size_stop = pagesize;
-    if (bodyData['from'] != undefined)
+    if (bodyData['from'] != undefined) {
         from = bodyData['from'];
+        from = Math.floor(from);
+    }
     if (from < 0) {
         result_message = "Negative from (" + from + ") not allowed.";
         res.status(400).json({"message":result_message});
