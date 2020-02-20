@@ -19,6 +19,7 @@ def getConfig():
         cfg['api_secret'] = os.getenv('WSO2_CLIENT_SECRET')
         cfg['username'] = os.getenv('VDJ_SERVICE_ACCOUNT')
         cfg['password'] = os.getenv('VDJ_SERVICE_ACCOUNT_SECRET')
+        cfg['dbname'] = os.getenv('MONGODB_DB')
         return cfg
     else:
         print('ERROR: loading config')
@@ -51,7 +52,7 @@ def showCollections(token, config):
         "Authorization": "Bearer " + token['access_token']
     }
 
-    url = 'https://' + config['api_server'] + '/meta/v3/v1airr/'
+    url = 'https://' + config['api_server'] + '/meta/v3/' + config['dbname'] + '/'
     resp = requests.get(url, headers=headers)
     print(json.dumps(resp.json(), indent=2))
 
@@ -63,7 +64,7 @@ def showIndexes(token, config, collection):
         "Authorization": "Bearer " + token['access_token']
     }
 
-    url = 'https://' + config['api_server'] + '/meta/v3/v1airr/' + collection + '/_indexes'
+    url = 'https://' + config['api_server'] + '/meta/v3/' + config['dbname'] + '/' + collection + '/_indexes'
     resp = requests.get(url, headers=headers)
     print(json.dumps(resp.json(), indent=2))
 

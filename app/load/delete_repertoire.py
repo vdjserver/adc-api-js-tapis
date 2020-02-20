@@ -20,6 +20,7 @@ def getConfig():
         cfg['api_secret'] = os.getenv('WSO2_CLIENT_SECRET')
         cfg['username'] = os.getenv('VDJ_SERVICE_ACCOUNT')
         cfg['password'] = os.getenv('VDJ_SERVICE_ACCOUNT_SECRET')
+        cfg['dbname'] = os.getenv('MONGODB_DB')
         return cfg
     else:
         print('ERROR: loading config')
@@ -53,7 +54,7 @@ def deleteRepertoire(token, config, repertoire_id):
     }
 
     # delete that repertoire_id
-    url = 'https://' + config['api_server'] + '/meta/v3/v1airr/repertoire/*?filter=' + requests.utils.quote('{"repertoire_id":"' + repertoire_id + '"}')
+    url = 'https://' + config['api_server'] + '/meta/v3/' + config['dbname'] + '/repertoire/*?filter=' + requests.utils.quote('{"repertoire_id":"' + repertoire_id + '"}')
     print(url)
     resp = requests.delete(url, headers=headers)
     print(resp)

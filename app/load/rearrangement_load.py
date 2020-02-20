@@ -28,6 +28,7 @@ def getConfig():
         cfg['api_secret'] = os.getenv('WSO2_CLIENT_SECRET')
         cfg['username'] = os.getenv('VDJ_SERVICE_ACCOUNT')
         cfg['password'] = os.getenv('VDJ_SERVICE_ACCOUNT_SECRET')
+        cfg['dbname'] = os.getenv('MONGODB_DB')
         return cfg
     else:
         print('ERROR: loading config')
@@ -62,9 +63,9 @@ def deleteLoadSet(token, config, repertoire_id, load_set):
 
     # delete rearrangements for given repertoire_id
     if load_set == 0:
-        url = 'https://' + config['api_server'] + '/meta/v3/v1airr/rearrangement/*?filter=' + requests.utils.quote('{"repertoire_id":"' + repertoire_id + '"}')
+        url = 'https://' + config['api_server'] + '/meta/v3/' + config['dbname'] + '/rearrangement/*?filter=' + requests.utils.quote('{"repertoire_id":"' + repertoire_id + '"}')
     else:
-        url = 'https://' + config['api_server'] + '/meta/v3/v1airr/rearrangement/*?filter=' + requests.utils.quote('{"repertoire_id":"' + repertoire_id + '","vdjserver_load_set":' + str(load_set) + '}')
+        url = 'https://' + config['api_server'] + '/meta/v3/' + config['dbname'] + '/rearrangement/*?filter=' + requests.utils.quote('{"repertoire_id":"' + repertoire_id + '","vdjserver_load_set":' + str(load_set) + '}')
     print(url)
     resp = requests.delete(url, headers=headers)
     print(resp.json())
@@ -78,7 +79,7 @@ def insertRearrangement(token, config, records):
     }
 
     # insert the rearrangement
-    url = 'https://' + config['api_server'] + '/meta/v3/v1airr/rearrangement/'
+    url = 'https://' + config['api_server'] + '/meta/v3/' + config['dbname'] + '/rearrangement/'
     #data = [ record ]
     resp = requests.post(url, json=records, headers=headers)
     data = resp.json()
@@ -93,7 +94,7 @@ def insertRearrangement(token, config, records):
     #rearrangement_id = href.split('/')[-1]
     #print(rearrangement_id)
     #data = {"_id":rearrangement_id,"rearrangement_id":rearrangement_id}
-    #url = 'https://' + config['api_server'] + '/meta/v3/v1airr/rearrangement/' + rearrangement_id
+    #url = 'https://' + config['api_server'] + '/meta/v3/' + config['dbname'] + '/rearrangement/' + rearrangement_id
     #print(url)
     #resp = requests.patch(url, json=data, headers=headers)
     #print(resp.status_code)
