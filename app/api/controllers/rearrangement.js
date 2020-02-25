@@ -311,7 +311,7 @@ function queryRearrangements(req, res) {
     var format = 'json';
     if (bodyData['format'] != undefined)
         format = bodyData['format'];
-    if ((format != 'json') && (format != 'airr')) {
+    if ((format != 'json') && (format != 'tsv')) {
         result_message = "Unsupported format (" + format + ").";
         res.status(400).json({"message":result_message});
         return;
@@ -466,7 +466,7 @@ function queryRearrangements(req, res) {
                 if (format == 'json') {
                     console.log('VDJ-ADC-API INFO: returning ' + results.length + ' records to client.');
                     res.json({"Info":info,"Rearrangement":results});
-                } else if (format == 'airr') {
+                } else if (format == 'tsv') {
                     res.setHeader('Content-Type', 'text/tsv');
 
                     // Load AIRR spec for field names
@@ -514,7 +514,7 @@ function queryRearrangements(req, res) {
                         res.write(vals.join('\t'));
                     }
                 }
-                if (format == 'airr') res.write('\n');
+                if (format == 'tsv') res.write('\n');
                 res.end();
             })
             .fail(function(error) {
