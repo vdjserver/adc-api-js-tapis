@@ -97,7 +97,6 @@
           "sequencing_run_id": "SRX552898",
           "total_reads_passing_qc_filter": null,
           "sequencing_platform": "Illumina MiSeq",
-          "read_length": "250bp,250bp",
           "sequencing_facility": null,
           "sequencing_run_date": null,
           "sequencing_kit": null,
@@ -106,7 +105,9 @@
             "filename": "SRR1383472_2.fastq",
             "read_direction": "forward",
             "paired_filename": "SRR1383472_1.fastq",
-            "paired_read_direction": "reverse"
+            "paired_read_direction": "reverse",
+            "read_length": 250,
+            "paired_read_length": 250
           }
         }
       ],
@@ -122,7 +123,9 @@
           "data_processing_protocols": "",
           "germline_database": "",
           "analysis_provenance_id": "",
-          "final_rearrangement_file": "SRR1383472_2_assemble-pass_collapse-unique.igblast.airr.tsv"
+          "data_processing_files": [
+            "SRR1383472_2_assemble-pass_collapse-unique.igblast.airr.tsv"
+          ]
         }
       ]
     },
@@ -210,7 +213,6 @@
           "sequencing_run_id": "SRX552899",
           "total_reads_passing_qc_filter": null,
           "sequencing_platform": "Illumina MiSeq",
-          "read_length": "250bp,250bp",
           "sequencing_facility": null,
           "sequencing_run_date": null,
           "sequencing_kit": null,
@@ -219,7 +221,9 @@
             "filename": "SRR1383473_2.fastq",
             "read_direction": "forward",
             "paired_filename": "SRR1383473_1.fastq",
-            "paired_read_direction": "reverse"
+            "paired_read_direction": "reverse",
+            "read_length": 250,
+            "paired_read_length": 250
           }
         }
       ],
@@ -235,7 +239,9 @@
           "data_processing_protocols": "",
           "germline_database": "",
           "analysis_provenance_id": "",
-          "final_rearrangement_file": "SRR1383473_2_assemble-pass_collapse-unique.igblast.airr.tsv"
+          "data_processing_files": [
+            "SRR1383473_2_assemble-pass_collapse-unique.igblast.airr.tsv"
+          ]
         }
       ]
     },
@@ -323,7 +329,6 @@
           "sequencing_run_id": "SRX552900",
           "total_reads_passing_qc_filter": null,
           "sequencing_platform": "Illumina MiSeq",
-          "read_length": "250bp,250bp",
           "sequencing_facility": null,
           "sequencing_run_date": null,
           "sequencing_kit": null,
@@ -332,7 +337,9 @@
             "filename": "SRR1383474_2.fastq",
             "read_direction": "forward",
             "paired_filename": "SRR1383474_1.fastq",
-            "paired_read_direction": "reverse"
+            "paired_read_direction": "reverse",
+            "read_length": 250,
+            "paired_read_length": 250
           }
         }
       ],
@@ -348,7 +355,9 @@
           "data_processing_protocols": "",
           "germline_database": "",
           "analysis_provenance_id": "",
-          "final_rearrangement_file": "SRR1383474_2_assemble-pass_collapse-unique.igblast.airr.tsv"
+          "data_processing_files": [
+            "SRR1383474_2_assemble-pass_collapse-unique.igblast.airr.tsv"
+          ]
         }
       ]
     },
@@ -436,7 +445,6 @@
           "sequencing_run_id": "SRX552912",
           "total_reads_passing_qc_filter": null,
           "sequencing_platform": "Illumina MiSeq",
-          "read_length": "250bp,250bp",
           "sequencing_facility": null,
           "sequencing_run_date": null,
           "sequencing_kit": null,
@@ -445,7 +453,9 @@
             "filename": "SRR1383475_2.fastq",
             "read_direction": "forward",
             "paired_filename": "SRR1383475_1.fastq",
-            "paired_read_direction": "reverse"
+            "paired_read_direction": "reverse",
+            "read_length": 250,
+            "paired_read_length": 250
           }
         }
       ],
@@ -461,7 +471,9 @@
           "data_processing_protocols": "",
           "germline_database": "",
           "analysis_provenance_id": "",
-          "final_rearrangement_file": "SRR1383475_2_assemble-pass_collapse-unique.igblast.airr.tsv"
+          "data_processing_files": [
+            "SRR1383475_2_assemble-pass_collapse-unique.igblast.airr.tsv"
+          ]
         }
       ]
     },
@@ -549,7 +561,6 @@
           "sequencing_run_id": "SRX552913",
           "total_reads_passing_qc_filter": null,
           "sequencing_platform": "Illumina MiSeq",
-          "read_length": "250bp,250bp",
           "sequencing_facility": null,
           "sequencing_run_date": null,
           "sequencing_kit": null,
@@ -558,7 +569,9 @@
             "filename": "SRR1383476_2.fastq",
             "read_direction": "forward",
             "paired_filename": "SRR1383476_1.fastq",
-            "paired_read_direction": "reverse"
+            "paired_read_direction": "reverse",
+            "read_length": 250,
+            "paired_read_length": 250
           }
         }
       ],
@@ -574,7 +587,9 @@
           "data_processing_protocols": "",
           "germline_database": "",
           "analysis_provenance_id": "",
-          "final_rearrangement_file": "SRR1383476_2_assemble-pass_collapse-unique.igblast.airr.tsv"
+          "data_processing_files": [
+            "SRR1383476_2_assemble-pass_collapse-unique.igblast.airr.tsv"
+          ]
         }
       ]
     },
@@ -662,7 +677,6 @@
           "sequencing_run_id": "SRX553539",
           "total_reads_passing_qc_filter": null,
           "sequencing_platform": "Illumina MiSeq",
-          "read_length": "250bp,250bp",
           "sequencing_facility": null,
           "sequencing_run_date": null,
           "sequencing_kit": null,
@@ -671,7 +685,9 @@
             "filename": "SRR1383477_2.fastq",
             "read_direction": "forward",
             "paired_filename": "SRR1383477_1.fastq",
-            "paired_read_direction": "reverse"
+            "paired_read_direction": "reverse",
+            "read_length": 250,
+            "paired_read_length": 250
           }
         }
       ],
@@ -687,7 +703,9 @@
           "data_processing_protocols": "",
           "germline_database": "",
           "analysis_provenance_id": "",
-          "final_rearrangement_file": "SRR1383477_2_assemble-pass_collapse-unique.igblast.airr.tsv"
+          "data_processing_files": [
+            "SRR1383477_2_assemble-pass_collapse-unique.igblast.airr.tsv"
+          ]
         }
       ]
     },
@@ -775,7 +793,6 @@
           "sequencing_run_id": "SRX552914",
           "total_reads_passing_qc_filter": null,
           "sequencing_platform": "Illumina MiSeq",
-          "read_length": "250bp,250bp",
           "sequencing_facility": null,
           "sequencing_run_date": null,
           "sequencing_kit": null,
@@ -784,7 +801,9 @@
             "filename": "SRR1383326_2.fastq",
             "read_direction": "forward",
             "paired_filename": "SRR1383326_1.fastq",
-            "paired_read_direction": "reverse"
+            "paired_read_direction": "reverse",
+            "read_length": 250,
+            "paired_read_length": 250
           }
         }
       ],
@@ -800,7 +819,9 @@
           "data_processing_protocols": "",
           "germline_database": "",
           "analysis_provenance_id": "",
-          "final_rearrangement_file": "SRR1383326_2_assemble-pass_collapse-unique.igblast.airr.tsv"
+          "data_processing_files": [
+            "SRR1383326_2_assemble-pass_collapse-unique.igblast.airr.tsv"
+          ]
         }
       ]
     },
@@ -888,7 +909,6 @@
           "sequencing_run_id": "SRX552915",
           "total_reads_passing_qc_filter": null,
           "sequencing_platform": "Illumina MiSeq",
-          "read_length": "250bp,250bp",
           "sequencing_facility": null,
           "sequencing_run_date": null,
           "sequencing_kit": null,
@@ -897,7 +917,9 @@
             "filename": "SRR1383447_2.fastq",
             "read_direction": "forward",
             "paired_filename": "SRR1383447_1.fastq",
-            "paired_read_direction": "reverse"
+            "paired_read_direction": "reverse",
+            "read_length": 250,
+            "paired_read_length": 250
           }
         }
       ],
@@ -913,7 +935,9 @@
           "data_processing_protocols": "",
           "germline_database": "",
           "analysis_provenance_id": "",
-          "final_rearrangement_file": "SRR1383447_2_assemble-pass_collapse-unique.igblast.airr.tsv"
+          "data_processing_files": [
+            "SRR1383447_2_assemble-pass_collapse-unique.igblast.airr.tsv"
+          ]
         }
       ]
     },
@@ -1001,7 +1025,6 @@
           "sequencing_run_id": "SRX552916",
           "total_reads_passing_qc_filter": null,
           "sequencing_platform": "Illumina MiSeq",
-          "read_length": "250bp,250bp",
           "sequencing_facility": null,
           "sequencing_run_date": null,
           "sequencing_kit": null,
@@ -1010,7 +1033,9 @@
             "filename": "SRR1383448_2.fastq",
             "read_direction": "forward",
             "paired_filename": "SRR1383448_1.fastq",
-            "paired_read_direction": "reverse"
+            "paired_read_direction": "reverse",
+            "read_length": 250,
+            "paired_read_length": 250
           }
         }
       ],
@@ -1026,7 +1051,9 @@
           "data_processing_protocols": "",
           "germline_database": "",
           "analysis_provenance_id": "",
-          "final_rearrangement_file": "SRR1383448_2_assemble-pass_collapse-unique.igblast.airr.tsv"
+          "data_processing_files": [
+            "SRR1383448_2_assemble-pass_collapse-unique.igblast.airr.tsv"
+          ]
         }
       ]
     },
@@ -1114,7 +1141,6 @@
           "sequencing_run_id": "SRX552918",
           "total_reads_passing_qc_filter": null,
           "sequencing_platform": "Illumina MiSeq",
-          "read_length": "250bp,250bp",
           "sequencing_facility": null,
           "sequencing_run_date": null,
           "sequencing_kit": null,
@@ -1123,7 +1149,9 @@
             "filename": "SRR1383449_2.fastq",
             "read_direction": "forward",
             "paired_filename": "SRR1383449_1.fastq",
-            "paired_read_direction": "reverse"
+            "paired_read_direction": "reverse",
+            "read_length": 250,
+            "paired_read_length": 250
           }
         }
       ],
@@ -1139,7 +1167,9 @@
           "data_processing_protocols": "",
           "germline_database": "",
           "analysis_provenance_id": "",
-          "final_rearrangement_file": "SRR1383449_2_assemble-pass_collapse-unique.igblast.airr.tsv"
+          "data_processing_files": [
+            "SRR1383449_2_assemble-pass_collapse-unique.igblast.airr.tsv"
+          ]
         }
       ]
     },
@@ -1227,7 +1257,6 @@
           "sequencing_run_id": "SRX552920",
           "total_reads_passing_qc_filter": null,
           "sequencing_platform": "Illumina MiSeq",
-          "read_length": "250bp,250bp",
           "sequencing_facility": null,
           "sequencing_run_date": null,
           "sequencing_kit": null,
@@ -1236,7 +1265,9 @@
             "filename": "SRR1383450_2.fastq",
             "read_direction": "forward",
             "paired_filename": "SRR1383450_1.fastq",
-            "paired_read_direction": "reverse"
+            "paired_read_direction": "reverse",
+            "read_length": 250,
+            "paired_read_length": 250
           }
         }
       ],
@@ -1252,7 +1283,9 @@
           "data_processing_protocols": "",
           "germline_database": "",
           "analysis_provenance_id": "",
-          "final_rearrangement_file": "SRR1383450_2_assemble-pass_collapse-unique.igblast.airr.tsv"
+          "data_processing_files": [
+            "SRR1383450_2_assemble-pass_collapse-unique.igblast.airr.tsv"
+          ]
         }
       ]
     },
@@ -1340,7 +1373,6 @@
           "sequencing_run_id": "SRX552921",
           "total_reads_passing_qc_filter": null,
           "sequencing_platform": "Illumina MiSeq",
-          "read_length": "250bp,250bp",
           "sequencing_facility": null,
           "sequencing_run_date": null,
           "sequencing_kit": null,
@@ -1349,7 +1381,9 @@
             "filename": "SRR1383451_2.fastq",
             "read_direction": "forward",
             "paired_filename": "SRR1383451_1.fastq",
-            "paired_read_direction": "reverse"
+            "paired_read_direction": "reverse",
+            "read_length": 250,
+            "paired_read_length": 250
           }
         }
       ],
@@ -1365,7 +1399,9 @@
           "data_processing_protocols": "",
           "germline_database": "",
           "analysis_provenance_id": "",
-          "final_rearrangement_file": "SRR1383451_2_assemble-pass_collapse-unique.igblast.airr.tsv"
+          "data_processing_files": [
+            "SRR1383451_2_assemble-pass_collapse-unique.igblast.airr.tsv"
+          ]
         }
       ]
     },
@@ -1453,7 +1489,6 @@
           "sequencing_run_id": "SRX552922",
           "total_reads_passing_qc_filter": null,
           "sequencing_platform": "Illumina MiSeq",
-          "read_length": "250bp,250bp",
           "sequencing_facility": null,
           "sequencing_run_date": null,
           "sequencing_kit": null,
@@ -1462,7 +1497,9 @@
             "filename": "SRR1383452_2.fastq",
             "read_direction": "forward",
             "paired_filename": "SRR1383452_1.fastq",
-            "paired_read_direction": "reverse"
+            "paired_read_direction": "reverse",
+            "read_length": 250,
+            "paired_read_length": 250
           }
         }
       ],
@@ -1478,7 +1515,9 @@
           "data_processing_protocols": "",
           "germline_database": "",
           "analysis_provenance_id": "",
-          "final_rearrangement_file": "SRR1383452_2_assemble-pass_collapse-unique.igblast.airr.tsv"
+          "data_processing_files": [
+            "SRR1383452_2_assemble-pass_collapse-unique.igblast.airr.tsv"
+          ]
         }
       ]
     },
@@ -1566,7 +1605,6 @@
           "sequencing_run_id": "SRX552923",
           "total_reads_passing_qc_filter": null,
           "sequencing_platform": "Illumina MiSeq",
-          "read_length": "250bp,250bp",
           "sequencing_facility": null,
           "sequencing_run_date": null,
           "sequencing_kit": null,
@@ -1575,7 +1613,9 @@
             "filename": "SRR1383453_2.fastq",
             "read_direction": "forward",
             "paired_filename": "SRR1383453_1.fastq",
-            "paired_read_direction": "reverse"
+            "paired_read_direction": "reverse",
+            "read_length": 250,
+            "paired_read_length": 250
           }
         }
       ],
@@ -1591,7 +1631,9 @@
           "data_processing_protocols": "",
           "germline_database": "",
           "analysis_provenance_id": "",
-          "final_rearrangement_file": "SRR1383453_2_assemble-pass_collapse-unique.igblast.airr.tsv"
+          "data_processing_files": [
+            "SRR1383453_2_assemble-pass_collapse-unique.igblast.airr.tsv"
+          ]
         }
       ]
     },
@@ -1679,7 +1721,6 @@
           "sequencing_run_id": "SRX552924",
           "total_reads_passing_qc_filter": null,
           "sequencing_platform": "Illumina MiSeq",
-          "read_length": "250bp,250bp",
           "sequencing_facility": null,
           "sequencing_run_date": null,
           "sequencing_kit": null,
@@ -1688,7 +1729,9 @@
             "filename": "SRR1383454_2.fastq",
             "read_direction": "forward",
             "paired_filename": "SRR1383454_1.fastq",
-            "paired_read_direction": "reverse"
+            "paired_read_direction": "reverse",
+            "read_length": 250,
+            "paired_read_length": 250
           }
         }
       ],
@@ -1704,7 +1747,9 @@
           "data_processing_protocols": "",
           "germline_database": "",
           "analysis_provenance_id": "",
-          "final_rearrangement_file": "SRR1383454_2_assemble-pass_collapse-unique.igblast.airr.tsv"
+          "data_processing_files": [
+            "SRR1383454_2_assemble-pass_collapse-unique.igblast.airr.tsv"
+          ]
         }
       ]
     },
@@ -1792,7 +1837,6 @@
           "sequencing_run_id": "SRX552925",
           "total_reads_passing_qc_filter": null,
           "sequencing_platform": "Illumina MiSeq",
-          "read_length": "250bp,250bp",
           "sequencing_facility": null,
           "sequencing_run_date": null,
           "sequencing_kit": null,
@@ -1801,7 +1845,9 @@
             "filename": "SRR1383455_2.fastq",
             "read_direction": "forward",
             "paired_filename": "SRR1383455_1.fastq",
-            "paired_read_direction": "reverse"
+            "paired_read_direction": "reverse",
+            "read_length": 250,
+            "paired_read_length": 250
           }
         }
       ],
@@ -1817,7 +1863,9 @@
           "data_processing_protocols": "",
           "germline_database": "",
           "analysis_provenance_id": "",
-          "final_rearrangement_file": "SRR1383455_2_assemble-pass_collapse-unique.igblast.airr.tsv"
+          "data_processing_files": [
+            "SRR1383455_2_assemble-pass_collapse-unique.igblast.airr.tsv"
+          ]
         }
       ]
     },
@@ -1905,7 +1953,6 @@
           "sequencing_run_id": "SRX553094",
           "total_reads_passing_qc_filter": null,
           "sequencing_platform": "Illumina MiSeq",
-          "read_length": "250bp,250bp",
           "sequencing_facility": null,
           "sequencing_run_date": null,
           "sequencing_kit": null,
@@ -1914,7 +1961,9 @@
             "filename": "SRR1383456_2.fastq",
             "read_direction": "forward",
             "paired_filename": "SRR1383456_1.fastq",
-            "paired_read_direction": "reverse"
+            "paired_read_direction": "reverse",
+            "read_length": 250,
+            "paired_read_length": 250
           }
         }
       ],
@@ -1930,7 +1979,9 @@
           "data_processing_protocols": "",
           "germline_database": "",
           "analysis_provenance_id": "",
-          "final_rearrangement_file": "SRR1383456_2_assemble-pass_collapse-unique.igblast.airr.tsv"
+          "data_processing_files": [
+            "SRR1383456_2_assemble-pass_collapse-unique.igblast.airr.tsv"
+          ]
         }
       ]
     },
@@ -2018,7 +2069,6 @@
           "sequencing_run_id": "SRX553095",
           "total_reads_passing_qc_filter": null,
           "sequencing_platform": "Illumina MiSeq",
-          "read_length": "250bp,250bp",
           "sequencing_facility": null,
           "sequencing_run_date": null,
           "sequencing_kit": null,
@@ -2027,7 +2077,9 @@
             "filename": "SRR1383457_2.fastq",
             "read_direction": "forward",
             "paired_filename": "SRR1383457_1.fastq",
-            "paired_read_direction": "reverse"
+            "paired_read_direction": "reverse",
+            "read_length": 250,
+            "paired_read_length": 250
           }
         }
       ],
@@ -2043,7 +2095,9 @@
           "data_processing_protocols": "",
           "germline_database": "",
           "analysis_provenance_id": "",
-          "final_rearrangement_file": "SRR1383457_2_assemble-pass_collapse-unique.igblast.airr.tsv"
+          "data_processing_files": [
+            "SRR1383457_2_assemble-pass_collapse-unique.igblast.airr.tsv"
+          ]
         }
       ]
     },
@@ -2131,7 +2185,6 @@
           "sequencing_run_id": "SRX553096",
           "total_reads_passing_qc_filter": null,
           "sequencing_platform": "Illumina MiSeq",
-          "read_length": "250bp,250bp",
           "sequencing_facility": null,
           "sequencing_run_date": null,
           "sequencing_kit": null,
@@ -2140,7 +2193,9 @@
             "filename": "SRR1383458_2.fastq",
             "read_direction": "forward",
             "paired_filename": "SRR1383458_1.fastq",
-            "paired_read_direction": "reverse"
+            "paired_read_direction": "reverse",
+            "read_length": 250,
+            "paired_read_length": 250
           }
         }
       ],
@@ -2156,7 +2211,9 @@
           "data_processing_protocols": "",
           "germline_database": "",
           "analysis_provenance_id": "",
-          "final_rearrangement_file": "SRR1383458_2_assemble-pass_collapse-unique.igblast.airr.tsv"
+          "data_processing_files": [
+            "SRR1383458_2_assemble-pass_collapse-unique.igblast.airr.tsv"
+          ]
         }
       ]
     },
@@ -2244,7 +2301,6 @@
           "sequencing_run_id": "SRX553097",
           "total_reads_passing_qc_filter": null,
           "sequencing_platform": "Illumina MiSeq",
-          "read_length": "250bp,250bp",
           "sequencing_facility": null,
           "sequencing_run_date": null,
           "sequencing_kit": null,
@@ -2253,7 +2309,9 @@
             "filename": "SRR1383459_2.fastq",
             "read_direction": "forward",
             "paired_filename": "SRR1383459_1.fastq",
-            "paired_read_direction": "reverse"
+            "paired_read_direction": "reverse",
+            "read_length": 250,
+            "paired_read_length": 250
           }
         }
       ],
@@ -2269,7 +2327,9 @@
           "data_processing_protocols": "",
           "germline_database": "",
           "analysis_provenance_id": "",
-          "final_rearrangement_file": "SRR1383459_2_assemble-pass_collapse-unique.igblast.airr.tsv"
+          "data_processing_files": [
+            "SRR1383459_2_assemble-pass_collapse-unique.igblast.airr.tsv"
+          ]
         }
       ]
     },
@@ -2357,7 +2417,6 @@
           "sequencing_run_id": "SRX553098",
           "total_reads_passing_qc_filter": null,
           "sequencing_platform": "Illumina MiSeq",
-          "read_length": "250bp,250bp",
           "sequencing_facility": null,
           "sequencing_run_date": null,
           "sequencing_kit": null,
@@ -2366,7 +2425,9 @@
             "filename": "SRR1383460_2.fastq",
             "read_direction": "forward",
             "paired_filename": "SRR1383460_1.fastq",
-            "paired_read_direction": "reverse"
+            "paired_read_direction": "reverse",
+            "read_length": 250,
+            "paired_read_length": 250
           }
         }
       ],
@@ -2382,7 +2443,9 @@
           "data_processing_protocols": "",
           "germline_database": "",
           "analysis_provenance_id": "",
-          "final_rearrangement_file": "SRR1383460_2_assemble-pass_collapse-unique.igblast.airr.tsv"
+          "data_processing_files": [
+            "SRR1383460_2_assemble-pass_collapse-unique.igblast.airr.tsv"
+          ]
         }
       ]
     },
@@ -2470,7 +2533,6 @@
           "sequencing_run_id": "SRX553099",
           "total_reads_passing_qc_filter": null,
           "sequencing_platform": "Illumina MiSeq",
-          "read_length": "250bp,250bp",
           "sequencing_facility": null,
           "sequencing_run_date": null,
           "sequencing_kit": null,
@@ -2479,7 +2541,9 @@
             "filename": "SRR1383461_2.fastq",
             "read_direction": "forward",
             "paired_filename": "SRR1383461_1.fastq",
-            "paired_read_direction": "reverse"
+            "paired_read_direction": "reverse",
+            "read_length": 250,
+            "paired_read_length": 250
           }
         }
       ],
@@ -2495,7 +2559,9 @@
           "data_processing_protocols": "",
           "germline_database": "",
           "analysis_provenance_id": "",
-          "final_rearrangement_file": "SRR1383461_2_assemble-pass_collapse-unique.igblast.airr.tsv"
+          "data_processing_files": [
+            "SRR1383461_2_assemble-pass_collapse-unique.igblast.airr.tsv"
+          ]
         }
       ]
     },
@@ -2583,7 +2649,6 @@
           "sequencing_run_id": "SRX553100",
           "total_reads_passing_qc_filter": null,
           "sequencing_platform": "Illumina MiSeq",
-          "read_length": "250bp,250bp",
           "sequencing_facility": null,
           "sequencing_run_date": null,
           "sequencing_kit": null,
@@ -2592,7 +2657,9 @@
             "filename": "SRR1383462_2.fastq",
             "read_direction": "forward",
             "paired_filename": "SRR1383462_1.fastq",
-            "paired_read_direction": "reverse"
+            "paired_read_direction": "reverse",
+            "read_length": 250,
+            "paired_read_length": 250
           }
         }
       ],
@@ -2608,7 +2675,9 @@
           "data_processing_protocols": "",
           "germline_database": "",
           "analysis_provenance_id": "",
-          "final_rearrangement_file": "SRR1383462_2_assemble-pass_collapse-unique.igblast.airr.tsv"
+          "data_processing_files": [
+            "SRR1383462_2_assemble-pass_collapse-unique.igblast.airr.tsv"
+          ]
         }
       ]
     },
@@ -2696,7 +2765,6 @@
           "sequencing_run_id": "SRX553101",
           "total_reads_passing_qc_filter": null,
           "sequencing_platform": "Illumina MiSeq",
-          "read_length": "250bp,250bp",
           "sequencing_facility": null,
           "sequencing_run_date": null,
           "sequencing_kit": null,
@@ -2705,7 +2773,9 @@
             "filename": "SRR1383463_2.fastq",
             "read_direction": "forward",
             "paired_filename": "SRR1383463_1.fastq",
-            "paired_read_direction": "reverse"
+            "paired_read_direction": "reverse",
+            "read_length": 250,
+            "paired_read_length": 250
           }
         }
       ],
@@ -2721,7 +2791,9 @@
           "data_processing_protocols": "",
           "germline_database": "",
           "analysis_provenance_id": "",
-          "final_rearrangement_file": "SRR1383463_2_assemble-pass_collapse-unique.igblast.airr.tsv"
+          "data_processing_files": [
+            "SRR1383463_2_assemble-pass_collapse-unique.igblast.airr.tsv"
+          ]
         }
       ]
     },
@@ -2809,7 +2881,6 @@
           "sequencing_run_id": "SRX553102",
           "total_reads_passing_qc_filter": null,
           "sequencing_platform": "Illumina MiSeq",
-          "read_length": "250bp,250bp",
           "sequencing_facility": null,
           "sequencing_run_date": null,
           "sequencing_kit": null,
@@ -2818,7 +2889,9 @@
             "filename": "SRR1383464_2.fastq",
             "read_direction": "forward",
             "paired_filename": "SRR1383464_1.fastq",
-            "paired_read_direction": "reverse"
+            "paired_read_direction": "reverse",
+            "read_length": 250,
+            "paired_read_length": 250
           }
         }
       ],
@@ -2834,7 +2907,9 @@
           "data_processing_protocols": "",
           "germline_database": "",
           "analysis_provenance_id": "",
-          "final_rearrangement_file": "SRR1383464_2_assemble-pass_collapse-unique.igblast.airr.tsv"
+          "data_processing_files": [
+            "SRR1383464_2_assemble-pass_collapse-unique.igblast.airr.tsv"
+          ]
         }
       ]
     },
@@ -2922,7 +2997,6 @@
           "sequencing_run_id": "SRX553103",
           "total_reads_passing_qc_filter": null,
           "sequencing_platform": "Illumina MiSeq",
-          "read_length": "250bp,250bp",
           "sequencing_facility": null,
           "sequencing_run_date": null,
           "sequencing_kit": null,
@@ -2931,7 +3005,9 @@
             "filename": "SRR1383465_2.fastq",
             "read_direction": "forward",
             "paired_filename": "SRR1383465_1.fastq",
-            "paired_read_direction": "reverse"
+            "paired_read_direction": "reverse",
+            "read_length": 250,
+            "paired_read_length": 250
           }
         }
       ],
@@ -2947,7 +3023,9 @@
           "data_processing_protocols": "",
           "germline_database": "",
           "analysis_provenance_id": "",
-          "final_rearrangement_file": "SRR1383465_2_assemble-pass_collapse-unique.igblast.airr.tsv"
+          "data_processing_files": [
+            "SRR1383465_2_assemble-pass_collapse-unique.igblast.airr.tsv"
+          ]
         }
       ]
     },
@@ -3035,7 +3113,6 @@
           "sequencing_run_id": "SRX553104",
           "total_reads_passing_qc_filter": null,
           "sequencing_platform": "Illumina MiSeq",
-          "read_length": "250bp,250bp",
           "sequencing_facility": null,
           "sequencing_run_date": null,
           "sequencing_kit": null,
@@ -3044,7 +3121,9 @@
             "filename": "SRR1383466_2.fastq",
             "read_direction": "forward",
             "paired_filename": "SRR1383466_1.fastq",
-            "paired_read_direction": "reverse"
+            "paired_read_direction": "reverse",
+            "read_length": 250,
+            "paired_read_length": 250
           }
         }
       ],
@@ -3060,7 +3139,9 @@
           "data_processing_protocols": "",
           "germline_database": "",
           "analysis_provenance_id": "",
-          "final_rearrangement_file": "SRR1383466_2_assemble-pass_collapse-unique.igblast.airr.tsv"
+          "data_processing_files": [
+            "SRR1383466_2_assemble-pass_collapse-unique.igblast.airr.tsv"
+          ]
         }
       ]
     },
@@ -3148,7 +3229,6 @@
           "sequencing_run_id": "SRX553105",
           "total_reads_passing_qc_filter": null,
           "sequencing_platform": "Illumina MiSeq",
-          "read_length": "250bp,250bp",
           "sequencing_facility": null,
           "sequencing_run_date": null,
           "sequencing_kit": null,
@@ -3157,7 +3237,9 @@
             "filename": "SRR1383467_2.fastq",
             "read_direction": "forward",
             "paired_filename": "SRR1383467_1.fastq",
-            "paired_read_direction": "reverse"
+            "paired_read_direction": "reverse",
+            "read_length": 250,
+            "paired_read_length": 250
           }
         }
       ],
@@ -3173,7 +3255,9 @@
           "data_processing_protocols": "",
           "germline_database": "",
           "analysis_provenance_id": "",
-          "final_rearrangement_file": "SRR1383467_2_assemble-pass_collapse-unique.igblast.airr.tsv"
+          "data_processing_files": [
+            "SRR1383467_2_assemble-pass_collapse-unique.igblast.airr.tsv"
+          ]
         }
       ]
     },
@@ -3261,7 +3345,6 @@
           "sequencing_run_id": "SRX553106",
           "total_reads_passing_qc_filter": null,
           "sequencing_platform": "Illumina MiSeq",
-          "read_length": "250bp,250bp",
           "sequencing_facility": null,
           "sequencing_run_date": null,
           "sequencing_kit": null,
@@ -3270,7 +3353,9 @@
             "filename": "SRR1383468_2.fastq",
             "read_direction": "forward",
             "paired_filename": "SRR1383468_1.fastq",
-            "paired_read_direction": "reverse"
+            "paired_read_direction": "reverse",
+            "read_length": 250,
+            "paired_read_length": 250
           }
         }
       ],
@@ -3286,7 +3371,9 @@
           "data_processing_protocols": "",
           "germline_database": "",
           "analysis_provenance_id": "",
-          "final_rearrangement_file": "SRR1383468_2_assemble-pass_collapse-unique.igblast.airr.tsv"
+          "data_processing_files": [
+            "SRR1383468_2_assemble-pass_collapse-unique.igblast.airr.tsv"
+          ]
         }
       ]
     },
@@ -3374,7 +3461,6 @@
           "sequencing_run_id": "SRX553107",
           "total_reads_passing_qc_filter": null,
           "sequencing_platform": "Illumina MiSeq",
-          "read_length": "250bp,250bp",
           "sequencing_facility": null,
           "sequencing_run_date": null,
           "sequencing_kit": null,
@@ -3383,7 +3469,9 @@
             "filename": "SRR1383469_2.fastq",
             "read_direction": "forward",
             "paired_filename": "SRR1383469_1.fastq",
-            "paired_read_direction": "reverse"
+            "paired_read_direction": "reverse",
+            "read_length": 250,
+            "paired_read_length": 250
           }
         }
       ],
@@ -3399,7 +3487,9 @@
           "data_processing_protocols": "",
           "germline_database": "",
           "analysis_provenance_id": "",
-          "final_rearrangement_file": "SRR1383469_2_assemble-pass_collapse-unique.igblast.airr.tsv"
+          "data_processing_files": [
+            "SRR1383469_2_assemble-pass_collapse-unique.igblast.airr.tsv"
+          ]
         }
       ]
     },
@@ -3487,7 +3577,6 @@
           "sequencing_run_id": "SRX553108",
           "total_reads_passing_qc_filter": null,
           "sequencing_platform": "Illumina MiSeq",
-          "read_length": "250bp,250bp",
           "sequencing_facility": null,
           "sequencing_run_date": null,
           "sequencing_kit": null,
@@ -3496,7 +3585,9 @@
             "filename": "SRR1383470_2.fastq",
             "read_direction": "forward",
             "paired_filename": "SRR1383470_1.fastq",
-            "paired_read_direction": "reverse"
+            "paired_read_direction": "reverse",
+            "read_length": 250,
+            "paired_read_length": 250
           }
         }
       ],
@@ -3512,7 +3603,9 @@
           "data_processing_protocols": "",
           "germline_database": "",
           "analysis_provenance_id": "",
-          "final_rearrangement_file": "SRR1383470_2_assemble-pass_collapse-unique.igblast.airr.tsv"
+          "data_processing_files": [
+            "SRR1383470_2_assemble-pass_collapse-unique.igblast.airr.tsv"
+          ]
         }
       ]
     },
@@ -3600,7 +3693,6 @@
           "sequencing_run_id": "SRX552891",
           "total_reads_passing_qc_filter": null,
           "sequencing_platform": "Illumina MiSeq",
-          "read_length": "250bp,250bp",
           "sequencing_facility": null,
           "sequencing_run_date": null,
           "sequencing_kit": null,
@@ -3609,7 +3701,9 @@
             "filename": "SRR1383471_2.fastq",
             "read_direction": "forward",
             "paired_filename": "SRR1383471_1.fastq",
-            "paired_read_direction": "reverse"
+            "paired_read_direction": "reverse",
+            "read_length": 250,
+            "paired_read_length": 250
           }
         }
       ],
@@ -3625,7 +3719,9 @@
           "data_processing_protocols": "",
           "germline_database": "",
           "analysis_provenance_id": "",
-          "final_rearrangement_file": "SRR1383471_2_assemble-pass_collapse-unique.igblast.airr.tsv"
+          "data_processing_files": [
+            "SRR1383471_2_assemble-pass_collapse-unique.igblast.airr.tsv"
+          ]
         }
       ]
     }
