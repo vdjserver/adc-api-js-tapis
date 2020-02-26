@@ -45,6 +45,27 @@ def getToken(config):
     token = resp.json()
     return token
 
+# Cleans the object by removing fields with null or empty string values
+def cleanObject(obj):
+    if obj is None:
+        return
+    if not isinstance(obj, dict):
+        return
+    keys = list(obj.keys())
+    for k in keys:
+        if obj[k] is None:
+            del obj[k]
+            continue
+        if isinstance(obj[k], str):
+            if len(obj[k]) == 0:
+                del obj[k]
+                continue
+        elif isinstance(obj[k], list):
+            for entry in obj[k]:
+                cleanObject(entry)
+        elif isinstance(obj[k], dict):
+            cleanObject(obj[k])
+
 # Insert a repertoire by first deleting any repertoire with the same id
 # then inserting the new repertoire
 def insertRepertoire(token, config, rep):
@@ -92,4 +113,5 @@ if (__name__=="__main__"):
             if len(r['repertoire_id']) == 0:
                 print('Repertoire is missing repertoire_id')
                 sys.exit(0)
+            cleanObject(r)
             insertRepertoire(token, config, r)
