@@ -1,5 +1,5 @@
 #
-# Example metadata
+# VDJServer data repository
 #
 
 # Rubelt, F. et al., 2016. Individual heritable differences result in
@@ -57,17 +57,19 @@ Repertoire:
         pcr_target:
           - pcr_target_locus: IGH
         sequencing_platform: "Illumina MiSeq"
-        read_length: "300"
         sequencing_files:
           file_type: fastq
           filename: SRR2905656_R1.fastq.gz
           read_direction: forward
+          read_length: 300
           paired_filename: SRR2905656_R2.fastq.gz
           paired_read_direction: reverse
+          paired_read_length: 300
     data_processing:
       - data_processing_id: "6414d653-edd2-4d26-be1d-98a82f5e9c98-007"
         primary_annotation: true
-        final_rearrangement_file: "TW01A_B_naive.igblast.airr.tsv"
+        data_processing_files:
+          - "TW01A_B_naive.igblast.airr.tsv"
 
   - repertoire_id: 1602908186092376551-242ac11c-0001-012
     study:
@@ -111,17 +113,19 @@ Repertoire:
         pcr_target:
           - pcr_target_locus: IGH
         sequencing_platform: "Illumina MiSeq"
-        read_length: "300"
         sequencing_files:
           file_type: fastq
           filename: SRR2905655_R1.fastq.gz
           read_direction: forward
+          read_length: 300
           paired_filename: SRR2905655_R2.fastq.gz
           paired_read_direction: reverse
+          paired_read_length: 300
     data_processing:
       - data_processing_id: 6414d653-edd2-4d26-be1d-98a82f5e9c98-007
         primary_annotation: true
-        final_rearrangement_file: "TW01A_B_memory.igblast.airr.tsv"
+        data_processing_files:
+          - "TW01A_B_memory.igblast.airr.tsv"
 
   - repertoire_id: 2366080924918616551-242ac11c-0001-012
     study:
@@ -165,17 +169,19 @@ Repertoire:
         pcr_target:
           - pcr_target_locus: TRB
         sequencing_platform: "Illumina MiSeq"
-        read_length: "300"
         sequencing_files:
           file_type: fastq
           filename: SRR2905659_R1.fastq.gz
           read_direction: forward
+          read_length: 300
           paired_filename: SRR2905659_R2.fastq.gz
           paired_read_direction: reverse
+          paired_read_length: 300
     data_processing:
       - data_processing_id: d097e851-c2ac-4bc9-89ca-93845f3cfbc0-007
         primary_annotation: true
-        final_rearrangement_file: "TW01A_T_naive_CD4.igblast.airr.tsv"
+        data_processing_files:
+          - "TW01A_T_naive_CD4.igblast.airr.tsv"
 
   - repertoire_id: 2541616238306136551-242ac11c-0001-012
     study:
@@ -219,17 +225,19 @@ Repertoire:
         pcr_target:
           - pcr_target_locus: TRB
         sequencing_platform: "Illumina MiSeq"
-        read_length: "300"
         sequencing_files:
           file_type: fastq
           filename: SRR2905660_R1.fastq.gz
           read_direction: forward
+          read_length: 300
           paired_filename: SRR2905660_R2.fastq.gz
           paired_read_direction: reverse
+          paired_read_length: 300
     data_processing:
       - data_processing_id: d097e851-c2ac-4bc9-89ca-93845f3cfbc0-007
         primary_annotation: true
-        final_rearrangement_file: "TW01A_T_naive_CD8.igblast.airr.tsv"
+        data_processing_files:
+          - "TW01A_T_naive_CD8.igblast.airr.tsv"
 
   - repertoire_id: 1993707260355416551-242ac11c-0001-012
     study:
@@ -273,17 +281,19 @@ Repertoire:
         pcr_target:
           - pcr_target_locus: TRB
         sequencing_platform: "Illumina MiSeq"
-        read_length: "300"
         sequencing_files:
           file_type: fastq
           filename: SRR2905657_R1.fastq.gz
           read_direction: forward
+          read_length: 300
           paired_filename: SRR2905657_R2.fastq.gz
           paired_read_direction: reverse
+          paired_read_length: 300
     data_processing:
       - data_processing_id: d097e851-c2ac-4bc9-89ca-93845f3cfbc0-007
         primary_annotation: true
-        final_rearrangement_file: "TW01A_T_memory_CD4.igblast.airr.tsv"
+        data_processing_files:
+          - "TW01A_T_memory_CD4.igblast.airr.tsv"
 
   - repertoire_id: 2197374609531736551-242ac11c-0001-012
     study:
@@ -327,17 +337,19 @@ Repertoire:
         pcr_target:
           - pcr_target_locus: TRB
         sequencing_platform: "Illumina MiSeq"
-        read_length: "300"
         sequencing_files:
           file_type: fastq
           filename: SRR2905658_R1.fastq.gz
           read_direction: forward
+          read_length: 300
           paired_filename: SRR2905658_R2.fastq.gz
           paired_read_direction: reverse
+          paired_read_length: 300
     data_processing:
       - data_processing_id: d097e851-c2ac-4bc9-89ca-93845f3cfbc0-007
         primary_annotation: true
-        final_rearrangement_file: "TW01A_T_memory_CD8.igblast.airr.tsv"
+        data_processing_files:
+          - "TW01A_T_memory_CD8.igblast.airr.tsv"
 
   - repertoire_id: 2848663450297176551-242ac11c-0001-012
     study:
@@ -381,17 +393,19 @@ Repertoire:
         pcr_target:
           - pcr_target_locus: IGH
         sequencing_platform: "Illumina MiSeq"
-        read_length: "300"
         sequencing_files:
           file_type: fastq
           filename: SRR2905662_R1.fastq.gz
           read_direction: forward
+          read_length: 300
           paired_filename: SRR2905662_R2.fastq.gz
           paired_read_direction: reverse
+          paired_read_length: 300
     data_processing:
       - data_processing_id: 6414d653-edd2-4d26-be1d-98a82f5e9c98-007
         primary_annotation: true
-        final_rearrangement_file: "TW01B_B_naive.igblast.airr.tsv"
+        data_processing_files:
+          - "TW01B_B_naive.igblast.airr.tsv"
 
   - repertoire_id: 2685411743376216551-242ac11c-0001-012
     study:
@@ -435,17 +449,19 @@ Repertoire:
         pcr_target:
           - pcr_target_locus: IGH
         sequencing_platform: "Illumina MiSeq"
-        read_length: "300"
         sequencing_files:
           file_type: fastq
           filename: SRR2905661_R1.fastq.gz
           read_direction: forward
+          read_length: 300
           paired_filename: SRR2905661_R2.fastq.gz
           paired_read_direction: reverse
+          paired_read_length: 300
     data_processing:
       - data_processing_id: 6414d653-edd2-4d26-be1d-98a82f5e9c98-007
         primary_annotation: true
-        final_rearrangement_file: "TW01B_B_memory.igblast.airr.tsv"
+        data_processing_files:
+          - "TW01B_B_memory.igblast.airr.tsv"
 
   - repertoire_id: 3438706057421656551-242ac11c-0001-012
     study:
@@ -489,17 +505,19 @@ Repertoire:
         pcr_target:
           - pcr_target_locus: TRB
         sequencing_platform: "Illumina MiSeq"
-        read_length: "300"
         sequencing_files:
           file_type: fastq
           filename: SRR2905665_R1.fastq.gz
           read_direction: forward
+          read_length: 300
           paired_filename: SRR2905665_R2.fastq.gz
           paired_read_direction: reverse
+          paired_read_length: 300
     data_processing:
       - data_processing_id: d097e851-c2ac-4bc9-89ca-93845f3cfbc0-007
         primary_annotation: true
-        final_rearrangement_file: "TW01B_T_naive_CD4.igblast.airr.tsv"
+        data_processing_files:
+          - "TW01B_T_naive_CD4.igblast.airr.tsv"
 
   - repertoire_id: 3628844259615576551-242ac11c-0001-012
     study:
@@ -543,17 +561,19 @@ Repertoire:
         pcr_target:
           - pcr_target_locus: TRB
         sequencing_platform: "Illumina MiSeq"
-        read_length: "300"
         sequencing_files:
           file_type: fastq
           filename: SRR2905666_R1.fastq.gz
           read_direction: forward
+          read_length: 300
           paired_filename: SRR2905666_R2.fastq.gz
           paired_read_direction: reverse
+          paired_read_length: 300
     data_processing:
       - data_processing_id: d097e851-c2ac-4bc9-89ca-93845f3cfbc0-007
         primary_annotation: true
-        final_rearrangement_file: "TW01B_T_naive_CD8.igblast.airr.tsv"
+        data_processing_files:
+          - "TW01B_T_naive_CD8.igblast.airr.tsv"
 
   - repertoire_id: 2989624276951896551-242ac11c-0001-012
     study:
@@ -597,17 +617,19 @@ Repertoire:
         pcr_target:
           - pcr_target_locus: TRB
         sequencing_platform: "Illumina MiSeq"
-        read_length: "300"
         sequencing_files:
           file_type: fastq
           filename: SRR2905663_R1.fastq.gz
           read_direction: forward
+          read_length: 300
           paired_filename: SRR2905663_R2.fastq.gz
           paired_read_direction: reverse
+          paired_read_length: 300
     data_processing:
       - data_processing_id: d097e851-c2ac-4bc9-89ca-93845f3cfbc0-007
         primary_annotation: true
-        final_rearrangement_file: "TW01B_T_memory_CD4.igblast.airr.tsv"
+        data_processing_files:
+          - "TW01B_T_memory_CD4.igblast.airr.tsv"
 
   - repertoire_id: 3252733973504856551-242ac11c-0001-012
     study:
@@ -651,17 +673,19 @@ Repertoire:
         pcr_target:
           - pcr_target_locus: TRB
         sequencing_platform: "Illumina MiSeq"
-        read_length: "300"
         sequencing_files:
           file_type: fastq
           filename: SRR2905664_R1.fastq.gz
           read_direction: forward
+          read_length: 300
           paired_filename: SRR2905664_R2.fastq.gz
           paired_read_direction: reverse
+          paired_read_length: 300
     data_processing:
       - data_processing_id: d097e851-c2ac-4bc9-89ca-93845f3cfbc0-007
         primary_annotation: true
-        final_rearrangement_file: "TW01B_T_memory_CD8.igblast.airr.tsv"
+        data_processing_files:
+          - "TW01B_T_memory_CD8.igblast.airr.tsv"
 
   - repertoire_id: 4181735399629656551-242ac11c-0001-012
     study:
@@ -705,17 +729,19 @@ Repertoire:
         pcr_target:
           - pcr_target_locus: IGH
         sequencing_platform: "Illumina MiSeq"
-        read_length: "300"
         sequencing_files:
           file_type: fastq
           filename: SRR2905668_R1.fastq.gz
           read_direction: forward
+          read_length: 300
           paired_filename: SRR2905668_R2.fastq.gz
           paired_read_direction: reverse
+          paired_read_length: 300
     data_processing:
       - data_processing_id: 6414d653-edd2-4d26-be1d-98a82f5e9c98-007
         primary_annotation: true
-        final_rearrangement_file: "TW02A_B_naive.igblast.airr.tsv"
+        data_processing_files:
+          - "TW02A_B_naive.igblast.airr.tsv"
 
   - repertoire_id: 3924638657291096551-242ac11c-0001-012
     study:
@@ -759,17 +785,19 @@ Repertoire:
         pcr_target:
           - pcr_target_locus: IGH
         sequencing_platform: "Illumina MiSeq"
-        read_length: "300"
         sequencing_files:
           file_type: fastq
           filename: SRR2905667_R1.fastq.gz
           read_direction: forward
+          read_length: 300
           paired_filename: SRR2905667_R2.fastq.gz
           paired_read_direction: reverse
+          paired_read_length: 300
     data_processing:
       - data_processing_id: 6414d653-edd2-4d26-be1d-98a82f5e9c98-007
         primary_annotation: true
-        final_rearrangement_file: "TW02A_B_memory.igblast.airr.tsv"
+        data_processing_files:
+          - "TW02A_B_memory.igblast.airr.tsv"
 
   - repertoire_id: 4744762662462296551-242ac11c-0001-012
     study:
@@ -813,17 +841,19 @@ Repertoire:
         pcr_target:
           - pcr_target_locus: TRB
         sequencing_platform: "Illumina MiSeq"
-        read_length: "300"
         sequencing_files:
           file_type: fastq
           filename: SRR2905671_R1.fastq.gz
           read_direction: forward
+          read_length: 300
           paired_filename: SRR2905671_R2.fastq.gz
           paired_read_direction: reverse
+          paired_read_length: 300
     data_processing:
       - data_processing_id: d097e851-c2ac-4bc9-89ca-93845f3cfbc0-007
         primary_annotation: true
-        final_rearrangement_file: "TW02A_T_naive_CD4.igblast.airr.tsv"
+        data_processing_files:
+          - "TW02A_T_naive_CD4.igblast.airr.tsv"
 
   - repertoire_id: 4931851437876056551-242ac11c-0001-012
     study:
@@ -867,17 +897,19 @@ Repertoire:
         pcr_target:
           - pcr_target_locus: TRB
         sequencing_platform: "Illumina MiSeq"
-        read_length: "300"
         sequencing_files:
           file_type: fastq
           filename: SRR2905672_R1.fastq.gz
           read_direction: forward
+          read_length: 300
           paired_filename: SRR2905672_R2.fastq.gz
           paired_read_direction: reverse
+          paired_read_length: 300
     data_processing:
       - data_processing_id: d097e851-c2ac-4bc9-89ca-93845f3cfbc0-007
         primary_annotation: true
-        final_rearrangement_file: "TW02A_T_naive_CD8.igblast.airr.tsv"
+        data_processing_files:
+          - "TW02A_T_naive_CD8.igblast.airr.tsv"
 
   - repertoire_id: 4357957907784536551-242ac11c-0001-012
     study:
@@ -921,17 +953,19 @@ Repertoire:
         pcr_target:
           - pcr_target_locus: TRB
         sequencing_platform: "Illumina MiSeq"
-        read_length: "300"
         sequencing_files:
           file_type: fastq
           filename: SRR2905669_R1.fastq.gz
           read_direction: forward
+          read_length: 300
           paired_filename: SRR2905669_R2.fastq.gz
           paired_read_direction: reverse
+          paired_read_length: 300
     data_processing:
       - data_processing_id: d097e851-c2ac-4bc9-89ca-93845f3cfbc0-007
         primary_annotation: true
-        final_rearrangement_file: "TW02A_T_memory_CD4.igblast.airr.tsv"
+        data_processing_files:
+          - "TW02A_T_memory_CD4.igblast.airr.tsv"
 
   - repertoire_id: 4476756703191896551-242ac11c-0001-012
     study:
@@ -975,17 +1009,19 @@ Repertoire:
         pcr_target:
           - pcr_target_locus: TRB
         sequencing_platform: "Illumina MiSeq"
-        read_length: "300"
         sequencing_files:
           file_type: fastq
           filename: SRR2905670_R1.fastq.gz
           read_direction: forward
+          read_length: 300
           paired_filename: SRR2905670_R2.fastq.gz
           paired_read_direction: reverse
+          paired_read_length: 300
     data_processing:
       - data_processing_id: d097e851-c2ac-4bc9-89ca-93845f3cfbc0-007
         primary_annotation: true
-        final_rearrangement_file: "TW02A_T_memory_CD8.igblast.airr.tsv"
+        data_processing_files:
+          - "TW02A_T_memory_CD8.igblast.airr.tsv"
 
   - repertoire_id: 5531257073705816551-242ac11c-0001-012
     study:
@@ -1029,17 +1065,19 @@ Repertoire:
         pcr_target:
           - pcr_target_locus: IGH
         sequencing_platform: "Illumina MiSeq"
-        read_length: "300"
         sequencing_files:
           file_type: fastq
           filename: SRR2905674_R1.fastq.gz
           read_direction: forward
+          read_length: 300
           paired_filename: SRR2905674_R2.fastq.gz
           paired_read_direction: reverse
+          paired_read_length: 300
     data_processing:
       - data_processing_id: 6414d653-edd2-4d26-be1d-98a82f5e9c98-007
         primary_annotation: true
-        final_rearrangement_file: "TW02B_B_naive.igblast.airr.tsv"
+        data_processing_files:
+          - "TW02B_B_naive.igblast.airr.tsv"
 
   - repertoire_id: 5215877625160536551-242ac11c-0001-012
     study:
@@ -1083,17 +1121,19 @@ Repertoire:
         pcr_target:
           - pcr_target_locus: IGH
         sequencing_platform: "Illumina MiSeq"
-        read_length: "300"
         sequencing_files:
           file_type: fastq
           filename: SRR2905673_R1.fastq.gz
           read_direction: forward
+          read_length: 300
           paired_filename: SRR2905673_R2.fastq.gz
           paired_read_direction: reverse
+          paired_read_length: 300
     data_processing:
       - data_processing_id: 6414d653-edd2-4d26-be1d-98a82f5e9c98-007
         primary_annotation: true
-        final_rearrangement_file: "TW02B_B_memory.igblast.airr.tsv"
+        data_processing_files:
+          - "TW02B_B_memory.igblast.airr.tsv"
 
   - repertoire_id: 6205695788196696551-242ac11c-0001-012
     study:
@@ -1137,17 +1177,19 @@ Repertoire:
         pcr_target:
           - pcr_target_locus: TRB
         sequencing_platform: "Illumina MiSeq"
-        read_length: "300"
         sequencing_files:
           file_type: fastq
           filename: SRR2905677_R1.fastq.gz
           read_direction: forward
+          read_length: 300
           paired_filename: SRR2905677_R2.fastq.gz
           paired_read_direction: reverse
+          paired_read_length: 300
     data_processing:
       - data_processing_id: d097e851-c2ac-4bc9-89ca-93845f3cfbc0-007
         primary_annotation: true
-        final_rearrangement_file: "TW02B_T_naive_CD4.igblast.airr.tsv"
+        data_processing_files:
+          - "TW02B_T_naive_CD4.igblast.airr.tsv"
 
   - repertoire_id: 6393557657723736551-242ac11c-0001-012
     study:
@@ -1191,17 +1233,19 @@ Repertoire:
         pcr_target:
           - pcr_target_locus: TRB
         sequencing_platform: "Illumina MiSeq"
-        read_length: "300"
         sequencing_files:
           file_type: fastq
           filename: SRR2905678_R1.fastq.gz
           read_direction: forward
+          read_length: 300
           paired_filename: SRR2905678_R2.fastq.gz
           paired_read_direction: reverse
+          paired_read_length: 300
     data_processing:
       - data_processing_id: d097e851-c2ac-4bc9-89ca-93845f3cfbc0-007
         primary_annotation: true
-        final_rearrangement_file: "TW02B_T_naive_CD8.igblast.airr.tsv"
+        data_processing_files:
+          - "TW02B_T_naive_CD8.igblast.airr.tsv"
 
   - repertoire_id: 7158276584776536551-242ac11c-0001-012
     study:
@@ -1245,17 +1289,19 @@ Repertoire:
         pcr_target:
           - pcr_target_locus: TRB
         sequencing_platform: "Illumina MiSeq"
-        read_length: "300"
         sequencing_files:
           file_type: fastq
           filename: SRR2905675_R1.fastq.gz
           read_direction: forward
+          read_length: 300
           paired_filename: SRR2905675_R2.fastq.gz
           paired_read_direction: reverse
+          paired_read_length: 300
     data_processing:
       - data_processing_id: d097e851-c2ac-4bc9-89ca-93845f3cfbc0-007
         primary_annotation: true
-        final_rearrangement_file: "TW02B_T_memory_CD4.igblast.airr.tsv"
+        data_processing_files:
+          - "TW02B_T_memory_CD4.igblast.airr.tsv"
 
   - repertoire_id: 5953881855632216551-242ac11c-0001-012
     study:
@@ -1299,17 +1345,19 @@ Repertoire:
         pcr_target:
           - pcr_target_locus: TRB
         sequencing_platform: "Illumina MiSeq"
-        read_length: "300"
         sequencing_files:
           file_type: fastq
           filename: SRR2905676_R1.fastq.gz
           read_direction: forward
+          read_length: 300
           paired_filename: SRR2905676_R2.fastq.gz
           paired_read_direction: reverse
+          paired_read_length: 300
     data_processing:
       - data_processing_id: d097e851-c2ac-4bc9-89ca-93845f3cfbc0-007
         primary_annotation: true
-        final_rearrangement_file: "TW02B_T_memory_CD8.igblast.airr.tsv"
+        data_processing_files:
+          - "TW02B_T_memory_CD8.igblast.airr.tsv"
 
   - repertoire_id: 6819446614795096551-242ac11c-0001-012
     study:
@@ -1353,17 +1401,19 @@ Repertoire:
         pcr_target:
           - pcr_target_locus: IGH
         sequencing_platform: "Illumina MiSeq"
-        read_length: "300"
         sequencing_files:
           file_type: fastq
           filename: SRR2905680_R1.fastq.gz
           read_direction: forward
+          read_length: 300
           paired_filename: SRR2905680_R2.fastq.gz
           paired_read_direction: reverse
+          paired_read_length: 300
     data_processing:
       - data_processing_id: 6414d653-edd2-4d26-be1d-98a82f5e9c98-007
         primary_annotation: true
-        final_rearrangement_file: "TW03A_B_naive.igblast.airr.tsv"
+        data_processing_files:
+          - "TW03A_B_naive.igblast.airr.tsv"
 
   - repertoire_id: 7972301736387416551-242ac11c-0001-012
     study:
@@ -1407,17 +1457,19 @@ Repertoire:
         pcr_target:
           - pcr_target_locus: IGH
         sequencing_platform: "Illumina MiSeq"
-        read_length: "300"
         sequencing_files:
           file_type: fastq
           filename: SRR2905679_R1.fastq.gz
           read_direction: forward
+          read_length: 300
           paired_filename: SRR2905679_R2.fastq.gz
           paired_read_direction: reverse
+          paired_read_length: 300
     data_processing:
       - data_processing_id: 6414d653-edd2-4d26-be1d-98a82f5e9c98-007
         primary_annotation: true
-        final_rearrangement_file: "TW03A_B_memory.igblast.airr.tsv"
+        data_processing_files:
+          - "TW03A_B_memory.igblast.airr.tsv"
 
   - repertoire_id: 7461458326201176551-242ac11c-0001-012
     study:
@@ -1461,17 +1513,19 @@ Repertoire:
         pcr_target:
           - pcr_target_locus: TRB
         sequencing_platform: "Illumina MiSeq"
-        read_length: "300"
         sequencing_files:
           file_type: fastq
           filename: SRR2905683_R1.fastq.gz
           read_direction: forward
+          read_length: 300
           paired_filename: SRR2905683_R2.fastq.gz
           paired_read_direction: reverse
+          paired_read_length: 300
     data_processing:
       - data_processing_id: d097e851-c2ac-4bc9-89ca-93845f3cfbc0-007
         primary_annotation: true
-        final_rearrangement_file: "TW03A_T_naive_CD4.igblast.airr.tsv"
+        data_processing_files:
+          - "TW03A_T_naive_CD4.igblast.airr.tsv"
 
   - repertoire_id: 7640859110155096551-242ac11c-0001-012
     study:
@@ -1515,17 +1569,19 @@ Repertoire:
         pcr_target:
           - pcr_target_locus: TRB
         sequencing_platform: "Illumina MiSeq"
-        read_length: "300"
         sequencing_files:
           file_type: fastq
           filename: SRR2905684_R1.fastq.gz
           read_direction: forward
+          read_length: 300
           paired_filename: SRR2905684_R2.fastq.gz
           paired_read_direction: reverse
+          paired_read_length: 300
     data_processing:
       - data_processing_id: d097e851-c2ac-4bc9-89ca-93845f3cfbc0-007
         primary_annotation: true
-        final_rearrangement_file: "TW03A_T_naive_CD8.igblast.airr.tsv"
+        data_processing_files:
+          - "TW03A_T_naive_CD8.igblast.airr.tsv"
 
   - repertoire_id: 6964444710708056551-242ac11c-0001-012
     study:
@@ -1569,17 +1625,19 @@ Repertoire:
         pcr_target:
           - pcr_target_locus: TRB
         sequencing_platform: "Illumina MiSeq"
-        read_length: "300"
         sequencing_files:
           file_type: fastq
           filename: SRR2905681_R1.fastq.gz
           read_direction: forward
+          read_length: 300
           paired_filename: SRR2905681_R2.fastq.gz
           paired_read_direction: reverse
+          paired_read_length: 300
     data_processing:
       - data_processing_id: d097e851-c2ac-4bc9-89ca-93845f3cfbc0-007
         primary_annotation: true
-        final_rearrangement_file: "TW03A_T_memory_CD4.igblast.airr.tsv"
+        data_processing_files:
+          - "TW03A_T_memory_CD4.igblast.airr.tsv"
 
   - repertoire_id: 7313153105470296551-242ac11c-0001-012
     study:
@@ -1623,17 +1681,19 @@ Repertoire:
         pcr_target:
           - pcr_target_locus: TRB
         sequencing_platform: "Illumina MiSeq"
-        read_length: "300"
         sequencing_files:
           file_type: fastq
           filename: SRR2905682_R1.fastq.gz
           read_direction: forward
+          read_length: 300
           paired_filename: SRR2905682_R2.fastq.gz
           paired_read_direction: reverse
+          paired_read_length: 300
     data_processing:
       - data_processing_id: d097e851-c2ac-4bc9-89ca-93845f3cfbc0-007
         primary_annotation: true
-        final_rearrangement_file: "TW03A_T_memory_CD8.igblast.airr.tsv"
+        data_processing_files:
+          - "TW03A_T_memory_CD8.igblast.airr.tsv"
 
   - repertoire_id: 8112833066312536551-242ac11c-0001-012
     study:
@@ -1677,17 +1737,19 @@ Repertoire:
         pcr_target:
           - pcr_target_locus: IGH
         sequencing_platform: "Illumina MiSeq"
-        read_length: "300"
         sequencing_files:
           file_type: fastq
           filename: SRR2905686_R1.fastq.gz
           read_direction: forward
+          read_length: 300
           paired_filename: SRR2905686_R2.fastq.gz
           paired_read_direction: reverse
+          paired_read_length: 300
     data_processing:
       - data_processing_id: 6414d653-edd2-4d26-be1d-98a82f5e9c98-007
         primary_annotation: true
-        final_rearrangement_file: "TW03B_B_naive.igblast.airr.tsv"
+        data_processing_files:
+          - "TW03B_B_naive.igblast.airr.tsv"
 
   - repertoire_id: 7793588147200856551-242ac11c-0001-012
     study:
@@ -1731,17 +1793,19 @@ Repertoire:
         pcr_target:
           - pcr_target_locus: IGH
         sequencing_platform: "Illumina MiSeq"
-        read_length: "300"
         sequencing_files:
           file_type: fastq
           filename: SRR2905685_R1.fastq.gz
           read_direction: forward
+          read_length: 300
           paired_filename: SRR2905685_R2.fastq.gz
           paired_read_direction: reverse
+          paired_read_length: 300
     data_processing:
       - data_processing_id: 6414d653-edd2-4d26-be1d-98a82f5e9c98-007
         primary_annotation: true
-        final_rearrangement_file: "TW03B_B_memory.igblast.airr.tsv"
+        data_processing_files:
+          - "TW03B_B_memory.igblast.airr.tsv"
 
   - repertoire_id: 8602072790999896551-242ac11c-0001-012
     study:
@@ -1785,17 +1849,19 @@ Repertoire:
         pcr_target:
           - pcr_target_locus: TRB
         sequencing_platform: "Illumina MiSeq"
-        read_length: "300"
         sequencing_files:
           file_type: fastq
           filename: SRR2905689_R1.fastq.gz
           read_direction: forward
+          read_length: 300
           paired_filename: SRR2905689_R2.fastq.gz
           paired_read_direction: reverse
+          paired_read_length: 300
     data_processing:
       - data_processing_id: d097e851-c2ac-4bc9-89ca-93845f3cfbc0-007
         primary_annotation: true
-        final_rearrangement_file: "TW03B_T_naive_CD4.igblast.airr.tsv"
+        data_processing_files:
+          - "TW03B_T_naive_CD4.igblast.airr.tsv"
 
   - repertoire_id: 8733756488295256551-242ac11c-0001-012
     study:
@@ -1839,17 +1905,19 @@ Repertoire:
         pcr_target:
           - pcr_target_locus: TRB
         sequencing_platform: "Illumina MiSeq"
-        read_length: "300"
         sequencing_files:
           file_type: fastq
           filename: SRR2905690_R1.fastq.gz
           read_direction: forward
+          read_length: 300
           paired_filename: SRR2905690_R2.fastq.gz
           paired_read_direction: reverse
+          paired_read_length: 300
     data_processing:
       - data_processing_id: d097e851-c2ac-4bc9-89ca-93845f3cfbc0-007
         primary_annotation: true
-        final_rearrangement_file: "TW03B_T_naive_CD8.igblast.airr.tsv"
+        data_processing_files:
+          - "TW03B_T_naive_CD8.igblast.airr.tsv"
 
   - repertoire_id: 8263242821018456551-242ac11c-0001-012
     study:
@@ -1893,17 +1961,19 @@ Repertoire:
         pcr_target:
           - pcr_target_locus: TRB
         sequencing_platform: "Illumina MiSeq"
-        read_length: "300"
         sequencing_files:
           file_type: fastq
           filename: SRR2905687_R1.fastq.gz
           read_direction: forward
+          read_length: 300
           paired_filename: SRR2905687_R2.fastq.gz
           paired_read_direction: reverse
+          paired_read_length: 300
     data_processing:
       - data_processing_id: d097e851-c2ac-4bc9-89ca-93845f3cfbc0-007
         primary_annotation: true
-        final_rearrangement_file: "TW03B_T_memory_CD4.igblast.airr.tsv"
+        data_processing_files:
+          - "TW03B_T_memory_CD4.igblast.airr.tsv"
 
   - repertoire_id: 8425807333172056551-242ac11c-0001-012
     study:
@@ -1947,17 +2017,19 @@ Repertoire:
         pcr_target:
           - pcr_target_locus: TRB
         sequencing_platform: "Illumina MiSeq"
-        read_length: "300"
         sequencing_files:
           file_type: fastq
           filename: SRR2905688_R1.fastq.gz
           read_direction: forward
+          read_length: 300
           paired_filename: SRR2905688_R2.fastq.gz
           paired_read_direction: reverse
+          paired_read_length: 300
     data_processing:
       - data_processing_id: d097e851-c2ac-4bc9-89ca-93845f3cfbc0-007
         primary_annotation: true
-        final_rearrangement_file: "TW03B_T_memory_CD8.igblast.airr.tsv"
+        data_processing_files:
+          - "TW03B_T_memory_CD8.igblast.airr.tsv"
 
   - repertoire_id: 7885350151947415065-242ac11c-0001-012
     study:
@@ -2001,17 +2073,19 @@ Repertoire:
         pcr_target:
           - pcr_target_locus: IGH
         sequencing_platform: "Illumina MiSeq"
-        read_length: "300"
         sequencing_files:
           file_type: fastq
           filename: SRR2905692_R1.fastq.gz
           read_direction: forward
+          read_length: 300
           paired_filename: SRR2905692_R2.fastq.gz
           paired_read_direction: reverse
+          paired_read_length: 300
     data_processing:
       - data_processing_id: 6414d653-edd2-4d26-be1d-98a82f5e9c98-007
         primary_annotation: true
-        final_rearrangement_file: "TW04A_B_naive.igblast.airr.tsv"
+        data_processing_files:
+          - "TW04A_B_naive.igblast.airr.tsv"
 
   - repertoire_id: 8945756074025816551-242ac11c-0001-012
     study:
@@ -2055,17 +2129,19 @@ Repertoire:
         pcr_target:
           - pcr_target_locus: IGH
         sequencing_platform: "Illumina MiSeq"
-        read_length: "300"
         sequencing_files:
           file_type: fastq
           filename: SRR2905691_R1.fastq.gz
           read_direction: forward
+          read_length: 300
           paired_filename: SRR2905691_R2.fastq.gz
           paired_read_direction: reverse
+          paired_read_length: 300
     data_processing:
       - data_processing_id: 6414d653-edd2-4d26-be1d-98a82f5e9c98-007
         primary_annotation: true
-        final_rearrangement_file: "TW04A_B_memory.igblast.airr.tsv"
+        data_processing_files:
+          - "TW04A_B_memory.igblast.airr.tsv"
 
   - repertoire_id: 7309695685264535065-242ac11c-0001-012
     study:
@@ -2109,17 +2185,19 @@ Repertoire:
         pcr_target:
           - pcr_target_locus: TRB
         sequencing_platform: "Illumina MiSeq"
-        read_length: "300"
         sequencing_files:
           file_type: fastq
           filename: SRR2905695_R1.fastq.gz
           read_direction: forward
+          read_length: 300
           paired_filename: SRR2905695_R2.fastq.gz
           paired_read_direction: reverse
+          paired_read_length: 300
     data_processing:
       - data_processing_id: d097e851-c2ac-4bc9-89ca-93845f3cfbc0-007
         primary_annotation: true
-        final_rearrangement_file: "TW04A_T_naive_CD4.igblast.airr.tsv"
+        data_processing_files:
+          - "TW04A_T_naive_CD4.igblast.airr.tsv"
 
   - repertoire_id: 8485700680582295065-242ac11c-0001-012
     study:
@@ -2163,17 +2241,19 @@ Repertoire:
         pcr_target:
           - pcr_target_locus: TRB
         sequencing_platform: "Illumina MiSeq"
-        read_length: "300"
         sequencing_files:
           file_type: fastq
           filename: SRR2905696_R1.fastq.gz
           read_direction: forward
+          read_length: 300
           paired_filename: SRR2905696_R2.fastq.gz
           paired_read_direction: reverse
+          paired_read_length: 300
     data_processing:
       - data_processing_id: d097e851-c2ac-4bc9-89ca-93845f3cfbc0-007
         primary_annotation: true
-        final_rearrangement_file: "TW04A_T_naive_CD8.igblast.airr.tsv"
+        data_processing_files:
+          - "TW04A_T_naive_CD8.igblast.airr.tsv"
 
   - repertoire_id: 9084118473933975065-242ac11c-0001-012
     study:
@@ -2217,17 +2297,19 @@ Repertoire:
         pcr_target:
           - pcr_target_locus: TRB
         sequencing_platform: "Illumina MiSeq"
-        read_length: "300"
         sequencing_files:
           file_type: fastq
           filename: SRR2905693_R1.fastq.gz
           read_direction: forward
+          read_length: 300
           paired_filename: SRR2905693_R2.fastq.gz
           paired_read_direction: reverse
+          paired_read_length: 300
     data_processing:
       - data_processing_id: d097e851-c2ac-4bc9-89ca-93845f3cfbc0-007
         primary_annotation: true
-        final_rearrangement_file: "TW04A_T_memory_CD4.igblast.airr.tsv"
+        data_processing_files:
+          - "TW04A_T_memory_CD4.igblast.airr.tsv"
 
   - repertoire_id: 8961797805343895065-242ac11c-0001-012
     study:
@@ -2271,17 +2353,19 @@ Repertoire:
         pcr_target:
           - pcr_target_locus: TRB
         sequencing_platform: "Illumina MiSeq"
-        read_length: "300"
         sequencing_files:
           file_type: fastq
           filename: SRR2905694_R1.fastq.gz
           read_direction: forward
+          read_length: 300
           paired_filename: SRR2905694_R2.fastq.gz
           paired_read_direction: reverse
+          paired_read_length: 300
     data_processing:
       - data_processing_id: d097e851-c2ac-4bc9-89ca-93845f3cfbc0-007
         primary_annotation: true
-        final_rearrangement_file: "TW04A_T_memory_CD8.igblast.airr.tsv"
+        data_processing_files:
+          - "TW04A_T_memory_CD8.igblast.airr.tsv"
 
   - repertoire_id: 7745763714827415065-242ac11c-0001-012
     study:
@@ -2325,17 +2409,19 @@ Repertoire:
         pcr_target:
           - pcr_target_locus: IGH
         sequencing_platform: "Illumina MiSeq"
-        read_length: "300"
         sequencing_files:
           file_type: fastq
           filename: SRR2905698_R1.fastq.gz
           read_direction: forward
+          read_length: 300
           paired_filename: SRR2905698_R2.fastq.gz
           paired_read_direction: reverse
+          paired_read_length: 300
     data_processing:
       - data_processing_id: 6414d653-edd2-4d26-be1d-98a82f5e9c98-007
         primary_annotation: true
-        final_rearrangement_file: "TW04B_B_naive.igblast.airr.tsv"
+        data_processing_files:
+          - "TW04B_B_naive.igblast.airr.tsv"
 
   - repertoire_id: 6738379135550615065-242ac11c-0001-012
     study:
@@ -2379,17 +2465,19 @@ Repertoire:
         pcr_target:
           - pcr_target_locus: IGH
         sequencing_platform: "Illumina MiSeq"
-        read_length: "300"
         sequencing_files:
           file_type: fastq
           filename: SRR2905697_R1.fastq.gz
           read_direction: forward
+          read_length: 300
           paired_filename: SRR2905697_R2.fastq.gz
           paired_read_direction: reverse
+          paired_read_length: 300
     data_processing:
       - data_processing_id: 6414d653-edd2-4d26-be1d-98a82f5e9c98-007
         primary_annotation: true
-        final_rearrangement_file: "TW04B_B_memory.igblast.airr.tsv"
+        data_processing_files:
+          - "TW04B_B_memory.igblast.airr.tsv"
 
   - repertoire_id: 5624006920930455065-242ac11c-0001-012
     study:
@@ -2433,17 +2521,19 @@ Repertoire:
         pcr_target:
           - pcr_target_locus: TRB
         sequencing_platform: "Illumina MiSeq"
-        read_length: "300"
         sequencing_files:
           file_type: fastq
           filename: SRR2905701_R1.fastq.gz
           read_direction: forward
+          read_length: 300
           paired_filename: SRR2905701_R2.fastq.gz
           paired_read_direction: reverse
+          paired_read_length: 300
     data_processing:
       - data_processing_id: d097e851-c2ac-4bc9-89ca-93845f3cfbc0-007
         primary_annotation: true
-        final_rearrangement_file: "TW04B_T_naive_CD4.igblast.airr.tsv"
+        data_processing_files:
+          - "TW04B_T_naive_CD4.igblast.airr.tsv"
 
   - repertoire_id: 7066128089908375065-242ac11c-0001-012
     study:
@@ -2487,17 +2577,19 @@ Repertoire:
         pcr_target:
           - pcr_target_locus: TRB
         sequencing_platform: "Illumina MiSeq"
-        read_length: "300"
         sequencing_files:
           file_type: fastq
           filename: SRR2905702_R1.fastq.gz
           read_direction: forward
+          read_length: 300
           paired_filename: SRR2905702_R2.fastq.gz
           paired_read_direction: reverse
+          paired_read_length: 300
     data_processing:
       - data_processing_id: d097e851-c2ac-4bc9-89ca-93845f3cfbc0-007
         primary_annotation: true
-        final_rearrangement_file: "TW04B_T_naive_CD8.igblast.airr.tsv"
+        data_processing_files:
+          - "TW04B_T_naive_CD8.igblast.airr.tsv"
 
   - repertoire_id: 7591789137265815065-242ac11c-0001-012
     study:
@@ -2541,17 +2633,19 @@ Repertoire:
         pcr_target:
           - pcr_target_locus: TRB
         sequencing_platform: "Illumina MiSeq"
-        read_length: "300"
         sequencing_files:
           file_type: fastq
           filename: SRR2905699_R1.fastq.gz
           read_direction: forward
+          read_length: 300
           paired_filename: SRR2905699_R2.fastq.gz
           paired_read_direction: reverse
+          paired_read_length: 300
     data_processing:
       - data_processing_id: d097e851-c2ac-4bc9-89ca-93845f3cfbc0-007
         primary_annotation: true
-        final_rearrangement_file: "TW04B_T_memory_CD4.igblast.airr.tsv"
+        data_processing_files:
+          - "TW04B_T_memory_CD4.igblast.airr.tsv"
 
   - repertoire_id: 7446748091679895065-242ac11c-0001-012
     study:
@@ -2595,17 +2689,19 @@ Repertoire:
         pcr_target:
           - pcr_target_locus: TRB
         sequencing_platform: "Illumina MiSeq"
-        read_length: "300"
         sequencing_files:
           file_type: fastq
           filename: SRR2905700_R1.fastq.gz
           read_direction: forward
+          read_length: 300
           paired_filename: SRR2905700_R2.fastq.gz
           paired_read_direction: reverse
+          paired_read_length: 300
     data_processing:
       - data_processing_id: d097e851-c2ac-4bc9-89ca-93845f3cfbc0-007
         primary_annotation: true
-        final_rearrangement_file: "TW04B_T_memory_CD8.igblast.airr.tsv"
+        data_processing_files:
+          - "TW04B_T_memory_CD8.igblast.airr.tsv"
 
   - repertoire_id: 6576544767837335065-242ac11c-0001-012
     study:
@@ -2649,17 +2745,19 @@ Repertoire:
         pcr_target:
           - pcr_target_locus: IGH
         sequencing_platform: "Illumina MiSeq"
-        read_length: "300"
         sequencing_files:
           file_type: fastq
           filename: SRR2905704_R1.fastq.gz
           read_direction: forward
+          read_length: 300
           paired_filename: SRR2905704_R2.fastq.gz
           paired_read_direction: reverse
+          paired_read_length: 300
     data_processing:
       - data_processing_id: 6414d653-edd2-4d26-be1d-98a82f5e9c98-007
         primary_annotation: true
-        final_rearrangement_file: "TW05A_B_naive.igblast.airr.tsv"
+        data_processing_files:
+          - "TW05A_B_naive.igblast.airr.tsv"
 
   - repertoire_id: 6880327804683415065-242ac11c-0001-012
     study:
@@ -2703,17 +2801,19 @@ Repertoire:
         pcr_target:
           - pcr_target_locus: IGH
         sequencing_platform: "Illumina MiSeq"
-        read_length: "300"
         sequencing_files:
           file_type: fastq
           filename: SRR2905703_R1.fastq.gz
           read_direction: forward
+          read_length: 300
           paired_filename: SRR2905703_R2.fastq.gz
           paired_read_direction: reverse
+          paired_read_length: 300
     data_processing:
       - data_processing_id: 6414d653-edd2-4d26-be1d-98a82f5e9c98-007
         primary_annotation: true
-        final_rearrangement_file: "TW05A_B_memory.igblast.airr.tsv"
+        data_processing_files:
+          - "TW05A_B_memory.igblast.airr.tsv"
 
   - repertoire_id: 6088937130722455065-242ac11c-0001-012
     study:
@@ -2757,17 +2857,19 @@ Repertoire:
         pcr_target:
           - pcr_target_locus: TRB
         sequencing_platform: "Illumina MiSeq"
-        read_length: "300"
         sequencing_files:
           file_type: fastq
           filename: SRR2905707_R1.fastq.gz
           read_direction: forward
+          read_length: 300
           paired_filename: SRR2905707_R2.fastq.gz
           paired_read_direction: reverse
+          paired_read_length: 300
     data_processing:
       - data_processing_id: d097e851-c2ac-4bc9-89ca-93845f3cfbc0-007
         primary_annotation: true
-        final_rearrangement_file: "TW05A_T_naive_CD4.igblast.airr.tsv"
+        data_processing_files:
+          - "TW05A_T_naive_CD4.igblast.airr.tsv"
 
   - repertoire_id: 5939858815878295065-242ac11c-0001-012
     study:
@@ -2811,18 +2913,21 @@ Repertoire:
         pcr_target:
           - pcr_target_locus: TRB
         sequencing_platform: "Illumina MiSeq"
-        read_length: "300"
         sequencing_files:
           file_type: fastq
           filename: SRR2905708_R1.fastq.gz
           read_direction: forward
+          read_length: 300
           paired_filename: SRR2905708_R2.fastq.gz
           paired_read_direction: reverse
+          paired_read_length: 300
     data_processing:
       - data_processing_id: d097e851-c2ac-4bc9-89ca-93845f3cfbc0-007
         primary_annotation: true
-        final_rearrangement_file: 
-        final_rearrangement_file: "TW05A_T_naive_CD8.igblast.airr.tsv"
+        data_processing_files:
+          - 
+        data_processing_files:
+          - "TW05A_T_naive_CD8.igblast.airr.tsv"
 
   - repertoire_id: 6389112395039895065-242ac11c-0001-012
     study:
@@ -2866,17 +2971,19 @@ Repertoire:
         pcr_target:
           - pcr_target_locus: TRB
         sequencing_platform: "Illumina MiSeq"
-        read_length: "300"
         sequencing_files:
           file_type: fastq
           filename: SRR2905705_R1.fastq.gz
           read_direction: forward
+          read_length: 300
           paired_filename: SRR2905705_R2.fastq.gz
           paired_read_direction: reverse
+          paired_read_length: 300
     data_processing:
       - data_processing_id: d097e851-c2ac-4bc9-89ca-93845f3cfbc0-007
         primary_annotation: true
-        final_rearrangement_file: "TW05A_T_memory_CD4.igblast.airr.tsv"
+        data_processing_files:
+          - "TW05A_T_memory_CD4.igblast.airr.tsv"
 
   - repertoire_id: 6240077029868695065-242ac11c-0001-012
     study:
@@ -2920,17 +3027,19 @@ Repertoire:
         pcr_target:
           - pcr_target_locus: TRB
         sequencing_platform: "Illumina MiSeq"
-        read_length: "300"
         sequencing_files:
           file_type: fastq
           filename: SRR2905706_R1.fastq.gz
           read_direction: forward
+          read_length: 300
           paired_filename: SRR2905706_R2.fastq.gz
           paired_read_direction: reverse
+          paired_read_length: 300
     data_processing:
       - data_processing_id: d097e851-c2ac-4bc9-89ca-93845f3cfbc0-007
         primary_annotation: true
-        final_rearrangement_file: "TW05A_T_memory_CD8.igblast.airr.tsv"
+        data_processing_files:
+          - "TW05A_T_memory_CD8.igblast.airr.tsv"
 
   - repertoire_id: 5462430251254935065-242ac11c-0001-012
     study:
@@ -2974,17 +3083,19 @@ Repertoire:
         pcr_target:
           - pcr_target_locus: IGH
         sequencing_platform: "Illumina MiSeq"
-        read_length: "300"
         sequencing_files:
           file_type: fastq
           filename: SRR2905710_R1.fastq.gz
           read_direction: forward
+          read_length: 300
           paired_filename: SRR2905710_R2.fastq.gz
           paired_read_direction: reverse
+          paired_read_length: 300
     data_processing:
       - data_processing_id: 6414d653-edd2-4d26-be1d-98a82f5e9c98-007
         primary_annotation: true
-        final_rearrangement_file: "TW05B_B_naive.igblast.airr.tsv"
+        data_processing_files:
+          - "TW05B_B_naive.igblast.airr.tsv"
 
   - repertoire_id: 5765010697258135065-242ac11c-0001-012
     study:
@@ -3028,17 +3139,19 @@ Repertoire:
         pcr_target:
           - pcr_target_locus: IGH
         sequencing_platform: "Illumina MiSeq"
-        read_length: "300"
         sequencing_files:
           file_type: fastq
           filename: SRR2905709_R1.fastq.gz
           read_direction: forward
+          read_length: 300
           paired_filename: SRR2905709_R2.fastq.gz
           paired_read_direction: reverse
+          paired_read_length: 300
     data_processing:
       - data_processing_id: 6414d653-edd2-4d26-be1d-98a82f5e9c98-007
         primary_annotation: true
-        final_rearrangement_file: "TW05B_B_memory.igblast.airr.tsv"
+        data_processing_files:
+          - "TW05B_B_memory.igblast.airr.tsv"
 
   - repertoire_id: 5039977268020375065-242ac11c-0001-012
     study:
@@ -3082,17 +3195,19 @@ Repertoire:
         pcr_target:
           - pcr_target_locus: TRB
         sequencing_platform: "Illumina MiSeq"
-        read_length: "300"
         sequencing_files:
           file_type: fastq
           filename: SRR2905713_R1.fastq.gz
           read_direction: forward
+          read_length: 300
           paired_filename: SRR2905713_R2.fastq.gz
           paired_read_direction: reverse
+          paired_read_length: 300
     data_processing:
       - data_processing_id: d097e851-c2ac-4bc9-89ca-93845f3cfbc0-007
         primary_annotation: true
-        final_rearrangement_file: "TW05B_T_naive_CD4.igblast.airr.tsv"
+        data_processing_files:
+          - "TW05B_T_naive_CD4.igblast.airr.tsv"
 
   - repertoire_id: 4858300151399575065-242ac11c-0001-012
     study:
@@ -3136,17 +3251,19 @@ Repertoire:
         pcr_target:
           - pcr_target_locus: TRB
         sequencing_platform: "Illumina MiSeq"
-        read_length: "300"
         sequencing_files:
           file_type: fastq
           filename: SRR2905714_R1.fastq.gz
           read_direction: forward
+          read_length: 300
           paired_filename: SRR2905714_R2.fastq.gz
           paired_read_direction: reverse
+          paired_read_length: 300
     data_processing:
       - data_processing_id: d097e851-c2ac-4bc9-89ca-93845f3cfbc0-007
         primary_annotation: true
-        final_rearrangement_file: "TW05B_T_naive_CD8.igblast.airr.tsv"
+        data_processing_files:
+          - "TW05B_T_naive_CD8.igblast.airr.tsv"
 
   - repertoire_id: 5338391595746455065-242ac11c-0001-012
     study:
@@ -3190,17 +3307,19 @@ Repertoire:
         pcr_target:
           - pcr_target_locus: TRB
         sequencing_platform: "Illumina MiSeq"
-        read_length: "300"
         sequencing_files:
           file_type: fastq
           filename: SRR2905711_R1.fastq.gz
           read_direction: forward
+          read_length: 300
           paired_filename: SRR2905711_R2.fastq.gz
           paired_read_direction: reverse
+          paired_read_length: 300
     data_processing:
       - data_processing_id: d097e851-c2ac-4bc9-89ca-93845f3cfbc0-007
         primary_annotation: true
-        final_rearrangement_file: "TW05B_T_memory_CD4.igblast.airr.tsv"
+        data_processing_files:
+          - "TW05B_T_memory_CD4.igblast.airr.tsv"
 
   - repertoire_id: 5168912186246295065-242ac11c-0001-012
     study:
@@ -3244,14 +3363,16 @@ Repertoire:
         pcr_target:
           - pcr_target_locus: TRB
         sequencing_platform: "Illumina MiSeq"
-        read_length: "300"
         sequencing_files:
           file_type: fastq
           filename: SRR2905712_R1.fastq.gz
           read_direction: forward
+          read_length: 300
           paired_filename: SRR2905712_R2.fastq.gz
           paired_read_direction: reverse
+          paired_read_length: 300
     data_processing:
       - data_processing_id: d097e851-c2ac-4bc9-89ca-93845f3cfbc0-007
         primary_annotation: true
-        final_rearrangement_file: "TW05B_T_memory_CD8.igblast.airr.tsv"
+        data_processing_files:
+          - "TW05B_T_memory_CD8.igblast.airr.tsv"
