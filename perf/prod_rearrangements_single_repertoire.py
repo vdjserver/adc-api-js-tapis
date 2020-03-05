@@ -10,7 +10,8 @@ import requests
 host_url='https://vdjserver.org/airr/v1'
 
 #repertoires = [ "6738379135550615065-242ac11c-0001-012" ]
-repertoires = [ "5168912186246295065-242ac11c-0001-012" ]
+#repertoires = [ "5168912186246295065-242ac11c-0001-012" ]
+repertoires = [ "7716439811287019030-242ac116-0001-012" ]
 
 #
 # Query the rearrangement endpoint

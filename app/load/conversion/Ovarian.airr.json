@@ -43,11 +43,11 @@
           "value": "Homo sapiens"
         },
         "sex": "female",
-        "age_min": null,
-        "age_max": null,
+        "age_min": 55,
+        "age_max": 55,
         "age_unit": {
-          "id": "",
-          "value": ""
+          "id": "UO_0000036",
+          "value": "year"
         },
         "age_event": null,
         "ancestry_population": null,
@@ -59,7 +59,7 @@
         "diagnosis": [
           {
             "study_group_description": "",
-            "disease_diagnosis": "",
+            "disease_diagnosis": "Serous Cystadenoma",
             "disease_length": "",
             "disease_stage": "",
             "prior_therapies": "",
@@ -90,7 +90,7 @@
           "cell_quality": null,
           "cell_isolation": null,
           "cell_processing_protocol": null,
-          "template_class": "RNA",
+          "template_class": "DNA",
           "template_quality": null,
           "template_amount": null,
           "library_generation_method": "RT(specific)+PCR",
@@ -185,7 +185,7 @@
         "diagnosis": [
           {
             "study_group_description": "",
-            "disease_diagnosis": "",
+            "disease_diagnosis": "Serous Cystadenoma",
             "disease_length": "",
             "disease_stage": "",
             "prior_therapies": "",
@@ -216,7 +216,7 @@
           "cell_quality": null,
           "cell_isolation": null,
           "cell_processing_protocol": null,
-          "template_class": "RNA",
+          "template_class": "DNA",
           "template_quality": null,
           "template_amount": null,
           "library_generation_method": "RT(specific)+PCR",
@@ -311,7 +311,7 @@
         "diagnosis": [
           {
             "study_group_description": "",
-            "disease_diagnosis": "",
+            "disease_diagnosis": "Serous Cystadenoma",
             "disease_length": "",
             "disease_stage": "",
             "prior_therapies": "",
@@ -342,7 +342,7 @@
           "cell_quality": null,
           "cell_isolation": null,
           "cell_processing_protocol": null,
-          "template_class": "RNA",
+          "template_class": "DNA",
           "template_quality": null,
           "template_amount": null,
           "library_generation_method": "RT(specific)+PCR",
@@ -437,7 +437,7 @@
         "diagnosis": [
           {
             "study_group_description": "",
-            "disease_diagnosis": "",
+            "disease_diagnosis": "Serous Cystadenoma, teratoma",
             "disease_length": "",
             "disease_stage": "",
             "prior_therapies": "",
@@ -468,7 +468,7 @@
           "cell_quality": null,
           "cell_isolation": null,
           "cell_processing_protocol": null,
-          "template_class": "RNA",
+          "template_class": "DNA",
           "template_quality": null,
           "template_amount": null,
           "library_generation_method": "RT(specific)+PCR",
@@ -563,7 +563,7 @@
         "diagnosis": [
           {
             "study_group_description": "",
-            "disease_diagnosis": "",
+            "disease_diagnosis": "Serous cystadenofibroma",
             "disease_length": "",
             "disease_stage": "",
             "prior_therapies": "",
@@ -594,7 +594,7 @@
           "cell_quality": null,
           "cell_isolation": null,
           "cell_processing_protocol": null,
-          "template_class": "RNA",
+          "template_class": "DNA",
           "template_quality": null,
           "template_amount": null,
           "library_generation_method": "RT(specific)+PCR",
@@ -689,7 +689,7 @@
         "diagnosis": [
           {
             "study_group_description": "",
-            "disease_diagnosis": "",
+            "disease_diagnosis": "Serous cystadenofibroma",
             "disease_length": "",
             "disease_stage": "",
             "prior_therapies": "",
@@ -720,7 +720,7 @@
           "cell_quality": null,
           "cell_isolation": null,
           "cell_processing_protocol": null,
-          "template_class": "RNA",
+          "template_class": "DNA",
           "template_quality": null,
           "template_amount": null,
           "library_generation_method": "RT(specific)+PCR",
@@ -815,7 +815,7 @@
         "diagnosis": [
           {
             "study_group_description": "",
-            "disease_diagnosis": "",
+            "disease_diagnosis": "Adenofibroma",
             "disease_length": "",
             "disease_stage": "",
             "prior_therapies": "",
@@ -846,7 +846,7 @@
           "cell_quality": null,
           "cell_isolation": null,
           "cell_processing_protocol": null,
-          "template_class": "RNA",
+          "template_class": "DNA",
           "template_quality": null,
           "template_amount": null,
           "library_generation_method": "RT(specific)+PCR",
@@ -941,7 +941,7 @@
         "diagnosis": [
           {
             "study_group_description": "",
-            "disease_diagnosis": "",
+            "disease_diagnosis": "Serous cystadenofibroma",
             "disease_length": "",
             "disease_stage": "",
             "prior_therapies": "",
@@ -972,7 +972,7 @@
           "cell_quality": null,
           "cell_isolation": null,
           "cell_processing_protocol": null,
-          "template_class": "RNA",
+          "template_class": "DNA",
           "template_quality": null,
           "template_amount": null,
           "library_generation_method": "RT(specific)+PCR",
@@ -1067,7 +1067,7 @@
         "diagnosis": [
           {
             "study_group_description": "",
-            "disease_diagnosis": "",
+            "disease_diagnosis": "Serous cystadenoma",
             "disease_length": "",
             "disease_stage": "",
             "prior_therapies": "",
@@ -1098,7 +1098,7 @@
           "cell_quality": null,
           "cell_isolation": null,
           "cell_processing_protocol": null,
-          "template_class": "RNA",
+          "template_class": "DNA",
           "template_quality": null,
           "template_amount": null,
           "library_generation_method": "RT(specific)+PCR",
@@ -1193,7 +1193,7 @@
         "diagnosis": [
           {
             "study_group_description": "",
-            "disease_diagnosis": "",
+            "disease_diagnosis": "Serous cystadenoma",
             "disease_length": "",
             "disease_stage": "",
             "prior_therapies": "",
@@ -1224,7 +1224,7 @@
           "cell_quality": null,
           "cell_isolation": null,
           "cell_processing_protocol": null,
-          "template_class": "RNA",
+          "template_class": "DNA",
           "template_quality": null,
           "template_amount": null,
           "library_generation_method": "RT(specific)+PCR",
@@ -1319,7 +1319,7 @@
         "diagnosis": [
           {
             "study_group_description": "",
-            "disease_diagnosis": "",
+            "disease_diagnosis": "Serous cystadenoma",
             "disease_length": "",
             "disease_stage": "",
             "prior_therapies": "",
@@ -1350,7 +1350,7 @@
           "cell_quality": null,
           "cell_isolation": null,
           "cell_processing_protocol": null,
-          "template_class": "RNA",
+          "template_class": "DNA",
           "template_quality": null,
           "template_amount": null,
           "library_generation_method": "RT(specific)+PCR",
@@ -1429,11 +1429,11 @@
           "value": "Homo sapiens"
         },
         "sex": "female",
-        "age_min": null,
-        "age_max": null,
+        "age_min": 53,
+        "age_max": 53,
         "age_unit": {
-          "id": "",
-          "value": ""
+          "id": "UO_0000036",
+          "value": "year"
         },
         "age_event": null,
         "ancestry_population": null,
@@ -1445,7 +1445,7 @@
         "diagnosis": [
           {
             "study_group_description": "",
-            "disease_diagnosis": "",
+            "disease_diagnosis": "Serous cystadenoma",
             "disease_length": "",
             "disease_stage": "",
             "prior_therapies": "",
@@ -1476,7 +1476,7 @@
           "cell_quality": null,
           "cell_isolation": null,
           "cell_processing_protocol": null,
-          "template_class": "RNA",
+          "template_class": "DNA",
           "template_quality": null,
           "template_amount": null,
           "library_generation_method": "RT(specific)+PCR",
@@ -1555,11 +1555,11 @@
           "value": "Homo sapiens"
         },
         "sex": "female",
-        "age_min": null,
-        "age_max": null,
+        "age_min": 56,
+        "age_max": 56,
         "age_unit": {
-          "id": "",
-          "value": ""
+          "id": "UO_0000036",
+          "value": "year"
         },
         "age_event": null,
         "ancestry_population": null,
@@ -1571,7 +1571,7 @@
         "diagnosis": [
           {
             "study_group_description": "",
-            "disease_diagnosis": "",
+            "disease_diagnosis": "Multilocular serous cystadenoma, Serous cystadenofibroma",
             "disease_length": "",
             "disease_stage": "",
             "prior_therapies": "",
@@ -1602,7 +1602,7 @@
           "cell_quality": null,
           "cell_isolation": null,
           "cell_processing_protocol": null,
-          "template_class": "RNA",
+          "template_class": "DNA",
           "template_quality": null,
           "template_amount": null,
           "library_generation_method": "RT(specific)+PCR",
@@ -1681,11 +1681,11 @@
           "value": "Homo sapiens"
         },
         "sex": "female",
-        "age_min": null,
-        "age_max": null,
+        "age_min": 52,
+        "age_max": 52,
         "age_unit": {
-          "id": "",
-          "value": ""
+          "id": "UO_0000036",
+          "value": "year"
         },
         "age_event": null,
         "ancestry_population": null,
@@ -1697,7 +1697,7 @@
         "diagnosis": [
           {
             "study_group_description": "",
-            "disease_diagnosis": "",
+            "disease_diagnosis": "Serous Cystadenoma",
             "disease_length": "",
             "disease_stage": "",
             "prior_therapies": "",
@@ -1728,7 +1728,7 @@
           "cell_quality": null,
           "cell_isolation": null,
           "cell_processing_protocol": null,
-          "template_class": "RNA",
+          "template_class": "DNA",
           "template_quality": null,
           "template_amount": null,
           "library_generation_method": "RT(specific)+PCR",
@@ -1807,11 +1807,11 @@
           "value": "Homo sapiens"
         },
         "sex": "female",
-        "age_min": null,
-        "age_max": null,
+        "age_min": 52,
+        "age_max": 52,
         "age_unit": {
-          "id": "",
-          "value": ""
+          "id": "UO_0000036",
+          "value": "year"
         },
         "age_event": null,
         "ancestry_population": null,
@@ -1823,7 +1823,7 @@
         "diagnosis": [
           {
             "study_group_description": "",
-            "disease_diagnosis": "",
+            "disease_diagnosis": "Serous Cystadenoma",
             "disease_length": "",
             "disease_stage": "",
             "prior_therapies": "",
@@ -1854,7 +1854,7 @@
           "cell_quality": null,
           "cell_isolation": null,
           "cell_processing_protocol": null,
-          "template_class": "RNA",
+          "template_class": "DNA",
           "template_quality": null,
           "template_amount": null,
           "library_generation_method": "RT(specific)+PCR",
@@ -1933,11 +1933,11 @@
           "value": "Homo sapiens"
         },
         "sex": "female",
-        "age_min": null,
-        "age_max": null,
+        "age_min": 51,
+        "age_max": 51,
         "age_unit": {
-          "id": "",
-          "value": ""
+          "id": "UO_0000036",
+          "value": "year"
         },
         "age_event": null,
         "ancestry_population": null,
@@ -1949,7 +1949,7 @@
         "diagnosis": [
           {
             "study_group_description": "",
-            "disease_diagnosis": "",
+            "disease_diagnosis": "Serous Cystadenofibroma",
             "disease_length": "",
             "disease_stage": "",
             "prior_therapies": "",
@@ -1980,7 +1980,7 @@
           "cell_quality": null,
           "cell_isolation": null,
           "cell_processing_protocol": null,
-          "template_class": "RNA",
+          "template_class": "DNA",
           "template_quality": null,
           "template_amount": null,
           "library_generation_method": "RT(specific)+PCR",
@@ -2059,11 +2059,11 @@
           "value": "Homo sapiens"
         },
         "sex": "female",
-        "age_min": null,
-        "age_max": null,
+        "age_min": 51,
+        "age_max": 51,
         "age_unit": {
-          "id": "",
-          "value": ""
+          "id": "UO_0000036",
+          "value": "year"
         },
         "age_event": null,
         "ancestry_population": null,
@@ -2075,7 +2075,7 @@
         "diagnosis": [
           {
             "study_group_description": "",
-            "disease_diagnosis": "",
+            "disease_diagnosis": "Serous Cystadenofibroma",
             "disease_length": "",
             "disease_stage": "",
             "prior_therapies": "",
@@ -2106,7 +2106,7 @@
           "cell_quality": null,
           "cell_isolation": null,
           "cell_processing_protocol": null,
-          "template_class": "RNA",
+          "template_class": "DNA",
           "template_quality": null,
           "template_amount": null,
           "library_generation_method": "RT(specific)+PCR",
@@ -2185,11 +2185,11 @@
           "value": "Homo sapiens"
         },
         "sex": "female",
-        "age_min": null,
-        "age_max": null,
+        "age_min": 51,
+        "age_max": 51,
         "age_unit": {
-          "id": "",
-          "value": ""
+          "id": "UO_0000036",
+          "value": "year"
         },
         "age_event": null,
         "ancestry_population": null,
@@ -2201,7 +2201,7 @@
         "diagnosis": [
           {
             "study_group_description": "",
-            "disease_diagnosis": "",
+            "disease_diagnosis": "Serous Cystadenoma, hemorrhagic cyst",
             "disease_length": "",
             "disease_stage": "",
             "prior_therapies": "",
@@ -2232,7 +2232,7 @@
           "cell_quality": null,
           "cell_isolation": null,
           "cell_processing_protocol": null,
-          "template_class": "RNA",
+          "template_class": "DNA",
           "template_quality": null,
           "template_amount": null,
           "library_generation_method": "RT(specific)+PCR",
@@ -2311,11 +2311,11 @@
           "value": "Homo sapiens"
         },
         "sex": "female",
-        "age_min": null,
-        "age_max": null,
+        "age_min": 55,
+        "age_max": 55,
         "age_unit": {
-          "id": "",
-          "value": ""
+          "id": "UO_0000036",
+          "value": "year"
         },
         "age_event": null,
         "ancestry_population": null,
@@ -2327,7 +2327,7 @@
         "diagnosis": [
           {
             "study_group_description": "",
-            "disease_diagnosis": "",
+            "disease_diagnosis": "Serous Cystadenofibroma",
             "disease_length": "",
             "disease_stage": "",
             "prior_therapies": "",
@@ -2358,7 +2358,7 @@
           "cell_quality": null,
           "cell_isolation": null,
           "cell_processing_protocol": null,
-          "template_class": "RNA",
+          "template_class": "DNA",
           "template_quality": null,
           "template_amount": null,
           "library_generation_method": "RT(specific)+PCR",
@@ -2437,11 +2437,11 @@
           "value": "Homo sapiens"
         },
         "sex": "female",
-        "age_min": null,
-        "age_max": null,
+        "age_min": 55,
+        "age_max": 55,
         "age_unit": {
-          "id": "",
-          "value": ""
+          "id": "UO_0000036",
+          "value": "year"
         },
         "age_event": null,
         "ancestry_population": null,
@@ -2453,7 +2453,7 @@
         "diagnosis": [
           {
             "study_group_description": "",
-            "disease_diagnosis": "",
+            "disease_diagnosis": "Benign Brenner tumor",
             "disease_length": "",
             "disease_stage": "",
             "prior_therapies": "",
@@ -2484,7 +2484,7 @@
           "cell_quality": null,
           "cell_isolation": null,
           "cell_processing_protocol": null,
-          "template_class": "RNA",
+          "template_class": "DNA",
           "template_quality": null,
           "template_amount": null,
           "library_generation_method": "RT(specific)+PCR",
@@ -2579,9 +2579,9 @@
         "diagnosis": [
           {
             "study_group_description": "",
-            "disease_diagnosis": "",
+            "disease_diagnosis": "High-grade serous carcinoma",
             "disease_length": "",
-            "disease_stage": "",
+            "disease_stage": "pT3cN1M1",
             "prior_therapies": "",
             "immunogen": "",
             "intervention": "",
@@ -2610,7 +2610,7 @@
           "cell_quality": null,
           "cell_isolation": null,
           "cell_processing_protocol": null,
-          "template_class": "RNA",
+          "template_class": "DNA",
           "template_quality": null,
           "template_amount": null,
           "library_generation_method": "RT(specific)+PCR",
@@ -2705,9 +2705,9 @@
         "diagnosis": [
           {
             "study_group_description": "",
-            "disease_diagnosis": "",
+            "disease_diagnosis": "High-grade serous carcinoma",
             "disease_length": "",
-            "disease_stage": "",
+            "disease_stage": "pT3cN1",
             "prior_therapies": "",
             "immunogen": "",
             "intervention": "",
@@ -2736,7 +2736,7 @@
           "cell_quality": null,
           "cell_isolation": null,
           "cell_processing_protocol": null,
-          "template_class": "RNA",
+          "template_class": "DNA",
           "template_quality": null,
           "template_amount": null,
           "library_generation_method": "RT(specific)+PCR",
@@ -2831,9 +2831,9 @@
         "diagnosis": [
           {
             "study_group_description": "",
-            "disease_diagnosis": "",
+            "disease_diagnosis": "High-grade serous carcinoma",
             "disease_length": "",
-            "disease_stage": "",
+            "disease_stage": "pT3cN1M1",
             "prior_therapies": "",
             "immunogen": "",
             "intervention": "",
@@ -2862,7 +2862,7 @@
           "cell_quality": null,
           "cell_isolation": null,
           "cell_processing_protocol": null,
-          "template_class": "RNA",
+          "template_class": "DNA",
           "template_quality": null,
           "template_amount": null,
           "library_generation_method": "RT(specific)+PCR",
@@ -2957,9 +2957,9 @@
         "diagnosis": [
           {
             "study_group_description": "",
-            "disease_diagnosis": "",
+            "disease_diagnosis": "High-grade serous carcinoma",
             "disease_length": "",
-            "disease_stage": "",
+            "disease_stage": "pT3cNX",
             "prior_therapies": "",
             "immunogen": "",
             "intervention": "",
@@ -2988,7 +2988,7 @@
           "cell_quality": null,
           "cell_isolation": null,
           "cell_processing_protocol": null,
-          "template_class": "RNA",
+          "template_class": "DNA",
           "template_quality": null,
           "template_amount": null,
           "library_generation_method": "RT(specific)+PCR",
@@ -3083,9 +3083,9 @@
         "diagnosis": [
           {
             "study_group_description": "",
-            "disease_diagnosis": "",
+            "disease_diagnosis": "High-grade serous carcinoma with endometrioid component",
             "disease_length": "",
-            "disease_stage": "",
+            "disease_stage": "pT3cN0",
             "prior_therapies": "",
             "immunogen": "",
             "intervention": "",
@@ -3114,7 +3114,7 @@
           "cell_quality": null,
           "cell_isolation": null,
           "cell_processing_protocol": null,
-          "template_class": "RNA",
+          "template_class": "DNA",
           "template_quality": null,
           "template_amount": null,
           "library_generation_method": "RT(specific)+PCR",
@@ -3209,9 +3209,9 @@
         "diagnosis": [
           {
             "study_group_description": "",
-            "disease_diagnosis": "",
+            "disease_diagnosis": "High-grade serous carcinoma",
             "disease_length": "",
-            "disease_stage": "",
+            "disease_stage": "pT3cN1",
             "prior_therapies": "",
             "immunogen": "",
             "intervention": "",
@@ -3240,7 +3240,7 @@
           "cell_quality": null,
           "cell_isolation": null,
           "cell_processing_protocol": null,
-          "template_class": "RNA",
+          "template_class": "DNA",
           "template_quality": null,
           "template_amount": null,
           "library_generation_method": "RT(specific)+PCR",
@@ -3335,9 +3335,9 @@
         "diagnosis": [
           {
             "study_group_description": "",
-            "disease_diagnosis": "",
+            "disease_diagnosis": "High-grade serous carcinoma",
             "disease_length": "",
-            "disease_stage": "",
+            "disease_stage": "pT3cNX",
             "prior_therapies": "",
             "immunogen": "",
             "intervention": "",
@@ -3366,7 +3366,7 @@
           "cell_quality": null,
           "cell_isolation": null,
           "cell_processing_protocol": null,
-          "template_class": "RNA",
+          "template_class": "DNA",
           "template_quality": null,
           "template_amount": null,
           "library_generation_method": "RT(specific)+PCR",
@@ -3461,9 +3461,9 @@
         "diagnosis": [
           {
             "study_group_description": "",
-            "disease_diagnosis": "",
+            "disease_diagnosis": "High-grade serous carcinoma",
             "disease_length": "",
-            "disease_stage": "",
+            "disease_stage": "pT3cNX",
             "prior_therapies": "",
             "immunogen": "",
             "intervention": "",
@@ -3492,7 +3492,7 @@
           "cell_quality": null,
           "cell_isolation": null,
           "cell_processing_protocol": null,
-          "template_class": "RNA",
+          "template_class": "DNA",
           "template_quality": null,
           "template_amount": null,
           "library_generation_method": "RT(specific)+PCR",
@@ -3587,9 +3587,9 @@
         "diagnosis": [
           {
             "study_group_description": "",
-            "disease_diagnosis": "",
+            "disease_diagnosis": "High-grade serous carcinoma",
             "disease_length": "",
-            "disease_stage": "",
+            "disease_stage": "pT3cNX",
             "prior_therapies": "",
             "immunogen": "",
             "intervention": "",
@@ -3618,7 +3618,7 @@
           "cell_quality": null,
           "cell_isolation": null,
           "cell_processing_protocol": null,
-          "template_class": "RNA",
+          "template_class": "DNA",
           "template_quality": null,
           "template_amount": null,
           "library_generation_method": "RT(specific)+PCR",
@@ -3713,9 +3713,9 @@
         "diagnosis": [
           {
             "study_group_description": "",
-            "disease_diagnosis": "",
+            "disease_diagnosis": "High-grade serous carcinoma",
             "disease_length": "",
-            "disease_stage": "",
+            "disease_stage": "pT3cNX",
             "prior_therapies": "",
             "immunogen": "",
             "intervention": "",
@@ -3744,7 +3744,7 @@
           "cell_quality": null,
           "cell_isolation": null,
           "cell_processing_protocol": null,
-          "template_class": "RNA",
+          "template_class": "DNA",
           "template_quality": null,
           "template_amount": null,
           "library_generation_method": "RT(specific)+PCR",
@@ -3823,11 +3823,11 @@
           "value": "Homo sapiens"
         },
         "sex": "female",
-        "age_min": null,
-        "age_max": null,
+        "age_min": 51,
+        "age_max": 51,
         "age_unit": {
-          "id": "",
-          "value": ""
+          "id": "UO_0000036",
+          "value": "year"
         },
         "age_event": null,
         "ancestry_population": null,
@@ -3839,9 +3839,9 @@
         "diagnosis": [
           {
             "study_group_description": "",
-            "disease_diagnosis": "",
+            "disease_diagnosis": "High-grade serous carcinoma",
             "disease_length": "",
-            "disease_stage": "",
+            "disease_stage": "pT3c Nx",
             "prior_therapies": "",
             "immunogen": "",
             "intervention": "",
@@ -3870,7 +3870,7 @@
           "cell_quality": null,
           "cell_isolation": null,
           "cell_processing_protocol": null,
-          "template_class": "RNA",
+          "template_class": "DNA",
           "template_quality": null,
           "template_amount": null,
           "library_generation_method": "RT(specific)+PCR",
@@ -3949,11 +3949,11 @@
           "value": "Homo sapiens"
         },
         "sex": "female",
-        "age_min": null,
-        "age_max": null,
+        "age_min": 56,
+        "age_max": 56,
         "age_unit": {
-          "id": "",
-          "value": ""
+          "id": "UO_0000036",
+          "value": "year"
         },
         "age_event": null,
         "ancestry_population": null,
@@ -3965,9 +3965,9 @@
         "diagnosis": [
           {
             "study_group_description": "",
-            "disease_diagnosis": "",
+            "disease_diagnosis": "High-grade serous carcinoma",
             "disease_length": "",
-            "disease_stage": "",
+            "disease_stage": "pT3c N0 M1",
             "prior_therapies": "",
             "immunogen": "",
             "intervention": "",
@@ -3996,7 +3996,7 @@
           "cell_quality": null,
           "cell_isolation": null,
           "cell_processing_protocol": null,
-          "template_class": "RNA",
+          "template_class": "DNA",
           "template_quality": null,
           "template_amount": null,
           "library_generation_method": "RT(specific)+PCR",
@@ -4075,11 +4075,11 @@
           "value": "Homo sapiens"
         },
         "sex": "female",
-        "age_min": null,
-        "age_max": null,
+        "age_min": 57,
+        "age_max": 57,
         "age_unit": {
-          "id": "",
-          "value": ""
+          "id": "UO_0000036",
+          "value": "year"
         },
         "age_event": null,
         "ancestry_population": null,
@@ -4091,9 +4091,9 @@
         "diagnosis": [
           {
             "study_group_description": "",
-            "disease_diagnosis": "",
+            "disease_diagnosis": "High-grade serous carcinoma",
             "disease_length": "",
-            "disease_stage": "",
+            "disease_stage": "pT3c N1",
             "prior_therapies": "",
             "immunogen": "",
             "intervention": "",
@@ -4122,7 +4122,7 @@
           "cell_quality": null,
           "cell_isolation": null,
           "cell_processing_protocol": null,
-          "template_class": "RNA",
+          "template_class": "DNA",
           "template_quality": null,
           "template_amount": null,
           "library_generation_method": "RT(specific)+PCR",
@@ -4201,11 +4201,11 @@
           "value": "Homo sapiens"
         },
         "sex": "female",
-        "age_min": null,
-        "age_max": null,
+        "age_min": 57,
+        "age_max": 57,
         "age_unit": {
-          "id": "",
-          "value": ""
+          "id": "UO_0000036",
+          "value": "year"
         },
         "age_event": null,
         "ancestry_population": null,
@@ -4217,9 +4217,9 @@
         "diagnosis": [
           {
             "study_group_description": "",
-            "disease_diagnosis": "",
+            "disease_diagnosis": "High-grade serous carcinoma",
             "disease_length": "",
-            "disease_stage": "",
+            "disease_stage": "pT3c Nx",
             "prior_therapies": "",
             "immunogen": "",
             "intervention": "",
@@ -4248,7 +4248,7 @@
           "cell_quality": null,
           "cell_isolation": null,
           "cell_processing_protocol": null,
-          "template_class": "RNA",
+          "template_class": "DNA",
           "template_quality": null,
           "template_amount": null,
           "library_generation_method": "RT(specific)+PCR",
@@ -4327,11 +4327,11 @@
           "value": "Homo sapiens"
         },
         "sex": "female",
-        "age_min": null,
-        "age_max": null,
+        "age_min": 51,
+        "age_max": 51,
         "age_unit": {
-          "id": "",
-          "value": ""
+          "id": "UO_0000036",
+          "value": "year"
         },
         "age_event": null,
         "ancestry_population": null,
@@ -4343,9 +4343,9 @@
         "diagnosis": [
           {
             "study_group_description": "",
-            "disease_diagnosis": "",
+            "disease_diagnosis": "High-grade serous carcinoma",
             "disease_length": "",
-            "disease_stage": "",
+            "disease_stage": "pT3c Nx",
             "prior_therapies": "",
             "immunogen": "",
             "intervention": "",
@@ -4374,7 +4374,7 @@
           "cell_quality": null,
           "cell_isolation": null,
           "cell_processing_protocol": null,
-          "template_class": "RNA",
+          "template_class": "DNA",
           "template_quality": null,
           "template_amount": null,
           "library_generation_method": "RT(specific)+PCR",
@@ -4453,11 +4453,11 @@
           "value": "Homo sapiens"
         },
         "sex": "female",
-        "age_min": null,
-        "age_max": null,
+        "age_min": 56,
+        "age_max": 56,
         "age_unit": {
-          "id": "",
-          "value": ""
+          "id": "UO_0000036",
+          "value": "year"
         },
         "age_event": null,
         "ancestry_population": null,
@@ -4469,9 +4469,9 @@
         "diagnosis": [
           {
             "study_group_description": "",
-            "disease_diagnosis": "",
+            "disease_diagnosis": "High-grade serous carcinoma",
             "disease_length": "",
-            "disease_stage": "",
+            "disease_stage": "pT2a N0",
             "prior_therapies": "",
             "immunogen": "",
             "intervention": "",
@@ -4500,7 +4500,7 @@
           "cell_quality": null,
           "cell_isolation": null,
           "cell_processing_protocol": null,
-          "template_class": "RNA",
+          "template_class": "DNA",
           "template_quality": null,
           "template_amount": null,
           "library_generation_method": "RT(specific)+PCR",
@@ -4579,11 +4579,11 @@
           "value": "Homo sapiens"
         },
         "sex": "female",
-        "age_min": null,
-        "age_max": null,
+        "age_min": 55,
+        "age_max": 55,
         "age_unit": {
-          "id": "",
-          "value": ""
+          "id": "UO_0000036",
+          "value": "year"
         },
         "age_event": null,
         "ancestry_population": null,
@@ -4595,9 +4595,9 @@
         "diagnosis": [
           {
             "study_group_description": "",
-            "disease_diagnosis": "",
+            "disease_diagnosis": "High-grade serous carcinoma",
             "disease_length": "",
-            "disease_stage": "",
+            "disease_stage": "pT3c N1",
             "prior_therapies": "",
             "immunogen": "",
             "intervention": "",
@@ -4626,7 +4626,7 @@
           "cell_quality": null,
           "cell_isolation": null,
           "cell_processing_protocol": null,
-          "template_class": "RNA",
+          "template_class": "DNA",
           "template_quality": null,
           "template_amount": null,
           "library_generation_method": "RT(specific)+PCR",
@@ -4705,11 +4705,11 @@
           "value": "Homo sapiens"
         },
         "sex": "female",
-        "age_min": null,
-        "age_max": null,
+        "age_min": 54,
+        "age_max": 54,
         "age_unit": {
-          "id": "",
-          "value": ""
+          "id": "UO_0000036",
+          "value": "year"
         },
         "age_event": null,
         "ancestry_population": null,
@@ -4721,9 +4721,9 @@
         "diagnosis": [
           {
             "study_group_description": "",
-            "disease_diagnosis": "",
+            "disease_diagnosis": "High-grade serous carcinoma",
             "disease_length": "",
-            "disease_stage": "",
+            "disease_stage": "pT2b N0",
             "prior_therapies": "",
             "immunogen": "",
             "intervention": "",
@@ -4752,7 +4752,7 @@
           "cell_quality": null,
           "cell_isolation": null,
           "cell_processing_protocol": null,
-          "template_class": "RNA",
+          "template_class": "DNA",
           "template_quality": null,
           "template_amount": null,
           "library_generation_method": "RT(specific)+PCR",
@@ -4831,11 +4831,11 @@
           "value": "Homo sapiens"
         },
         "sex": "female",
-        "age_min": null,
-        "age_max": null,
+        "age_min": 57,
+        "age_max": 57,
         "age_unit": {
-          "id": "",
-          "value": ""
+          "id": "UO_0000036",
+          "value": "year"
         },
         "age_event": null,
         "ancestry_population": null,
@@ -4847,9 +4847,9 @@
         "diagnosis": [
           {
             "study_group_description": "",
-            "disease_diagnosis": "",
+            "disease_diagnosis": "High-grade serous carcinoma",
             "disease_length": "",
-            "disease_stage": "",
+            "disease_stage": "pT3c",
             "prior_therapies": "",
             "immunogen": "",
             "intervention": "",
@@ -4878,7 +4878,7 @@
           "cell_quality": null,
           "cell_isolation": null,
           "cell_processing_protocol": null,
-          "template_class": "RNA",
+          "template_class": "DNA",
           "template_quality": null,
           "template_amount": null,
           "library_generation_method": "RT(specific)+PCR",
@@ -4957,11 +4957,11 @@
           "value": "Homo sapiens"
         },
         "sex": "female",
-        "age_min": null,
-        "age_max": null,
+        "age_min": 51,
+        "age_max": 51,
         "age_unit": {
-          "id": "",
-          "value": ""
+          "id": "UO_0000036",
+          "value": "year"
         },
         "age_event": null,
         "ancestry_population": null,
@@ -4973,9 +4973,9 @@
         "diagnosis": [
           {
             "study_group_description": "",
-            "disease_diagnosis": "",
+            "disease_diagnosis": "High-grade serous carcinoma",
             "disease_length": "",
-            "disease_stage": "",
+            "disease_stage": "pT3c N1",
             "prior_therapies": "",
             "immunogen": "",
             "intervention": "",
@@ -5004,7 +5004,7 @@
           "cell_quality": null,
           "cell_isolation": null,
           "cell_processing_protocol": null,
-          "template_class": "RNA",
+          "template_class": "DNA",
           "template_quality": null,
           "template_amount": null,
           "library_generation_method": "RT(specific)+PCR",
@@ -5099,7 +5099,7 @@
         "diagnosis": [
           {
             "study_group_description": "",
-            "disease_diagnosis": "",
+            "disease_diagnosis": "Cervix with LSIL",
             "disease_length": "",
             "disease_stage": "",
             "prior_therapies": "",
@@ -5130,7 +5130,7 @@
           "cell_quality": null,
           "cell_isolation": null,
           "cell_processing_protocol": null,
-          "template_class": "RNA",
+          "template_class": "DNA",
           "template_quality": null,
           "template_amount": null,
           "library_generation_method": "RT(specific)+PCR",
@@ -5225,7 +5225,7 @@
         "diagnosis": [
           {
             "study_group_description": "",
-            "disease_diagnosis": "",
+            "disease_diagnosis": "Cervix with LSIL; uterus with leiomyoma, adenomyosis",
             "disease_length": "",
             "disease_stage": "",
             "prior_therapies": "",
@@ -5256,7 +5256,7 @@
           "cell_quality": null,
           "cell_isolation": null,
           "cell_processing_protocol": null,
-          "template_class": "RNA",
+          "template_class": "DNA",
           "template_quality": null,
           "template_amount": null,
           "library_generation_method": "RT(specific)+PCR",
@@ -5351,7 +5351,7 @@
         "diagnosis": [
           {
             "study_group_description": "",
-            "disease_diagnosis": "",
+            "disease_diagnosis": "Uterus with leiomyoma, adenomyosis, benign endometrial polyp",
             "disease_length": "",
             "disease_stage": "",
             "prior_therapies": "",
@@ -5382,7 +5382,7 @@
           "cell_quality": null,
           "cell_isolation": null,
           "cell_processing_protocol": null,
-          "template_class": "RNA",
+          "template_class": "DNA",
           "template_quality": null,
           "template_amount": null,
           "library_generation_method": "RT(specific)+PCR",
@@ -5477,7 +5477,7 @@
         "diagnosis": [
           {
             "study_group_description": "",
-            "disease_diagnosis": "",
+            "disease_diagnosis": "Uterus with leiomyoma, adenomyosis",
             "disease_length": "",
             "disease_stage": "",
             "prior_therapies": "",
@@ -5508,7 +5508,7 @@
           "cell_quality": null,
           "cell_isolation": null,
           "cell_processing_protocol": null,
-          "template_class": "RNA",
+          "template_class": "DNA",
           "template_quality": null,
           "template_amount": null,
           "library_generation_method": "RT(specific)+PCR",
@@ -5603,7 +5603,7 @@
         "diagnosis": [
           {
             "study_group_description": "",
-            "disease_diagnosis": "",
+            "disease_diagnosis": "Uterus with disordered proliferative endometrium, leiomyoma, adenomyosis,  benign endometrial polyp",
             "disease_length": "",
             "disease_stage": "",
             "prior_therapies": "",
@@ -5634,7 +5634,7 @@
           "cell_quality": null,
           "cell_isolation": null,
           "cell_processing_protocol": null,
-          "template_class": "RNA",
+          "template_class": "DNA",
           "template_quality": null,
           "template_amount": null,
           "library_generation_method": "RT(specific)+PCR",
@@ -5729,7 +5729,7 @@
         "diagnosis": [
           {
             "study_group_description": "",
-            "disease_diagnosis": "",
+            "disease_diagnosis": "Uterus with leiomyoma, adenomyosis, periadenxal soft tissue and left (opposite) ovary with endomertiosis",
             "disease_length": "",
             "disease_stage": "",
             "prior_therapies": "",
@@ -5760,7 +5760,7 @@
           "cell_quality": null,
           "cell_isolation": null,
           "cell_processing_protocol": null,
-          "template_class": "RNA",
+          "template_class": "DNA",
           "template_quality": null,
           "template_amount": null,
           "library_generation_method": "RT(specific)+PCR",
@@ -5855,7 +5855,7 @@
         "diagnosis": [
           {
             "study_group_description": "",
-            "disease_diagnosis": "",
+            "disease_diagnosis": "Left (opposite) ovary with mature cystic teratoma",
             "disease_length": "",
             "disease_stage": "",
             "prior_therapies": "",
@@ -5886,7 +5886,7 @@
           "cell_quality": null,
           "cell_isolation": null,
           "cell_processing_protocol": null,
-          "template_class": "RNA",
+          "template_class": "DNA",
           "template_quality": null,
           "template_amount": null,
           "library_generation_method": "RT(specific)+PCR",
@@ -5981,7 +5981,7 @@
         "diagnosis": [
           {
             "study_group_description": "",
-            "disease_diagnosis": "",
+            "disease_diagnosis": "Uterus with leiomyoma, adenomyosis",
             "disease_length": "",
             "disease_stage": "",
             "prior_therapies": "",
@@ -6012,7 +6012,7 @@
           "cell_quality": null,
           "cell_isolation": null,
           "cell_processing_protocol": null,
-          "template_class": "RNA",
+          "template_class": "DNA",
           "template_quality": null,
           "template_amount": null,
           "library_generation_method": "RT(specific)+PCR",
@@ -6107,7 +6107,7 @@
         "diagnosis": [
           {
             "study_group_description": "",
-            "disease_diagnosis": "",
+            "disease_diagnosis": "Uterus with leiomyoma, adenomyosis",
             "disease_length": "",
             "disease_stage": "",
             "prior_therapies": "",
@@ -6138,7 +6138,7 @@
           "cell_quality": null,
           "cell_isolation": null,
           "cell_processing_protocol": null,
-          "template_class": "RNA",
+          "template_class": "DNA",
           "template_quality": null,
           "template_amount": null,
           "library_generation_method": "RT(specific)+PCR",
@@ -6233,7 +6233,7 @@
         "diagnosis": [
           {
             "study_group_description": "",
-            "disease_diagnosis": "",
+            "disease_diagnosis": "Uterus with leiomyoma, adenomyosis",
             "disease_length": "",
             "disease_stage": "",
             "prior_therapies": "",
@@ -6264,7 +6264,7 @@
           "cell_quality": null,
           "cell_isolation": null,
           "cell_processing_protocol": null,
-          "template_class": "RNA",
+          "template_class": "DNA",
           "template_quality": null,
           "template_amount": null,
           "library_generation_method": "RT(specific)+PCR",
@@ -6343,11 +6343,11 @@
           "value": "Homo sapiens"
         },
         "sex": "female",
-        "age_min": null,
-        "age_max": null,
+        "age_min": 51,
+        "age_max": 51,
         "age_unit": {
-          "id": "",
-          "value": ""
+          "id": "UO_0000036",
+          "value": "year"
         },
         "age_event": null,
         "ancestry_population": null,
@@ -6359,7 +6359,7 @@
         "diagnosis": [
           {
             "study_group_description": "",
-            "disease_diagnosis": "",
+            "disease_diagnosis": "Leiomyoma (uterus)",
             "disease_length": "",
             "disease_stage": "",
             "prior_therapies": "",
@@ -6390,7 +6390,7 @@
           "cell_quality": null,
           "cell_isolation": null,
           "cell_processing_protocol": null,
-          "template_class": "RNA",
+          "template_class": "DNA",
           "template_quality": null,
           "template_amount": null,
           "library_generation_method": "RT(specific)+PCR",
@@ -6469,11 +6469,11 @@
           "value": "Homo sapiens"
         },
         "sex": "female",
-        "age_min": null,
-        "age_max": null,
+        "age_min": 50,
+        "age_max": 50,
         "age_unit": {
-          "id": "",
-          "value": ""
+          "id": "UO_0000036",
+          "value": "year"
         },
         "age_event": null,
         "ancestry_population": null,
@@ -6485,7 +6485,7 @@
         "diagnosis": [
           {
             "study_group_description": "",
-            "disease_diagnosis": "",
+            "disease_diagnosis": "Leiomyoma, adenomyosis (uterus)",
             "disease_length": "",
             "disease_stage": "",
             "prior_therapies": "",
@@ -6516,7 +6516,7 @@
           "cell_quality": null,
           "cell_isolation": null,
           "cell_processing_protocol": null,
-          "template_class": "RNA",
+          "template_class": "DNA",
           "template_quality": null,
           "template_amount": null,
           "library_generation_method": "RT(specific)+PCR",
@@ -6595,11 +6595,11 @@
           "value": "Homo sapiens"
         },
         "sex": "female",
-        "age_min": null,
-        "age_max": null,
+        "age_min": 50,
+        "age_max": 50,
         "age_unit": {
-          "id": "",
-          "value": ""
+          "id": "UO_0000036",
+          "value": "year"
         },
         "age_event": null,
         "ancestry_population": null,
@@ -6611,7 +6611,7 @@
         "diagnosis": [
           {
             "study_group_description": "",
-            "disease_diagnosis": "",
+            "disease_diagnosis": "Leiomyoma (uterus)",
             "disease_length": "",
             "disease_stage": "",
             "prior_therapies": "",
@@ -6642,7 +6642,7 @@
           "cell_quality": null,
           "cell_isolation": null,
           "cell_processing_protocol": null,
-          "template_class": "RNA",
+          "template_class": "DNA",
           "template_quality": null,
           "template_amount": null,
           "library_generation_method": "RT(specific)+PCR",
@@ -6721,11 +6721,11 @@
           "value": "Homo sapiens"
         },
         "sex": "female",
-        "age_min": null,
-        "age_max": null,
+        "age_min": 50,
+        "age_max": 50,
         "age_unit": {
-          "id": "",
-          "value": ""
+          "id": "UO_0000036",
+          "value": "year"
         },
         "age_event": null,
         "ancestry_population": null,
@@ -6737,7 +6737,7 @@
         "diagnosis": [
           {
             "study_group_description": "",
-            "disease_diagnosis": "",
+            "disease_diagnosis": "Leiomyoma (uterus)",
             "disease_length": "",
             "disease_stage": "",
             "prior_therapies": "",
@@ -6768,7 +6768,7 @@
           "cell_quality": null,
           "cell_isolation": null,
           "cell_processing_protocol": null,
-          "template_class": "RNA",
+          "template_class": "DNA",
           "template_quality": null,
           "template_amount": null,
           "library_generation_method": "RT(specific)+PCR",
@@ -6847,11 +6847,11 @@
           "value": "Homo sapiens"
         },
         "sex": "female",
-        "age_min": null,
-        "age_max": null,
+        "age_min": 55,
+        "age_max": 55,
         "age_unit": {
-          "id": "",
-          "value": ""
+          "id": "UO_0000036",
+          "value": "year"
         },
         "age_event": null,
         "ancestry_population": null,
@@ -6863,7 +6863,7 @@
         "diagnosis": [
           {
             "study_group_description": "",
-            "disease_diagnosis": "",
+            "disease_diagnosis": "Leiomyoma (uterus)",
             "disease_length": "",
             "disease_stage": "",
             "prior_therapies": "",
@@ -6894,7 +6894,7 @@
           "cell_quality": null,
           "cell_isolation": null,
           "cell_processing_protocol": null,
-          "template_class": "RNA",
+          "template_class": "DNA",
           "template_quality": null,
           "template_amount": null,
           "library_generation_method": "RT(specific)+PCR",
@@ -6973,11 +6973,11 @@
           "value": "Homo sapiens"
         },
         "sex": "female",
-        "age_min": null,
-        "age_max": null,
+        "age_min": 52,
+        "age_max": 52,
         "age_unit": {
-          "id": "",
-          "value": ""
+          "id": "UO_0000036",
+          "value": "year"
         },
         "age_event": null,
         "ancestry_population": null,
@@ -6989,7 +6989,7 @@
         "diagnosis": [
           {
             "study_group_description": "",
-            "disease_diagnosis": "",
+            "disease_diagnosis": "Leiomyoma, adenomyosis (uterus)",
             "disease_length": "",
             "disease_stage": "",
             "prior_therapies": "",
@@ -7020,7 +7020,7 @@
           "cell_quality": null,
           "cell_isolation": null,
           "cell_processing_protocol": null,
-          "template_class": "RNA",
+          "template_class": "DNA",
           "template_quality": null,
           "template_amount": null,
           "library_generation_method": "RT(specific)+PCR",
@@ -7099,11 +7099,11 @@
           "value": "Homo sapiens"
         },
         "sex": "female",
-        "age_min": null,
-        "age_max": null,
+        "age_min": 53,
+        "age_max": 53,
         "age_unit": {
-          "id": "",
-          "value": ""
+          "id": "UO_0000036",
+          "value": "year"
         },
         "age_event": null,
         "ancestry_population": null,
@@ -7115,7 +7115,7 @@
         "diagnosis": [
           {
             "study_group_description": "",
-            "disease_diagnosis": "",
+            "disease_diagnosis": "Leiomyoma (uterus)",
             "disease_length": "",
             "disease_stage": "",
             "prior_therapies": "",
@@ -7146,7 +7146,7 @@
           "cell_quality": null,
           "cell_isolation": null,
           "cell_processing_protocol": null,
-          "template_class": "RNA",
+          "template_class": "DNA",
           "template_quality": null,
           "template_amount": null,
           "library_generation_method": "RT(specific)+PCR",
@@ -7225,11 +7225,11 @@
           "value": "Homo sapiens"
         },
         "sex": "female",
-        "age_min": null,
-        "age_max": null,
+        "age_min": 50,
+        "age_max": 50,
         "age_unit": {
-          "id": "",
-          "value": ""
+          "id": "UO_0000036",
+          "value": "year"
         },
         "age_event": null,
         "ancestry_population": null,
@@ -7241,7 +7241,7 @@
         "diagnosis": [
           {
             "study_group_description": "",
-            "disease_diagnosis": "",
+            "disease_diagnosis": "Leiomyoma (uterus)",
             "disease_length": "",
             "disease_stage": "",
             "prior_therapies": "",
@@ -7272,7 +7272,7 @@
           "cell_quality": null,
           "cell_isolation": null,
           "cell_processing_protocol": null,
-          "template_class": "RNA",
+          "template_class": "DNA",
           "template_quality": null,
           "template_amount": null,
           "library_generation_method": "RT(specific)+PCR",
@@ -7351,11 +7351,11 @@
           "value": "Homo sapiens"
         },
         "sex": "female",
-        "age_min": null,
-        "age_max": null,
+        "age_min": 50,
+        "age_max": 50,
         "age_unit": {
-          "id": "",
-          "value": ""
+          "id": "UO_0000036",
+          "value": "year"
         },
         "age_event": null,
         "ancestry_population": null,
@@ -7367,7 +7367,7 @@
         "diagnosis": [
           {
             "study_group_description": "",
-            "disease_diagnosis": "",
+            "disease_diagnosis": "Leiomyoma (uterus)",
             "disease_length": "",
             "disease_stage": "",
             "prior_therapies": "",
@@ -7398,7 +7398,7 @@
           "cell_quality": null,
           "cell_isolation": null,
           "cell_processing_protocol": null,
-          "template_class": "RNA",
+          "template_class": "DNA",
           "template_quality": null,
           "template_amount": null,
           "library_generation_method": "RT(specific)+PCR",
@@ -7477,11 +7477,11 @@
           "value": "Homo sapiens"
         },
         "sex": "female",
-        "age_min": null,
-        "age_max": null,
+        "age_min": 57,
+        "age_max": 57,
         "age_unit": {
-          "id": "",
-          "value": ""
+          "id": "UO_0000036",
+          "value": "year"
         },
         "age_event": null,
         "ancestry_population": null,
@@ -7493,7 +7493,7 @@
         "diagnosis": [
           {
             "study_group_description": "",
-            "disease_diagnosis": "",
+            "disease_diagnosis": "Leiomyoma (uterus)",
             "disease_length": "",
             "disease_stage": "",
             "prior_therapies": "",
@@ -7524,7 +7524,7 @@
           "cell_quality": null,
           "cell_isolation": null,
           "cell_processing_protocol": null,
-          "template_class": "RNA",
+          "template_class": "DNA",
           "template_quality": null,
           "template_amount": null,
           "library_generation_method": "RT(specific)+PCR",
