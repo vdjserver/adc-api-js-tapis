@@ -72,6 +72,9 @@ def deleteLoadSet(token, config, repertoire_id, load_set):
 
 # Insert the rearrangements for a repertoire
 def insertRearrangement(token, config, records):
+    # get a token each time, in case it expired
+    token = getToken(config)
+
     headers = {
         "Content-Type":"application/json",
         "Accept": "application/json",
@@ -122,7 +125,7 @@ if (__name__=="__main__"):
 
             print('Loading AIRR rearrangements for repertoire: ' + rep['repertoire_id'])
             print('Starting load set: ' + str(load_set_start))
-            #deleteLoadSet(token, config, rep['repertoire_id'], load_set_start)
+            deleteLoadSet(token, config, rep['repertoire_id'], load_set_start)
             load_set = 0
 
             primary_dp = None
@@ -171,10 +174,13 @@ if (__name__=="__main__"):
                         cnt = 0
                         load_set += 1
                         records = []
-                if load_set >= load_set_start and cnt != 0:
-                    print('Inserting load set: ' + str(load_set))
-                    insertRearrangement(token, config, records)
-                    print('Total records: ' + str(total))
+                if cnt != 0:
+                    if load_set >= load_set_start:
+                        print('Inserting load set: ' + str(load_set))
+                        insertRearrangement(token, config, records)
+                        print('Total records: ' + str(total))
+                    else:
+                        print('Skipping load set: ' + str(load_set))
                     load_set += 1
                 print("Total records inserted: " + str(total))
             load_set_start = 0
