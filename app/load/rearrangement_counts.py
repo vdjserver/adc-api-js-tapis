@@ -61,7 +61,7 @@ def countRearrangements(token, config, rep):
         "facets":"repertoire_id"
     }
 
-    # delete that repertoire_id
+    # perform facet query
     url = 'https://vdjserver.org/airr/v1/rearrangement'
     data = query
     resp = requests.post(url, json=data, headers=headers)
@@ -71,15 +71,23 @@ def countRearrangements(token, config, rep):
 
 # count number of rearrangements for repertoire
 def countRearrangementsInFiles(token, config, rep, file_prefix):
+    primary_dp = None
+    for dp in rep['data_processing']:
+        if dp.get('primary_annotation'):
+            primary_dp = dp
+        if not primary_dp:
+            print('ERROR: Repertoire missing primary data processing: ' + rep['repertoire_id'])
+            sys.exit(1)
+
     total = 0
-    files = rep['data_processing'][0]['final_rearrangement_file'].split(',')
+    files = primary_dp['data_processing_files']
     for f in files:
         if os.path.isfile(file_prefix + '/' + f):
             print('AIRR rearrangement file: ' + file_prefix + '/' + f)
             reader = open(file_prefix + '/' + f, 'r')
-        elif os.path.isfile(file_prefix + '/' + rep['data_processing'][0]['data_processing_id'] + '/' + f):
-            print('AIRR rearrangement file: ' + file_prefix + '/' + rep['data_processing'][0]['data_processing_id'] + '/' + f)
-            reader = open(file_prefix + '/' + rep['data_processing'][0]['data_processing_id'] + '/' + f, 'r')
+        elif os.path.isfile(file_prefix + '/' + primary_dp['data_processing_id'] + '/' + f):
+            print('AIRR rearrangement file: ' + file_prefix + '/' + primary_dp['data_processing_id'] + '/' + f)
+            reader = open(file_prefix + '/' + primary_dp['data_processing_id'] + '/' + f, 'r')
         else:
             print('ERROR: cannot find file: ' + f)
             sys.exit(1)
