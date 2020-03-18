@@ -19,8 +19,8 @@
         "study_id": "PRJEB18631",
         "study_title": "Antibody repertoire RNA-seq throughout key stages of mouse B-cell development",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "C93130",
+          "value": "Animal Study"
         },
         "study_description": "We sought to investigate the extent of genetic and antigen-driven predetermination of antibody repertoires throughout B-cell development (pre-B cells, naive B cells, plasma cells). To this end, we used (i) an inbred model organism (mouse, C57BL/6J) to quantify genetic predetermination and (ii) cohort-stratification (4 cohorts: 1 untreated, 3 antigen-immunized) to quantify antigen-driven predetermination. To ensure generalizability of our research, we additionally sequenced naive B cells from Balb/c and pet shop mice.",
         "inclusion_exclusion_criteria": "",
@@ -100,7 +100,6 @@
           "sequencing_run_id": "ERR1759683",
           "total_reads_passing_qc_filter": null,
           "sequencing_platform": "Illumina MiSeq",
-          "read_length": "2x301bp",
           "sequencing_facility": "Quantitative Genomics Facility, ETH Zurich, Basel",
           "sequencing_run_date": "3/31/17 12:22",
           "sequencing_kit": null,
@@ -109,22 +108,27 @@
             "filename": "ERR1759683_1.fastq.gz",
             "read_direction": "forward",
             "paired_filename": "ERR1759683_2.fastq.gz",
-            "paired_read_direction": "reverse"
+            "paired_read_direction": "reverse",
+            "read_length": 301,
+            "paired_read_length": 301
           }
         }
       ],
       "data_processing": [
         {
-          "data_processing_id": "e1a98ff7-1e9a-4a85-8578-12457c4cc947-007",
-          "primary_annotation": null,
-          "software_versions": "",
+          "data_processing_id": "100f1e00-2aa0-4be2-978a-002a074a2ef7-007",
+          "primary_annotation": true,
+          "software_versions": "IgBlast 1.14",
           "paired_reads_assembly": "",
           "quality_thresholds": "",
           "primer_match_cutoffs": "",
           "collapsing_method": "",
           "data_processing_protocols": "",
           "germline_database": "",
-          "analysis_provenance_id": ""
+          "analysis_provenance_id": "",
+          "data_processing_files": [
+            "ERR1759683_1.fastq.merged.unique.igblast.airr.tsv"
+          ]
         }
       ]
     },
@@ -134,8 +138,8 @@
         "study_id": "PRJEB18631",
         "study_title": "Antibody repertoire RNA-seq throughout key stages of mouse B-cell development",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "C93130",
+          "value": "Animal Study"
         },
         "study_description": "We sought to investigate the extent of genetic and antigen-driven predetermination of antibody repertoires throughout B-cell development (pre-B cells, naive B cells, plasma cells). To this end, we used (i) an inbred model organism (mouse, C57BL/6J) to quantify genetic predetermination and (ii) cohort-stratification (4 cohorts: 1 untreated, 3 antigen-immunized) to quantify antigen-driven predetermination. To ensure generalizability of our research, we additionally sequenced naive B cells from Balb/c and pet shop mice.",
         "inclusion_exclusion_criteria": "",
@@ -215,7 +219,6 @@
           "sequencing_run_id": "ERR1759682",
           "total_reads_passing_qc_filter": null,
           "sequencing_platform": "Illumina MiSeq",
-          "read_length": "2x301bp",
           "sequencing_facility": "Quantitative Genomics Facility, ETH Zurich, Basel",
           "sequencing_run_date": "3/31/17 12:22",
           "sequencing_kit": null,
@@ -224,22 +227,27 @@
             "filename": "ERR1759682_1.fastq.gz",
             "read_direction": "forward",
             "paired_filename": "ERR1759682_2.fastq.gz",
-            "paired_read_direction": "reverse"
+            "paired_read_direction": "reverse",
+            "read_length": 301,
+            "paired_read_length": 301
           }
         }
       ],
       "data_processing": [
         {
-          "data_processing_id": "e1a98ff7-1e9a-4a85-8578-12457c4cc947-007",
-          "primary_annotation": null,
-          "software_versions": "",
+          "data_processing_id": "100f1e00-2aa0-4be2-978a-002a074a2ef7-007",
+          "primary_annotation": true,
+          "software_versions": "IgBlast 1.14",
           "paired_reads_assembly": "",
           "quality_thresholds": "",
           "primer_match_cutoffs": "",
           "collapsing_method": "",
           "data_processing_protocols": "",
           "germline_database": "",
-          "analysis_provenance_id": ""
+          "analysis_provenance_id": "",
+          "data_processing_files": [
+            "ERR1759682_1.fastq.merged.unique.igblast.airr.tsv"
+          ]
         }
       ]
     },
@@ -249,8 +257,8 @@
         "study_id": "PRJEB18631",
         "study_title": "Antibody repertoire RNA-seq throughout key stages of mouse B-cell development",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "C93130",
+          "value": "Animal Study"
         },
         "study_description": "We sought to investigate the extent of genetic and antigen-driven predetermination of antibody repertoires throughout B-cell development (pre-B cells, naive B cells, plasma cells). To this end, we used (i) an inbred model organism (mouse, C57BL/6J) to quantify genetic predetermination and (ii) cohort-stratification (4 cohorts: 1 untreated, 3 antigen-immunized) to quantify antigen-driven predetermination. To ensure generalizability of our research, we additionally sequenced naive B cells from Balb/c and pet shop mice.",
         "inclusion_exclusion_criteria": "",
@@ -330,7 +338,6 @@
           "sequencing_run_id": "ERR1759681",
           "total_reads_passing_qc_filter": null,
           "sequencing_platform": "Illumina MiSeq",
-          "read_length": "2x301bp",
           "sequencing_facility": "Quantitative Genomics Facility, ETH Zurich, Basel",
           "sequencing_run_date": "3/31/17 12:22",
           "sequencing_kit": null,
@@ -339,22 +346,27 @@
             "filename": "ERR1759681_1.fastq.gz",
             "read_direction": "forward",
             "paired_filename": "ERR1759681_2.fastq.gz",
-            "paired_read_direction": "reverse"
+            "paired_read_direction": "reverse",
+            "read_length": 301,
+            "paired_read_length": 301
           }
         }
       ],
       "data_processing": [
         {
-          "data_processing_id": "e1a98ff7-1e9a-4a85-8578-12457c4cc947-007",
-          "primary_annotation": null,
-          "software_versions": "",
+          "data_processing_id": "100f1e00-2aa0-4be2-978a-002a074a2ef7-007",
+          "primary_annotation": true,
+          "software_versions": "IgBlast 1.14",
           "paired_reads_assembly": "",
           "quality_thresholds": "",
           "primer_match_cutoffs": "",
           "collapsing_method": "",
           "data_processing_protocols": "",
           "germline_database": "",
-          "analysis_provenance_id": ""
+          "analysis_provenance_id": "",
+          "data_processing_files": [
+            "ERR1759681_1.fastq.merged.unique.igblast.airr.tsv"
+          ]
         }
       ]
     },
@@ -364,8 +376,8 @@
         "study_id": "PRJEB18631",
         "study_title": "Antibody repertoire RNA-seq throughout key stages of mouse B-cell development",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "C93130",
+          "value": "Animal Study"
         },
         "study_description": "We sought to investigate the extent of genetic and antigen-driven predetermination of antibody repertoires throughout B-cell development (pre-B cells, naive B cells, plasma cells). To this end, we used (i) an inbred model organism (mouse, C57BL/6J) to quantify genetic predetermination and (ii) cohort-stratification (4 cohorts: 1 untreated, 3 antigen-immunized) to quantify antigen-driven predetermination. To ensure generalizability of our research, we additionally sequenced naive B cells from Balb/c and pet shop mice.",
         "inclusion_exclusion_criteria": "",
@@ -445,7 +457,6 @@
           "sequencing_run_id": "ERR1759689",
           "total_reads_passing_qc_filter": null,
           "sequencing_platform": "Illumina MiSeq",
-          "read_length": "2x301bp",
           "sequencing_facility": "Quantitative Genomics Facility, ETH Zurich, Basel",
           "sequencing_run_date": "3/31/17 12:22",
           "sequencing_kit": null,
@@ -454,22 +465,27 @@
             "filename": "ERR1759689_1.fastq.gz",
             "read_direction": "forward",
             "paired_filename": "ERR1759689_2.fastq.gz",
-            "paired_read_direction": "reverse"
+            "paired_read_direction": "reverse",
+            "read_length": 301,
+            "paired_read_length": 301
           }
         }
       ],
       "data_processing": [
         {
-          "data_processing_id": "e1a98ff7-1e9a-4a85-8578-12457c4cc947-007",
-          "primary_annotation": null,
-          "software_versions": "",
+          "data_processing_id": "100f1e00-2aa0-4be2-978a-002a074a2ef7-007",
+          "primary_annotation": true,
+          "software_versions": "IgBlast 1.14",
           "paired_reads_assembly": "",
           "quality_thresholds": "",
           "primer_match_cutoffs": "",
           "collapsing_method": "",
           "data_processing_protocols": "",
           "germline_database": "",
-          "analysis_provenance_id": ""
+          "analysis_provenance_id": "",
+          "data_processing_files": [
+            "ERR1759689_1.fastq.merged.unique.igblast.airr.tsv"
+          ]
         }
       ]
     },
@@ -479,8 +495,8 @@
         "study_id": "PRJEB18631",
         "study_title": "Antibody repertoire RNA-seq throughout key stages of mouse B-cell development",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "C93130",
+          "value": "Animal Study"
         },
         "study_description": "We sought to investigate the extent of genetic and antigen-driven predetermination of antibody repertoires throughout B-cell development (pre-B cells, naive B cells, plasma cells). To this end, we used (i) an inbred model organism (mouse, C57BL/6J) to quantify genetic predetermination and (ii) cohort-stratification (4 cohorts: 1 untreated, 3 antigen-immunized) to quantify antigen-driven predetermination. To ensure generalizability of our research, we additionally sequenced naive B cells from Balb/c and pet shop mice.",
         "inclusion_exclusion_criteria": "",
@@ -560,7 +576,6 @@
           "sequencing_run_id": "ERR1759686",
           "total_reads_passing_qc_filter": null,
           "sequencing_platform": "Illumina MiSeq",
-          "read_length": "2x301bp",
           "sequencing_facility": "Quantitative Genomics Facility, ETH Zurich, Basel",
           "sequencing_run_date": "3/31/17 12:22",
           "sequencing_kit": null,
@@ -569,22 +584,27 @@
             "filename": "ERR1759686_1.fastq.gz",
             "read_direction": "forward",
             "paired_filename": "ERR1759686_2.fastq.gz",
-            "paired_read_direction": "reverse"
+            "paired_read_direction": "reverse",
+            "read_length": 301,
+            "paired_read_length": 301
           }
         }
       ],
       "data_processing": [
         {
-          "data_processing_id": "e1a98ff7-1e9a-4a85-8578-12457c4cc947-007",
-          "primary_annotation": null,
-          "software_versions": "",
+          "data_processing_id": "100f1e00-2aa0-4be2-978a-002a074a2ef7-007",
+          "primary_annotation": true,
+          "software_versions": "IgBlast 1.14",
           "paired_reads_assembly": "",
           "quality_thresholds": "",
           "primer_match_cutoffs": "",
           "collapsing_method": "",
           "data_processing_protocols": "",
           "germline_database": "",
-          "analysis_provenance_id": ""
+          "analysis_provenance_id": "",
+          "data_processing_files": [
+            "ERR1759686_1.fastq.merged.unique.igblast.airr.tsv"
+          ]
         }
       ]
     },
@@ -594,8 +614,8 @@
         "study_id": "PRJEB18631",
         "study_title": "Antibody repertoire RNA-seq throughout key stages of mouse B-cell development",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "C93130",
+          "value": "Animal Study"
         },
         "study_description": "We sought to investigate the extent of genetic and antigen-driven predetermination of antibody repertoires throughout B-cell development (pre-B cells, naive B cells, plasma cells). To this end, we used (i) an inbred model organism (mouse, C57BL/6J) to quantify genetic predetermination and (ii) cohort-stratification (4 cohorts: 1 untreated, 3 antigen-immunized) to quantify antigen-driven predetermination. To ensure generalizability of our research, we additionally sequenced naive B cells from Balb/c and pet shop mice.",
         "inclusion_exclusion_criteria": "",
@@ -675,7 +695,6 @@
           "sequencing_run_id": "ERR1759685",
           "total_reads_passing_qc_filter": null,
           "sequencing_platform": "Illumina MiSeq",
-          "read_length": "2x301bp",
           "sequencing_facility": "Quantitative Genomics Facility, ETH Zurich, Basel",
           "sequencing_run_date": "3/31/17 12:22",
           "sequencing_kit": null,
@@ -684,22 +703,27 @@
             "filename": "ERR1759685_1.fastq.gz",
             "read_direction": "forward",
             "paired_filename": "ERR1759685_2.fastq.gz",
-            "paired_read_direction": "reverse"
+            "paired_read_direction": "reverse",
+            "read_length": 301,
+            "paired_read_length": 301
           }
         }
       ],
       "data_processing": [
         {
-          "data_processing_id": "e1a98ff7-1e9a-4a85-8578-12457c4cc947-007",
-          "primary_annotation": null,
-          "software_versions": "",
+          "data_processing_id": "100f1e00-2aa0-4be2-978a-002a074a2ef7-007",
+          "primary_annotation": true,
+          "software_versions": "IgBlast 1.14",
           "paired_reads_assembly": "",
           "quality_thresholds": "",
           "primer_match_cutoffs": "",
           "collapsing_method": "",
           "data_processing_protocols": "",
           "germline_database": "",
-          "analysis_provenance_id": ""
+          "analysis_provenance_id": "",
+          "data_processing_files": [
+            "ERR1759685_1.fastq.merged.unique.igblast.airr.tsv"
+          ]
         }
       ]
     },
@@ -709,8 +733,8 @@
         "study_id": "PRJEB18631",
         "study_title": "Antibody repertoire RNA-seq throughout key stages of mouse B-cell development",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "C93130",
+          "value": "Animal Study"
         },
         "study_description": "We sought to investigate the extent of genetic and antigen-driven predetermination of antibody repertoires throughout B-cell development (pre-B cells, naive B cells, plasma cells). To this end, we used (i) an inbred model organism (mouse, C57BL/6J) to quantify genetic predetermination and (ii) cohort-stratification (4 cohorts: 1 untreated, 3 antigen-immunized) to quantify antigen-driven predetermination. To ensure generalizability of our research, we additionally sequenced naive B cells from Balb/c and pet shop mice.",
         "inclusion_exclusion_criteria": "",
@@ -790,7 +814,6 @@
           "sequencing_run_id": "ERR1759688",
           "total_reads_passing_qc_filter": null,
           "sequencing_platform": "Illumina MiSeq",
-          "read_length": "2x301bp",
           "sequencing_facility": "Quantitative Genomics Facility, ETH Zurich, Basel",
           "sequencing_run_date": "3/31/17 12:22",
           "sequencing_kit": null,
@@ -799,22 +822,27 @@
             "filename": "ERR1759688_1.fastq.gz",
             "read_direction": "forward",
             "paired_filename": "ERR1759688_2.fastq.gz",
-            "paired_read_direction": "reverse"
+            "paired_read_direction": "reverse",
+            "read_length": 301,
+            "paired_read_length": 301
           }
         }
       ],
       "data_processing": [
         {
-          "data_processing_id": "e1a98ff7-1e9a-4a85-8578-12457c4cc947-007",
-          "primary_annotation": null,
-          "software_versions": "",
+          "data_processing_id": "100f1e00-2aa0-4be2-978a-002a074a2ef7-007",
+          "primary_annotation": true,
+          "software_versions": "IgBlast 1.14",
           "paired_reads_assembly": "",
           "quality_thresholds": "",
           "primer_match_cutoffs": "",
           "collapsing_method": "",
           "data_processing_protocols": "",
           "germline_database": "",
-          "analysis_provenance_id": ""
+          "analysis_provenance_id": "",
+          "data_processing_files": [
+            "ERR1759688_1.fastq.merged.unique.igblast.airr.tsv"
+          ]
         }
       ]
     },
@@ -824,8 +852,8 @@
         "study_id": "PRJEB18631",
         "study_title": "Antibody repertoire RNA-seq throughout key stages of mouse B-cell development",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "C93130",
+          "value": "Animal Study"
         },
         "study_description": "We sought to investigate the extent of genetic and antigen-driven predetermination of antibody repertoires throughout B-cell development (pre-B cells, naive B cells, plasma cells). To this end, we used (i) an inbred model organism (mouse, C57BL/6J) to quantify genetic predetermination and (ii) cohort-stratification (4 cohorts: 1 untreated, 3 antigen-immunized) to quantify antigen-driven predetermination. To ensure generalizability of our research, we additionally sequenced naive B cells from Balb/c and pet shop mice.",
         "inclusion_exclusion_criteria": "",
@@ -905,7 +933,6 @@
           "sequencing_run_id": "ERR1759687",
           "total_reads_passing_qc_filter": null,
           "sequencing_platform": "Illumina MiSeq",
-          "read_length": "2x301bp",
           "sequencing_facility": "Quantitative Genomics Facility, ETH Zurich, Basel",
           "sequencing_run_date": "3/31/17 12:22",
           "sequencing_kit": null,
@@ -914,22 +941,27 @@
             "filename": "ERR1759687_1.fastq.gz",
             "read_direction": "forward",
             "paired_filename": "ERR1759687_2.fastq.gz",
-            "paired_read_direction": "reverse"
+            "paired_read_direction": "reverse",
+            "read_length": 301,
+            "paired_read_length": 301
           }
         }
       ],
       "data_processing": [
         {
-          "data_processing_id": "e1a98ff7-1e9a-4a85-8578-12457c4cc947-007",
-          "primary_annotation": null,
-          "software_versions": "",
+          "data_processing_id": "100f1e00-2aa0-4be2-978a-002a074a2ef7-007",
+          "primary_annotation": true,
+          "software_versions": "IgBlast 1.14",
           "paired_reads_assembly": "",
           "quality_thresholds": "",
           "primer_match_cutoffs": "",
           "collapsing_method": "",
           "data_processing_protocols": "",
           "germline_database": "",
-          "analysis_provenance_id": ""
+          "analysis_provenance_id": "",
+          "data_processing_files": [
+            "ERR1759687_1.fastq.merged.unique.igblast.airr.tsv"
+          ]
         }
       ]
     },
@@ -939,8 +971,8 @@
         "study_id": "PRJEB18631",
         "study_title": "Antibody repertoire RNA-seq throughout key stages of mouse B-cell development",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "C93130",
+          "value": "Animal Study"
         },
         "study_description": "We sought to investigate the extent of genetic and antigen-driven predetermination of antibody repertoires throughout B-cell development (pre-B cells, naive B cells, plasma cells). To this end, we used (i) an inbred model organism (mouse, C57BL/6J) to quantify genetic predetermination and (ii) cohort-stratification (4 cohorts: 1 untreated, 3 antigen-immunized) to quantify antigen-driven predetermination. To ensure generalizability of our research, we additionally sequenced naive B cells from Balb/c and pet shop mice.",
         "inclusion_exclusion_criteria": "",
@@ -1020,7 +1052,6 @@
           "sequencing_run_id": "ERR1759684",
           "total_reads_passing_qc_filter": null,
           "sequencing_platform": "Illumina MiSeq",
-          "read_length": "2x301bp",
           "sequencing_facility": "Quantitative Genomics Facility, ETH Zurich, Basel",
           "sequencing_run_date": "3/31/17 12:22",
           "sequencing_kit": null,
@@ -1029,22 +1060,27 @@
             "filename": "ERR1759684_1.fastq.gz",
             "read_direction": "forward",
             "paired_filename": "ERR1759684_2.fastq.gz",
-            "paired_read_direction": "reverse"
+            "paired_read_direction": "reverse",
+            "read_length": 301,
+            "paired_read_length": 301
           }
         }
       ],
       "data_processing": [
         {
-          "data_processing_id": "e1a98ff7-1e9a-4a85-8578-12457c4cc947-007",
-          "primary_annotation": null,
-          "software_versions": "",
+          "data_processing_id": "100f1e00-2aa0-4be2-978a-002a074a2ef7-007",
+          "primary_annotation": true,
+          "software_versions": "IgBlast 1.14",
           "paired_reads_assembly": "",
           "quality_thresholds": "",
           "primer_match_cutoffs": "",
           "collapsing_method": "",
           "data_processing_protocols": "",
           "germline_database": "",
-          "analysis_provenance_id": ""
+          "analysis_provenance_id": "",
+          "data_processing_files": [
+            "ERR1759684_1.fastq.merged.unique.igblast.airr.tsv"
+          ]
         }
       ]
     },
@@ -1054,8 +1090,8 @@
         "study_id": "PRJEB18631",
         "study_title": "Antibody repertoire RNA-seq throughout key stages of mouse B-cell development",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "C93130",
+          "value": "Animal Study"
         },
         "study_description": "We sought to investigate the extent of genetic and antigen-driven predetermination of antibody repertoires throughout B-cell development (pre-B cells, naive B cells, plasma cells). To this end, we used (i) an inbred model organism (mouse, C57BL/6J) to quantify genetic predetermination and (ii) cohort-stratification (4 cohorts: 1 untreated, 3 antigen-immunized) to quantify antigen-driven predetermination. To ensure generalizability of our research, we additionally sequenced naive B cells from Balb/c and pet shop mice.",
         "inclusion_exclusion_criteria": "",
@@ -1135,7 +1171,6 @@
           "sequencing_run_id": "ERR1759692",
           "total_reads_passing_qc_filter": null,
           "sequencing_platform": "Illumina MiSeq",
-          "read_length": "2x301bp",
           "sequencing_facility": "Quantitative Genomics Facility, ETH Zurich, Basel",
           "sequencing_run_date": "3/31/17 12:22",
           "sequencing_kit": null,
@@ -1144,22 +1179,27 @@
             "filename": "ERR1759692_1.fastq.gz",
             "read_direction": "forward",
             "paired_filename": "ERR1759692_2.fastq.gz",
-            "paired_read_direction": "reverse"
+            "paired_read_direction": "reverse",
+            "read_length": 301,
+            "paired_read_length": 301
           }
         }
       ],
       "data_processing": [
         {
-          "data_processing_id": "e1a98ff7-1e9a-4a85-8578-12457c4cc947-007",
-          "primary_annotation": null,
-          "software_versions": "",
+          "data_processing_id": "f3cbf7f9-e19f-4635-a58c-003aa861d20d-007",
+          "primary_annotation": true,
+          "software_versions": "IgBlast 1.14",
           "paired_reads_assembly": "",
           "quality_thresholds": "",
           "primer_match_cutoffs": "",
           "collapsing_method": "",
           "data_processing_protocols": "",
           "germline_database": "",
-          "analysis_provenance_id": ""
+          "analysis_provenance_id": "",
+          "data_processing_files": [
+            "ERR1759692_1.fastq.merged.unique.igblast.airr.tsv"
+          ]
         }
       ]
     },
@@ -1169,8 +1209,8 @@
         "study_id": "PRJEB18631",
         "study_title": "Antibody repertoire RNA-seq throughout key stages of mouse B-cell development",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "C93130",
+          "value": "Animal Study"
         },
         "study_description": "We sought to investigate the extent of genetic and antigen-driven predetermination of antibody repertoires throughout B-cell development (pre-B cells, naive B cells, plasma cells). To this end, we used (i) an inbred model organism (mouse, C57BL/6J) to quantify genetic predetermination and (ii) cohort-stratification (4 cohorts: 1 untreated, 3 antigen-immunized) to quantify antigen-driven predetermination. To ensure generalizability of our research, we additionally sequenced naive B cells from Balb/c and pet shop mice.",
         "inclusion_exclusion_criteria": "",
@@ -1250,7 +1290,6 @@
           "sequencing_run_id": "ERR1759691",
           "total_reads_passing_qc_filter": null,
           "sequencing_platform": "Illumina MiSeq",
-          "read_length": "2x301bp",
           "sequencing_facility": "Quantitative Genomics Facility, ETH Zurich, Basel",
           "sequencing_run_date": "3/31/17 12:22",
           "sequencing_kit": null,
@@ -1259,22 +1298,27 @@
             "filename": "ERR1759691_1.fastq.gz",
             "read_direction": "forward",
             "paired_filename": "ERR1759691_2.fastq.gz",
-            "paired_read_direction": "reverse"
+            "paired_read_direction": "reverse",
+            "read_length": 301,
+            "paired_read_length": 301
           }
         }
       ],
       "data_processing": [
         {
-          "data_processing_id": "e1a98ff7-1e9a-4a85-8578-12457c4cc947-007",
-          "primary_annotation": null,
-          "software_versions": "",
+          "data_processing_id": "f3cbf7f9-e19f-4635-a58c-003aa861d20d-007",
+          "primary_annotation": true,
+          "software_versions": "IgBlast 1.14",
           "paired_reads_assembly": "",
           "quality_thresholds": "",
           "primer_match_cutoffs": "",
           "collapsing_method": "",
           "data_processing_protocols": "",
           "germline_database": "",
-          "analysis_provenance_id": ""
+          "analysis_provenance_id": "",
+          "data_processing_files": [
+            "ERR1759691_1.fastq.merged.unique.igblast.airr.tsv"
+          ]
         }
       ]
     },
@@ -1284,8 +1328,8 @@
         "study_id": "PRJEB18631",
         "study_title": "Antibody repertoire RNA-seq throughout key stages of mouse B-cell development",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "C93130",
+          "value": "Animal Study"
         },
         "study_description": "We sought to investigate the extent of genetic and antigen-driven predetermination of antibody repertoires throughout B-cell development (pre-B cells, naive B cells, plasma cells). To this end, we used (i) an inbred model organism (mouse, C57BL/6J) to quantify genetic predetermination and (ii) cohort-stratification (4 cohorts: 1 untreated, 3 antigen-immunized) to quantify antigen-driven predetermination. To ensure generalizability of our research, we additionally sequenced naive B cells from Balb/c and pet shop mice.",
         "inclusion_exclusion_criteria": "",
@@ -1365,7 +1409,6 @@
           "sequencing_run_id": "ERR1759690",
           "total_reads_passing_qc_filter": null,
           "sequencing_platform": "Illumina MiSeq",
-          "read_length": "2x301bp",
           "sequencing_facility": "Quantitative Genomics Facility, ETH Zurich, Basel",
           "sequencing_run_date": "3/31/17 12:22",
           "sequencing_kit": null,
@@ -1374,22 +1417,27 @@
             "filename": "ERR1759690_1.fastq.gz",
             "read_direction": "forward",
             "paired_filename": "ERR1759690_2.fastq.gz",
-            "paired_read_direction": "reverse"
+            "paired_read_direction": "reverse",
+            "read_length": 301,
+            "paired_read_length": 301
           }
         }
       ],
       "data_processing": [
         {
-          "data_processing_id": "e1a98ff7-1e9a-4a85-8578-12457c4cc947-007",
-          "primary_annotation": null,
-          "software_versions": "",
+          "data_processing_id": "f3cbf7f9-e19f-4635-a58c-003aa861d20d-007",
+          "primary_annotation": true,
+          "software_versions": "IgBlast 1.14",
           "paired_reads_assembly": "",
           "quality_thresholds": "",
           "primer_match_cutoffs": "",
           "collapsing_method": "",
           "data_processing_protocols": "",
           "germline_database": "",
-          "analysis_provenance_id": ""
+          "analysis_provenance_id": "",
+          "data_processing_files": [
+            "ERR1759690_1.fastq.merged.unique.igblast.airr.tsv"
+          ]
         }
       ]
     },
@@ -1399,8 +1447,8 @@
         "study_id": "PRJEB18631",
         "study_title": "Antibody repertoire RNA-seq throughout key stages of mouse B-cell development",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "C93130",
+          "value": "Animal Study"
         },
         "study_description": "We sought to investigate the extent of genetic and antigen-driven predetermination of antibody repertoires throughout B-cell development (pre-B cells, naive B cells, plasma cells). To this end, we used (i) an inbred model organism (mouse, C57BL/6J) to quantify genetic predetermination and (ii) cohort-stratification (4 cohorts: 1 untreated, 3 antigen-immunized) to quantify antigen-driven predetermination. To ensure generalizability of our research, we additionally sequenced naive B cells from Balb/c and pet shop mice.",
         "inclusion_exclusion_criteria": "",
@@ -1480,7 +1528,6 @@
           "sequencing_run_id": "ERR1759695",
           "total_reads_passing_qc_filter": null,
           "sequencing_platform": "Illumina MiSeq",
-          "read_length": "2x301bp",
           "sequencing_facility": "Quantitative Genomics Facility, ETH Zurich, Basel",
           "sequencing_run_date": "3/31/17 12:22",
           "sequencing_kit": null,
@@ -1489,22 +1536,27 @@
             "filename": "ERR1759695_1.fastq.gz",
             "read_direction": "forward",
             "paired_filename": "ERR1759695_2.fastq.gz",
-            "paired_read_direction": "reverse"
+            "paired_read_direction": "reverse",
+            "read_length": 301,
+            "paired_read_length": 301
           }
         }
       ],
       "data_processing": [
         {
-          "data_processing_id": "e1a98ff7-1e9a-4a85-8578-12457c4cc947-007",
-          "primary_annotation": null,
-          "software_versions": "",
+          "data_processing_id": "f3cbf7f9-e19f-4635-a58c-003aa861d20d-007",
+          "primary_annotation": true,
+          "software_versions": "IgBlast 1.14",
           "paired_reads_assembly": "",
           "quality_thresholds": "",
           "primer_match_cutoffs": "",
           "collapsing_method": "",
           "data_processing_protocols": "",
           "germline_database": "",
-          "analysis_provenance_id": ""
+          "analysis_provenance_id": "",
+          "data_processing_files": [
+            "ERR1759695_1.fastq.merged.unique.igblast.airr.tsv"
+          ]
         }
       ]
     },
@@ -1514,8 +1566,8 @@
         "study_id": "PRJEB18631",
         "study_title": "Antibody repertoire RNA-seq throughout key stages of mouse B-cell development",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "C93130",
+          "value": "Animal Study"
         },
         "study_description": "We sought to investigate the extent of genetic and antigen-driven predetermination of antibody repertoires throughout B-cell development (pre-B cells, naive B cells, plasma cells). To this end, we used (i) an inbred model organism (mouse, C57BL/6J) to quantify genetic predetermination and (ii) cohort-stratification (4 cohorts: 1 untreated, 3 antigen-immunized) to quantify antigen-driven predetermination. To ensure generalizability of our research, we additionally sequenced naive B cells from Balb/c and pet shop mice.",
         "inclusion_exclusion_criteria": "",
@@ -1595,7 +1647,6 @@
           "sequencing_run_id": "ERR1759694",
           "total_reads_passing_qc_filter": null,
           "sequencing_platform": "Illumina MiSeq",
-          "read_length": "2x301bp",
           "sequencing_facility": "Quantitative Genomics Facility, ETH Zurich, Basel",
           "sequencing_run_date": "3/31/17 12:22",
           "sequencing_kit": null,
@@ -1604,22 +1655,27 @@
             "filename": "ERR1759694_1.fastq.gz",
             "read_direction": "forward",
             "paired_filename": "ERR1759694_2.fastq.gz",
-            "paired_read_direction": "reverse"
+            "paired_read_direction": "reverse",
+            "read_length": 301,
+            "paired_read_length": 301
           }
         }
       ],
       "data_processing": [
         {
-          "data_processing_id": "e1a98ff7-1e9a-4a85-8578-12457c4cc947-007",
-          "primary_annotation": null,
-          "software_versions": "",
+          "data_processing_id": "f3cbf7f9-e19f-4635-a58c-003aa861d20d-007",
+          "primary_annotation": true,
+          "software_versions": "IgBlast 1.14",
           "paired_reads_assembly": "",
           "quality_thresholds": "",
           "primer_match_cutoffs": "",
           "collapsing_method": "",
           "data_processing_protocols": "",
           "germline_database": "",
-          "analysis_provenance_id": ""
+          "analysis_provenance_id": "",
+          "data_processing_files": [
+            "ERR1759694_1.fastq.merged.unique.igblast.airr.tsv"
+          ]
         }
       ]
     },
@@ -1629,8 +1685,8 @@
         "study_id": "PRJEB18631",
         "study_title": "Antibody repertoire RNA-seq throughout key stages of mouse B-cell development",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "C93130",
+          "value": "Animal Study"
         },
         "study_description": "We sought to investigate the extent of genetic and antigen-driven predetermination of antibody repertoires throughout B-cell development (pre-B cells, naive B cells, plasma cells). To this end, we used (i) an inbred model organism (mouse, C57BL/6J) to quantify genetic predetermination and (ii) cohort-stratification (4 cohorts: 1 untreated, 3 antigen-immunized) to quantify antigen-driven predetermination. To ensure generalizability of our research, we additionally sequenced naive B cells from Balb/c and pet shop mice.",
         "inclusion_exclusion_criteria": "",
@@ -1710,7 +1766,6 @@
           "sequencing_run_id": "ERR1759693",
           "total_reads_passing_qc_filter": null,
           "sequencing_platform": "Illumina MiSeq",
-          "read_length": "2x301bp",
           "sequencing_facility": "Quantitative Genomics Facility, ETH Zurich, Basel",
           "sequencing_run_date": "3/31/17 12:22",
           "sequencing_kit": null,
@@ -1719,22 +1774,27 @@
             "filename": "ERR1759693_1.fastq.gz",
             "read_direction": "forward",
             "paired_filename": "ERR1759693_2.fastq.gz",
-            "paired_read_direction": "reverse"
+            "paired_read_direction": "reverse",
+            "read_length": 301,
+            "paired_read_length": 301
           }
         }
       ],
       "data_processing": [
         {
-          "data_processing_id": "e1a98ff7-1e9a-4a85-8578-12457c4cc947-007",
-          "primary_annotation": null,
-          "software_versions": "",
+          "data_processing_id": "f3cbf7f9-e19f-4635-a58c-003aa861d20d-007",
+          "primary_annotation": true,
+          "software_versions": "IgBlast 1.14",
           "paired_reads_assembly": "",
           "quality_thresholds": "",
           "primer_match_cutoffs": "",
           "collapsing_method": "",
           "data_processing_protocols": "",
           "germline_database": "",
-          "analysis_provenance_id": ""
+          "analysis_provenance_id": "",
+          "data_processing_files": [
+            "ERR1759693_1.fastq.merged.unique.igblast.airr.tsv"
+          ]
         }
       ]
     },
@@ -1744,8 +1804,8 @@
         "study_id": "PRJEB18631",
         "study_title": "Antibody repertoire RNA-seq throughout key stages of mouse B-cell development",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "C93130",
+          "value": "Animal Study"
         },
         "study_description": "We sought to investigate the extent of genetic and antigen-driven predetermination of antibody repertoires throughout B-cell development (pre-B cells, naive B cells, plasma cells). To this end, we used (i) an inbred model organism (mouse, C57BL/6J) to quantify genetic predetermination and (ii) cohort-stratification (4 cohorts: 1 untreated, 3 antigen-immunized) to quantify antigen-driven predetermination. To ensure generalizability of our research, we additionally sequenced naive B cells from Balb/c and pet shop mice.",
         "inclusion_exclusion_criteria": "",
@@ -1825,7 +1885,6 @@
           "sequencing_run_id": "ERR1759698",
           "total_reads_passing_qc_filter": null,
           "sequencing_platform": "Illumina MiSeq",
-          "read_length": "2x301bp",
           "sequencing_facility": "Quantitative Genomics Facility, ETH Zurich, Basel",
           "sequencing_run_date": "3/31/17 12:22",
           "sequencing_kit": null,
@@ -1834,22 +1893,27 @@
             "filename": "ERR1759698_1.fastq.gz",
             "read_direction": "forward",
             "paired_filename": "ERR1759698_2.fastq.gz",
-            "paired_read_direction": "reverse"
+            "paired_read_direction": "reverse",
+            "read_length": 301,
+            "paired_read_length": 301
           }
         }
       ],
       "data_processing": [
         {
-          "data_processing_id": "e1a98ff7-1e9a-4a85-8578-12457c4cc947-007",
-          "primary_annotation": null,
-          "software_versions": "",
+          "data_processing_id": "f3cbf7f9-e19f-4635-a58c-003aa861d20d-007",
+          "primary_annotation": true,
+          "software_versions": "IgBlast 1.14",
           "paired_reads_assembly": "",
           "quality_thresholds": "",
           "primer_match_cutoffs": "",
           "collapsing_method": "",
           "data_processing_protocols": "",
           "germline_database": "",
-          "analysis_provenance_id": ""
+          "analysis_provenance_id": "",
+          "data_processing_files": [
+            "ERR1759698_1.fastq.merged.unique.igblast.airr.tsv"
+          ]
         }
       ]
     },
@@ -1859,8 +1923,8 @@
         "study_id": "PRJEB18631",
         "study_title": "Antibody repertoire RNA-seq throughout key stages of mouse B-cell development",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "C93130",
+          "value": "Animal Study"
         },
         "study_description": "We sought to investigate the extent of genetic and antigen-driven predetermination of antibody repertoires throughout B-cell development (pre-B cells, naive B cells, plasma cells). To this end, we used (i) an inbred model organism (mouse, C57BL/6J) to quantify genetic predetermination and (ii) cohort-stratification (4 cohorts: 1 untreated, 3 antigen-immunized) to quantify antigen-driven predetermination. To ensure generalizability of our research, we additionally sequenced naive B cells from Balb/c and pet shop mice.",
         "inclusion_exclusion_criteria": "",
@@ -1940,7 +2004,6 @@
           "sequencing_run_id": "ERR1759697",
           "total_reads_passing_qc_filter": null,
           "sequencing_platform": "Illumina MiSeq",
-          "read_length": "2x301bp",
           "sequencing_facility": "Quantitative Genomics Facility, ETH Zurich, Basel",
           "sequencing_run_date": "3/31/17 12:22",
           "sequencing_kit": null,
@@ -1949,22 +2012,27 @@
             "filename": "ERR1759697_1.fastq.gz",
             "read_direction": "forward",
             "paired_filename": "ERR1759697_2.fastq.gz",
-            "paired_read_direction": "reverse"
+            "paired_read_direction": "reverse",
+            "read_length": 301,
+            "paired_read_length": 301
           }
         }
       ],
       "data_processing": [
         {
-          "data_processing_id": "e1a98ff7-1e9a-4a85-8578-12457c4cc947-007",
-          "primary_annotation": null,
-          "software_versions": "",
+          "data_processing_id": "f3cbf7f9-e19f-4635-a58c-003aa861d20d-007",
+          "primary_annotation": true,
+          "software_versions": "IgBlast 1.14",
           "paired_reads_assembly": "",
           "quality_thresholds": "",
           "primer_match_cutoffs": "",
           "collapsing_method": "",
           "data_processing_protocols": "",
           "germline_database": "",
-          "analysis_provenance_id": ""
+          "analysis_provenance_id": "",
+          "data_processing_files": [
+            "ERR1759697_1.fastq.merged.unique.igblast.airr.tsv"
+          ]
         }
       ]
     },
@@ -1974,8 +2042,8 @@
         "study_id": "PRJEB18631",
         "study_title": "Antibody repertoire RNA-seq throughout key stages of mouse B-cell development",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "C93130",
+          "value": "Animal Study"
         },
         "study_description": "We sought to investigate the extent of genetic and antigen-driven predetermination of antibody repertoires throughout B-cell development (pre-B cells, naive B cells, plasma cells). To this end, we used (i) an inbred model organism (mouse, C57BL/6J) to quantify genetic predetermination and (ii) cohort-stratification (4 cohorts: 1 untreated, 3 antigen-immunized) to quantify antigen-driven predetermination. To ensure generalizability of our research, we additionally sequenced naive B cells from Balb/c and pet shop mice.",
         "inclusion_exclusion_criteria": "",
@@ -2055,7 +2123,6 @@
           "sequencing_run_id": "ERR1759696",
           "total_reads_passing_qc_filter": null,
           "sequencing_platform": "Illumina MiSeq",
-          "read_length": "2x301bp",
           "sequencing_facility": "Quantitative Genomics Facility, ETH Zurich, Basel",
           "sequencing_run_date": "3/31/17 12:22",
           "sequencing_kit": null,
@@ -2064,22 +2131,27 @@
             "filename": "ERR1759696_1.fastq.gz",
             "read_direction": "forward",
             "paired_filename": "ERR1759696_2.fastq.gz",
-            "paired_read_direction": "reverse"
+            "paired_read_direction": "reverse",
+            "read_length": 301,
+            "paired_read_length": 301
           }
         }
       ],
       "data_processing": [
         {
-          "data_processing_id": "e1a98ff7-1e9a-4a85-8578-12457c4cc947-007",
-          "primary_annotation": null,
-          "software_versions": "",
+          "data_processing_id": "f3cbf7f9-e19f-4635-a58c-003aa861d20d-007",
+          "primary_annotation": true,
+          "software_versions": "IgBlast 1.14",
           "paired_reads_assembly": "",
           "quality_thresholds": "",
           "primer_match_cutoffs": "",
           "collapsing_method": "",
           "data_processing_protocols": "",
           "germline_database": "",
-          "analysis_provenance_id": ""
+          "analysis_provenance_id": "",
+          "data_processing_files": [
+            "ERR1759696_1.fastq.merged.unique.igblast.airr.tsv"
+          ]
         }
       ]
     },
@@ -2089,8 +2161,8 @@
         "study_id": "PRJEB18631",
         "study_title": "Antibody repertoire RNA-seq throughout key stages of mouse B-cell development",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "C93130",
+          "value": "Animal Study"
         },
         "study_description": "We sought to investigate the extent of genetic and antigen-driven predetermination of antibody repertoires throughout B-cell development (pre-B cells, naive B cells, plasma cells). To this end, we used (i) an inbred model organism (mouse, C57BL/6J) to quantify genetic predetermination and (ii) cohort-stratification (4 cohorts: 1 untreated, 3 antigen-immunized) to quantify antigen-driven predetermination. To ensure generalizability of our research, we additionally sequenced naive B cells from Balb/c and pet shop mice.",
         "inclusion_exclusion_criteria": "",
@@ -2113,12 +2185,9 @@
           "value": "Mus musculus"
         },
         "sex": "female",
-        "age_min": 8,
-        "age_max": 10,
-        "age_unit": {
-          "id": "UO_0000034",
-          "value": "week"
-        },
+        "age_min": null,
+        "age_max": null,
+        "age_unit": null,
         "age_event": null,
         "ancestry_population": null,
         "ethnicity": null,
@@ -2170,7 +2239,6 @@
           "sequencing_run_id": "ERR1759680",
           "total_reads_passing_qc_filter": null,
           "sequencing_platform": "Illumina MiSeq",
-          "read_length": "2x301bp",
           "sequencing_facility": "Quantitative Genomics Facility, ETH Zurich, Basel",
           "sequencing_run_date": "3/31/17 12:22",
           "sequencing_kit": null,
@@ -2179,22 +2247,27 @@
             "filename": "ERR1759680_1.fastq.gz",
             "read_direction": "forward",
             "paired_filename": "ERR1759680_2.fastq.gz",
-            "paired_read_direction": "reverse"
+            "paired_read_direction": "reverse",
+            "read_length": 301,
+            "paired_read_length": 301
           }
         }
       ],
       "data_processing": [
         {
-          "data_processing_id": "e1a98ff7-1e9a-4a85-8578-12457c4cc947-007",
-          "primary_annotation": null,
-          "software_versions": "",
+          "data_processing_id": "100f1e00-2aa0-4be2-978a-002a074a2ef7-007",
+          "primary_annotation": true,
+          "software_versions": "IgBlast 1.14",
           "paired_reads_assembly": "",
           "quality_thresholds": "",
           "primer_match_cutoffs": "",
           "collapsing_method": "",
           "data_processing_protocols": "",
           "germline_database": "",
-          "analysis_provenance_id": ""
+          "analysis_provenance_id": "",
+          "data_processing_files": [
+            "ERR1759680_1.fastq.merged.unique.igblast.airr.tsv"
+          ]
         }
       ]
     },
@@ -2204,8 +2277,8 @@
         "study_id": "PRJEB18631",
         "study_title": "Antibody repertoire RNA-seq throughout key stages of mouse B-cell development",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "C93130",
+          "value": "Animal Study"
         },
         "study_description": "We sought to investigate the extent of genetic and antigen-driven predetermination of antibody repertoires throughout B-cell development (pre-B cells, naive B cells, plasma cells). To this end, we used (i) an inbred model organism (mouse, C57BL/6J) to quantify genetic predetermination and (ii) cohort-stratification (4 cohorts: 1 untreated, 3 antigen-immunized) to quantify antigen-driven predetermination. To ensure generalizability of our research, we additionally sequenced naive B cells from Balb/c and pet shop mice.",
         "inclusion_exclusion_criteria": "",
@@ -2228,12 +2301,9 @@
           "value": "Mus musculus"
         },
         "sex": "female",
-        "age_min": 8,
-        "age_max": 10,
-        "age_unit": {
-          "id": "UO_0000034",
-          "value": "week"
-        },
+        "age_min": null,
+        "age_max": null,
+        "age_unit": null,
         "age_event": null,
         "ancestry_population": null,
         "ethnicity": null,
@@ -2285,7 +2355,6 @@
           "sequencing_run_id": "ERR1759679",
           "total_reads_passing_qc_filter": null,
           "sequencing_platform": "Illumina MiSeq",
-          "read_length": "2x301bp",
           "sequencing_facility": "Quantitative Genomics Facility, ETH Zurich, Basel",
           "sequencing_run_date": "3/31/17 12:22",
           "sequencing_kit": null,
@@ -2294,22 +2363,27 @@
             "filename": "ERR1759679_1.fastq.gz",
             "read_direction": "forward",
             "paired_filename": "ERR1759679_2.fastq.gz",
-            "paired_read_direction": "reverse"
+            "paired_read_direction": "reverse",
+            "read_length": 301,
+            "paired_read_length": 301
           }
         }
       ],
       "data_processing": [
         {
-          "data_processing_id": "e1a98ff7-1e9a-4a85-8578-12457c4cc947-007",
-          "primary_annotation": null,
-          "software_versions": "",
+          "data_processing_id": "7bcfc619-448f-45e2-9481-4b4095e3cbd9-007",
+          "primary_annotation": true,
+          "software_versions": "IgBlast 1.14",
           "paired_reads_assembly": "",
           "quality_thresholds": "",
           "primer_match_cutoffs": "",
           "collapsing_method": "",
           "data_processing_protocols": "",
           "germline_database": "",
-          "analysis_provenance_id": ""
+          "analysis_provenance_id": "",
+          "data_processing_files": [
+            "ERR1759679_1.fastq.merged.unique.igblast.airr.tsv"
+          ]
         }
       ]
     },
@@ -2319,8 +2393,8 @@
         "study_id": "PRJEB18631",
         "study_title": "Antibody repertoire RNA-seq throughout key stages of mouse B-cell development",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "C93130",
+          "value": "Animal Study"
         },
         "study_description": "We sought to investigate the extent of genetic and antigen-driven predetermination of antibody repertoires throughout B-cell development (pre-B cells, naive B cells, plasma cells). To this end, we used (i) an inbred model organism (mouse, C57BL/6J) to quantify genetic predetermination and (ii) cohort-stratification (4 cohorts: 1 untreated, 3 antigen-immunized) to quantify antigen-driven predetermination. To ensure generalizability of our research, we additionally sequenced naive B cells from Balb/c and pet shop mice.",
         "inclusion_exclusion_criteria": "",
@@ -2343,12 +2417,9 @@
           "value": "Mus musculus"
         },
         "sex": "female",
-        "age_min": 8,
-        "age_max": 10,
-        "age_unit": {
-          "id": "UO_0000034",
-          "value": "week"
-        },
+        "age_min": null,
+        "age_max": null,
+        "age_unit": null,
         "age_event": null,
         "ancestry_population": null,
         "ethnicity": null,
@@ -2400,7 +2471,6 @@
           "sequencing_run_id": "ERR1759678",
           "total_reads_passing_qc_filter": null,
           "sequencing_platform": "Illumina MiSeq",
-          "read_length": "2x301bp",
           "sequencing_facility": "Quantitative Genomics Facility, ETH Zurich, Basel",
           "sequencing_run_date": "3/31/17 12:22",
           "sequencing_kit": null,
@@ -2409,22 +2479,27 @@
             "filename": "ERR1759678_1.fastq.gz",
             "read_direction": "forward",
             "paired_filename": "ERR1759678_2.fastq.gz",
-            "paired_read_direction": "reverse"
+            "paired_read_direction": "reverse",
+            "read_length": 301,
+            "paired_read_length": 301
           }
         }
       ],
       "data_processing": [
         {
-          "data_processing_id": "e1a98ff7-1e9a-4a85-8578-12457c4cc947-007",
-          "primary_annotation": null,
-          "software_versions": "",
+          "data_processing_id": "7bcfc619-448f-45e2-9481-4b4095e3cbd9-007",
+          "primary_annotation": true,
+          "software_versions": "IgBlast 1.14",
           "paired_reads_assembly": "",
           "quality_thresholds": "",
           "primer_match_cutoffs": "",
           "collapsing_method": "",
           "data_processing_protocols": "",
           "germline_database": "",
-          "analysis_provenance_id": ""
+          "analysis_provenance_id": "",
+          "data_processing_files": [
+            "ERR1759678_1.fastq.merged.unique.igblast.airr.tsv"
+          ]
         }
       ]
     },
@@ -2434,8 +2509,8 @@
         "study_id": "PRJEB18631",
         "study_title": "Antibody repertoire RNA-seq throughout key stages of mouse B-cell development",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "C93130",
+          "value": "Animal Study"
         },
         "study_description": "We sought to investigate the extent of genetic and antigen-driven predetermination of antibody repertoires throughout B-cell development (pre-B cells, naive B cells, plasma cells). To this end, we used (i) an inbred model organism (mouse, C57BL/6J) to quantify genetic predetermination and (ii) cohort-stratification (4 cohorts: 1 untreated, 3 antigen-immunized) to quantify antigen-driven predetermination. To ensure generalizability of our research, we additionally sequenced naive B cells from Balb/c and pet shop mice.",
         "inclusion_exclusion_criteria": "",
@@ -2515,7 +2590,6 @@
           "sequencing_run_id": "ERR1759665",
           "total_reads_passing_qc_filter": null,
           "sequencing_platform": "Illumina MiSeq",
-          "read_length": "2x301bp",
           "sequencing_facility": "Quantitative Genomics Facility, ETH Zurich, Basel",
           "sequencing_run_date": "3/31/17 12:22",
           "sequencing_kit": null,
@@ -2524,22 +2598,27 @@
             "filename": "ERR1759665_1.fastq.gz",
             "read_direction": "forward",
             "paired_filename": "ERR1759665_2.fastq.gz",
-            "paired_read_direction": "reverse"
+            "paired_read_direction": "reverse",
+            "read_length": 301,
+            "paired_read_length": 301
           }
         }
       ],
       "data_processing": [
         {
           "data_processing_id": "e1a98ff7-1e9a-4a85-8578-12457c4cc947-007",
-          "primary_annotation": null,
-          "software_versions": "",
+          "primary_annotation": true,
+          "software_versions": "IgBlast 1.14",
           "paired_reads_assembly": "",
           "quality_thresholds": "",
           "primer_match_cutoffs": "",
           "collapsing_method": "",
           "data_processing_protocols": "",
           "germline_database": "",
-          "analysis_provenance_id": ""
+          "analysis_provenance_id": "",
+          "data_processing_files": [
+            "ERR1759665_1.fastq.merged.unique.igblast.airr.tsv"
+          ]
         }
       ]
     },
@@ -2549,8 +2628,8 @@
         "study_id": "PRJEB18631",
         "study_title": "Antibody repertoire RNA-seq throughout key stages of mouse B-cell development",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "C93130",
+          "value": "Animal Study"
         },
         "study_description": "We sought to investigate the extent of genetic and antigen-driven predetermination of antibody repertoires throughout B-cell development (pre-B cells, naive B cells, plasma cells). To this end, we used (i) an inbred model organism (mouse, C57BL/6J) to quantify genetic predetermination and (ii) cohort-stratification (4 cohorts: 1 untreated, 3 antigen-immunized) to quantify antigen-driven predetermination. To ensure generalizability of our research, we additionally sequenced naive B cells from Balb/c and pet shop mice.",
         "inclusion_exclusion_criteria": "",
@@ -2630,7 +2709,6 @@
           "sequencing_run_id": "ERR1759664",
           "total_reads_passing_qc_filter": null,
           "sequencing_platform": "Illumina MiSeq",
-          "read_length": "2x301bp",
           "sequencing_facility": "Quantitative Genomics Facility, ETH Zurich, Basel",
           "sequencing_run_date": "3/31/17 12:22",
           "sequencing_kit": null,
@@ -2639,22 +2717,27 @@
             "filename": "ERR1759664_1.fastq.gz",
             "read_direction": "forward",
             "paired_filename": "ERR1759664_2.fastq.gz",
-            "paired_read_direction": "reverse"
+            "paired_read_direction": "reverse",
+            "read_length": 301,
+            "paired_read_length": 301
           }
         }
       ],
       "data_processing": [
         {
           "data_processing_id": "e1a98ff7-1e9a-4a85-8578-12457c4cc947-007",
-          "primary_annotation": null,
-          "software_versions": "",
+          "primary_annotation": true,
+          "software_versions": "IgBlast 1.14",
           "paired_reads_assembly": "",
           "quality_thresholds": "",
           "primer_match_cutoffs": "",
           "collapsing_method": "",
           "data_processing_protocols": "",
           "germline_database": "",
-          "analysis_provenance_id": ""
+          "analysis_provenance_id": "",
+          "data_processing_files": [
+            "ERR1759664_1.fastq.merged.unique.igblast.airr.tsv"
+          ]
         }
       ]
     },
@@ -2664,8 +2747,8 @@
         "study_id": "PRJEB18631",
         "study_title": "Antibody repertoire RNA-seq throughout key stages of mouse B-cell development",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "C93130",
+          "value": "Animal Study"
         },
         "study_description": "We sought to investigate the extent of genetic and antigen-driven predetermination of antibody repertoires throughout B-cell development (pre-B cells, naive B cells, plasma cells). To this end, we used (i) an inbred model organism (mouse, C57BL/6J) to quantify genetic predetermination and (ii) cohort-stratification (4 cohorts: 1 untreated, 3 antigen-immunized) to quantify antigen-driven predetermination. To ensure generalizability of our research, we additionally sequenced naive B cells from Balb/c and pet shop mice.",
         "inclusion_exclusion_criteria": "",
@@ -2745,7 +2828,6 @@
           "sequencing_run_id": "ERR1759663",
           "total_reads_passing_qc_filter": null,
           "sequencing_platform": "Illumina MiSeq",
-          "read_length": "2x301bp",
           "sequencing_facility": "Quantitative Genomics Facility, ETH Zurich, Basel",
           "sequencing_run_date": "3/31/17 12:22",
           "sequencing_kit": null,
@@ -2754,22 +2836,27 @@
             "filename": "ERR1759663_1.fastq.gz",
             "read_direction": "forward",
             "paired_filename": "ERR1759663_2.fastq.gz",
-            "paired_read_direction": "reverse"
+            "paired_read_direction": "reverse",
+            "read_length": 301,
+            "paired_read_length": 301
           }
         }
       ],
       "data_processing": [
         {
           "data_processing_id": "e1a98ff7-1e9a-4a85-8578-12457c4cc947-007",
-          "primary_annotation": null,
-          "software_versions": "",
+          "primary_annotation": true,
+          "software_versions": "IgBlast 1.14",
           "paired_reads_assembly": "",
           "quality_thresholds": "",
           "primer_match_cutoffs": "",
           "collapsing_method": "",
           "data_processing_protocols": "",
           "germline_database": "",
-          "analysis_provenance_id": ""
+          "analysis_provenance_id": "",
+          "data_processing_files": [
+            "ERR1759663_1.fastq.merged.unique.igblast.airr.tsv"
+          ]
         }
       ]
     },
@@ -2779,8 +2866,8 @@
         "study_id": "PRJEB18631",
         "study_title": "Antibody repertoire RNA-seq throughout key stages of mouse B-cell development",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "C93130",
+          "value": "Animal Study"
         },
         "study_description": "We sought to investigate the extent of genetic and antigen-driven predetermination of antibody repertoires throughout B-cell development (pre-B cells, naive B cells, plasma cells). To this end, we used (i) an inbred model organism (mouse, C57BL/6J) to quantify genetic predetermination and (ii) cohort-stratification (4 cohorts: 1 untreated, 3 antigen-immunized) to quantify antigen-driven predetermination. To ensure generalizability of our research, we additionally sequenced naive B cells from Balb/c and pet shop mice.",
         "inclusion_exclusion_criteria": "",
@@ -2860,7 +2947,6 @@
           "sequencing_run_id": "ERR1759668",
           "total_reads_passing_qc_filter": null,
           "sequencing_platform": "Illumina MiSeq",
-          "read_length": "2x301bp",
           "sequencing_facility": "Quantitative Genomics Facility, ETH Zurich, Basel",
           "sequencing_run_date": "3/31/17 12:22",
           "sequencing_kit": null,
@@ -2869,22 +2955,27 @@
             "filename": "ERR1759668_1.fastq.gz",
             "read_direction": "forward",
             "paired_filename": "ERR1759668_2.fastq.gz",
-            "paired_read_direction": "reverse"
+            "paired_read_direction": "reverse",
+            "read_length": 301,
+            "paired_read_length": 301
           }
         }
       ],
       "data_processing": [
         {
           "data_processing_id": "e1a98ff7-1e9a-4a85-8578-12457c4cc947-007",
-          "primary_annotation": null,
-          "software_versions": "",
+          "primary_annotation": true,
+          "software_versions": "IgBlast 1.14",
           "paired_reads_assembly": "",
           "quality_thresholds": "",
           "primer_match_cutoffs": "",
           "collapsing_method": "",
           "data_processing_protocols": "",
           "germline_database": "",
-          "analysis_provenance_id": ""
+          "analysis_provenance_id": "",
+          "data_processing_files": [
+            "ERR1759668_1.fastq.merged.unique.igblast.airr.tsv"
+          ]
         }
       ]
     },
@@ -2894,8 +2985,8 @@
         "study_id": "PRJEB18631",
         "study_title": "Antibody repertoire RNA-seq throughout key stages of mouse B-cell development",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "C93130",
+          "value": "Animal Study"
         },
         "study_description": "We sought to investigate the extent of genetic and antigen-driven predetermination of antibody repertoires throughout B-cell development (pre-B cells, naive B cells, plasma cells). To this end, we used (i) an inbred model organism (mouse, C57BL/6J) to quantify genetic predetermination and (ii) cohort-stratification (4 cohorts: 1 untreated, 3 antigen-immunized) to quantify antigen-driven predetermination. To ensure generalizability of our research, we additionally sequenced naive B cells from Balb/c and pet shop mice.",
         "inclusion_exclusion_criteria": "",
@@ -2975,7 +3066,6 @@
           "sequencing_run_id": "ERR1759667",
           "total_reads_passing_qc_filter": null,
           "sequencing_platform": "Illumina MiSeq",
-          "read_length": "2x301bp",
           "sequencing_facility": "Quantitative Genomics Facility, ETH Zurich, Basel",
           "sequencing_run_date": "3/31/17 12:22",
           "sequencing_kit": null,
@@ -2984,22 +3074,27 @@
             "filename": "ERR1759667_1.fastq.gz",
             "read_direction": "forward",
             "paired_filename": "ERR1759667_2.fastq.gz",
-            "paired_read_direction": "reverse"
+            "paired_read_direction": "reverse",
+            "read_length": 301,
+            "paired_read_length": 301
           }
         }
       ],
       "data_processing": [
         {
           "data_processing_id": "e1a98ff7-1e9a-4a85-8578-12457c4cc947-007",
-          "primary_annotation": null,
-          "software_versions": "",
+          "primary_annotation": true,
+          "software_versions": "IgBlast 1.14",
           "paired_reads_assembly": "",
           "quality_thresholds": "",
           "primer_match_cutoffs": "",
           "collapsing_method": "",
           "data_processing_protocols": "",
           "germline_database": "",
-          "analysis_provenance_id": ""
+          "analysis_provenance_id": "",
+          "data_processing_files": [
+            "ERR1759667_1.fastq.merged.unique.igblast.airr.tsv"
+          ]
         }
       ]
     },
@@ -3009,8 +3104,8 @@
         "study_id": "PRJEB18631",
         "study_title": "Antibody repertoire RNA-seq throughout key stages of mouse B-cell development",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "C93130",
+          "value": "Animal Study"
         },
         "study_description": "We sought to investigate the extent of genetic and antigen-driven predetermination of antibody repertoires throughout B-cell development (pre-B cells, naive B cells, plasma cells). To this end, we used (i) an inbred model organism (mouse, C57BL/6J) to quantify genetic predetermination and (ii) cohort-stratification (4 cohorts: 1 untreated, 3 antigen-immunized) to quantify antigen-driven predetermination. To ensure generalizability of our research, we additionally sequenced naive B cells from Balb/c and pet shop mice.",
         "inclusion_exclusion_criteria": "",
@@ -3090,7 +3185,6 @@
           "sequencing_run_id": "ERR1759666",
           "total_reads_passing_qc_filter": null,
           "sequencing_platform": "Illumina MiSeq",
-          "read_length": "2x301bp",
           "sequencing_facility": "Quantitative Genomics Facility, ETH Zurich, Basel",
           "sequencing_run_date": "3/31/17 12:22",
           "sequencing_kit": null,
@@ -3099,22 +3193,27 @@
             "filename": "ERR1759666_1.fastq.gz",
             "read_direction": "forward",
             "paired_filename": "ERR1759666_2.fastq.gz",
-            "paired_read_direction": "reverse"
+            "paired_read_direction": "reverse",
+            "read_length": 301,
+            "paired_read_length": 301
           }
         }
       ],
       "data_processing": [
         {
           "data_processing_id": "e1a98ff7-1e9a-4a85-8578-12457c4cc947-007",
-          "primary_annotation": null,
-          "software_versions": "",
+          "primary_annotation": true,
+          "software_versions": "IgBlast 1.14",
           "paired_reads_assembly": "",
           "quality_thresholds": "",
           "primer_match_cutoffs": "",
           "collapsing_method": "",
           "data_processing_protocols": "",
           "germline_database": "",
-          "analysis_provenance_id": ""
+          "analysis_provenance_id": "",
+          "data_processing_files": [
+            "ERR1759666_1.fastq.merged.unique.igblast.airr.tsv"
+          ]
         }
       ]
     },
@@ -3124,8 +3223,8 @@
         "study_id": "PRJEB18631",
         "study_title": "Antibody repertoire RNA-seq throughout key stages of mouse B-cell development",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "C93130",
+          "value": "Animal Study"
         },
         "study_description": "We sought to investigate the extent of genetic and antigen-driven predetermination of antibody repertoires throughout B-cell development (pre-B cells, naive B cells, plasma cells). To this end, we used (i) an inbred model organism (mouse, C57BL/6J) to quantify genetic predetermination and (ii) cohort-stratification (4 cohorts: 1 untreated, 3 antigen-immunized) to quantify antigen-driven predetermination. To ensure generalizability of our research, we additionally sequenced naive B cells from Balb/c and pet shop mice.",
         "inclusion_exclusion_criteria": "",
@@ -3205,7 +3304,6 @@
           "sequencing_run_id": "ERR1759671",
           "total_reads_passing_qc_filter": null,
           "sequencing_platform": "Illumina MiSeq",
-          "read_length": "2x301bp",
           "sequencing_facility": "Quantitative Genomics Facility, ETH Zurich, Basel",
           "sequencing_run_date": "3/31/17 12:22",
           "sequencing_kit": null,
@@ -3214,22 +3312,27 @@
             "filename": "ERR1759671_1.fastq.gz",
             "read_direction": "forward",
             "paired_filename": "ERR1759671_2.fastq.gz",
-            "paired_read_direction": "reverse"
+            "paired_read_direction": "reverse",
+            "read_length": 301,
+            "paired_read_length": 301
           }
         }
       ],
       "data_processing": [
         {
-          "data_processing_id": "e1a98ff7-1e9a-4a85-8578-12457c4cc947-007",
-          "primary_annotation": null,
-          "software_versions": "",
+          "data_processing_id": "1ba40a99-eeaa-491f-89c1-16bc814f142b-007",
+          "primary_annotation": true,
+          "software_versions": "IgBlast 1.14",
           "paired_reads_assembly": "",
           "quality_thresholds": "",
           "primer_match_cutoffs": "",
           "collapsing_method": "",
           "data_processing_protocols": "",
           "germline_database": "",
-          "analysis_provenance_id": ""
+          "analysis_provenance_id": "",
+          "data_processing_files": [
+            "ERR1759671_1.fastq.merged.unique.igblast.airr.tsv"
+          ]
         }
       ]
     },
@@ -3239,8 +3342,8 @@
         "study_id": "PRJEB18631",
         "study_title": "Antibody repertoire RNA-seq throughout key stages of mouse B-cell development",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "C93130",
+          "value": "Animal Study"
         },
         "study_description": "We sought to investigate the extent of genetic and antigen-driven predetermination of antibody repertoires throughout B-cell development (pre-B cells, naive B cells, plasma cells). To this end, we used (i) an inbred model organism (mouse, C57BL/6J) to quantify genetic predetermination and (ii) cohort-stratification (4 cohorts: 1 untreated, 3 antigen-immunized) to quantify antigen-driven predetermination. To ensure generalizability of our research, we additionally sequenced naive B cells from Balb/c and pet shop mice.",
         "inclusion_exclusion_criteria": "",
@@ -3320,7 +3423,6 @@
           "sequencing_run_id": "ERR1759670",
           "total_reads_passing_qc_filter": null,
           "sequencing_platform": "Illumina MiSeq",
-          "read_length": "2x301bp",
           "sequencing_facility": "Quantitative Genomics Facility, ETH Zurich, Basel",
           "sequencing_run_date": "3/31/17 12:22",
           "sequencing_kit": null,
@@ -3329,22 +3431,27 @@
             "filename": "ERR1759670_1.fastq.gz",
             "read_direction": "forward",
             "paired_filename": "ERR1759670_2.fastq.gz",
-            "paired_read_direction": "reverse"
+            "paired_read_direction": "reverse",
+            "read_length": 301,
+            "paired_read_length": 301
           }
         }
       ],
       "data_processing": [
         {
-          "data_processing_id": "e1a98ff7-1e9a-4a85-8578-12457c4cc947-007",
-          "primary_annotation": null,
-          "software_versions": "",
+          "data_processing_id": "1ba40a99-eeaa-491f-89c1-16bc814f142b-007",
+          "primary_annotation": true,
+          "software_versions": "IgBlast 1.14",
           "paired_reads_assembly": "",
           "quality_thresholds": "",
           "primer_match_cutoffs": "",
           "collapsing_method": "",
           "data_processing_protocols": "",
           "germline_database": "",
-          "analysis_provenance_id": ""
+          "analysis_provenance_id": "",
+          "data_processing_files": [
+            "ERR1759670_1.fastq.merged.unique.igblast.airr.tsv"
+          ]
         }
       ]
     },
@@ -3354,8 +3461,8 @@
         "study_id": "PRJEB18631",
         "study_title": "Antibody repertoire RNA-seq throughout key stages of mouse B-cell development",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "C93130",
+          "value": "Animal Study"
         },
         "study_description": "We sought to investigate the extent of genetic and antigen-driven predetermination of antibody repertoires throughout B-cell development (pre-B cells, naive B cells, plasma cells). To this end, we used (i) an inbred model organism (mouse, C57BL/6J) to quantify genetic predetermination and (ii) cohort-stratification (4 cohorts: 1 untreated, 3 antigen-immunized) to quantify antigen-driven predetermination. To ensure generalizability of our research, we additionally sequenced naive B cells from Balb/c and pet shop mice.",
         "inclusion_exclusion_criteria": "",
@@ -3435,7 +3542,6 @@
           "sequencing_run_id": "ERR1759669",
           "total_reads_passing_qc_filter": null,
           "sequencing_platform": "Illumina MiSeq",
-          "read_length": "2x301bp",
           "sequencing_facility": "Quantitative Genomics Facility, ETH Zurich, Basel",
           "sequencing_run_date": "3/31/17 12:22",
           "sequencing_kit": null,
@@ -3444,22 +3550,27 @@
             "filename": "ERR1759669_1.fastq.gz",
             "read_direction": "forward",
             "paired_filename": "ERR1759669_2.fastq.gz",
-            "paired_read_direction": "reverse"
+            "paired_read_direction": "reverse",
+            "read_length": 301,
+            "paired_read_length": 301
           }
         }
       ],
       "data_processing": [
         {
           "data_processing_id": "e1a98ff7-1e9a-4a85-8578-12457c4cc947-007",
-          "primary_annotation": null,
-          "software_versions": "",
+          "primary_annotation": true,
+          "software_versions": "IgBlast 1.14",
           "paired_reads_assembly": "",
           "quality_thresholds": "",
           "primer_match_cutoffs": "",
           "collapsing_method": "",
           "data_processing_protocols": "",
           "germline_database": "",
-          "analysis_provenance_id": ""
+          "analysis_provenance_id": "",
+          "data_processing_files": [
+            "ERR1759669_1.fastq.merged.unique.igblast.airr.tsv"
+          ]
         }
       ]
     },
@@ -3469,8 +3580,8 @@
         "study_id": "PRJEB18631",
         "study_title": "Antibody repertoire RNA-seq throughout key stages of mouse B-cell development",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "C93130",
+          "value": "Animal Study"
         },
         "study_description": "We sought to investigate the extent of genetic and antigen-driven predetermination of antibody repertoires throughout B-cell development (pre-B cells, naive B cells, plasma cells). To this end, we used (i) an inbred model organism (mouse, C57BL/6J) to quantify genetic predetermination and (ii) cohort-stratification (4 cohorts: 1 untreated, 3 antigen-immunized) to quantify antigen-driven predetermination. To ensure generalizability of our research, we additionally sequenced naive B cells from Balb/c and pet shop mice.",
         "inclusion_exclusion_criteria": "",
@@ -3550,7 +3661,6 @@
           "sequencing_run_id": "ERR1759674",
           "total_reads_passing_qc_filter": null,
           "sequencing_platform": "Illumina MiSeq",
-          "read_length": "2x301bp",
           "sequencing_facility": "Quantitative Genomics Facility, ETH Zurich, Basel",
           "sequencing_run_date": "3/31/17 12:22",
           "sequencing_kit": null,
@@ -3559,22 +3669,27 @@
             "filename": "ERR1759674_1.fastq.gz",
             "read_direction": "forward",
             "paired_filename": "ERR1759674_2.fastq.gz",
-            "paired_read_direction": "reverse"
+            "paired_read_direction": "reverse",
+            "read_length": 301,
+            "paired_read_length": 301
           }
         }
       ],
       "data_processing": [
         {
-          "data_processing_id": "e1a98ff7-1e9a-4a85-8578-12457c4cc947-007",
-          "primary_annotation": null,
-          "software_versions": "",
+          "data_processing_id": "1ba40a99-eeaa-491f-89c1-16bc814f142b-007",
+          "primary_annotation": true,
+          "software_versions": "IgBlast 1.14",
           "paired_reads_assembly": "",
           "quality_thresholds": "",
           "primer_match_cutoffs": "",
           "collapsing_method": "",
           "data_processing_protocols": "",
           "germline_database": "",
-          "analysis_provenance_id": ""
+          "analysis_provenance_id": "",
+          "data_processing_files": [
+            "ERR1759674_1.fastq.merged.unique.igblast.airr.tsv"
+          ]
         }
       ]
     },
@@ -3584,8 +3699,8 @@
         "study_id": "PRJEB18631",
         "study_title": "Antibody repertoire RNA-seq throughout key stages of mouse B-cell development",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "C93130",
+          "value": "Animal Study"
         },
         "study_description": "We sought to investigate the extent of genetic and antigen-driven predetermination of antibody repertoires throughout B-cell development (pre-B cells, naive B cells, plasma cells). To this end, we used (i) an inbred model organism (mouse, C57BL/6J) to quantify genetic predetermination and (ii) cohort-stratification (4 cohorts: 1 untreated, 3 antigen-immunized) to quantify antigen-driven predetermination. To ensure generalizability of our research, we additionally sequenced naive B cells from Balb/c and pet shop mice.",
         "inclusion_exclusion_criteria": "",
@@ -3665,7 +3780,6 @@
           "sequencing_run_id": "ERR1759673",
           "total_reads_passing_qc_filter": null,
           "sequencing_platform": "Illumina MiSeq",
-          "read_length": "2x301bp",
           "sequencing_facility": "Quantitative Genomics Facility, ETH Zurich, Basel",
           "sequencing_run_date": "3/31/17 12:22",
           "sequencing_kit": null,
@@ -3674,22 +3788,27 @@
             "filename": "ERR1759673_1.fastq.gz",
             "read_direction": "forward",
             "paired_filename": "ERR1759673_2.fastq.gz",
-            "paired_read_direction": "reverse"
+            "paired_read_direction": "reverse",
+            "read_length": 301,
+            "paired_read_length": 301
           }
         }
       ],
       "data_processing": [
         {
-          "data_processing_id": "e1a98ff7-1e9a-4a85-8578-12457c4cc947-007",
-          "primary_annotation": null,
-          "software_versions": "",
+          "data_processing_id": "1ba40a99-eeaa-491f-89c1-16bc814f142b-007",
+          "primary_annotation": true,
+          "software_versions": "IgBlast 1.14",
           "paired_reads_assembly": "",
           "quality_thresholds": "",
           "primer_match_cutoffs": "",
           "collapsing_method": "",
           "data_processing_protocols": "",
           "germline_database": "",
-          "analysis_provenance_id": ""
+          "analysis_provenance_id": "",
+          "data_processing_files": [
+            "ERR1759673_1.fastq.merged.unique.igblast.airr.tsv"
+          ]
         }
       ]
     },
@@ -3699,8 +3818,8 @@
         "study_id": "PRJEB18631",
         "study_title": "Antibody repertoire RNA-seq throughout key stages of mouse B-cell development",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "C93130",
+          "value": "Animal Study"
         },
         "study_description": "We sought to investigate the extent of genetic and antigen-driven predetermination of antibody repertoires throughout B-cell development (pre-B cells, naive B cells, plasma cells). To this end, we used (i) an inbred model organism (mouse, C57BL/6J) to quantify genetic predetermination and (ii) cohort-stratification (4 cohorts: 1 untreated, 3 antigen-immunized) to quantify antigen-driven predetermination. To ensure generalizability of our research, we additionally sequenced naive B cells from Balb/c and pet shop mice.",
         "inclusion_exclusion_criteria": "",
@@ -3780,7 +3899,6 @@
           "sequencing_run_id": "ERR1759672",
           "total_reads_passing_qc_filter": null,
           "sequencing_platform": "Illumina MiSeq",
-          "read_length": "2x301bp",
           "sequencing_facility": "Quantitative Genomics Facility, ETH Zurich, Basel",
           "sequencing_run_date": "3/31/17 12:22",
           "sequencing_kit": null,
@@ -3789,22 +3907,27 @@
             "filename": "ERR1759672_1.fastq.gz",
             "read_direction": "forward",
             "paired_filename": "ERR1759672_2.fastq.gz",
-            "paired_read_direction": "reverse"
+            "paired_read_direction": "reverse",
+            "read_length": 301,
+            "paired_read_length": 301
           }
         }
       ],
       "data_processing": [
         {
-          "data_processing_id": "e1a98ff7-1e9a-4a85-8578-12457c4cc947-007",
-          "primary_annotation": null,
-          "software_versions": "",
+          "data_processing_id": "1ba40a99-eeaa-491f-89c1-16bc814f142b-007",
+          "primary_annotation": true,
+          "software_versions": "IgBlast 1.14",
           "paired_reads_assembly": "",
           "quality_thresholds": "",
           "primer_match_cutoffs": "",
           "collapsing_method": "",
           "data_processing_protocols": "",
           "germline_database": "",
-          "analysis_provenance_id": ""
+          "analysis_provenance_id": "",
+          "data_processing_files": [
+            "ERR1759672_1.fastq.merged.unique.igblast.airr.tsv"
+          ]
         }
       ]
     },
@@ -3814,8 +3937,8 @@
         "study_id": "PRJEB18631",
         "study_title": "Antibody repertoire RNA-seq throughout key stages of mouse B-cell development",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "C93130",
+          "value": "Animal Study"
         },
         "study_description": "We sought to investigate the extent of genetic and antigen-driven predetermination of antibody repertoires throughout B-cell development (pre-B cells, naive B cells, plasma cells). To this end, we used (i) an inbred model organism (mouse, C57BL/6J) to quantify genetic predetermination and (ii) cohort-stratification (4 cohorts: 1 untreated, 3 antigen-immunized) to quantify antigen-driven predetermination. To ensure generalizability of our research, we additionally sequenced naive B cells from Balb/c and pet shop mice.",
         "inclusion_exclusion_criteria": "",
@@ -3895,7 +4018,6 @@
           "sequencing_run_id": "ERR1759677",
           "total_reads_passing_qc_filter": null,
           "sequencing_platform": "Illumina MiSeq",
-          "read_length": "2x301bp",
           "sequencing_facility": "Quantitative Genomics Facility, ETH Zurich, Basel",
           "sequencing_run_date": "3/31/17 12:22",
           "sequencing_kit": null,
@@ -3904,22 +4026,27 @@
             "filename": "ERR1759677_1.fastq.gz",
             "read_direction": "forward",
             "paired_filename": "ERR1759677_2.fastq.gz",
-            "paired_read_direction": "reverse"
+            "paired_read_direction": "reverse",
+            "read_length": 301,
+            "paired_read_length": 301
           }
         }
       ],
       "data_processing": [
         {
-          "data_processing_id": "e1a98ff7-1e9a-4a85-8578-12457c4cc947-007",
-          "primary_annotation": null,
-          "software_versions": "",
+          "data_processing_id": "7bcfc619-448f-45e2-9481-4b4095e3cbd9-007",
+          "primary_annotation": true,
+          "software_versions": "IgBlast 1.14",
           "paired_reads_assembly": "",
           "quality_thresholds": "",
           "primer_match_cutoffs": "",
           "collapsing_method": "",
           "data_processing_protocols": "",
           "germline_database": "",
-          "analysis_provenance_id": ""
+          "analysis_provenance_id": "",
+          "data_processing_files": [
+            "ERR1759677_1.fastq.merged.unique.igblast.airr.tsv"
+          ]
         }
       ]
     },
@@ -3929,8 +4056,8 @@
         "study_id": "PRJEB18631",
         "study_title": "Antibody repertoire RNA-seq throughout key stages of mouse B-cell development",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "C93130",
+          "value": "Animal Study"
         },
         "study_description": "We sought to investigate the extent of genetic and antigen-driven predetermination of antibody repertoires throughout B-cell development (pre-B cells, naive B cells, plasma cells). To this end, we used (i) an inbred model organism (mouse, C57BL/6J) to quantify genetic predetermination and (ii) cohort-stratification (4 cohorts: 1 untreated, 3 antigen-immunized) to quantify antigen-driven predetermination. To ensure generalizability of our research, we additionally sequenced naive B cells from Balb/c and pet shop mice.",
         "inclusion_exclusion_criteria": "",
@@ -4010,7 +4137,6 @@
           "sequencing_run_id": "ERR1759676",
           "total_reads_passing_qc_filter": null,
           "sequencing_platform": "Illumina MiSeq",
-          "read_length": "2x301bp",
           "sequencing_facility": "Quantitative Genomics Facility, ETH Zurich, Basel",
           "sequencing_run_date": "3/31/17 12:22",
           "sequencing_kit": null,
@@ -4019,22 +4145,27 @@
             "filename": "ERR1759676_1.fastq.gz",
             "read_direction": "forward",
             "paired_filename": "ERR1759676_2.fastq.gz",
-            "paired_read_direction": "reverse"
+            "paired_read_direction": "reverse",
+            "read_length": 301,
+            "paired_read_length": 301
           }
         }
       ],
       "data_processing": [
         {
-          "data_processing_id": "e1a98ff7-1e9a-4a85-8578-12457c4cc947-007",
-          "primary_annotation": null,
-          "software_versions": "",
+          "data_processing_id": "7bcfc619-448f-45e2-9481-4b4095e3cbd9-007",
+          "primary_annotation": true,
+          "software_versions": "IgBlast 1.14",
           "paired_reads_assembly": "",
           "quality_thresholds": "",
           "primer_match_cutoffs": "",
           "collapsing_method": "",
           "data_processing_protocols": "",
           "germline_database": "",
-          "analysis_provenance_id": ""
+          "analysis_provenance_id": "",
+          "data_processing_files": [
+            "ERR1759676_1.fastq.merged.unique.igblast.airr.tsv"
+          ]
         }
       ]
     },
@@ -4044,8 +4175,8 @@
         "study_id": "PRJEB18631",
         "study_title": "Antibody repertoire RNA-seq throughout key stages of mouse B-cell development",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "C93130",
+          "value": "Animal Study"
         },
         "study_description": "We sought to investigate the extent of genetic and antigen-driven predetermination of antibody repertoires throughout B-cell development (pre-B cells, naive B cells, plasma cells). To this end, we used (i) an inbred model organism (mouse, C57BL/6J) to quantify genetic predetermination and (ii) cohort-stratification (4 cohorts: 1 untreated, 3 antigen-immunized) to quantify antigen-driven predetermination. To ensure generalizability of our research, we additionally sequenced naive B cells from Balb/c and pet shop mice.",
         "inclusion_exclusion_criteria": "",
@@ -4125,7 +4256,6 @@
           "sequencing_run_id": "ERR1759675",
           "total_reads_passing_qc_filter": null,
           "sequencing_platform": "Illumina MiSeq",
-          "read_length": "2x301bp",
           "sequencing_facility": "Quantitative Genomics Facility, ETH Zurich, Basel",
           "sequencing_run_date": "3/31/17 12:22",
           "sequencing_kit": null,
@@ -4134,22 +4264,27 @@
             "filename": "ERR1759675_1.fastq.gz",
             "read_direction": "forward",
             "paired_filename": "ERR1759675_2.fastq.gz",
-            "paired_read_direction": "reverse"
+            "paired_read_direction": "reverse",
+            "read_length": 301,
+            "paired_read_length": 301
           }
         }
       ],
       "data_processing": [
         {
-          "data_processing_id": "e1a98ff7-1e9a-4a85-8578-12457c4cc947-007",
-          "primary_annotation": null,
-          "software_versions": "",
+          "data_processing_id": "7bcfc619-448f-45e2-9481-4b4095e3cbd9-007",
+          "primary_annotation": true,
+          "software_versions": "IgBlast 1.14",
           "paired_reads_assembly": "",
           "quality_thresholds": "",
           "primer_match_cutoffs": "",
           "collapsing_method": "",
           "data_processing_protocols": "",
           "germline_database": "",
-          "analysis_provenance_id": ""
+          "analysis_provenance_id": "",
+          "data_processing_files": [
+            "ERR1759675_1.fastq.merged.unique.igblast.airr.tsv"
+          ]
         }
       ]
     },
@@ -4159,8 +4294,8 @@
         "study_id": "PRJEB18631",
         "study_title": "Antibody repertoire RNA-seq throughout key stages of mouse B-cell development",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "C93130",
+          "value": "Animal Study"
         },
         "study_description": "We sought to investigate the extent of genetic and antigen-driven predetermination of antibody repertoires throughout B-cell development (pre-B cells, naive B cells, plasma cells). To this end, we used (i) an inbred model organism (mouse, C57BL/6J) to quantify genetic predetermination and (ii) cohort-stratification (4 cohorts: 1 untreated, 3 antigen-immunized) to quantify antigen-driven predetermination. To ensure generalizability of our research, we additionally sequenced naive B cells from Balb/c and pet shop mice.",
         "inclusion_exclusion_criteria": "",
@@ -4240,7 +4375,6 @@
           "sequencing_run_id": "ERR1759659",
           "total_reads_passing_qc_filter": null,
           "sequencing_platform": "Illumina MiSeq",
-          "read_length": "2x301bp",
           "sequencing_facility": "Quantitative Genomics Facility, ETH Zurich, Basel",
           "sequencing_run_date": "3/31/17 12:22",
           "sequencing_kit": null,
@@ -4249,22 +4383,27 @@
             "filename": "ERR1759659_1.fastq.gz",
             "read_direction": "forward",
             "paired_filename": "ERR1759659_2.fastq.gz",
-            "paired_read_direction": "reverse"
+            "paired_read_direction": "reverse",
+            "read_length": 301,
+            "paired_read_length": 301
           }
         }
       ],
       "data_processing": [
         {
-          "data_processing_id": "e1a98ff7-1e9a-4a85-8578-12457c4cc947-007",
-          "primary_annotation": null,
-          "software_versions": "",
+          "data_processing_id": "68498761-a491-4f46-8527-5f0a1fbac7d6-007",
+          "primary_annotation": true,
+          "software_versions": "IgBlast 1.14",
           "paired_reads_assembly": "",
           "quality_thresholds": "",
           "primer_match_cutoffs": "",
           "collapsing_method": "",
           "data_processing_protocols": "",
           "germline_database": "",
-          "analysis_provenance_id": ""
+          "analysis_provenance_id": "",
+          "data_processing_files": [
+            "ERR1759659_1.fastq.merged.unique.igblast.airr.tsv"
+          ]
         }
       ]
     },
@@ -4274,8 +4413,8 @@
         "study_id": "PRJEB18631",
         "study_title": "Antibody repertoire RNA-seq throughout key stages of mouse B-cell development",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "C93130",
+          "value": "Animal Study"
         },
         "study_description": "We sought to investigate the extent of genetic and antigen-driven predetermination of antibody repertoires throughout B-cell development (pre-B cells, naive B cells, plasma cells). To this end, we used (i) an inbred model organism (mouse, C57BL/6J) to quantify genetic predetermination and (ii) cohort-stratification (4 cohorts: 1 untreated, 3 antigen-immunized) to quantify antigen-driven predetermination. To ensure generalizability of our research, we additionally sequenced naive B cells from Balb/c and pet shop mice.",
         "inclusion_exclusion_criteria": "",
@@ -4355,7 +4494,6 @@
           "sequencing_run_id": "ERR1759660",
           "total_reads_passing_qc_filter": null,
           "sequencing_platform": "Illumina MiSeq",
-          "read_length": "2x301bp",
           "sequencing_facility": "Quantitative Genomics Facility, ETH Zurich, Basel",
           "sequencing_run_date": "3/31/17 12:22",
           "sequencing_kit": null,
@@ -4364,22 +4502,27 @@
             "filename": "ERR1759660_1.fastq.gz",
             "read_direction": "forward",
             "paired_filename": "ERR1759660_2.fastq.gz",
-            "paired_read_direction": "reverse"
+            "paired_read_direction": "reverse",
+            "read_length": 301,
+            "paired_read_length": 301
           }
         }
       ],
       "data_processing": [
         {
           "data_processing_id": "e1a98ff7-1e9a-4a85-8578-12457c4cc947-007",
-          "primary_annotation": null,
-          "software_versions": "",
+          "primary_annotation": true,
+          "software_versions": "IgBlast 1.14",
           "paired_reads_assembly": "",
           "quality_thresholds": "",
           "primer_match_cutoffs": "",
           "collapsing_method": "",
           "data_processing_protocols": "",
           "germline_database": "",
-          "analysis_provenance_id": ""
+          "analysis_provenance_id": "",
+          "data_processing_files": [
+            "ERR1759660_1.fastq.merged.unique.igblast.airr.tsv"
+          ]
         }
       ]
     },
@@ -4389,8 +4532,8 @@
         "study_id": "PRJEB18631",
         "study_title": "Antibody repertoire RNA-seq throughout key stages of mouse B-cell development",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "C93130",
+          "value": "Animal Study"
         },
         "study_description": "We sought to investigate the extent of genetic and antigen-driven predetermination of antibody repertoires throughout B-cell development (pre-B cells, naive B cells, plasma cells). To this end, we used (i) an inbred model organism (mouse, C57BL/6J) to quantify genetic predetermination and (ii) cohort-stratification (4 cohorts: 1 untreated, 3 antigen-immunized) to quantify antigen-driven predetermination. To ensure generalizability of our research, we additionally sequenced naive B cells from Balb/c and pet shop mice.",
         "inclusion_exclusion_criteria": "",
@@ -4470,7 +4613,6 @@
           "sequencing_run_id": "ERR1759661",
           "total_reads_passing_qc_filter": null,
           "sequencing_platform": "Illumina MiSeq",
-          "read_length": "2x301bp",
           "sequencing_facility": "Quantitative Genomics Facility, ETH Zurich, Basel",
           "sequencing_run_date": "3/31/17 12:22",
           "sequencing_kit": null,
@@ -4479,22 +4621,27 @@
             "filename": "ERR1759661_1.fastq.gz",
             "read_direction": "forward",
             "paired_filename": "ERR1759661_2.fastq.gz",
-            "paired_read_direction": "reverse"
+            "paired_read_direction": "reverse",
+            "read_length": 301,
+            "paired_read_length": 301
           }
         }
       ],
       "data_processing": [
         {
           "data_processing_id": "e1a98ff7-1e9a-4a85-8578-12457c4cc947-007",
-          "primary_annotation": null,
-          "software_versions": "",
+          "primary_annotation": true,
+          "software_versions": "IgBlast 1.14",
           "paired_reads_assembly": "",
           "quality_thresholds": "",
           "primer_match_cutoffs": "",
           "collapsing_method": "",
           "data_processing_protocols": "",
           "germline_database": "",
-          "analysis_provenance_id": ""
+          "analysis_provenance_id": "",
+          "data_processing_files": [
+            "ERR1759661_1.fastq.merged.unique.igblast.airr.tsv"
+          ]
         }
       ]
     },
@@ -4504,8 +4651,8 @@
         "study_id": "PRJEB18631",
         "study_title": "Antibody repertoire RNA-seq throughout key stages of mouse B-cell development",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "C93130",
+          "value": "Animal Study"
         },
         "study_description": "We sought to investigate the extent of genetic and antigen-driven predetermination of antibody repertoires throughout B-cell development (pre-B cells, naive B cells, plasma cells). To this end, we used (i) an inbred model organism (mouse, C57BL/6J) to quantify genetic predetermination and (ii) cohort-stratification (4 cohorts: 1 untreated, 3 antigen-immunized) to quantify antigen-driven predetermination. To ensure generalizability of our research, we additionally sequenced naive B cells from Balb/c and pet shop mice.",
         "inclusion_exclusion_criteria": "",
@@ -4585,7 +4732,6 @@
           "sequencing_run_id": "ERR1759662",
           "total_reads_passing_qc_filter": null,
           "sequencing_platform": "Illumina MiSeq",
-          "read_length": "2x301bp",
           "sequencing_facility": "Quantitative Genomics Facility, ETH Zurich, Basel",
           "sequencing_run_date": "3/31/17 12:22",
           "sequencing_kit": null,
@@ -4594,22 +4740,27 @@
             "filename": "ERR1759662_1.fastq.gz",
             "read_direction": "forward",
             "paired_filename": "ERR1759662_2.fastq.gz",
-            "paired_read_direction": "reverse"
+            "paired_read_direction": "reverse",
+            "read_length": 301,
+            "paired_read_length": 301
           }
         }
       ],
       "data_processing": [
         {
           "data_processing_id": "e1a98ff7-1e9a-4a85-8578-12457c4cc947-007",
-          "primary_annotation": null,
-          "software_versions": "",
+          "primary_annotation": true,
+          "software_versions": "IgBlast 1.14",
           "paired_reads_assembly": "",
           "quality_thresholds": "",
           "primer_match_cutoffs": "",
           "collapsing_method": "",
           "data_processing_protocols": "",
           "germline_database": "",
-          "analysis_provenance_id": ""
+          "analysis_provenance_id": "",
+          "data_processing_files": [
+            "ERR1759662_1.fastq.merged.unique.igblast.airr.tsv"
+          ]
         }
       ]
     },
@@ -4619,8 +4770,8 @@
         "study_id": "PRJEB18631",
         "study_title": "Antibody repertoire RNA-seq throughout key stages of mouse B-cell development",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "C93130",
+          "value": "Animal Study"
         },
         "study_description": "We sought to investigate the extent of genetic and antigen-driven predetermination of antibody repertoires throughout B-cell development (pre-B cells, naive B cells, plasma cells). To this end, we used (i) an inbred model organism (mouse, C57BL/6J) to quantify genetic predetermination and (ii) cohort-stratification (4 cohorts: 1 untreated, 3 antigen-immunized) to quantify antigen-driven predetermination. To ensure generalizability of our research, we additionally sequenced naive B cells from Balb/c and pet shop mice.",
         "inclusion_exclusion_criteria": "",
@@ -4700,7 +4851,6 @@
           "sequencing_run_id": "ERR1759647",
           "total_reads_passing_qc_filter": null,
           "sequencing_platform": "Illumina MiSeq",
-          "read_length": "2x301bp",
           "sequencing_facility": "Quantitative Genomics Facility, ETH Zurich, Basel",
           "sequencing_run_date": "3/31/17 12:22",
           "sequencing_kit": null,
@@ -4709,22 +4859,27 @@
             "filename": "ERR1759647_1.fastq.gz",
             "read_direction": "forward",
             "paired_filename": "ERR1759647_2.fastq.gz",
-            "paired_read_direction": "reverse"
+            "paired_read_direction": "reverse",
+            "read_length": 301,
+            "paired_read_length": 301
           }
         }
       ],
       "data_processing": [
         {
-          "data_processing_id": "e1a98ff7-1e9a-4a85-8578-12457c4cc947-007",
-          "primary_annotation": null,
-          "software_versions": "",
+          "data_processing_id": "ef134a34-b407-42bb-a614-ab27b9dc15f6-007",
+          "primary_annotation": true,
+          "software_versions": "IgBlast 1.14",
           "paired_reads_assembly": "",
           "quality_thresholds": "",
           "primer_match_cutoffs": "",
           "collapsing_method": "",
           "data_processing_protocols": "",
           "germline_database": "",
-          "analysis_provenance_id": ""
+          "analysis_provenance_id": "",
+          "data_processing_files": [
+            "ERR1759647_1.fastq.merged.unique.igblast.airr.tsv"
+          ]
         }
       ]
     },
@@ -4734,8 +4889,8 @@
         "study_id": "PRJEB18631",
         "study_title": "Antibody repertoire RNA-seq throughout key stages of mouse B-cell development",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "C93130",
+          "value": "Animal Study"
         },
         "study_description": "We sought to investigate the extent of genetic and antigen-driven predetermination of antibody repertoires throughout B-cell development (pre-B cells, naive B cells, plasma cells). To this end, we used (i) an inbred model organism (mouse, C57BL/6J) to quantify genetic predetermination and (ii) cohort-stratification (4 cohorts: 1 untreated, 3 antigen-immunized) to quantify antigen-driven predetermination. To ensure generalizability of our research, we additionally sequenced naive B cells from Balb/c and pet shop mice.",
         "inclusion_exclusion_criteria": "",
@@ -4815,7 +4970,6 @@
           "sequencing_run_id": "ERR1759646",
           "total_reads_passing_qc_filter": null,
           "sequencing_platform": "Illumina MiSeq",
-          "read_length": "2x301bp",
           "sequencing_facility": "Quantitative Genomics Facility, ETH Zurich, Basel",
           "sequencing_run_date": "3/31/17 12:22",
           "sequencing_kit": null,
@@ -4824,22 +4978,27 @@
             "filename": "ERR1759646_1.fastq.gz",
             "read_direction": "forward",
             "paired_filename": "ERR1759646_2.fastq.gz",
-            "paired_read_direction": "reverse"
+            "paired_read_direction": "reverse",
+            "read_length": 301,
+            "paired_read_length": 301
           }
         }
       ],
       "data_processing": [
         {
-          "data_processing_id": "e1a98ff7-1e9a-4a85-8578-12457c4cc947-007",
-          "primary_annotation": null,
-          "software_versions": "",
+          "data_processing_id": "ef134a34-b407-42bb-a614-ab27b9dc15f6-007",
+          "primary_annotation": true,
+          "software_versions": "IgBlast 1.14",
           "paired_reads_assembly": "",
           "quality_thresholds": "",
           "primer_match_cutoffs": "",
           "collapsing_method": "",
           "data_processing_protocols": "",
           "germline_database": "",
-          "analysis_provenance_id": ""
+          "analysis_provenance_id": "",
+          "data_processing_files": [
+            "ERR1759646_1.fastq.merged.unique.igblast.airr.tsv"
+          ]
         }
       ]
     },
@@ -4849,8 +5008,8 @@
         "study_id": "PRJEB18631",
         "study_title": "Antibody repertoire RNA-seq throughout key stages of mouse B-cell development",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "C93130",
+          "value": "Animal Study"
         },
         "study_description": "We sought to investigate the extent of genetic and antigen-driven predetermination of antibody repertoires throughout B-cell development (pre-B cells, naive B cells, plasma cells). To this end, we used (i) an inbred model organism (mouse, C57BL/6J) to quantify genetic predetermination and (ii) cohort-stratification (4 cohorts: 1 untreated, 3 antigen-immunized) to quantify antigen-driven predetermination. To ensure generalizability of our research, we additionally sequenced naive B cells from Balb/c and pet shop mice.",
         "inclusion_exclusion_criteria": "",
@@ -4930,7 +5089,6 @@
           "sequencing_run_id": "ERR1759645",
           "total_reads_passing_qc_filter": null,
           "sequencing_platform": "Illumina MiSeq",
-          "read_length": "2x301bp",
           "sequencing_facility": "Quantitative Genomics Facility, ETH Zurich, Basel",
           "sequencing_run_date": "3/31/17 12:22",
           "sequencing_kit": null,
@@ -4939,22 +5097,27 @@
             "filename": "ERR1759645_1.fastq.gz",
             "read_direction": "forward",
             "paired_filename": "ERR1759645_2.fastq.gz",
-            "paired_read_direction": "reverse"
+            "paired_read_direction": "reverse",
+            "read_length": 301,
+            "paired_read_length": 301
           }
         }
       ],
       "data_processing": [
         {
-          "data_processing_id": "e1a98ff7-1e9a-4a85-8578-12457c4cc947-007",
-          "primary_annotation": null,
-          "software_versions": "",
+          "data_processing_id": "ef134a34-b407-42bb-a614-ab27b9dc15f6-007",
+          "primary_annotation": true,
+          "software_versions": "IgBlast 1.14",
           "paired_reads_assembly": "",
           "quality_thresholds": "",
           "primer_match_cutoffs": "",
           "collapsing_method": "",
           "data_processing_protocols": "",
           "germline_database": "",
-          "analysis_provenance_id": ""
+          "analysis_provenance_id": "",
+          "data_processing_files": [
+            "ERR1759645_1.fastq.merged.unique.igblast.airr.tsv"
+          ]
         }
       ]
     },
@@ -4964,8 +5127,8 @@
         "study_id": "PRJEB18631",
         "study_title": "Antibody repertoire RNA-seq throughout key stages of mouse B-cell development",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "C93130",
+          "value": "Animal Study"
         },
         "study_description": "We sought to investigate the extent of genetic and antigen-driven predetermination of antibody repertoires throughout B-cell development (pre-B cells, naive B cells, plasma cells). To this end, we used (i) an inbred model organism (mouse, C57BL/6J) to quantify genetic predetermination and (ii) cohort-stratification (4 cohorts: 1 untreated, 3 antigen-immunized) to quantify antigen-driven predetermination. To ensure generalizability of our research, we additionally sequenced naive B cells from Balb/c and pet shop mice.",
         "inclusion_exclusion_criteria": "",
@@ -5045,7 +5208,6 @@
           "sequencing_run_id": "ERR1759650",
           "total_reads_passing_qc_filter": null,
           "sequencing_platform": "Illumina MiSeq",
-          "read_length": "2x301bp",
           "sequencing_facility": "Quantitative Genomics Facility, ETH Zurich, Basel",
           "sequencing_run_date": "3/31/17 12:22",
           "sequencing_kit": null,
@@ -5054,22 +5216,27 @@
             "filename": "ERR1759650_1.fastq.gz",
             "read_direction": "forward",
             "paired_filename": "ERR1759650_2.fastq.gz",
-            "paired_read_direction": "reverse"
+            "paired_read_direction": "reverse",
+            "read_length": 301,
+            "paired_read_length": 301
           }
         }
       ],
       "data_processing": [
         {
-          "data_processing_id": "e1a98ff7-1e9a-4a85-8578-12457c4cc947-007",
-          "primary_annotation": null,
-          "software_versions": "",
+          "data_processing_id": "68498761-a491-4f46-8527-5f0a1fbac7d6-007",
+          "primary_annotation": true,
+          "software_versions": "IgBlast 1.14",
           "paired_reads_assembly": "",
           "quality_thresholds": "",
           "primer_match_cutoffs": "",
           "collapsing_method": "",
           "data_processing_protocols": "",
           "germline_database": "",
-          "analysis_provenance_id": ""
+          "analysis_provenance_id": "",
+          "data_processing_files": [
+            "ERR1759650_1.fastq.merged.unique.igblast.airr.tsv"
+          ]
         }
       ]
     },
@@ -5079,8 +5246,8 @@
         "study_id": "PRJEB18631",
         "study_title": "Antibody repertoire RNA-seq throughout key stages of mouse B-cell development",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "C93130",
+          "value": "Animal Study"
         },
         "study_description": "We sought to investigate the extent of genetic and antigen-driven predetermination of antibody repertoires throughout B-cell development (pre-B cells, naive B cells, plasma cells). To this end, we used (i) an inbred model organism (mouse, C57BL/6J) to quantify genetic predetermination and (ii) cohort-stratification (4 cohorts: 1 untreated, 3 antigen-immunized) to quantify antigen-driven predetermination. To ensure generalizability of our research, we additionally sequenced naive B cells from Balb/c and pet shop mice.",
         "inclusion_exclusion_criteria": "",
@@ -5160,7 +5327,6 @@
           "sequencing_run_id": "ERR1759649",
           "total_reads_passing_qc_filter": null,
           "sequencing_platform": "Illumina MiSeq",
-          "read_length": "2x301bp",
           "sequencing_facility": "Quantitative Genomics Facility, ETH Zurich, Basel",
           "sequencing_run_date": "3/31/17 12:22",
           "sequencing_kit": null,
@@ -5169,22 +5335,27 @@
             "filename": "ERR1759649_1.fastq.gz",
             "read_direction": "forward",
             "paired_filename": "ERR1759649_2.fastq.gz",
-            "paired_read_direction": "reverse"
+            "paired_read_direction": "reverse",
+            "read_length": 301,
+            "paired_read_length": 301
           }
         }
       ],
       "data_processing": [
         {
-          "data_processing_id": "e1a98ff7-1e9a-4a85-8578-12457c4cc947-007",
-          "primary_annotation": null,
-          "software_versions": "",
+          "data_processing_id": "ef134a34-b407-42bb-a614-ab27b9dc15f6-007",
+          "primary_annotation": true,
+          "software_versions": "IgBlast 1.14",
           "paired_reads_assembly": "",
           "quality_thresholds": "",
           "primer_match_cutoffs": "",
           "collapsing_method": "",
           "data_processing_protocols": "",
           "germline_database": "",
-          "analysis_provenance_id": ""
+          "analysis_provenance_id": "",
+          "data_processing_files": [
+            "ERR1759649_1.fastq.merged.unique.igblast.airr.tsv"
+          ]
         }
       ]
     },
@@ -5194,8 +5365,8 @@
         "study_id": "PRJEB18631",
         "study_title": "Antibody repertoire RNA-seq throughout key stages of mouse B-cell development",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "C93130",
+          "value": "Animal Study"
         },
         "study_description": "We sought to investigate the extent of genetic and antigen-driven predetermination of antibody repertoires throughout B-cell development (pre-B cells, naive B cells, plasma cells). To this end, we used (i) an inbred model organism (mouse, C57BL/6J) to quantify genetic predetermination and (ii) cohort-stratification (4 cohorts: 1 untreated, 3 antigen-immunized) to quantify antigen-driven predetermination. To ensure generalizability of our research, we additionally sequenced naive B cells from Balb/c and pet shop mice.",
         "inclusion_exclusion_criteria": "",
@@ -5275,7 +5446,6 @@
           "sequencing_run_id": "ERR1759648",
           "total_reads_passing_qc_filter": null,
           "sequencing_platform": "Illumina MiSeq",
-          "read_length": "2x301bp",
           "sequencing_facility": "Quantitative Genomics Facility, ETH Zurich, Basel",
           "sequencing_run_date": "3/31/17 12:22",
           "sequencing_kit": null,
@@ -5284,22 +5454,27 @@
             "filename": "ERR1759648_1.fastq.gz",
             "read_direction": "forward",
             "paired_filename": "ERR1759648_2.fastq.gz",
-            "paired_read_direction": "reverse"
+            "paired_read_direction": "reverse",
+            "read_length": 301,
+            "paired_read_length": 301
           }
         }
       ],
       "data_processing": [
         {
-          "data_processing_id": "e1a98ff7-1e9a-4a85-8578-12457c4cc947-007",
-          "primary_annotation": null,
-          "software_versions": "",
+          "data_processing_id": "ef134a34-b407-42bb-a614-ab27b9dc15f6-007",
+          "primary_annotation": true,
+          "software_versions": "IgBlast 1.14",
           "paired_reads_assembly": "",
           "quality_thresholds": "",
           "primer_match_cutoffs": "",
           "collapsing_method": "",
           "data_processing_protocols": "",
           "germline_database": "",
-          "analysis_provenance_id": ""
+          "analysis_provenance_id": "",
+          "data_processing_files": [
+            "ERR1759648_1.fastq.merged.unique.igblast.airr.tsv"
+          ]
         }
       ]
     },
@@ -5309,8 +5484,8 @@
         "study_id": "PRJEB18631",
         "study_title": "Antibody repertoire RNA-seq throughout key stages of mouse B-cell development",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "C93130",
+          "value": "Animal Study"
         },
         "study_description": "We sought to investigate the extent of genetic and antigen-driven predetermination of antibody repertoires throughout B-cell development (pre-B cells, naive B cells, plasma cells). To this end, we used (i) an inbred model organism (mouse, C57BL/6J) to quantify genetic predetermination and (ii) cohort-stratification (4 cohorts: 1 untreated, 3 antigen-immunized) to quantify antigen-driven predetermination. To ensure generalizability of our research, we additionally sequenced naive B cells from Balb/c and pet shop mice.",
         "inclusion_exclusion_criteria": "",
@@ -5390,7 +5565,6 @@
           "sequencing_run_id": "ERR1759653",
           "total_reads_passing_qc_filter": null,
           "sequencing_platform": "Illumina MiSeq",
-          "read_length": "2x301bp",
           "sequencing_facility": "Quantitative Genomics Facility, ETH Zurich, Basel",
           "sequencing_run_date": "3/31/17 12:22",
           "sequencing_kit": null,
@@ -5399,22 +5573,27 @@
             "filename": "ERR1759653_1.fastq.gz",
             "read_direction": "forward",
             "paired_filename": "ERR1759653_2.fastq.gz",
-            "paired_read_direction": "reverse"
+            "paired_read_direction": "reverse",
+            "read_length": 301,
+            "paired_read_length": 301
           }
         }
       ],
       "data_processing": [
         {
-          "data_processing_id": "e1a98ff7-1e9a-4a85-8578-12457c4cc947-007",
-          "primary_annotation": null,
-          "software_versions": "",
+          "data_processing_id": "68498761-a491-4f46-8527-5f0a1fbac7d6-007",
+          "primary_annotation": true,
+          "software_versions": "IgBlast 1.14",
           "paired_reads_assembly": "",
           "quality_thresholds": "",
           "primer_match_cutoffs": "",
           "collapsing_method": "",
           "data_processing_protocols": "",
           "germline_database": "",
-          "analysis_provenance_id": ""
+          "analysis_provenance_id": "",
+          "data_processing_files": [
+            "ERR1759653_1.fastq.merged.unique.igblast.airr.tsv"
+          ]
         }
       ]
     },
@@ -5424,8 +5603,8 @@
         "study_id": "PRJEB18631",
         "study_title": "Antibody repertoire RNA-seq throughout key stages of mouse B-cell development",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "C93130",
+          "value": "Animal Study"
         },
         "study_description": "We sought to investigate the extent of genetic and antigen-driven predetermination of antibody repertoires throughout B-cell development (pre-B cells, naive B cells, plasma cells). To this end, we used (i) an inbred model organism (mouse, C57BL/6J) to quantify genetic predetermination and (ii) cohort-stratification (4 cohorts: 1 untreated, 3 antigen-immunized) to quantify antigen-driven predetermination. To ensure generalizability of our research, we additionally sequenced naive B cells from Balb/c and pet shop mice.",
         "inclusion_exclusion_criteria": "",
@@ -5505,7 +5684,6 @@
           "sequencing_run_id": "ERR1759652",
           "total_reads_passing_qc_filter": null,
           "sequencing_platform": "Illumina MiSeq",
-          "read_length": "2x301bp",
           "sequencing_facility": "Quantitative Genomics Facility, ETH Zurich, Basel",
           "sequencing_run_date": "3/31/17 12:22",
           "sequencing_kit": null,
@@ -5514,22 +5692,27 @@
             "filename": "ERR1759652_1.fastq.gz",
             "read_direction": "forward",
             "paired_filename": "ERR1759652_2.fastq.gz",
-            "paired_read_direction": "reverse"
+            "paired_read_direction": "reverse",
+            "read_length": 301,
+            "paired_read_length": 301
           }
         }
       ],
       "data_processing": [
         {
-          "data_processing_id": "e1a98ff7-1e9a-4a85-8578-12457c4cc947-007",
-          "primary_annotation": null,
-          "software_versions": "",
+          "data_processing_id": "68498761-a491-4f46-8527-5f0a1fbac7d6-007",
+          "primary_annotation": true,
+          "software_versions": "IgBlast 1.14",
           "paired_reads_assembly": "",
           "quality_thresholds": "",
           "primer_match_cutoffs": "",
           "collapsing_method": "",
           "data_processing_protocols": "",
           "germline_database": "",
-          "analysis_provenance_id": ""
+          "analysis_provenance_id": "",
+          "data_processing_files": [
+            "ERR1759652_1.fastq.merged.unique.igblast.airr.tsv"
+          ]
         }
       ]
     },
@@ -5539,8 +5722,8 @@
         "study_id": "PRJEB18631",
         "study_title": "Antibody repertoire RNA-seq throughout key stages of mouse B-cell development",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "C93130",
+          "value": "Animal Study"
         },
         "study_description": "We sought to investigate the extent of genetic and antigen-driven predetermination of antibody repertoires throughout B-cell development (pre-B cells, naive B cells, plasma cells). To this end, we used (i) an inbred model organism (mouse, C57BL/6J) to quantify genetic predetermination and (ii) cohort-stratification (4 cohorts: 1 untreated, 3 antigen-immunized) to quantify antigen-driven predetermination. To ensure generalizability of our research, we additionally sequenced naive B cells from Balb/c and pet shop mice.",
         "inclusion_exclusion_criteria": "",
@@ -5620,7 +5803,6 @@
           "sequencing_run_id": "ERR1759651",
           "total_reads_passing_qc_filter": null,
           "sequencing_platform": "Illumina MiSeq",
-          "read_length": "2x301bp",
           "sequencing_facility": "Quantitative Genomics Facility, ETH Zurich, Basel",
           "sequencing_run_date": "3/31/17 12:22",
           "sequencing_kit": null,
@@ -5629,22 +5811,27 @@
             "filename": "ERR1759651_1.fastq.gz",
             "read_direction": "forward",
             "paired_filename": "ERR1759651_2.fastq.gz",
-            "paired_read_direction": "reverse"
+            "paired_read_direction": "reverse",
+            "read_length": 301,
+            "paired_read_length": 301
           }
         }
       ],
       "data_processing": [
         {
-          "data_processing_id": "e1a98ff7-1e9a-4a85-8578-12457c4cc947-007",
-          "primary_annotation": null,
-          "software_versions": "",
+          "data_processing_id": "68498761-a491-4f46-8527-5f0a1fbac7d6-007",
+          "primary_annotation": true,
+          "software_versions": "IgBlast 1.14",
           "paired_reads_assembly": "",
           "quality_thresholds": "",
           "primer_match_cutoffs": "",
           "collapsing_method": "",
           "data_processing_protocols": "",
           "germline_database": "",
-          "analysis_provenance_id": ""
+          "analysis_provenance_id": "",
+          "data_processing_files": [
+            "ERR1759651_1.fastq.merged.unique.igblast.airr.tsv"
+          ]
         }
       ]
     },
@@ -5654,8 +5841,8 @@
         "study_id": "PRJEB18631",
         "study_title": "Antibody repertoire RNA-seq throughout key stages of mouse B-cell development",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "C93130",
+          "value": "Animal Study"
         },
         "study_description": "We sought to investigate the extent of genetic and antigen-driven predetermination of antibody repertoires throughout B-cell development (pre-B cells, naive B cells, plasma cells). To this end, we used (i) an inbred model organism (mouse, C57BL/6J) to quantify genetic predetermination and (ii) cohort-stratification (4 cohorts: 1 untreated, 3 antigen-immunized) to quantify antigen-driven predetermination. To ensure generalizability of our research, we additionally sequenced naive B cells from Balb/c and pet shop mice.",
         "inclusion_exclusion_criteria": "",
@@ -5735,7 +5922,6 @@
           "sequencing_run_id": "ERR1759656",
           "total_reads_passing_qc_filter": null,
           "sequencing_platform": "Illumina MiSeq",
-          "read_length": "2x301bp",
           "sequencing_facility": "Quantitative Genomics Facility, ETH Zurich, Basel",
           "sequencing_run_date": "3/31/17 12:22",
           "sequencing_kit": null,
@@ -5744,22 +5930,27 @@
             "filename": "ERR1759656_1.fastq.gz",
             "read_direction": "forward",
             "paired_filename": "ERR1759656_2.fastq.gz",
-            "paired_read_direction": "reverse"
+            "paired_read_direction": "reverse",
+            "read_length": 301,
+            "paired_read_length": 301
           }
         }
       ],
       "data_processing": [
         {
-          "data_processing_id": "e1a98ff7-1e9a-4a85-8578-12457c4cc947-007",
-          "primary_annotation": null,
-          "software_versions": "",
+          "data_processing_id": "68498761-a491-4f46-8527-5f0a1fbac7d6-007",
+          "primary_annotation": true,
+          "software_versions": "IgBlast 1.14",
           "paired_reads_assembly": "",
           "quality_thresholds": "",
           "primer_match_cutoffs": "",
           "collapsing_method": "",
           "data_processing_protocols": "",
           "germline_database": "",
-          "analysis_provenance_id": ""
+          "analysis_provenance_id": "",
+          "data_processing_files": [
+            "ERR1759656_1.fastq.merged.unique.igblast.airr.tsv"
+          ]
         }
       ]
     },
@@ -5769,8 +5960,8 @@
         "study_id": "PRJEB18631",
         "study_title": "Antibody repertoire RNA-seq throughout key stages of mouse B-cell development",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "C93130",
+          "value": "Animal Study"
         },
         "study_description": "We sought to investigate the extent of genetic and antigen-driven predetermination of antibody repertoires throughout B-cell development (pre-B cells, naive B cells, plasma cells). To this end, we used (i) an inbred model organism (mouse, C57BL/6J) to quantify genetic predetermination and (ii) cohort-stratification (4 cohorts: 1 untreated, 3 antigen-immunized) to quantify antigen-driven predetermination. To ensure generalizability of our research, we additionally sequenced naive B cells from Balb/c and pet shop mice.",
         "inclusion_exclusion_criteria": "",
@@ -5850,7 +6041,6 @@
           "sequencing_run_id": "ERR1759655",
           "total_reads_passing_qc_filter": null,
           "sequencing_platform": "Illumina MiSeq",
-          "read_length": "2x301bp",
           "sequencing_facility": "Quantitative Genomics Facility, ETH Zurich, Basel",
           "sequencing_run_date": "3/31/17 12:22",
           "sequencing_kit": null,
@@ -5859,22 +6049,27 @@
             "filename": "ERR1759655_1.fastq.gz",
             "read_direction": "forward",
             "paired_filename": "ERR1759655_2.fastq.gz",
-            "paired_read_direction": "reverse"
+            "paired_read_direction": "reverse",
+            "read_length": 301,
+            "paired_read_length": 301
           }
         }
       ],
       "data_processing": [
         {
-          "data_processing_id": "e1a98ff7-1e9a-4a85-8578-12457c4cc947-007",
-          "primary_annotation": null,
-          "software_versions": "",
+          "data_processing_id": "68498761-a491-4f46-8527-5f0a1fbac7d6-007",
+          "primary_annotation": true,
+          "software_versions": "IgBlast 1.14",
           "paired_reads_assembly": "",
           "quality_thresholds": "",
           "primer_match_cutoffs": "",
           "collapsing_method": "",
           "data_processing_protocols": "",
           "germline_database": "",
-          "analysis_provenance_id": ""
+          "analysis_provenance_id": "",
+          "data_processing_files": [
+            "ERR1759655_1.fastq.merged.unique.igblast.airr.tsv"
+          ]
         }
       ]
     },
@@ -5884,8 +6079,8 @@
         "study_id": "PRJEB18631",
         "study_title": "Antibody repertoire RNA-seq throughout key stages of mouse B-cell development",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "C93130",
+          "value": "Animal Study"
         },
         "study_description": "We sought to investigate the extent of genetic and antigen-driven predetermination of antibody repertoires throughout B-cell development (pre-B cells, naive B cells, plasma cells). To this end, we used (i) an inbred model organism (mouse, C57BL/6J) to quantify genetic predetermination and (ii) cohort-stratification (4 cohorts: 1 untreated, 3 antigen-immunized) to quantify antigen-driven predetermination. To ensure generalizability of our research, we additionally sequenced naive B cells from Balb/c and pet shop mice.",
         "inclusion_exclusion_criteria": "",
@@ -5965,7 +6160,6 @@
           "sequencing_run_id": "ERR1759654",
           "total_reads_passing_qc_filter": null,
           "sequencing_platform": "Illumina MiSeq",
-          "read_length": "2x301bp",
           "sequencing_facility": "Quantitative Genomics Facility, ETH Zurich, Basel",
           "sequencing_run_date": "3/31/17 12:22",
           "sequencing_kit": null,
@@ -5974,22 +6168,27 @@
             "filename": "ERR1759654_1.fastq.gz",
             "read_direction": "forward",
             "paired_filename": "ERR1759654_2.fastq.gz",
-            "paired_read_direction": "reverse"
+            "paired_read_direction": "reverse",
+            "read_length": 301,
+            "paired_read_length": 301
           }
         }
       ],
       "data_processing": [
         {
-          "data_processing_id": "e1a98ff7-1e9a-4a85-8578-12457c4cc947-007",
-          "primary_annotation": null,
-          "software_versions": "",
+          "data_processing_id": "68498761-a491-4f46-8527-5f0a1fbac7d6-007",
+          "primary_annotation": true,
+          "software_versions": "IgBlast 1.14",
           "paired_reads_assembly": "",
           "quality_thresholds": "",
           "primer_match_cutoffs": "",
           "collapsing_method": "",
           "data_processing_protocols": "",
           "germline_database": "",
-          "analysis_provenance_id": ""
+          "analysis_provenance_id": "",
+          "data_processing_files": [
+            "ERR1759654_1.fastq.merged.unique.igblast.airr.tsv"
+          ]
         }
       ]
     },
@@ -5999,8 +6198,8 @@
         "study_id": "PRJEB18631",
         "study_title": "Antibody repertoire RNA-seq throughout key stages of mouse B-cell development",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "C93130",
+          "value": "Animal Study"
         },
         "study_description": "We sought to investigate the extent of genetic and antigen-driven predetermination of antibody repertoires throughout B-cell development (pre-B cells, naive B cells, plasma cells). To this end, we used (i) an inbred model organism (mouse, C57BL/6J) to quantify genetic predetermination and (ii) cohort-stratification (4 cohorts: 1 untreated, 3 antigen-immunized) to quantify antigen-driven predetermination. To ensure generalizability of our research, we additionally sequenced naive B cells from Balb/c and pet shop mice.",
         "inclusion_exclusion_criteria": "",
@@ -6080,7 +6279,6 @@
           "sequencing_run_id": "ERR1759658",
           "total_reads_passing_qc_filter": null,
           "sequencing_platform": "Illumina MiSeq",
-          "read_length": "2x301bp",
           "sequencing_facility": "Quantitative Genomics Facility, ETH Zurich, Basel",
           "sequencing_run_date": "3/31/17 12:22",
           "sequencing_kit": null,
@@ -6089,22 +6287,27 @@
             "filename": "ERR1759658_1.fastq.gz",
             "read_direction": "forward",
             "paired_filename": "ERR1759658_2.fastq.gz",
-            "paired_read_direction": "reverse"
+            "paired_read_direction": "reverse",
+            "read_length": 301,
+            "paired_read_length": 301
           }
         }
       ],
       "data_processing": [
         {
-          "data_processing_id": "e1a98ff7-1e9a-4a85-8578-12457c4cc947-007",
-          "primary_annotation": null,
-          "software_versions": "",
+          "data_processing_id": "29a8f809-e83c-4205-906f-6a87426b69b6-007",
+          "primary_annotation": true,
+          "software_versions": "IgBlast 1.14",
           "paired_reads_assembly": "",
           "quality_thresholds": "",
           "primer_match_cutoffs": "",
           "collapsing_method": "",
           "data_processing_protocols": "",
           "germline_database": "",
-          "analysis_provenance_id": ""
+          "analysis_provenance_id": "",
+          "data_processing_files": [
+            "ERR1759658_1.fastq.merged.unique.igblast.airr.tsv"
+          ]
         }
       ]
     },
@@ -6114,8 +6317,8 @@
         "study_id": "PRJEB18631",
         "study_title": "Antibody repertoire RNA-seq throughout key stages of mouse B-cell development",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "C93130",
+          "value": "Animal Study"
         },
         "study_description": "We sought to investigate the extent of genetic and antigen-driven predetermination of antibody repertoires throughout B-cell development (pre-B cells, naive B cells, plasma cells). To this end, we used (i) an inbred model organism (mouse, C57BL/6J) to quantify genetic predetermination and (ii) cohort-stratification (4 cohorts: 1 untreated, 3 antigen-immunized) to quantify antigen-driven predetermination. To ensure generalizability of our research, we additionally sequenced naive B cells from Balb/c and pet shop mice.",
         "inclusion_exclusion_criteria": "",
@@ -6195,7 +6398,6 @@
           "sequencing_run_id": "ERR1759657",
           "total_reads_passing_qc_filter": null,
           "sequencing_platform": "Illumina MiSeq",
-          "read_length": "2x301bp",
           "sequencing_facility": "Quantitative Genomics Facility, ETH Zurich, Basel",
           "sequencing_run_date": "3/31/17 12:22",
           "sequencing_kit": null,
@@ -6204,22 +6406,27 @@
             "filename": "ERR1759657_1.fastq.gz",
             "read_direction": "forward",
             "paired_filename": "ERR1759657_2.fastq.gz",
-            "paired_read_direction": "reverse"
+            "paired_read_direction": "reverse",
+            "read_length": 301,
+            "paired_read_length": 301
           }
         }
       ],
       "data_processing": [
         {
-          "data_processing_id": "e1a98ff7-1e9a-4a85-8578-12457c4cc947-007",
-          "primary_annotation": null,
-          "software_versions": "",
+          "data_processing_id": "29a8f809-e83c-4205-906f-6a87426b69b6-007",
+          "primary_annotation": true,
+          "software_versions": "IgBlast 1.14",
           "paired_reads_assembly": "",
           "quality_thresholds": "",
           "primer_match_cutoffs": "",
           "collapsing_method": "",
           "data_processing_protocols": "",
           "germline_database": "",
-          "analysis_provenance_id": ""
+          "analysis_provenance_id": "",
+          "data_processing_files": [
+            "ERR1759657_1.fastq.merged.unique.igblast.airr.tsv"
+          ]
         }
       ]
     },
@@ -6229,8 +6436,8 @@
         "study_id": "PRJEB18631",
         "study_title": "Antibody repertoire RNA-seq throughout key stages of mouse B-cell development",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "C93130",
+          "value": "Animal Study"
         },
         "study_description": "We sought to investigate the extent of genetic and antigen-driven predetermination of antibody repertoires throughout B-cell development (pre-B cells, naive B cells, plasma cells). To this end, we used (i) an inbred model organism (mouse, C57BL/6J) to quantify genetic predetermination and (ii) cohort-stratification (4 cohorts: 1 untreated, 3 antigen-immunized) to quantify antigen-driven predetermination. To ensure generalizability of our research, we additionally sequenced naive B cells from Balb/c and pet shop mice.",
         "inclusion_exclusion_criteria": "",
@@ -6310,7 +6517,6 @@
           "sequencing_run_id": "ERR1759632",
           "total_reads_passing_qc_filter": null,
           "sequencing_platform": "Illumina MiSeq",
-          "read_length": "2x301bp",
           "sequencing_facility": "Quantitative Genomics Facility, ETH Zurich, Basel",
           "sequencing_run_date": "3/31/17 12:22",
           "sequencing_kit": null,
@@ -6319,22 +6525,27 @@
             "filename": "ERR1759632_1.fastq.gz",
             "read_direction": "forward",
             "paired_filename": "ERR1759632_2.fastq.gz",
-            "paired_read_direction": "reverse"
+            "paired_read_direction": "reverse",
+            "read_length": 301,
+            "paired_read_length": 301
           }
         }
       ],
       "data_processing": [
         {
-          "data_processing_id": "e1a98ff7-1e9a-4a85-8578-12457c4cc947-007",
-          "primary_annotation": null,
-          "software_versions": "",
+          "data_processing_id": "29a8f809-e83c-4205-906f-6a87426b69b6-007",
+          "primary_annotation": true,
+          "software_versions": "IgBlast 1.14",
           "paired_reads_assembly": "",
           "quality_thresholds": "",
           "primer_match_cutoffs": "",
           "collapsing_method": "",
           "data_processing_protocols": "",
           "germline_database": "",
-          "analysis_provenance_id": ""
+          "analysis_provenance_id": "",
+          "data_processing_files": [
+            "ERR1759632_1.fastq.merged.unique.igblast.airr.tsv"
+          ]
         }
       ]
     },
@@ -6344,8 +6555,8 @@
         "study_id": "PRJEB18631",
         "study_title": "Antibody repertoire RNA-seq throughout key stages of mouse B-cell development",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "C93130",
+          "value": "Animal Study"
         },
         "study_description": "We sought to investigate the extent of genetic and antigen-driven predetermination of antibody repertoires throughout B-cell development (pre-B cells, naive B cells, plasma cells). To this end, we used (i) an inbred model organism (mouse, C57BL/6J) to quantify genetic predetermination and (ii) cohort-stratification (4 cohorts: 1 untreated, 3 antigen-immunized) to quantify antigen-driven predetermination. To ensure generalizability of our research, we additionally sequenced naive B cells from Balb/c and pet shop mice.",
         "inclusion_exclusion_criteria": "",
@@ -6425,7 +6636,6 @@
           "sequencing_run_id": "ERR1759631",
           "total_reads_passing_qc_filter": null,
           "sequencing_platform": "Illumina MiSeq",
-          "read_length": "2x301bp",
           "sequencing_facility": "Quantitative Genomics Facility, ETH Zurich, Basel",
           "sequencing_run_date": "3/31/17 12:22",
           "sequencing_kit": null,
@@ -6434,22 +6644,27 @@
             "filename": "ERR1759631_1.fastq.gz",
             "read_direction": "forward",
             "paired_filename": "ERR1759631_2.fastq.gz",
-            "paired_read_direction": "reverse"
+            "paired_read_direction": "reverse",
+            "read_length": 301,
+            "paired_read_length": 301
           }
         }
       ],
       "data_processing": [
         {
-          "data_processing_id": "e1a98ff7-1e9a-4a85-8578-12457c4cc947-007",
-          "primary_annotation": null,
-          "software_versions": "",
+          "data_processing_id": "29a8f809-e83c-4205-906f-6a87426b69b6-007",
+          "primary_annotation": true,
+          "software_versions": "IgBlast 1.14",
           "paired_reads_assembly": "",
           "quality_thresholds": "",
           "primer_match_cutoffs": "",
           "collapsing_method": "",
           "data_processing_protocols": "",
           "germline_database": "",
-          "analysis_provenance_id": ""
+          "analysis_provenance_id": "",
+          "data_processing_files": [
+            "ERR1759631_1.fastq.merged.unique.igblast.airr.tsv"
+          ]
         }
       ]
     },
@@ -6459,8 +6674,8 @@
         "study_id": "PRJEB18631",
         "study_title": "Antibody repertoire RNA-seq throughout key stages of mouse B-cell development",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "C93130",
+          "value": "Animal Study"
         },
         "study_description": "We sought to investigate the extent of genetic and antigen-driven predetermination of antibody repertoires throughout B-cell development (pre-B cells, naive B cells, plasma cells). To this end, we used (i) an inbred model organism (mouse, C57BL/6J) to quantify genetic predetermination and (ii) cohort-stratification (4 cohorts: 1 untreated, 3 antigen-immunized) to quantify antigen-driven predetermination. To ensure generalizability of our research, we additionally sequenced naive B cells from Balb/c and pet shop mice.",
         "inclusion_exclusion_criteria": "",
@@ -6540,7 +6755,6 @@
           "sequencing_run_id": "ERR1759630",
           "total_reads_passing_qc_filter": null,
           "sequencing_platform": "Illumina MiSeq",
-          "read_length": "2x301bp",
           "sequencing_facility": "Quantitative Genomics Facility, ETH Zurich, Basel",
           "sequencing_run_date": "3/31/17 12:22",
           "sequencing_kit": null,
@@ -6549,22 +6763,27 @@
             "filename": "ERR1759630_1.fastq.gz",
             "read_direction": "forward",
             "paired_filename": "ERR1759630_2.fastq.gz",
-            "paired_read_direction": "reverse"
+            "paired_read_direction": "reverse",
+            "read_length": 301,
+            "paired_read_length": 301
           }
         }
       ],
       "data_processing": [
         {
-          "data_processing_id": "e1a98ff7-1e9a-4a85-8578-12457c4cc947-007",
-          "primary_annotation": null,
-          "software_versions": "",
+          "data_processing_id": "b4fe918f-3c9c-44a9-ab97-5018a22c74cf-007",
+          "primary_annotation": true,
+          "software_versions": "IgBlast 1.14",
           "paired_reads_assembly": "",
           "quality_thresholds": "",
           "primer_match_cutoffs": "",
           "collapsing_method": "",
           "data_processing_protocols": "",
           "germline_database": "",
-          "analysis_provenance_id": ""
+          "analysis_provenance_id": "",
+          "data_processing_files": [
+            "ERR1759630_1.fastq.merged.unique.igblast.airr.tsv"
+          ]
         }
       ]
     },
@@ -6574,8 +6793,8 @@
         "study_id": "PRJEB18631",
         "study_title": "Antibody repertoire RNA-seq throughout key stages of mouse B-cell development",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "C93130",
+          "value": "Animal Study"
         },
         "study_description": "We sought to investigate the extent of genetic and antigen-driven predetermination of antibody repertoires throughout B-cell development (pre-B cells, naive B cells, plasma cells). To this end, we used (i) an inbred model organism (mouse, C57BL/6J) to quantify genetic predetermination and (ii) cohort-stratification (4 cohorts: 1 untreated, 3 antigen-immunized) to quantify antigen-driven predetermination. To ensure generalizability of our research, we additionally sequenced naive B cells from Balb/c and pet shop mice.",
         "inclusion_exclusion_criteria": "",
@@ -6655,7 +6874,6 @@
           "sequencing_run_id": "ERR1759629",
           "total_reads_passing_qc_filter": null,
           "sequencing_platform": "Illumina MiSeq",
-          "read_length": "2x301bp",
           "sequencing_facility": "Quantitative Genomics Facility, ETH Zurich, Basel",
           "sequencing_run_date": "3/31/17 12:22",
           "sequencing_kit": null,
@@ -6664,22 +6882,27 @@
             "filename": "ERR1759629_1.fastq.gz",
             "read_direction": "forward",
             "paired_filename": "ERR1759629_2.fastq.gz",
-            "paired_read_direction": "reverse"
+            "paired_read_direction": "reverse",
+            "read_length": 301,
+            "paired_read_length": 301
           }
         }
       ],
       "data_processing": [
         {
-          "data_processing_id": "e1a98ff7-1e9a-4a85-8578-12457c4cc947-007",
-          "primary_annotation": null,
-          "software_versions": "",
+          "data_processing_id": "b4fe918f-3c9c-44a9-ab97-5018a22c74cf-007",
+          "primary_annotation": true,
+          "software_versions": "IgBlast 1.14",
           "paired_reads_assembly": "",
           "quality_thresholds": "",
           "primer_match_cutoffs": "",
           "collapsing_method": "",
           "data_processing_protocols": "",
           "germline_database": "",
-          "analysis_provenance_id": ""
+          "analysis_provenance_id": "",
+          "data_processing_files": [
+            "ERR1759629_1.fastq.merged.unique.igblast.airr.tsv"
+          ]
         }
       ]
     },
@@ -6689,8 +6912,8 @@
         "study_id": "PRJEB18631",
         "study_title": "Antibody repertoire RNA-seq throughout key stages of mouse B-cell development",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "C93130",
+          "value": "Animal Study"
         },
         "study_description": "We sought to investigate the extent of genetic and antigen-driven predetermination of antibody repertoires throughout B-cell development (pre-B cells, naive B cells, plasma cells). To this end, we used (i) an inbred model organism (mouse, C57BL/6J) to quantify genetic predetermination and (ii) cohort-stratification (4 cohorts: 1 untreated, 3 antigen-immunized) to quantify antigen-driven predetermination. To ensure generalizability of our research, we additionally sequenced naive B cells from Balb/c and pet shop mice.",
         "inclusion_exclusion_criteria": "",
@@ -6770,7 +6993,6 @@
           "sequencing_run_id": "ERR1759628",
           "total_reads_passing_qc_filter": null,
           "sequencing_platform": "Illumina MiSeq",
-          "read_length": "2x301bp",
           "sequencing_facility": "Quantitative Genomics Facility, ETH Zurich, Basel",
           "sequencing_run_date": "3/31/17 12:22",
           "sequencing_kit": null,
@@ -6779,22 +7001,27 @@
             "filename": "ERR1759628_1.fastq.gz",
             "read_direction": "forward",
             "paired_filename": "ERR1759628_2.fastq.gz",
-            "paired_read_direction": "reverse"
+            "paired_read_direction": "reverse",
+            "read_length": 301,
+            "paired_read_length": 301
           }
         }
       ],
       "data_processing": [
         {
-          "data_processing_id": "e1a98ff7-1e9a-4a85-8578-12457c4cc947-007",
-          "primary_annotation": null,
-          "software_versions": "",
+          "data_processing_id": "b4fe918f-3c9c-44a9-ab97-5018a22c74cf-007",
+          "primary_annotation": true,
+          "software_versions": "IgBlast 1.14",
           "paired_reads_assembly": "",
           "quality_thresholds": "",
           "primer_match_cutoffs": "",
           "collapsing_method": "",
           "data_processing_protocols": "",
           "germline_database": "",
-          "analysis_provenance_id": ""
+          "analysis_provenance_id": "",
+          "data_processing_files": [
+            "ERR1759628_1.fastq.merged.unique.igblast.airr.tsv"
+          ]
         }
       ]
     },
@@ -6804,8 +7031,8 @@
         "study_id": "PRJEB18631",
         "study_title": "Antibody repertoire RNA-seq throughout key stages of mouse B-cell development",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "C93130",
+          "value": "Animal Study"
         },
         "study_description": "We sought to investigate the extent of genetic and antigen-driven predetermination of antibody repertoires throughout B-cell development (pre-B cells, naive B cells, plasma cells). To this end, we used (i) an inbred model organism (mouse, C57BL/6J) to quantify genetic predetermination and (ii) cohort-stratification (4 cohorts: 1 untreated, 3 antigen-immunized) to quantify antigen-driven predetermination. To ensure generalizability of our research, we additionally sequenced naive B cells from Balb/c and pet shop mice.",
         "inclusion_exclusion_criteria": "",
@@ -6885,7 +7112,6 @@
           "sequencing_run_id": "ERR1759635",
           "total_reads_passing_qc_filter": null,
           "sequencing_platform": "Illumina MiSeq",
-          "read_length": "2x301bp",
           "sequencing_facility": "Quantitative Genomics Facility, ETH Zurich, Basel",
           "sequencing_run_date": "3/31/17 12:22",
           "sequencing_kit": null,
@@ -6894,22 +7120,27 @@
             "filename": "ERR1759635_1.fastq.gz",
             "read_direction": "forward",
             "paired_filename": "ERR1759635_2.fastq.gz",
-            "paired_read_direction": "reverse"
+            "paired_read_direction": "reverse",
+            "read_length": 301,
+            "paired_read_length": 301
           }
         }
       ],
       "data_processing": [
         {
-          "data_processing_id": "e1a98ff7-1e9a-4a85-8578-12457c4cc947-007",
-          "primary_annotation": null,
-          "software_versions": "",
+          "data_processing_id": "b4fe918f-3c9c-44a9-ab97-5018a22c74cf-007",
+          "primary_annotation": true,
+          "software_versions": "IgBlast 1.14",
           "paired_reads_assembly": "",
           "quality_thresholds": "",
           "primer_match_cutoffs": "",
           "collapsing_method": "",
           "data_processing_protocols": "",
           "germline_database": "",
-          "analysis_provenance_id": ""
+          "analysis_provenance_id": "",
+          "data_processing_files": [
+            "ERR1759635_1.fastq.merged.unique.igblast.airr.tsv"
+          ]
         }
       ]
     },
@@ -6919,8 +7150,8 @@
         "study_id": "PRJEB18631",
         "study_title": "Antibody repertoire RNA-seq throughout key stages of mouse B-cell development",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "C93130",
+          "value": "Animal Study"
         },
         "study_description": "We sought to investigate the extent of genetic and antigen-driven predetermination of antibody repertoires throughout B-cell development (pre-B cells, naive B cells, plasma cells). To this end, we used (i) an inbred model organism (mouse, C57BL/6J) to quantify genetic predetermination and (ii) cohort-stratification (4 cohorts: 1 untreated, 3 antigen-immunized) to quantify antigen-driven predetermination. To ensure generalizability of our research, we additionally sequenced naive B cells from Balb/c and pet shop mice.",
         "inclusion_exclusion_criteria": "",
@@ -7000,7 +7231,6 @@
           "sequencing_run_id": "ERR1759634",
           "total_reads_passing_qc_filter": null,
           "sequencing_platform": "Illumina MiSeq",
-          "read_length": "2x301bp",
           "sequencing_facility": "Quantitative Genomics Facility, ETH Zurich, Basel",
           "sequencing_run_date": "3/31/17 12:22",
           "sequencing_kit": null,
@@ -7009,22 +7239,27 @@
             "filename": "ERR1759634_1.fastq.gz",
             "read_direction": "forward",
             "paired_filename": "ERR1759634_2.fastq.gz",
-            "paired_read_direction": "reverse"
+            "paired_read_direction": "reverse",
+            "read_length": 301,
+            "paired_read_length": 301
           }
         }
       ],
       "data_processing": [
         {
-          "data_processing_id": "e1a98ff7-1e9a-4a85-8578-12457c4cc947-007",
-          "primary_annotation": null,
-          "software_versions": "",
+          "data_processing_id": "b4fe918f-3c9c-44a9-ab97-5018a22c74cf-007",
+          "primary_annotation": true,
+          "software_versions": "IgBlast 1.14",
           "paired_reads_assembly": "",
           "quality_thresholds": "",
           "primer_match_cutoffs": "",
           "collapsing_method": "",
           "data_processing_protocols": "",
           "germline_database": "",
-          "analysis_provenance_id": ""
+          "analysis_provenance_id": "",
+          "data_processing_files": [
+            "ERR1759634_1.fastq.merged.unique.igblast.airr.tsv"
+          ]
         }
       ]
     },
@@ -7034,8 +7269,8 @@
         "study_id": "PRJEB18631",
         "study_title": "Antibody repertoire RNA-seq throughout key stages of mouse B-cell development",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "C93130",
+          "value": "Animal Study"
         },
         "study_description": "We sought to investigate the extent of genetic and antigen-driven predetermination of antibody repertoires throughout B-cell development (pre-B cells, naive B cells, plasma cells). To this end, we used (i) an inbred model organism (mouse, C57BL/6J) to quantify genetic predetermination and (ii) cohort-stratification (4 cohorts: 1 untreated, 3 antigen-immunized) to quantify antigen-driven predetermination. To ensure generalizability of our research, we additionally sequenced naive B cells from Balb/c and pet shop mice.",
         "inclusion_exclusion_criteria": "",
@@ -7115,7 +7350,6 @@
           "sequencing_run_id": "ERR1759633",
           "total_reads_passing_qc_filter": null,
           "sequencing_platform": "Illumina MiSeq",
-          "read_length": "2x301bp",
           "sequencing_facility": "Quantitative Genomics Facility, ETH Zurich, Basel",
           "sequencing_run_date": "3/31/17 12:22",
           "sequencing_kit": null,
@@ -7124,22 +7358,27 @@
             "filename": "ERR1759633_1.fastq.gz",
             "read_direction": "forward",
             "paired_filename": "ERR1759633_2.fastq.gz",
-            "paired_read_direction": "reverse"
+            "paired_read_direction": "reverse",
+            "read_length": 301,
+            "paired_read_length": 301
           }
         }
       ],
       "data_processing": [
         {
-          "data_processing_id": "e1a98ff7-1e9a-4a85-8578-12457c4cc947-007",
-          "primary_annotation": null,
-          "software_versions": "",
+          "data_processing_id": "b4fe918f-3c9c-44a9-ab97-5018a22c74cf-007",
+          "primary_annotation": true,
+          "software_versions": "IgBlast 1.14",
           "paired_reads_assembly": "",
           "quality_thresholds": "",
           "primer_match_cutoffs": "",
           "collapsing_method": "",
           "data_processing_protocols": "",
           "germline_database": "",
-          "analysis_provenance_id": ""
+          "analysis_provenance_id": "",
+          "data_processing_files": [
+            "ERR1759633_1.fastq.merged.unique.igblast.airr.tsv"
+          ]
         }
       ]
     },
@@ -7149,8 +7388,8 @@
         "study_id": "PRJEB18631",
         "study_title": "Antibody repertoire RNA-seq throughout key stages of mouse B-cell development",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "C93130",
+          "value": "Animal Study"
         },
         "study_description": "We sought to investigate the extent of genetic and antigen-driven predetermination of antibody repertoires throughout B-cell development (pre-B cells, naive B cells, plasma cells). To this end, we used (i) an inbred model organism (mouse, C57BL/6J) to quantify genetic predetermination and (ii) cohort-stratification (4 cohorts: 1 untreated, 3 antigen-immunized) to quantify antigen-driven predetermination. To ensure generalizability of our research, we additionally sequenced naive B cells from Balb/c and pet shop mice.",
         "inclusion_exclusion_criteria": "",
@@ -7230,7 +7469,6 @@
           "sequencing_run_id": "ERR1759638",
           "total_reads_passing_qc_filter": null,
           "sequencing_platform": "Illumina MiSeq",
-          "read_length": "2x301bp",
           "sequencing_facility": "Quantitative Genomics Facility, ETH Zurich, Basel",
           "sequencing_run_date": "3/31/17 12:22",
           "sequencing_kit": null,
@@ -7239,22 +7477,27 @@
             "filename": "ERR1759638_1.fastq.gz",
             "read_direction": "forward",
             "paired_filename": "ERR1759638_2.fastq.gz",
-            "paired_read_direction": "reverse"
+            "paired_read_direction": "reverse",
+            "read_length": 301,
+            "paired_read_length": 301
           }
         }
       ],
       "data_processing": [
         {
-          "data_processing_id": "e1a98ff7-1e9a-4a85-8578-12457c4cc947-007",
-          "primary_annotation": null,
-          "software_versions": "",
+          "data_processing_id": "b4fe918f-3c9c-44a9-ab97-5018a22c74cf-007",
+          "primary_annotation": true,
+          "software_versions": "IgBlast 1.14",
           "paired_reads_assembly": "",
           "quality_thresholds": "",
           "primer_match_cutoffs": "",
           "collapsing_method": "",
           "data_processing_protocols": "",
           "germline_database": "",
-          "analysis_provenance_id": ""
+          "analysis_provenance_id": "",
+          "data_processing_files": [
+            "ERR1759638_1.fastq.merged.unique.igblast.airr.tsv"
+          ]
         }
       ]
     },
@@ -7264,8 +7507,8 @@
         "study_id": "PRJEB18631",
         "study_title": "Antibody repertoire RNA-seq throughout key stages of mouse B-cell development",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "C93130",
+          "value": "Animal Study"
         },
         "study_description": "We sought to investigate the extent of genetic and antigen-driven predetermination of antibody repertoires throughout B-cell development (pre-B cells, naive B cells, plasma cells). To this end, we used (i) an inbred model organism (mouse, C57BL/6J) to quantify genetic predetermination and (ii) cohort-stratification (4 cohorts: 1 untreated, 3 antigen-immunized) to quantify antigen-driven predetermination. To ensure generalizability of our research, we additionally sequenced naive B cells from Balb/c and pet shop mice.",
         "inclusion_exclusion_criteria": "",
@@ -7345,7 +7588,6 @@
           "sequencing_run_id": "ERR1759637",
           "total_reads_passing_qc_filter": null,
           "sequencing_platform": "Illumina MiSeq",
-          "read_length": "2x301bp",
           "sequencing_facility": "Quantitative Genomics Facility, ETH Zurich, Basel",
           "sequencing_run_date": "3/31/17 12:22",
           "sequencing_kit": null,
@@ -7354,22 +7596,27 @@
             "filename": "ERR1759637_1.fastq.gz",
             "read_direction": "forward",
             "paired_filename": "ERR1759637_2.fastq.gz",
-            "paired_read_direction": "reverse"
+            "paired_read_direction": "reverse",
+            "read_length": 301,
+            "paired_read_length": 301
           }
         }
       ],
       "data_processing": [
         {
-          "data_processing_id": "e1a98ff7-1e9a-4a85-8578-12457c4cc947-007",
-          "primary_annotation": null,
-          "software_versions": "",
+          "data_processing_id": "b4fe918f-3c9c-44a9-ab97-5018a22c74cf-007",
+          "primary_annotation": true,
+          "software_versions": "IgBlast 1.14",
           "paired_reads_assembly": "",
           "quality_thresholds": "",
           "primer_match_cutoffs": "",
           "collapsing_method": "",
           "data_processing_protocols": "",
           "germline_database": "",
-          "analysis_provenance_id": ""
+          "analysis_provenance_id": "",
+          "data_processing_files": [
+            "ERR1759637_1.fastq.merged.unique.igblast.airr.tsv"
+          ]
         }
       ]
     },
@@ -7379,8 +7626,8 @@
         "study_id": "PRJEB18631",
         "study_title": "Antibody repertoire RNA-seq throughout key stages of mouse B-cell development",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "C93130",
+          "value": "Animal Study"
         },
         "study_description": "We sought to investigate the extent of genetic and antigen-driven predetermination of antibody repertoires throughout B-cell development (pre-B cells, naive B cells, plasma cells). To this end, we used (i) an inbred model organism (mouse, C57BL/6J) to quantify genetic predetermination and (ii) cohort-stratification (4 cohorts: 1 untreated, 3 antigen-immunized) to quantify antigen-driven predetermination. To ensure generalizability of our research, we additionally sequenced naive B cells from Balb/c and pet shop mice.",
         "inclusion_exclusion_criteria": "",
@@ -7460,7 +7707,6 @@
           "sequencing_run_id": "ERR1759636",
           "total_reads_passing_qc_filter": null,
           "sequencing_platform": "Illumina MiSeq",
-          "read_length": "2x301bp",
           "sequencing_facility": "Quantitative Genomics Facility, ETH Zurich, Basel",
           "sequencing_run_date": "3/31/17 12:22",
           "sequencing_kit": null,
@@ -7469,22 +7715,27 @@
             "filename": "ERR1759636_1.fastq.gz",
             "read_direction": "forward",
             "paired_filename": "ERR1759636_2.fastq.gz",
-            "paired_read_direction": "reverse"
+            "paired_read_direction": "reverse",
+            "read_length": 301,
+            "paired_read_length": 301
           }
         }
       ],
       "data_processing": [
         {
-          "data_processing_id": "e1a98ff7-1e9a-4a85-8578-12457c4cc947-007",
-          "primary_annotation": null,
-          "software_versions": "",
+          "data_processing_id": "b4fe918f-3c9c-44a9-ab97-5018a22c74cf-007",
+          "primary_annotation": true,
+          "software_versions": "IgBlast 1.14",
           "paired_reads_assembly": "",
           "quality_thresholds": "",
           "primer_match_cutoffs": "",
           "collapsing_method": "",
           "data_processing_protocols": "",
           "germline_database": "",
-          "analysis_provenance_id": ""
+          "analysis_provenance_id": "",
+          "data_processing_files": [
+            "ERR1759636_1.fastq.merged.unique.igblast.airr.tsv"
+          ]
         }
       ]
     },
@@ -7494,8 +7745,8 @@
         "study_id": "PRJEB18631",
         "study_title": "Antibody repertoire RNA-seq throughout key stages of mouse B-cell development",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "C93130",
+          "value": "Animal Study"
         },
         "study_description": "We sought to investigate the extent of genetic and antigen-driven predetermination of antibody repertoires throughout B-cell development (pre-B cells, naive B cells, plasma cells). To this end, we used (i) an inbred model organism (mouse, C57BL/6J) to quantify genetic predetermination and (ii) cohort-stratification (4 cohorts: 1 untreated, 3 antigen-immunized) to quantify antigen-driven predetermination. To ensure generalizability of our research, we additionally sequenced naive B cells from Balb/c and pet shop mice.",
         "inclusion_exclusion_criteria": "",
@@ -7575,7 +7826,6 @@
           "sequencing_run_id": "ERR1759641",
           "total_reads_passing_qc_filter": null,
           "sequencing_platform": "Illumina MiSeq",
-          "read_length": "2x301bp",
           "sequencing_facility": "Quantitative Genomics Facility, ETH Zurich, Basel",
           "sequencing_run_date": "3/31/17 12:22",
           "sequencing_kit": null,
@@ -7584,22 +7834,27 @@
             "filename": "ERR1759641_1.fastq.gz",
             "read_direction": "forward",
             "paired_filename": "ERR1759641_2.fastq.gz",
-            "paired_read_direction": "reverse"
+            "paired_read_direction": "reverse",
+            "read_length": 301,
+            "paired_read_length": 301
           }
         }
       ],
       "data_processing": [
         {
-          "data_processing_id": "e1a98ff7-1e9a-4a85-8578-12457c4cc947-007",
-          "primary_annotation": null,
-          "software_versions": "",
+          "data_processing_id": "ef134a34-b407-42bb-a614-ab27b9dc15f6-007",
+          "primary_annotation": true,
+          "software_versions": "IgBlast 1.14",
           "paired_reads_assembly": "",
           "quality_thresholds": "",
           "primer_match_cutoffs": "",
           "collapsing_method": "",
           "data_processing_protocols": "",
           "germline_database": "",
-          "analysis_provenance_id": ""
+          "analysis_provenance_id": "",
+          "data_processing_files": [
+            "ERR1759641_1.fastq.merged.unique.igblast.airr.tsv"
+          ]
         }
       ]
     },
@@ -7609,8 +7864,8 @@
         "study_id": "PRJEB18631",
         "study_title": "Antibody repertoire RNA-seq throughout key stages of mouse B-cell development",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "C93130",
+          "value": "Animal Study"
         },
         "study_description": "We sought to investigate the extent of genetic and antigen-driven predetermination of antibody repertoires throughout B-cell development (pre-B cells, naive B cells, plasma cells). To this end, we used (i) an inbred model organism (mouse, C57BL/6J) to quantify genetic predetermination and (ii) cohort-stratification (4 cohorts: 1 untreated, 3 antigen-immunized) to quantify antigen-driven predetermination. To ensure generalizability of our research, we additionally sequenced naive B cells from Balb/c and pet shop mice.",
         "inclusion_exclusion_criteria": "",
@@ -7690,7 +7945,6 @@
           "sequencing_run_id": "ERR1759640",
           "total_reads_passing_qc_filter": null,
           "sequencing_platform": "Illumina MiSeq",
-          "read_length": "2x301bp",
           "sequencing_facility": "Quantitative Genomics Facility, ETH Zurich, Basel",
           "sequencing_run_date": "3/31/17 12:22",
           "sequencing_kit": null,
@@ -7699,22 +7953,27 @@
             "filename": "ERR1759640_1.fastq.gz",
             "read_direction": "forward",
             "paired_filename": "ERR1759640_2.fastq.gz",
-            "paired_read_direction": "reverse"
+            "paired_read_direction": "reverse",
+            "read_length": 301,
+            "paired_read_length": 301
           }
         }
       ],
       "data_processing": [
         {
-          "data_processing_id": "e1a98ff7-1e9a-4a85-8578-12457c4cc947-007",
-          "primary_annotation": null,
-          "software_versions": "",
+          "data_processing_id": "ef134a34-b407-42bb-a614-ab27b9dc15f6-007",
+          "primary_annotation": true,
+          "software_versions": "IgBlast 1.14",
           "paired_reads_assembly": "",
           "quality_thresholds": "",
           "primer_match_cutoffs": "",
           "collapsing_method": "",
           "data_processing_protocols": "",
           "germline_database": "",
-          "analysis_provenance_id": ""
+          "analysis_provenance_id": "",
+          "data_processing_files": [
+            "ERR1759640_1.fastq.merged.unique.igblast.airr.tsv"
+          ]
         }
       ]
     },
@@ -7724,8 +7983,8 @@
         "study_id": "PRJEB18631",
         "study_title": "Antibody repertoire RNA-seq throughout key stages of mouse B-cell development",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "C93130",
+          "value": "Animal Study"
         },
         "study_description": "We sought to investigate the extent of genetic and antigen-driven predetermination of antibody repertoires throughout B-cell development (pre-B cells, naive B cells, plasma cells). To this end, we used (i) an inbred model organism (mouse, C57BL/6J) to quantify genetic predetermination and (ii) cohort-stratification (4 cohorts: 1 untreated, 3 antigen-immunized) to quantify antigen-driven predetermination. To ensure generalizability of our research, we additionally sequenced naive B cells from Balb/c and pet shop mice.",
         "inclusion_exclusion_criteria": "",
@@ -7805,7 +8064,6 @@
           "sequencing_run_id": "ERR1759639",
           "total_reads_passing_qc_filter": null,
           "sequencing_platform": "Illumina MiSeq",
-          "read_length": "2x301bp",
           "sequencing_facility": "Quantitative Genomics Facility, ETH Zurich, Basel",
           "sequencing_run_date": "3/31/17 12:22",
           "sequencing_kit": null,
@@ -7814,22 +8072,27 @@
             "filename": "ERR1759639_1.fastq.gz",
             "read_direction": "forward",
             "paired_filename": "ERR1759639_2.fastq.gz",
-            "paired_read_direction": "reverse"
+            "paired_read_direction": "reverse",
+            "read_length": 301,
+            "paired_read_length": 301
           }
         }
       ],
       "data_processing": [
         {
-          "data_processing_id": "e1a98ff7-1e9a-4a85-8578-12457c4cc947-007",
-          "primary_annotation": null,
-          "software_versions": "",
+          "data_processing_id": "b4fe918f-3c9c-44a9-ab97-5018a22c74cf-007",
+          "primary_annotation": true,
+          "software_versions": "IgBlast 1.14",
           "paired_reads_assembly": "",
           "quality_thresholds": "",
           "primer_match_cutoffs": "",
           "collapsing_method": "",
           "data_processing_protocols": "",
           "germline_database": "",
-          "analysis_provenance_id": ""
+          "analysis_provenance_id": "",
+          "data_processing_files": [
+            "ERR1759639_1.fastq.merged.unique.igblast.airr.tsv"
+          ]
         }
       ]
     },
@@ -7839,8 +8102,8 @@
         "study_id": "PRJEB18631",
         "study_title": "Antibody repertoire RNA-seq throughout key stages of mouse B-cell development",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "C93130",
+          "value": "Animal Study"
         },
         "study_description": "We sought to investigate the extent of genetic and antigen-driven predetermination of antibody repertoires throughout B-cell development (pre-B cells, naive B cells, plasma cells). To this end, we used (i) an inbred model organism (mouse, C57BL/6J) to quantify genetic predetermination and (ii) cohort-stratification (4 cohorts: 1 untreated, 3 antigen-immunized) to quantify antigen-driven predetermination. To ensure generalizability of our research, we additionally sequenced naive B cells from Balb/c and pet shop mice.",
         "inclusion_exclusion_criteria": "",
@@ -7920,7 +8183,6 @@
           "sequencing_run_id": "ERR1759644",
           "total_reads_passing_qc_filter": null,
           "sequencing_platform": "Illumina MiSeq",
-          "read_length": "2x301bp",
           "sequencing_facility": "Quantitative Genomics Facility, ETH Zurich, Basel",
           "sequencing_run_date": "3/31/17 12:22",
           "sequencing_kit": null,
@@ -7929,22 +8191,27 @@
             "filename": "ERR1759644_1.fastq.gz",
             "read_direction": "forward",
             "paired_filename": "ERR1759644_2.fastq.gz",
-            "paired_read_direction": "reverse"
+            "paired_read_direction": "reverse",
+            "read_length": 301,
+            "paired_read_length": 301
           }
         }
       ],
       "data_processing": [
         {
-          "data_processing_id": "e1a98ff7-1e9a-4a85-8578-12457c4cc947-007",
-          "primary_annotation": null,
-          "software_versions": "",
+          "data_processing_id": "ef134a34-b407-42bb-a614-ab27b9dc15f6-007",
+          "primary_annotation": true,
+          "software_versions": "IgBlast 1.14",
           "paired_reads_assembly": "",
           "quality_thresholds": "",
           "primer_match_cutoffs": "",
           "collapsing_method": "",
           "data_processing_protocols": "",
           "germline_database": "",
-          "analysis_provenance_id": ""
+          "analysis_provenance_id": "",
+          "data_processing_files": [
+            "ERR1759644_1.fastq.merged.unique.igblast.airr.tsv"
+          ]
         }
       ]
     },
@@ -7954,8 +8221,8 @@
         "study_id": "PRJEB18631",
         "study_title": "Antibody repertoire RNA-seq throughout key stages of mouse B-cell development",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "C93130",
+          "value": "Animal Study"
         },
         "study_description": "We sought to investigate the extent of genetic and antigen-driven predetermination of antibody repertoires throughout B-cell development (pre-B cells, naive B cells, plasma cells). To this end, we used (i) an inbred model organism (mouse, C57BL/6J) to quantify genetic predetermination and (ii) cohort-stratification (4 cohorts: 1 untreated, 3 antigen-immunized) to quantify antigen-driven predetermination. To ensure generalizability of our research, we additionally sequenced naive B cells from Balb/c and pet shop mice.",
         "inclusion_exclusion_criteria": "",
@@ -8035,7 +8302,6 @@
           "sequencing_run_id": "ERR1759643",
           "total_reads_passing_qc_filter": null,
           "sequencing_platform": "Illumina MiSeq",
-          "read_length": "2x301bp",
           "sequencing_facility": "Quantitative Genomics Facility, ETH Zurich, Basel",
           "sequencing_run_date": "3/31/17 12:22",
           "sequencing_kit": null,
@@ -8044,22 +8310,27 @@
             "filename": "ERR1759643_1.fastq.gz",
             "read_direction": "forward",
             "paired_filename": "ERR1759643_2.fastq.gz",
-            "paired_read_direction": "reverse"
+            "paired_read_direction": "reverse",
+            "read_length": 301,
+            "paired_read_length": 301
           }
         }
       ],
       "data_processing": [
         {
-          "data_processing_id": "e1a98ff7-1e9a-4a85-8578-12457c4cc947-007",
-          "primary_annotation": null,
-          "software_versions": "",
+          "data_processing_id": "ef134a34-b407-42bb-a614-ab27b9dc15f6-007",
+          "primary_annotation": true,
+          "software_versions": "IgBlast 1.14",
           "paired_reads_assembly": "",
           "quality_thresholds": "",
           "primer_match_cutoffs": "",
           "collapsing_method": "",
           "data_processing_protocols": "",
           "germline_database": "",
-          "analysis_provenance_id": ""
+          "analysis_provenance_id": "",
+          "data_processing_files": [
+            "ERR1759643_1.fastq.merged.unique.igblast.airr.tsv"
+          ]
         }
       ]
     },
@@ -8069,8 +8340,8 @@
         "study_id": "PRJEB18631",
         "study_title": "Antibody repertoire RNA-seq throughout key stages of mouse B-cell development",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "C93130",
+          "value": "Animal Study"
         },
         "study_description": "We sought to investigate the extent of genetic and antigen-driven predetermination of antibody repertoires throughout B-cell development (pre-B cells, naive B cells, plasma cells). To this end, we used (i) an inbred model organism (mouse, C57BL/6J) to quantify genetic predetermination and (ii) cohort-stratification (4 cohorts: 1 untreated, 3 antigen-immunized) to quantify antigen-driven predetermination. To ensure generalizability of our research, we additionally sequenced naive B cells from Balb/c and pet shop mice.",
         "inclusion_exclusion_criteria": "",
@@ -8150,7 +8421,6 @@
           "sequencing_run_id": "ERR1759642",
           "total_reads_passing_qc_filter": null,
           "sequencing_platform": "Illumina MiSeq",
-          "read_length": "2x301bp",
           "sequencing_facility": "Quantitative Genomics Facility, ETH Zurich, Basel",
           "sequencing_run_date": "3/31/17 12:22",
           "sequencing_kit": null,
@@ -8159,22 +8429,27 @@
             "filename": "ERR1759642_1.fastq.gz",
             "read_direction": "forward",
             "paired_filename": "ERR1759642_2.fastq.gz",
-            "paired_read_direction": "reverse"
+            "paired_read_direction": "reverse",
+            "read_length": 301,
+            "paired_read_length": 301
           }
         }
       ],
       "data_processing": [
         {
-          "data_processing_id": "e1a98ff7-1e9a-4a85-8578-12457c4cc947-007",
-          "primary_annotation": null,
-          "software_versions": "",
+          "data_processing_id": "ef134a34-b407-42bb-a614-ab27b9dc15f6-007",
+          "primary_annotation": true,
+          "software_versions": "IgBlast 1.14",
           "paired_reads_assembly": "",
           "quality_thresholds": "",
           "primer_match_cutoffs": "",
           "collapsing_method": "",
           "data_processing_protocols": "",
           "germline_database": "",
-          "analysis_provenance_id": ""
+          "analysis_provenance_id": "",
+          "data_processing_files": [
+            "ERR1759642_1.fastq.merged.unique.igblast.airr.tsv"
+          ]
         }
       ]
     }
