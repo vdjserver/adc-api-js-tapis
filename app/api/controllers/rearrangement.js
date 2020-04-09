@@ -429,6 +429,12 @@ function queryRearrangements(req, res) {
                         if (i >= size_stop) break;
                         var record = records[i];
                         record['rearrangement_id'] = record['_id']['$oid'];
+
+                        // gene calls, join back to string
+                        if ((typeof record['v_call']) == "object") record['v_call'] = record['v_call'].join(',');
+                        if ((typeof record['d_call']) == "object") record['d_call'] = record['d_call'].join(',');
+                        if ((typeof record['j_call']) == "object") record['j_call'] = record['j_call'].join(',');
+
                         if (record['_id']) delete record['_id'];
                         if (record['_etag']) delete record['_etag'];
                         results.push(record);
@@ -456,6 +462,12 @@ function queryRearrangements(req, res) {
                                 if (i >= second_size) break;
                                 var record = records[i];
                                 record['rearrangement_id'] = record['_id']['$oid'];
+
+                                // gene calls, join back to string
+                                if ((typeof record['v_call']) == "object") record['v_call'] = record['v_call'].join(',');
+                                if ((typeof record['d_call']) == "object") record['d_call'] = record['d_call'].join(',');
+                                if ((typeof record['j_call']) == "object") record['j_call'] = record['j_call'].join(',');
+
                                 if (record['_id']) delete record['_id'];
                                 if (record['_etag']) delete record['_etag'];
                                 results.push(record);
