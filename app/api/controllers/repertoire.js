@@ -18,6 +18,13 @@ if (config.custom_file) {
     custom_file = require('../../config/' + config.custom_file);
 }
 
+// escape strings for regex, double \\ for restheart
+var escapeString = function(text) {
+    var encoded = text.replace(/\*/g, '\\\\\*');
+    encoded = encoded.replace(/\+/g, '\\\\\+');
+    return encoded;
+}
+
 /*
   Once you 'require' a module you can reference the things that it exports.  These are defined in module.exports.
 
@@ -153,7 +160,7 @@ function constructQueryOperation(filter) {
 
     case 'contains':
         if ((content['field'] != undefined) && (content_value != undefined)) {
-            return '{"' + content['field'] + '": { "$regex":' + content_value + ', "$options": "i"}}';
+            return '{"' + content['field'] + '": { "$regex":' + escapeString(content_value) + ', "$options": "i"}}';
         }
         return null;
 
