@@ -2,10 +2,15 @@
 // mass update
 //
 
-// TCR test
+// everything
+var cursor = db.rearrangement.find({});
+
+// TCRA test
 //var cursor = db.rearrangement.find({repertoire_id:"7727563776583659030-242ac116-0001-012"});
+// TCRB test
+//var cursor = db.rearrangement.find({repertoire_id:"1993707260355416551-242ac11c-0001-012"});
 // BCR test
-var cursor = db.rearrangement.find({repertoire_id:"7727563776583659030-242ac116-0001-012"});
+//var cursor = db.rearrangement.find({repertoire_id:"4181735399629656551-242ac11c-0001-012"});
 
 function getAllSubstrings(str,size) {
   var i, j, result = [];
@@ -36,7 +41,11 @@ function parseGene(str) {
 var cnt = 0;
 while ( cursor.hasNext() ) {
     var obj = cursor.next();
-    var updates = {$set:{"sequence_id":obj._id}};
+    //printjson(obj['v_call']);
+    //printjson(obj['d_call']);
+    //printjson(obj['j_call']);
+    //printjson(obj['locus']);
+    var updates = {$set:{"sequence_id":obj._id.valueOf()}};
 
     // change V gene calls to an array, add gene and subgroup
     if ((typeof obj['v_call']) == 'string') {
@@ -59,6 +68,7 @@ while ( cursor.hasNext() ) {
             updates["$set"]["v_gene"] = genes;
             updates["$set"]["v_subgroup"] = subgroups;
         } else {
+            var result = parseGene(obj['v_call']);
             if (result) {
                 updates["$set"]["v_gene"] = result.gene;
                 if (result.subgroup) updates["$set"]["v_subgroup"] = result.subgroup;
@@ -104,6 +114,7 @@ while ( cursor.hasNext() ) {
             updates["$set"]["d_gene"] = genes;
             updates["$set"]["d_subgroup"] = subgroups;
         } else {
+            var result = parseGene(obj['d_call']);
             if (result) {
                 updates["$set"]["d_gene"] = result.gene;
                 if (result.subgroup) updates["$set"]["d_subgroup"] = result.subgroup;
@@ -149,6 +160,7 @@ while ( cursor.hasNext() ) {
             updates["$set"]["j_gene"] = genes;
             updates["$set"]["j_subgroup"] = subgroups;
         } else {
+            var result = parseGene(obj['j_call']);
             if (result) {
                 updates["$set"]["j_gene"] = result.gene;
                 if (result.subgroup) updates["$set"]["j_subgroup"] = result.subgroup;
@@ -180,12 +192,13 @@ while ( cursor.hasNext() ) {
 
     // do the update
     db.rearrangement.update({_id: obj._id},updates);
+    //printjson(updates);
 
     cnt += 1;
-    if ((cnt % 10000) == 0) {
+    if ((cnt % 1000000) == 0) {
         printjson(cnt);
     }
-    if (cnt == 1000) break;
+    //if (cnt == 100) break;
 }
 printjson("Total updated");
 printjson(cnt);
