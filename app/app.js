@@ -55,16 +55,16 @@ GuestAccount.getToken()
 	// Load swagger API
 	//console.log(config.appRoot);
 	var swaggerFile = path.resolve(swaggerConfig.appRoot, 'api/swagger/adc-api.yaml');
-	console.log('Using ADC API specification: ' + swaggerFile);
+	console.log('VDJServer ADC API INFO: Using ADC API specification: ' + swaggerFile);
 	swaggerConfig.swagger = yaml.safeLoad(fs.readFileSync(swaggerFile, 'utf8'));
-	console.log('Loaded ADC API version: ' + swaggerConfig.swagger.info.version);
+	console.log('VDJServer ADC API INFO: Loaded ADC API version: ' + swaggerConfig.swagger.info.version);
 
 	// Load AIRR Schema
 	return airr.schema();
     })
     .then(function(schema) {
 	// store the schema as a global so all code can see it
-	console.log('Loaded AIRR Schema, version ' + schema['Info']['version']);
+	console.log('VDJServer ADC API INFO: Loaded AIRR Schema, version ' + schema['Info']['version']);
 	global.airr = schema;
 
 	Runner.create(swaggerConfig, function(err, runner) {
@@ -77,11 +77,13 @@ GuestAccount.getToken()
 	    var port = config.port || 8020;
 	    app.listen(port);
 
-	    console.log('VDJServer ADC API listening on port:' + port);
+	    console.log('VDJServer ADC API INFO: listening on port:' + port);
 	});
     })
     .fail(function(error) {
-	console.error('VDJServer ADC API ERROR: Service could not be start.\n' + error);
-	webhookIO.postToSlack('VDJServer ADC API ERROR: Unable to login with guest account.\nSystem may need to be restarted.\n' + error);
+        var msg = 'VDJServer ADC API ERROR: Service could not be start.\n' + error;
+	console.error(msg);
+	webhookIO.postToSlack(msg);
+        // continue in case its a temporary error
 	//process.exit(1);
     });

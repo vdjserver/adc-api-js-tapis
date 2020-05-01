@@ -1,10 +1,37 @@
 'use strict';
 
+//
+// rearrangement.js
+// Rearrangement end points
+//
+// VDJServer Community Data Portal
+// ADC API for VDJServer
+// https://vdjserver.org
+//
+// Copyright (C) 2020 The University of Texas Southwestern Medical Center
+//
+// Author: Scott Christley <scott.christley@utsouthwestern.edu>
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU Affero General Public License as published
+// by the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU Affero General Public License for more details.
+//
+// You should have received a copy of the GNU Affero General Public License
+// along with this program.  If not, see <https://www.gnu.org/licenses/>.
+//
+
 var util = require('util');
 
 // Server environment config
 var config = require('../../config/config');
 var agaveSettings = require('../../config/tapisSettings');
+var airr = require('../helpers/airr-schema');
 
 var assert = require('assert');
 
@@ -91,9 +118,13 @@ function constructQueryOperation(filter) {
                 content_properties = props;
             }
         } else {
-            console.log('VDJ-ADC-API INFO:' + content['field'] + ' is not found in AIRR schema.');
+            if (config.debug) console.log('VDJ-ADC-API INFO:' + content['field'] + ' is not found in AIRR schema.');
         }
     }
+    // if not in schema then maybe its a custom field
+    // so use the same type as the value.
+    if (!content_type) content_type = typeof content['value'];
+    if (config.debug) console.log('type: ' + content_type);
 
     // Check if query field is required. By default, the ADC API will not allow
     // queries on the rearrangement endpoint for optional fields.
@@ -102,7 +133,7 @@ function constructQueryOperation(filter) {
             if (content_properties['x-airr']['adc-api-optional'] != undefined) {
                 if (content_properties['x-airr']['adc-api-optional']) {
                     // optional field, reject
-                    console.log('VDJ-ADC-API INFO: ' + content['field'] + ' is an optional query field.');
+                    if (config.debug) console.log('VDJ-ADC-API INFO: ' + content['field'] + ' is an optional query field.');
                     return null;
                 }
             }
@@ -110,11 +141,6 @@ function constructQueryOperation(filter) {
     }
 
     var content_value = undefined;
-    if (! content_type) {
-        if (typeof content['value'] == 'number') content_type = 'number';
-        else content_type = 'string';
-    }
-
     if (content['value'] != undefined) {
         switch(content_type) {
         case 'integer':
@@ -175,6 +201,7 @@ function constructQueryOperation(filter) {
         return null;
 
     case 'contains':
+        if (content_type != 'string') return null;
         if ((content['field'] != undefined) && (content_value != undefined)) {
             return '{"' + content['field'] + '": { "$regex":' + escapeString(content_value) + ', "$options": "i"}}';
         }
@@ -248,7 +275,7 @@ function constructQueryOperation(filter) {
   Param 2: a handle to the response object
 */
 function getRearrangement(req, res) {
-    console.log('VDJ-ADC-API INFO: getRearrangement: ' + req.swagger.params['rearrangement_id'].value);
+    if (config.debug) console.log('VDJ-ADC-API INFO: getRearrangement: ' + req.swagger.params['rearrangement_id'].value);
 
     var result = {};
     var result_message = "Server error";
@@ -256,13 +283,17 @@ function getRearrangement(req, res) {
 
     var collection = 'rearrangement/' + req.swagger.params['rearrangement_id'].value;
 
+    // all AIRR fields
+    var all_fields = [];
+    airr.collectFields(global.airr['Rearrangement'], 'airr-schema', all_fields, null);
+
     // construct info object for response
     var info = { };
     var schema = global.airr['Info'];
-    info['title'] = config.title;
+    info['title'] = config.info.description;
     info['description'] = 'VDJServer ADC API response for rearrangement query'
     info['version'] = schema.version;
-    info['contact'] = config.contact;
+    info['contact'] = config.info.contact;
 
     agaveIO.performQuery(collection, null, null, null, null)
         .then(function(record) {
@@ -272,6 +303,7 @@ function getRearrangement(req, res) {
                 record['rearrangement_id'] = record['_id']['$oid'];
                 if (record['_id']) delete record['_id'];
                 if (record['_etag']) delete record['_etag'];
+		airr.addFields(record, all_fields, global.airr['Rearrangement']);
                 res.json({"Info":info,"Rearrangement":[record]});
             }
         })
@@ -285,7 +317,7 @@ function getRearrangement(req, res) {
 }
 
 function queryRearrangements(req, res) {
-    console.log('VDJ-ADC-API INFO: queryRearrangements');
+    if (config.debug) console.log('VDJ-ADC-API INFO: queryRearrangements');
 
     var results = [];
     var result = {};
@@ -294,11 +326,22 @@ function queryRearrangements(req, res) {
 
     var bodyData = req.swagger.params['data'].value;
 
+    // AIRR fields
+    var all_fields = [];
+    if (bodyData['include_fields']) {
+	airr.collectFields(global.airr['Rearrangement'], bodyData['include_fields'], all_fields, null);
+        if (config.debug) console.log(all_fields);
+    }
+    // collect all AIRR schema fields
+    var schema_fields = [];
+    airr.collectFields(global.airr['Rearrangement'], 'airr-schema', schema_fields, null);
+
     // field projection
+    // NOTE: we actually leave out the projection from the query to avoid it becoming too large
     var projection = {};
     if (bodyData['fields'] != undefined) {
         var fields = bodyData['fields'];
-        console.log('fields: ', fields);
+        if (config.debug) console.log('fields: ', fields);
         if (! (fields instanceof Array)) {
             result_message = "fields parameter is not an array.";
             res.status(400).json({"message":result_message});
@@ -310,9 +353,22 @@ function queryRearrangements(req, res) {
             projection[fields[i]] = 1;
         }
         projection['_id'] = 1;
-    } else {
-        projection['_etag'] = 0;
+
+	// add AIRR required fields to projection
+	// NOTE: projection will not add a field if it is not already in the document
+	// so below after the data has been retrieved, missing fields need to be
+	// added with null values.
+	if (all_fields.length > 0) {
+	    for (var r in all_fields) projection[all_fields[r]] = 1;
+	}
+
+        // add to field list so will be put in response if necessary
+	for (var i = 0; i < fields.length; ++i) {
+	    if (fields[i] == '_id') continue;
+            all_fields.push(fields[i]);
+        }
     }
+    if (config.debug) console.log(projection);
 
     // format parameter
     var format = 'json';
@@ -396,29 +452,29 @@ function queryRearrangements(req, res) {
     // construct info object for response
     var info = { };
     var schema = global.airr['Info'];
-    info['title'] = config.title;
+    info['title'] = config.info.description;
     info['description'] = 'VDJServer ADC API response for rearrangement query'
     info['version'] = schema.version;
-    info['contact'] = config.contact;
+    info['contact'] = config.info.contact;
 
     // Handle client HTTP request abort
     var abortQuery = false;
     req.on("close", function() {
-        console.log('VDJ-ADC-API INFO: Client request closed unexpectedly');
+        if (config.debug) console.log('VDJ-ADC-API INFO: Client request closed unexpectedly');
         abortQuery = true;
     });
 
     // perform non-facets query
     var collection = 'rearrangement';
     if (!facets) {
-        console.log(query);
-        agaveIO.performQuery(collection, query, projection, page, pagesize)
+        if (config.debug) console.log(query);
+        agaveIO.performQuery(collection, query, null, page, pagesize)
             .then(function(records) {
                 if (abortQuery) {
                     return;
                 }
 
-                console.log('VDJ-ADC-API INFO: query returned ' + records.length + ' records.');
+                if (config.debug) console.log('VDJ-ADC-API INFO: query returned ' + records.length + ' records.');
                 if (records.length == 0) {
                     results = [];
                 } else {
@@ -428,7 +484,7 @@ function queryRearrangements(req, res) {
                         if (i < from_skip) continue;
                         if (i >= size_stop) break;
                         var record = records[i];
-                        record['rearrangement_id'] = record['_id']['$oid'];
+                        record['sequence_id'] = record['_id']['$oid'];
 
                         // gene calls, join back to string
                         if ((typeof record['v_call']) == "object") record['v_call'] = record['v_call'].join(',');
@@ -437,6 +493,18 @@ function queryRearrangements(req, res) {
 
                         if (record['_id']) delete record['_id'];
                         if (record['_etag']) delete record['_etag'];
+
+		        // add any missing required fields
+		        if (all_fields.length > 0) {
+			    airr.addFields(record, all_fields, global.airr['Rearrangement']);
+		        }
+                        // apply projection
+                        var keys = Object.keys(record);
+                        if (Object.keys(projection).length > 0) {
+                            for (var p = 0; p < keys.length; ++p)
+                                if (projection[keys[p]] == undefined)
+                                    delete record[keys[p]];
+                        }
                         results.push(record);
                     }
                 }
@@ -452,16 +520,16 @@ function queryRearrangements(req, res) {
                 } else {
                     // we need to do a second query for the rest
                     page += 1;
-                    agaveIO.performQuery(collection, query, projection, page, pagesize)
+                    agaveIO.performQuery(collection, query, null, page, pagesize)
                         .then(function(records) {
-                            console.log('VDJ-ADC-API INFO: second query returned ' + records.length + ' records.')
+                            if (config.debug) console.log('VDJ-ADC-API INFO: second query returned ' + records.length + ' records.')
 
                             // loop through records, clean data
                             // and only retrieve desired from/size
                             for (var i in records) {
                                 if (i >= second_size) break;
                                 var record = records[i];
-                                record['rearrangement_id'] = record['_id']['$oid'];
+                                record['sequence_id'] = record['_id']['$oid'];
 
                                 // gene calls, join back to string
                                 if ((typeof record['v_call']) == "object") record['v_call'] = record['v_call'].join(',');
@@ -470,6 +538,18 @@ function queryRearrangements(req, res) {
 
                                 if (record['_id']) delete record['_id'];
                                 if (record['_etag']) delete record['_etag'];
+
+		                // add any missing required fields
+		                if (all_fields.length > 0) {
+			            airr.addFields(record, all_fields, global.airr['Rearrangement']);
+		                }
+                                // apply projection
+                                var keys = Object.keys(record);
+                                if (Object.keys(projection).length > 0) {
+                                    for (var p = 0; p < keys.length; ++p)
+                                        if (projection[keys[p]] == undefined)
+                                            delete record[keys[p]];
+                                }
                                 results.push(record);
                             }
                         });
@@ -477,43 +557,43 @@ function queryRearrangements(req, res) {
             })
             .then(function() {
                 if (abortQuery) {
-                    console.log('VDJ-ADC-API INFO: client aborted query.');
+                    if (config.debug) console.log('VDJ-ADC-API INFO: client aborted query.');
                     return;
                 }
 
                 // format results and return them
                 if (format == 'json') {
-                    console.log('VDJ-ADC-API INFO: returning ' + results.length + ' records to client.');
+                    if (config.debug) console.log('VDJ-ADC-API INFO: returning ' + results.length + ' records to client.');
                     res.json({"Info":info,"Rearrangement":results});
                 } else if (format == 'tsv') {
                     res.setHeader('Content-Type', 'text/tsv');
 
-                    // Load AIRR spec for field names
-                    var schema = global.airr['Rearrangement'];
-                    if (!schema) {
-                        var msg = 'VDJ-ADC-API ERROR: Rearrangement schema missing.';
-                        res.status(500).json({"message":result_message});
-                        console.error(msg);
-                        webhookIO.postToSlack(msg);
-                        return;
-                    }
-
                     // write headers
                     var headers = [];
-                    // schema fields
-                    for (var p in schema['properties']) {
-                        if (projection[p]) headers.push(p);
-                    }
-                    // add custom fields on end
-                    for (var p in projection) {
-                        if (projection[p]) {
-                            if (schema['properties'][p]) continue;
-                            else headers.push(p);
+
+                    // if no projection
+                    if (Object.keys(projection).length == 0) {
+                        // then return all schema fields
+                        headers = schema_fields;
+                    } else {
+                        // else only return specified fields
+                        // schema fields first
+                        for (var p = 0; p < schema_fields.length; ++p) {
+                            if (projection[schema_fields[p]]) headers.push(schema_fields[p]);
+                        }
+                        // add custom fields on end
+                        for (var p in projection) {
+                            if (p == '_id') continue;
+                            if (projection[p]) {
+                                if (schema_fields.indexOf(p) >= 0) continue;
+                                else headers.push(p);
+                            }
                         }
                     }
+
                     res.write(headers.join('\t'));
                     res.write('\n');
-                    console.log(headers);
+                    if (config.debug) console.log(headers);
 
                     var first = true;
                     for (var r in results) {
@@ -527,7 +607,7 @@ function queryRearrangements(req, res) {
                         var vals = [];
                         for (var i = 0; i < headers.length; ++i) {
                             var p = headers[i];
-                            if (!entry[p]) vals.push('');
+                            if (entry[p] == undefined) vals.push('');
                             else vals.push(entry[p]);
                         }
                         res.write(vals.join('\t'));

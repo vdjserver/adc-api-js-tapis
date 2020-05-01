@@ -1,10 +1,37 @@
 'use strict';
 
+//
+// repertoire.js
+// Repertoire end points
+//
+// VDJServer Community Data Portal
+// ADC API for VDJServer
+// https://vdjserver.org
+//
+// Copyright (C) 2020 The University of Texas Southwestern Medical Center
+//
+// Author: Scott Christley <scott.christley@utsouthwestern.edu>
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU Affero General Public License as published
+// by the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU Affero General Public License for more details.
+//
+// You should have received a copy of the GNU Affero General Public License
+// along with this program.  If not, see <https://www.gnu.org/licenses/>.
+//
+
 var util = require('util');
 
 // Server environment config
 var config = require('../../config/config');
 var agaveSettings = require('../../config/tapisSettings');
+var airr = require('../helpers/airr-schema');
 
 var assert = require('assert');
 
@@ -87,17 +114,15 @@ function constructQueryOperation(filter) {
         if (props != undefined) {
             if (props['type'] != undefined) content_type = props['type'];
         } else {
-            console.log('VDJ-ADC-API INFO: ' + content['field'] + ' is not found in AIRR schema.');
+            if (config.debug) console.log('VDJ-ADC-API INFO: ' + content['field'] + ' is not found in AIRR schema.');
         }
     }
-    //console.log('type: ' + content_type);
+    // if not in schema then maybe its a custom field
+    // so use the same type as the value.
+    if (!content_type) content_type = typeof content['value'];
+    if (config.debug) console.log('type: ' + content_type);
 
     var content_value = undefined;
-    if (! content_type) {
-        if (typeof content['value'] == 'number') content_type = 'number';
-        else content_type = 'string';
-    }
-
     if (content['value'] != undefined) {
         switch(content_type) {
         case 'integer':
@@ -159,6 +184,7 @@ function constructQueryOperation(filter) {
         return null;
 
     case 'contains':
+        if (content_type != 'string') return null;
         if ((content['field'] != undefined) && (content_value != undefined)) {
             return '{"' + content['field'] + '": { "$regex":' + escapeString(content_value) + ', "$options": "i"}}';
         }
@@ -232,7 +258,7 @@ function constructQueryOperation(filter) {
   Param 2: a handle to the response object
 */
 function getRepertoire(req, res) {
-    console.log('VDJ-ADC-API INFO: getRepertoire: ' + req.swagger.params['repertoire_id'].value);
+    if (config.debug) console.log('VDJ-ADC-API INFO: getRepertoire: ' + req.swagger.params['repertoire_id'].value);
 
     var result = {};
     var result_message = "Server error";
@@ -241,13 +267,17 @@ function getRepertoire(req, res) {
     var collection = 'repertoire';
     var query = '{repertoire_id:"' + req.swagger.params['repertoire_id'].value + '"}';
 
+    // all AIRR fields
+    var all_fields = [];
+    airr.collectFields(global.airr['Repertoire'], 'airr-schema', all_fields, null);
+
     // construct info object for response
     var info = { };
     var schema = global.airr['Info'];
-    info['title'] = config.title;
+    info['title'] = config.info.description;
     info['description'] = 'VDJServer ADC API response for repertoire query'
     info['version'] = schema.version;
-    info['contact'] = config.contact;
+    info['contact'] = config.info.contact;
 
     agaveIO.performQuery(collection, query, null, null, null)
         .then(function(record) {
@@ -257,6 +287,7 @@ function getRepertoire(req, res) {
                     record = record[0];
                     if (record['_id']) delete record['_id'];
                     if (record['_etag']) delete record['_etag'];
+		    airr.addFields(record, all_fields, global.airr['Repertoire']);
                     res.json({"Info":info,"Repertoire":[record]});
                 }
             })
@@ -270,7 +301,7 @@ function getRepertoire(req, res) {
 }
 
 function queryRepertoires(req, res) {
-    console.log('VDJ-ADC-API INFO: queryRepertoires');
+    if (config.debug) console.log('VDJ-ADC-API INFO: queryRepertoires');
 
     var results = [];
     var result = {};
@@ -278,6 +309,12 @@ function queryRepertoires(req, res) {
     var result_message = "Unknown error";
 
     var bodyData = req.swagger.params['data'].value;
+
+    // AIRR fields
+    var all_fields = [];
+    if (bodyData['include_fields']) {
+	airr.collectFields(global.airr['Repertoire'], bodyData['include_fields'], all_fields, null);
+    }
 
     // field projection
     var projection = {};
@@ -293,6 +330,20 @@ function queryRepertoires(req, res) {
             if (fields[i] == '_id') continue;
             if (fields[i] == '_etag') continue;
             projection[fields[i]] = 1;
+        }
+
+	// add AIRR required fields to projection
+	// NOTE: projection will not add a field if it is not already in the document
+	// so below after the data has been retrieved, missing fields need to be
+	// added with null values.
+	if (all_fields.length > 0) {
+	    for (var r in all_fields) projection[all_fields[r]] = 1;
+	}
+
+        // add to field list so will be put in response if necessary
+	for (var i = 0; i < fields.length; ++i) {
+	    if (fields[i] == '_id') continue;
+            all_fields.push(fields[i]);
         }
     }
     projection['_id'] = 0;
@@ -369,17 +420,17 @@ function queryRepertoires(req, res) {
     // construct info object for response
     var info = { };
     var schema = global.airr['Info'];
-    info['title'] = config.title;
+    info['title'] = config.info.description;
     info['description'] = 'VDJServer ADC API response for repertoire query'
-        info['version'] = schema.version;
-    info['contact'] = config.contact;
+    info['version'] = schema.version;
+    info['contact'] = config.info.contact;
 
     // Handle client HTTP request abort
     var abortQuery = false;
     req.on("close", function() {
-            console.log('VDJ-ADC-API INFO: Client request closed unexpectedly.');
-            abortQuery = true;
-        });
+        if (config.debug) console.log('VDJ-ADC-API INFO: Client request closed unexpectedly.');
+        abortQuery = true;
+    });
 
     // perform non-facets query
     var collection = 'repertoire';
@@ -388,11 +439,11 @@ function queryRepertoires(req, res) {
         agaveIO.performQuery(collection, query, projection, page, pagesize)
             .then(function(records) {
                     if (abortQuery) {
-                        console.log('VDJ-ADC-API INFO: client aborted query.');
+                        if (config.debug) console.log('VDJ-ADC-API INFO: client aborted query.');
                         return;
                     }
 
-                    console.log('VDJ-ADC-API INFO: query returned ' + records.length + ' records.');
+                    if (config.debug) console.log('VDJ-ADC-API INFO: query returned ' + records.length + ' records.');
                     if (records.length == 0) {
                         results = [];
                     } else {
@@ -404,6 +455,12 @@ function queryRepertoires(req, res) {
                             var record = records[i];
                             if (record['_id']) delete record['_id'];
                             if (record['_etag']) delete record['_etag'];
+
+		            // add any missing required fields
+		            if (all_fields.length > 0) {
+			        airr.addFields(records[i], all_fields, global.airr['Repertoire']);
+		            }
+
                             results.push(record);
                         }
                     }
@@ -415,14 +472,14 @@ function queryRepertoires(req, res) {
 
                     if ((second_size <= 0) || (results.length < pagesize)) {
                         // only one query so return the results 
-                        console.log('VDJ-ADC-API INFO: returning ' + results.length + ' records to client.');
+                        if (config.debug) console.log('VDJ-ADC-API INFO: returning ' + results.length + ' records to client.');
                         res.json({"Info":info,"Repertoire":results});
                     } else {
                         // we need to do a second query for the rest
                         page += 1;
                         agaveIO.performQuery(collection, query, projection, page, pagesize)
                             .then(function(records) {
-                                    console.log('VDJ-ADC-API INFO: second query returned ' + records.length + ' records.')
+                                    if (config.debug) console.log('VDJ-ADC-API INFO: second query returned ' + records.length + ' records.')
 
                                         // loop through records, clean data
                                         // and only retrieve desired from/size
@@ -431,9 +488,15 @@ function queryRepertoires(req, res) {
                                             var record = records[i];
                                             if (record['_id']) delete record['_id'];
                                             if (record['_etag']) delete record['_etag'];
+
+		                            // add any missing required fields
+		                            if (all_fields.length > 0) {
+			                        airr.addFields(records[i], all_fields, global.airr['Repertoire']);
+		                            }
+
                                             results.push(record);
                                         }
-                                    console.log('VDJ-ADC-API INFO: returning ' + results.length + ' records to client.');
+                                    if (config.debug) console.log('VDJ-ADC-API INFO: returning ' + results.length + ' records to client.');
                                     res.json({"Info":info,"Repertoire":results});
                                 });
                     }
@@ -450,7 +513,7 @@ function queryRepertoires(req, res) {
         if (!query) query = '{}';
         agaveIO.performAggregation(collection, 'facets', query, field)
             .then(function(records) {
-                    if (records.length == 0) {
+                if (records.length == 0) {
                         results = [];
                     } else {
                         // loop through records, clean data
