@@ -35,23 +35,6 @@ function getStatus(req, res) {
 }
 
 function getInfo(req, res) {
-    // Verify we can login with guest account
-    var GuestAccount = require('../models/guestAccount');
-    GuestAccount.getToken()
-	.then(function(guestToken) {
-	    res.json({ name: config.title,
-		       description: config.info.description,
-		       version: config.info.version,
-		       airr_schema_version: global.airr['Info']['version'],
-		       customization: config.custom_file,
-		       max_size: config.max_size,
-		       max_query_size: config.max_query_size,
-		       contact: config.contact});
-	})
-	.fail(function(error) {
-	    var msg = 'VDJServer ADC API ERROR (getInfo): Could not acquire guest token.\n.' + error;
-	    res.status(500).json({"message":"Internal service error."});
-	    console.error(msg);
-	    webhookIO.postToSlack(msg);
-	});
+    // respond with service info
+    res.json(config.info);
 }
