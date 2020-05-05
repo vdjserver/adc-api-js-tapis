@@ -84,11 +84,11 @@ function constructQueryOperation(filter, error) {
     var content = filter['content'];
 
     // TODO: do we need to handle value being an array when a single value is expected?
-    // TODO: mechanism to return error information
     // TODO: validate queryable field names?
 
     // determine type from schema, default is string
     var content_type = null;
+    var content_properties = null;
     if (content['field'] != undefined) {
         var schema = global.airr['Repertoire'];
         var props = schema;
@@ -118,7 +118,10 @@ function constructQueryOperation(filter, error) {
         }
 
         if (props != undefined) {
-            if (props['type'] != undefined) content_type = props['type'];
+            if (props['type'] != undefined) {
+                content_type = props['type'];
+                content_properties = props;
+            }
         } else {
             if (config.debug) console.log('VDJ-ADC-API INFO: ' + content['field'] + ' is not found in AIRR schema.');
         }
@@ -128,30 +131,52 @@ function constructQueryOperation(filter, error) {
     if (!content_type) content_type = typeof content['value'];
     if (config.debug) console.log('type: ' + content_type);
 
+    // verify the value type against the field type
+    // stringify the value properly for the query
     var content_value = undefined;
     if (content['value'] != undefined) {
-        switch(content_type) {
-        case 'integer':
-        case 'number':
-        case 'boolean':
-            if (content['value'] instanceof Array) {
-                content_value = JSON.stringify(content['value']);
-            } else {
+        if (content['value'] instanceof Array) {
+            // we do not bother checking the types of array elements
+            content_value = JSON.stringify(content['value']);
+        } else {
+            // if the field is an array
+            // then check if items are basic type
+            if (content_type == 'array') {
+                if (content_properties && content_properties['items'] && content_properties['items']['type'])
+                    content_type = content_properties['items']['type'];
+            }
+
+            switch(content_type) {
+            case 'integer':
+            case 'number':
+                if (((typeof content['value']) != 'integer') && ((typeof content['value']) != 'number')) {
+                    error['message'] = "value has wrong type '" + typeof content['value'] + "', should be integer or number.";
+                    return null;
+                }
                 content_value = content['value'];
-            }
-            break;
-        case 'string':
-        default:
-            if (content['value'] instanceof Array) {
-                content_value = JSON.stringify(content['value']);
-            } else {
+                break;
+            case 'boolean':
+                if ((typeof content['value']) != 'boolean') {
+                    error['message'] = "value has wrong type '" + typeof content['value'] + "', should be boolean.";
+                    return null;
+                }
+                content_value = content['value'];
+                break;
+            case 'string':
+                if ((typeof content['value']) != 'string') {
+                    error['message'] = "value has wrong type '" + typeof content['value'] + "', should be string.";
+                    return null;
+                }
                 content_value = '"' + content['value'] + '"';
+                break;
+            default:
+                error['message'] = "unsupported content type: " + content_type;
+                return null;
             }
-            break;
         }
     }
-    //console.log('value: ' + content_value);
 
+    // query operators
     switch(filter['op']) {
     case '=':
         if (content['field'] == undefined) {
@@ -251,7 +276,11 @@ function constructQueryOperation(filter, error) {
         return '{"' + content['field'] + '": { "$exists": true } }';
 
     case 'in':
-        if (! content['value'] instanceof Array) {
+        if (content_value == undefined) {
+            error['message'] = "missing value for 'in' operator";
+            return null;
+        }
+        if (! (content['value'] instanceof Array)) {
             error['message'] = "value for 'in' operator is not an array";
             return null;
         }
@@ -259,14 +288,14 @@ function constructQueryOperation(filter, error) {
             error['message'] = "missing field for 'in' operator";
             return null;
         }
-        if (content_value == undefined) {
-            error['message'] = "missing value for 'in' operator";
-            return null;
-        }
         return '{"' + content['field'] + '": { "$in":' + content_value + '}}';
 
     case 'exclude':
-        if (! content['value'] instanceof Array) {
+        if (content_value == undefined) {
+            error['message'] = "missing value for 'exclude' operator";
+            return null;
+        }
+        if (! (content['value'] instanceof Array)) {
             error['message'] = "value for 'exclude' operator is not an array";
             return null;
         }
@@ -274,14 +303,10 @@ function constructQueryOperation(filter, error) {
             error['message'] = "missing field for 'exclude' operator";
             return null;
         }
-        if (content_value == undefined) {
-            error['message'] = "missing value for 'exclude' operator";
-            return null;
-        }
         return '{"' + content['field'] + '": { "$nin":' + content_value + '}}';
 
     case 'and':
-        if (! content instanceof Array) {
+        if (! (content instanceof Array)) {
             error['message'] = "content for 'and' operator is not an array";
             return null;
         }
@@ -299,7 +324,7 @@ function constructQueryOperation(filter, error) {
         return '{ "$and":[' + exp_list + ']}';
 
     case 'or':
-        if (! content instanceof Array) {
+        if (! (content instanceof Array)) {
             error['message'] = "content for 'or' operator is not an array";
             return null;
         }
@@ -318,9 +343,6 @@ function constructQueryOperation(filter, error) {
 
     default:
         error['message'] = 'unknown operator in filters: ' + filter['op'];
-        var msg = 'VDJ-ADC-API ERROR (repertoire): Unknown operator in filters: ' + filter['op'];
-        console.error(msg);
-        webhookIO.postToSlack(msg);
         return null;
     }
 
@@ -476,20 +498,20 @@ function queryRepertoires(req, res) {
     var query = undefined;
     if (bodyData['filters'] != undefined) {
         filter = bodyData['filters'];
-        //console.log(filter);
         try {
             var error = { message: '' };
             query = constructQueryOperation(filter, error);
             //console.log(query);
-            console.log(error);
 
             if (!query) {
                 result_message = "Could not construct valid query. Error: " + error['message'];
+                if (config.debug) console.log('VDJ-ADC-API INFO: ' + result_message);
                 res.status(400).json({"message":result_message});
                 return;
             }
         } catch (e) {
             result_message = "Could not construct valid query: " + e;
+            if (config.debug) console.log('VDJ-ADC-API INFO: ' + result_message);
             res.status(400).json({"message":result_message});
             return;
         }

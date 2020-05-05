@@ -71,14 +71,19 @@ module.exports = {
   filters parameter is a JSON object that can be any number of nested
   levels, so we recursively construct the query.
 */
-function constructQueryOperation(filter) {
-    if (!filter['op']) return null;
-    if (!filter['content']) return null;
+function constructQueryOperation(filter, error) {
+    if (!filter['op']) {
+        error['message'] = 'missing op';
+        return null;
+    }
+    if (!filter['content']) {
+        error['message'] = 'missing content';
+        return null;
+    }
 
     var content = filter['content'];
 
     // TODO: do we need to handle value being an array when a single value is expected?
-    // TODO: mechanism to return error information
     // TODO: validate queryable field names?
 
     // determine type from schema, default is string
@@ -136,132 +141,224 @@ function constructQueryOperation(filter) {
             } else {
                 // optional field, reject
                 if (config.debug) console.log('VDJ-ADC-API INFO: ' + content['field'] + ' is an optional query field.');
+                error['message'] = "query not supported on field: " + content['field'];
                 return null;
             }
         }
     }
 
+    // verify the value type against the field type
+    // stringify the value properly for the query
     var content_value = undefined;
     if (content['value'] != undefined) {
-        switch(content_type) {
-        case 'integer':
-        case 'number':
-        case 'boolean':
-            if (content['value'] instanceof Array) {
-                content_value = JSON.stringify(content['value']);
-            } else {
+        if (content['value'] instanceof Array) {
+            // we do not bother checking the types of array elements
+            content_value = JSON.stringify(content['value']);
+        } else {
+            // if the field is an array
+            // then check if items are basic type
+            if (content_type == 'array') {
+                if (content_properties && content_properties['items'] && content_properties['items']['type'])
+                    content_type = content_properties['items']['type'];
+            }
+
+            switch(content_type) {
+            case 'integer':
+            case 'number':
+                if (((typeof content['value']) != 'integer') && ((typeof content['value']) != 'number')) {
+                    error['message'] = "value has wrong type '" + typeof content['value'] + "', should be integer or number.";
+                    return null;
+                }
                 content_value = content['value'];
-            }
-            break;
-        case 'string':
-        default:
-            if (content['value'] instanceof Array) {
-                content_value = JSON.stringify(content['value']);
-            } else {
+                break;
+            case 'boolean':
+                if ((typeof content['value']) != 'boolean') {
+                    error['message'] = "value has wrong type '" + typeof content['value'] + "', should be boolean.";
+                    return null;
+                }
+                content_value = content['value'];
+                break;
+            case 'string':
+                if ((typeof content['value']) != 'string') {
+                    error['message'] = "value has wrong type '" + typeof content['value'] + "', should be string.";
+                    return null;
+                }
                 content_value = '"' + content['value'] + '"';
+                break;
+            default:
+                error['message'] = "unsupported content type: " + content_type;
+                return null;
             }
-            break;
         }
     }
 
+    // query operators
     switch(filter['op']) {
     case '=':
-        if ((content['field'] != undefined) && (content_value != undefined)) {
-            return '{"' + content['field'] + '":' + content_value + '}';
+        if (content['field'] == undefined) {
+            error['message'] = 'missing field for = operator';
+            return null;
         }
-        return null;
+        if (content_value == undefined) {
+            error['message'] = 'missing value for = operator';
+            return null;
+        }
+        return '{"' + content['field'] + '":' + content_value + '}';
 
     case '!=':
-        if ((content['field'] != undefined) && (content_value != undefined)) {
-            return '{"' + content['field'] + '": { "$ne":' + content_value + '}}';
+        if (content['field'] == undefined) {
+            error['message'] = 'missing field for != operator';
+            return null;
         }
-        return null;
+        if (content_value == undefined) {
+            error['message'] = 'missing value for != operator';
+            return null;
+        }
+        return '{"' + content['field'] + '": { "$ne":' + content_value + '}}';
 
     case '<':
-        if ((content['field'] != undefined) && (content_value != undefined)) {
-            return '{"' + content['field'] + '": { "$lt":' + content_value + '}}';
+        if (content['field'] == undefined) {
+            error['message'] = 'missing field for < operator';
+            return null;
         }
-        return null;
+        if (content_value == undefined) {
+            error['message'] = 'missing value for < operator';
+            return null;
+        }
+        return '{"' + content['field'] + '": { "$lt":' + content_value + '}}';
 
     case '<=':
-        if ((content['field'] != undefined) && (content_value != undefined)) {
-            return '{"' + content['field'] + '": { "$lte":' + content_value + '}}';
+        if (content['field'] == undefined) {
+            error['message'] = 'missing field for <= operator';
+            return null;
         }
-        return null;
+        if (content_value == undefined) {
+            error['message'] = 'missing value for <= operator';
+            return null;
+        }
+        return '{"' + content['field'] + '": { "$lte":' + content_value + '}}';
 
     case '>':
-        if ((content['field'] != undefined) && (content_value != undefined)) {
-            return '{"' + content['field'] + '": { "$gt":' + content_value + '}}';
+        if (content['field'] == undefined) {
+            error['message'] = 'missing field for > operator';
+            return null;
         }
-        return null;
+        if (content_value == undefined) {
+            error['message'] = 'missing value for > operator';
+            return null;
+        }
+        return '{"' + content['field'] + '": { "$gt":' + content_value + '}}';
 
     case '>=':
-        if ((content['field'] != undefined) && (content_value != undefined)) {
-            return '{"' + content['field'] + '": { "$gte":' + content_value + '}}';
+        if (content['field'] == undefined) {
+            error['message'] = 'missing field for >= operator';
+            return null;
         }
-        return null;
+        if (content_value == undefined) {
+            error['message'] = 'missing value for >= operator';
+            return null;
+        }
+        return '{"' + content['field'] + '": { "$gte":' + content_value + '}}';
 
     case 'contains':
-        if (content_type != 'string') return null;
-        if ((content['field'] != undefined) && (content_value != undefined)) {
-            return '{"' + content['field'] + '": { "$regex":' + escapeString(content_value) + ', "$options": "i"}}';
+        if (content_type != 'string') {
+            error['message'] = "'contains' operator only valid for strings";
+            return null;
         }
-        return null;
+        if (content['field'] == undefined) {
+            error['message'] = "missing field for 'contains' operator";
+            return null;
+        }
+        if (content_value == undefined) {
+            error['message'] = "missing value for 'contains' operator";
+            return null;
+        }
+        return '{"' + content['field'] + '": { "$regex":' + escapeString(content_value) + ', "$options": "i"}}';
 
     case 'is': // is missing
     case 'is missing':
-        if (content['field'] != undefined) {
-            return '{"' + content['field'] + '": { "$exists": false } }';
+        if (content['field'] == undefined) {
+            error['message'] = "missing field for 'is missing' operator";
+            return null;
         }
-        return null;
+        return '{"' + content['field'] + '": { "$exists": false } }';
 
     case 'not': // is not missing
     case 'is not missing':
-        if (content['field'] != undefined) {
-            return '{"' + content['field'] + '": { "$exists": true } }';
+        if (content['field'] == undefined) {
+            error['message'] = "missing field for 'is not missing' operator";
+            return null;
         }
-        return null;
+        return '{"' + content['field'] + '": { "$exists": true } }';
 
     case 'in':
-        if ((content['field'] != undefined) && (content_value != undefined) && (content['value'] instanceof Array)) {
-            return '{"' + content['field'] + '": { "$in":' + content_value + '}}';
+        if (content_value == undefined) {
+            error['message'] = "missing value for 'in' operator";
+            return null;
         }
-        return null;
+        if (! (content['value'] instanceof Array)) {
+            error['message'] = "value for 'in' operator is not an array";
+            return null;
+        }
+        if (content['field'] == undefined) {
+            error['message'] = "missing field for 'in' operator";
+            return null;
+        }
+        return '{"' + content['field'] + '": { "$in":' + content_value + '}}';
 
     case 'exclude':
-        if ((content['field'] != undefined) && (content_value != undefined) && (content['value'] instanceof Array)) {
-            return '{"' + content['field'] + '": { "$nin":' + content_value + '}}';
+        if (content_value == undefined) {
+            error['message'] = "missing value for 'exclude' operator";
+            return null;
         }
-        return null;
+        if (! (content['value'] instanceof Array)) {
+            error['message'] = "value for 'exclude' operator is not an array";
+            return null;
+        }
+        if (content['field'] == undefined) {
+            error['message'] = "missing field for 'exclude' operator";
+            return null;
+        }
+        return '{"' + content['field'] + '": { "$nin":' + content_value + '}}';
 
     case 'and':
-        if ((content instanceof Array) && (content.length > 1)) {
-            var exp_list = [];
-            for (var i = 0; i < content.length; ++i) {
-                var exp = constructQueryOperation(content[i]);
-                if (exp == null) return null;
-                exp_list.push(exp);
-            }
-            return '{ "$and":[' + exp_list + ']}';
+        if (! (content instanceof Array)) {
+            error['message'] = "content for 'and' operator is not an array";
+            return null;
         }
-        return null;
+        if (content.length < 2) {
+            error['message'] = "content for 'and' operator needs at least 2 elements";
+            return null;
+        }
+
+        var exp_list = [];
+        for (var i = 0; i < content.length; ++i) {
+            var exp = constructQueryOperation(content[i], error);
+            if (exp == null) return null;
+            exp_list.push(exp);
+        }
+        return '{ "$and":[' + exp_list + ']}';
 
     case 'or':
-        if ((content instanceof Array) && (content.length > 1)) {
-            var exp_list = [];
-            for (var i = 0; i < content.length; ++i) {
-                var exp = constructQueryOperation(content[i]);
-                if (exp == null) return null;
-                exp_list.push(exp);
-            }
-            return '{ "$or":[' + exp_list + ']}';
+        if (! (content instanceof Array)) {
+            error['message'] = "content for 'or' operator is not an array";
+            return null;
         }
-        return null;
+        if (content.length < 2) {
+            error['message'] = "content for 'or' operator needs at least 2 elements";
+            return null;
+        }
+
+        var exp_list = [];
+        for (var i = 0; i < content.length; ++i) {
+            var exp = constructQueryOperation(content[i], error);
+            if (exp == null) return null;
+            exp_list.push(exp);
+        }
+        return '{ "$or":[' + exp_list + ']}';
 
     default:
-        var msg = 'VDJ-ADC-API ERROR (rearrangement): Unknown operator in filters: ' + filter['op'];
-        console.error(msg);
-        webhookIO.postToSlack(msg);
+        error['message'] = 'unknown operator in filters: ' + filter['op'];
         return null;
     }
 
@@ -432,18 +529,20 @@ function queryRearrangements(req, res) {
     var query = undefined;
     if (bodyData['filters'] != undefined) {
         filter = bodyData['filters'];
-        //console.log(filter);
         try {
-            query = constructQueryOperation(filter);
+            var error = { message: '' };
+            query = constructQueryOperation(filter, error);
             //console.log(query);
 
             if (!query) {
-                result_message = "Could not construct valid query.";
+                result_message = "Could not construct valid query. Error: " + error['message'];
+                if (config.debug) console.log('VDJ-ADC-API INFO: ' + result_message);
                 res.status(400).json({"message":result_message});
                 return;
             }
         } catch (e) {
             result_message = "Could not construct valid query: " + e;
+            if (config.debug) console.log('VDJ-ADC-API INFO: ' + result_message);
             res.status(400).json({"message":result_message});
             return;
         }
