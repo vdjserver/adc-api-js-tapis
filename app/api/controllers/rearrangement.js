@@ -126,16 +126,17 @@ function constructQueryOperation(filter) {
     if (!content_type) content_type = typeof content['value'];
     if (config.debug) console.log('type: ' + content_type);
 
-    // Check if query field is required. By default, the ADC API will not allow
+    // Check if query field is required. By default, the ADC API can reject
     // queries on the rearrangement endpoint for optional fields.
     if (content_properties != undefined) {
         if (content_properties['x-airr'] != undefined) {
-            if (content_properties['x-airr']['adc-api-optional'] != undefined) {
-                if (content_properties['x-airr']['adc-api-optional']) {
-                    // optional field, reject
-                    if (config.debug) console.log('VDJ-ADC-API INFO: ' + content['field'] + ' is an optional query field.');
-                    return null;
-                }
+            if ((content_properties['x-airr']['adc-query-support'] != undefined) &&
+                (content_properties['x-airr']['adc-query-support'])) {
+                // need to support query
+            } else {
+                // optional field, reject
+                if (config.debug) console.log('VDJ-ADC-API INFO: ' + content['field'] + ' is an optional query field.');
+                return null;
             }
         }
     }
