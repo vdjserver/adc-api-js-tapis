@@ -39,6 +39,7 @@ function parseGene(str) {
 }
 
 var cnt = 0;
+var skip_cnt = 0;
 while ( cursor.hasNext() ) {
     var obj = cursor.next();
     //printjson(obj['v_call']);
@@ -46,6 +47,15 @@ while ( cursor.hasNext() ) {
     //printjson(obj['j_call']);
     //printjson(obj['locus']);
     var updates = {$set:{"sequence_id":obj._id.valueOf()}};
+
+    if (obj["vdjserver_junction_substrings"]) {
+        // already updated
+        skip_cnt += 1;
+        if ((skip_cnt % 1000000) == 0) {
+            printjson('skipped ' + cnt);
+        }
+        continue;
+    }
 
     // change V gene calls to an array, add gene and subgroup
     if ((typeof obj['v_call']) == 'string') {
