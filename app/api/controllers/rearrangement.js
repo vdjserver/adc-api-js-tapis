@@ -273,7 +273,20 @@ function constructQueryOperation(filter, error) {
             error['message'] = "missing value for 'contains' operator";
             return null;
         }
-        return '{"' + content['field'] + '": { "$regex":' + escapeString(content_value) + ', "$options": "i"}}';
+	// VDJServer optimization for substring searches on junction_aa
+	if (content['field'] == 'junction_aa') {
+	    if (content['value'].length < 4) {
+		error['message'] = "value for 'contains' operator on 'junction_aa' field is too small, length is ("
+		    + content['value'].length + ") characters, minimum is 4.";
+		return null;
+	    } else {
+		return '{"vdjserver_junction_substrings":' + content_value + '}';
+	    }
+	} else {
+	    error['message'] = "'contains' operator not supported for '" + content['field'] + "' field.";
+	    return null;
+	}
+	return null;
 
     case 'is': // is missing
     case 'is missing':
