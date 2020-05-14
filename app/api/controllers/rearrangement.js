@@ -424,6 +424,15 @@ function queryRearrangements(req, res) {
 
     var bodyData = req.swagger.params['data'].value;
 
+    // check max query size
+    var bodyLength = JSON.stringify(bodyData).length;
+    if (bodyLength > config.info.max_query_size) {
+        result_message = "Query size (" + bodyLength + ") exceeds maximum size of " + config.info.max_query_size + " characters.";
+	console.error(result_message);
+        res.status(400).json({"message":result_message});
+        return;
+    }
+
     // AIRR fields
     var all_fields = [];
     if (bodyData['include_fields']) {
@@ -591,8 +600,12 @@ function queryRearrangements(req, res) {
                         if ((typeof record['d_call']) == "object") record['d_call'] = record['d_call'].join(',');
                         if ((typeof record['j_call']) == "object") record['j_call'] = record['j_call'].join(',');
 
+			// TODO: general this a bit in case we add more
                         if (record['_id']) delete record['_id'];
                         if (record['_etag']) delete record['_etag'];
+			if (record['vdjserver_junction_substrings'])
+			    if (projection['vdjserver_junction_substrings'] == undefined)
+				delete record['vdjserver_junction_substrings'];
 
 		        // add any missing required fields
 		        if (all_fields.length > 0) {

@@ -409,6 +409,27 @@ function queryRepertoires(req, res) {
 
     var bodyData = req.swagger.params['data'].value;
 
+    // check max query size
+    var bodyLength = JSON.stringify(bodyData).length;
+    if (bodyData['include_fields']) {
+	var half_size = config.info.max_query_size / 2;
+	if (bodyLength > half_size) {
+            result_message = "Query (" + bodyLength + ") exceeds maximum size of " + half_size
+		+ " characters. Maximum size is reduced from " + config.info.max_query_size
+		+ " characters when using the include_fields parameter.";
+	    console.error(result_message);
+            res.status(400).json({"message":result_message});
+            return;
+	}
+    } else {
+	if (bodyLength > config.info.max_query_size) {
+            result_message = "Query (" + bodyLength + ") exceeds maximum size of " + config.info.max_query_size + " characters.";
+	    console.error(result_message);
+            res.status(400).json({"message":result_message});
+            return;
+	}
+    }
+
     // AIRR fields
     var all_fields = [];
     if (bodyData['include_fields']) {
