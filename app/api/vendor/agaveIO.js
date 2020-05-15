@@ -1,12 +1,40 @@
 'use strict';
 
+//
+// agaveIO.js
+// Encapsulate requests to Tapis (Agave) API
+//
+// VDJServer Community Data Portal
+// ADC API for VDJServer
+// https://vdjserver.org
+//
+// Copyright (C) 2020 The University of Texas Southwestern Medical Center
+//
+// Author: Scott Christley <scott.christley@utsouthwestern.edu>
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU Affero General Public License as published
+// by the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU Affero General Public License for more details.
+//
+// You should have received a copy of the GNU Affero General Public License
+// along with this program.  If not, see <https://www.gnu.org/licenses/>.
+//
+
+var agaveIO  = {};
+module.exports = agaveIO;
+
 // Settings
 var agaveSettings = require('../../config/tapisSettings');
 var mongoSettings = require('../../config/mongoSettings');
 
 // Models
-//var ServiceAccount = require('../models/serviceAccount');
-//var MetadataPermissions = require('../models/metadataPermissions');
+var ServiceAccount = require('../models/serviceAccount');
 var GuestAccount = require('../models/guestAccount');
 
 // Processing
@@ -17,9 +45,6 @@ var Q = require('q');
 //var _ = require('underscore');
 var jsonApprover = require('json-approver');
 //var FormData = require('form-data');
-
-var agaveIO  = {};
-module.exports = agaveIO;
 
 //
 // Generic send request
@@ -36,30 +61,28 @@ agaveIO.sendRequest = function(requestSettings, postData) {
             output += chunk;
         });
 
-            response.on('end', function() {
+        response.on('end', function() {
 
-                    var responseObject;
+            var responseObject;
 
-                    if (output && jsonApprover.isJSON(output)) {
-                        responseObject = JSON.parse(output);
-                        //console.log(responseObject);
-                        deferred.resolve(responseObject);
-                    }
-                    else {
+            if (output.length == 0) {
+                deferred.resolve(null);
+            } else if (output && jsonApprover.isJSON(output)) {
+                responseObject = JSON.parse(output);
+                //console.log(responseObject);
+                deferred.resolve(responseObject);
+            } else {
+                console.error('VDJ-ADC-API ERROR: Agave response is not json: ' + output);
+                deferred.reject(new Error('Agave response is not json: ' + output));
+            }
 
-                        console.error('VDJ-ADC-API ERROR: Agave response is not json: ' + output);
-
-                        deferred.reject(new Error('Agave response is not json: ' + output));
-                    }
-
-                });
         });
+    });
 
     request.on('error', function(error) {
         console.error('VDJ-ADC-API ERROR: Agave connection error.' + JSON.stringify(error));
-
-            deferred.reject(new Error('Agave connection error'));
-        });
+        deferred.reject(new Error('Agave connection error'));
+    });
 
     if (postData) {
         // Request body parameters
@@ -309,6 +332,43 @@ agaveIO.performAggregation = function(collection, aggregation, query, field) {
             deferred.resolve(responseObject);
         })
     .fail(function(errorObject) {
+            deferred.reject(errorObject);
+        });
+
+    return deferred.promise;
+};
+
+agaveIO.recordQuery = function(query) {
+
+    var deferred = Q.defer();
+
+    ServiceAccount.getToken()
+	.then(function(token) {
+
+	    var postData = JSON.stringify(query);
+
+            var requestSettings = {
+		host:     agaveSettings.hostname,
+		method:   'POST',
+		path:     '/meta/v3/' + mongoSettings.dbname + '/query',
+		rejectUnauthorized: false,
+		headers: {
+                    'Accept':   'application/json',
+                    'Authorization': 'Bearer ' + ServiceAccount.accessToken(),
+                    'Content-Type': 'application/json',
+		    'Content-Length': Buffer.byteLength(postData)
+		}
+            };
+
+            console.log(requestSettings);
+
+            return agaveIO.sendRequest(requestSettings, postData);
+	})
+	.then(function(responseObject) {
+            deferred.resolve(responseObject);
+        })
+	.fail(function(errorObject) {
+            console.log(errorObject);
             deferred.reject(errorObject);
         });
 

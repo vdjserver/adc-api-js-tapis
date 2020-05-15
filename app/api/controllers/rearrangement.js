@@ -273,7 +273,20 @@ function constructQueryOperation(filter, error) {
             error['message'] = "missing value for 'contains' operator";
             return null;
         }
-        return '{"' + content['field'] + '": { "$regex":' + escapeString(content_value) + ', "$options": "i"}}';
+	// VDJServer optimization for substring searches on junction_aa
+	if (content['field'] == 'junction_aa') {
+	    if (content['value'].length < 4) {
+		error['message'] = "value for 'contains' operator on 'junction_aa' field is too small, length is ("
+		    + content['value'].length + ") characters, minimum is 4.";
+		return null;
+	    } else {
+		return '{"vdjserver_junction_substrings":' + content_value + '}';
+	    }
+	} else {
+	    error['message'] = "'contains' operator not supported for '" + content['field'] + "' field.";
+	    return null;
+	}
+	return null;
 
     case 'is': // is missing
     case 'is missing':
@@ -373,13 +386,31 @@ function constructQueryOperation(filter, error) {
   Param 2: a handle to the response object
 */
 function getRearrangement(req, res) {
-    if (config.debug) console.log('VDJ-ADC-API INFO: getRearrangement: ' + req.swagger.params['rearrangement_id'].value);
+    if (config.debug) console.log('VDJ-ADC-API INFO: getRearrangement: ' + req.swagger.params['sequence_id'].value);
 
     var result = {};
     var result_message = "Server error";
     var results = [];
 
-    var collection = 'rearrangement/' + req.swagger.params['rearrangement_id'].value;
+    var queryRecord = {
+	endpoint: 'rearrangement',
+	method: 'GET',
+	query: req.swagger.params['sequence_id'].value,
+	ip: req.ip,
+	status: 'unknown',
+	message: null,
+        count: null,
+        start: Date.now()
+    };
+
+    var collection = 'rearrangement/' + req.swagger.params['sequence_id'].value;
+
+    // Handle client HTTP request abort
+    var abortQuery = false;
+    req.on("close", function() {
+        if (config.debug) console.log('VDJ-ADC-API INFO: Client request closed unexpectedly.');
+        abortQuery = true;
+    });
 
     // all AIRR fields
     var all_fields = [];
@@ -397,12 +428,25 @@ function getRearrangement(req, res) {
         .then(function(record) {
             if (record['http status code'] == 404) {
                 res.json({"Info":info,"Rearrangement":[]});
+                queryRecord['count'] = 0;
             } else {
-                record['rearrangement_id'] = record['_id']['$oid'];
+                record['sequence_id'] = record['_id']['$oid'];
                 if (record['_id']) delete record['_id'];
                 if (record['_etag']) delete record['_etag'];
 		airr.addFields(record, all_fields, global.airr['Rearrangement']);
                 res.json({"Info":info,"Rearrangement":[record]});
+                queryRecord['count'] = 1;
+            }
+        })
+        .then(function() {
+            if (abortQuery) {
+	        queryRecord['status'] = 'abort';
+                queryRecord['end'] = Date.now();
+	        agaveIO.recordQuery(queryRecord);
+            } else {
+	        queryRecord['status'] = 'success';
+                queryRecord['end'] = Date.now();
+	        agaveIO.recordQuery(queryRecord);
             }
         })
         .fail(function(error) {
@@ -410,6 +454,10 @@ function getRearrangement(req, res) {
             res.status(500).json({"message":result_message});
             console.error(msg);
             webhookIO.postToSlack(msg);
+	    queryRecord['status'] = 'error';
+	    queryRecord['message'] = msg;
+            queryRecord['end'] = Date.now();
+	    agaveIO.recordQuery(queryRecord);
             return;
         });
 }
@@ -423,6 +471,29 @@ function queryRearrangements(req, res) {
     var result_message = "Unknown error";
 
     var bodyData = req.swagger.params['data'].value;
+
+    var queryRecord = {
+	endpoint: 'rearrangement',
+	method: 'POST',
+	query: bodyData,
+	ip: req.ip,
+	status: 'unknown',
+	message: null,
+        count: null,
+        start: Date.now()
+    };
+
+    // check max query size
+    var bodyLength = JSON.stringify(bodyData).length;
+    if (bodyLength > config.info.max_query_size) {
+        result_message = "Query size (" + bodyLength + ") exceeds maximum size of " + config.info.max_query_size + " characters.";
+	console.error(result_message);
+        res.status(400).json({"message":result_message});
+	queryRecord['status'] = 'reject';
+	queryRecord['message'] = result_message;
+	agaveIO.recordQuery(queryRecord);
+        return;
+    }
 
     // AIRR fields
     var all_fields = [];
@@ -443,6 +514,9 @@ function queryRearrangements(req, res) {
         if (! (fields instanceof Array)) {
             result_message = "fields parameter is not an array.";
             res.status(400).json({"message":result_message});
+	    queryRecord['status'] = 'reject';
+	    queryRecord['message'] = result_message;
+	    agaveIO.recordQuery(queryRecord);
             return;
         }
         for (var i = 0; i < fields.length; ++i) {
@@ -475,6 +549,9 @@ function queryRearrangements(req, res) {
     if ((format != 'json') && (format != 'tsv')) {
         result_message = "Unsupported format (" + format + ").";
         res.status(400).json({"message":result_message});
+	queryRecord['status'] = 'reject';
+	queryRecord['message'] = result_message;
+	agaveIO.recordQuery(queryRecord);
         return;
     }
 
@@ -491,11 +568,17 @@ function queryRearrangements(req, res) {
     if (size > config.max_size) {
         result_message = "Size too large (" + size + "), maximum size is " + config.max_size;
         res.status(400).json({"message":result_message});
+	queryRecord['status'] = 'reject';
+	queryRecord['message'] = result_message;
+	agaveIO.recordQuery(queryRecord);
         return;
     }
     if (size < 0) {
         result_message = "Negative size (" + size + ") not allowed.";
         res.status(400).json({"message":result_message});
+	queryRecord['status'] = 'reject';
+	queryRecord['message'] = result_message;
+	agaveIO.recordQuery(queryRecord);
         return;
     }
 
@@ -511,6 +594,9 @@ function queryRearrangements(req, res) {
     if (from < 0) {
         result_message = "Negative from (" + from + ") not allowed.";
         res.status(400).json({"message":result_message});
+	queryRecord['status'] = 'reject';
+	queryRecord['message'] = result_message;
+	agaveIO.recordQuery(queryRecord);
         return;
     } else {
         page = Math.trunc(from / pagesize) + 1;
@@ -538,12 +624,18 @@ function queryRearrangements(req, res) {
                 result_message = "Could not construct valid query. Error: " + error['message'];
                 if (config.debug) console.log('VDJ-ADC-API INFO: ' + result_message);
                 res.status(400).json({"message":result_message});
+	        queryRecord['status'] = 'reject';
+	        queryRecord['message'] = result_message;
+	        agaveIO.recordQuery(queryRecord);
                 return;
             }
         } catch (e) {
             result_message = "Could not construct valid query: " + e;
             if (config.debug) console.log('VDJ-ADC-API INFO: ' + result_message);
             res.status(400).json({"message":result_message});
+	    queryRecord['status'] = 'reject';
+	    queryRecord['message'] = result_message;
+	    agaveIO.recordQuery(queryRecord);
             return;
         }
     }
@@ -591,8 +683,12 @@ function queryRearrangements(req, res) {
                         if ((typeof record['d_call']) == "object") record['d_call'] = record['d_call'].join(',');
                         if ((typeof record['j_call']) == "object") record['j_call'] = record['j_call'].join(',');
 
+			// TODO: general this a bit in case we add more
                         if (record['_id']) delete record['_id'];
                         if (record['_etag']) delete record['_etag'];
+			if (record['vdjserver_junction_substrings'])
+			    if (projection['vdjserver_junction_substrings'] == undefined)
+				delete record['vdjserver_junction_substrings'];
 
 		        // add any missing required fields
 		        if (all_fields.length > 0) {
@@ -636,8 +732,12 @@ function queryRearrangements(req, res) {
                                 if ((typeof record['d_call']) == "object") record['d_call'] = record['d_call'].join(',');
                                 if ((typeof record['j_call']) == "object") record['j_call'] = record['j_call'].join(',');
 
+			        // TODO: general this a bit in case we add more
                                 if (record['_id']) delete record['_id'];
                                 if (record['_etag']) delete record['_etag'];
+			        if (record['vdjserver_junction_substrings'])
+			            if (projection['vdjserver_junction_substrings'] == undefined)
+				        delete record['vdjserver_junction_substrings'];
 
 		                // add any missing required fields
 		                if (all_fields.length > 0) {
@@ -662,6 +762,7 @@ function queryRearrangements(req, res) {
                 }
 
                 // format results and return them
+                queryRecord['count'] = results.length;
                 if (format == 'json') {
                     if (config.debug) console.log('VDJ-ADC-API INFO: returning ' + results.length + ' records to client.');
                     res.json({"Info":info,"Rearrangement":results});
@@ -716,11 +817,26 @@ function queryRearrangements(req, res) {
                 if (format == 'tsv') res.write('\n');
                 res.end();
             })
+            .then(function() {
+                if (abortQuery) {
+	            queryRecord['status'] = 'abort';
+                    queryRecord['end'] = Date.now();
+	            agaveIO.recordQuery(queryRecord);
+                } else {
+	            queryRecord['status'] = 'success';
+                    queryRecord['end'] = Date.now();
+	            agaveIO.recordQuery(queryRecord);
+                }
+            })
             .fail(function(error) {
                 var msg = "VDJ-ADC-API ERROR (queryRearrangements): " + error;
                 res.status(500).json({"message":result_message});
                 console.error(msg);
                 webhookIO.postToSlack(msg);
+	        queryRecord['status'] = 'error';
+	        queryRecord['message'] = msg;
+                queryRecord['end'] = Date.now();
+	        agaveIO.recordQuery(queryRecord);
             });
     } else {
         // perform facets query
@@ -742,13 +858,29 @@ function queryRearrangements(req, res) {
                         results.push(new_entry);
                     }
                 }
+                queryRecord['count'] = results.length;
                 res.json({"Info":info,"Facet":results});
+            })
+            .then(function() {
+                if (abortQuery) {
+	            queryRecord['status'] = 'abort';
+                    queryRecord['end'] = Date.now();
+	            agaveIO.recordQuery(queryRecord);
+                } else {
+	            queryRecord['status'] = 'success';
+                    queryRecord['end'] = Date.now();
+	            agaveIO.recordQuery(queryRecord);
+                }
             })
             .fail(function(error) {
                 var msg = "VDJ-ADC-API ERROR (queryRearrangements, facets): " + error;
                 res.status(500).json({"message":result_message});
                 console.error(msg);
                 webhookIO.postToSlack(msg);
+	        queryRecord['status'] = 'error';
+	        queryRecord['message'] = msg;
+                queryRecord['end'] = Date.now();
+	        agaveIO.recordQuery(queryRecord);
             });
     }
 }

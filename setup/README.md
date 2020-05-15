@@ -12,6 +12,8 @@ These are the collections to create:
 
 * rearrangement
 
+* query
+
 Get a token for the admin account with the `vdj_airr` client, which has access to
 the Tapis Meta/V3 API. Given the docker image is setup with authentication, here is
 a simple way to get a token.
@@ -25,6 +27,7 @@ Then a curl PUT command where `TOKEN` and `DBNAME` are replaced with the appropr
 ```
 curl -X PUT -H 'Content-Type: application/json' -H 'Authorization: Bearer TOKEN' https://vdj-agave-api.tacc.utexas.edu/meta/v3/DBNAME/repertoire
 curl -X PUT -H 'Content-Type: application/json' -H 'Authorization: Bearer TOKEN' https://vdj-agave-api.tacc.utexas.edu/meta/v3/DBNAME/rearrangement
+curl -X PUT -H 'Content-Type: application/json' -H 'Authorization: Bearer TOKEN' https://vdj-agave-api.tacc.utexas.edu/meta/v3/DBNAME/query
 ```
 
 A curl GET command will verify all the collections in the database.
