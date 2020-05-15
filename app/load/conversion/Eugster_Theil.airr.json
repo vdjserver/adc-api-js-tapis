@@ -19,8 +19,8 @@
         "study_id": "1371444213709729305-242ac11c-0001-012",
         "study_title": "T cell receptor repertoires after adoptive transfer of expanded allogeneic regulatory T cells",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "NCIT:C16084",
+          "value": "Observational Study"
         },
         "study_description": "T regulatory cell (Treg) therapy has been exploited in autoimmune disease, solid organ transplantation and in efforts to prevent or treat graft-versus-host disease (GvHD). However, our knowledge on in vivo persistence of transfused Treg is limited. Whether Treg transfusion leads to notable changes in the overall Treg repertoire and or whether longevity of Treg in the periphery is restricted to certain clones is unknown. Here we use T cell receptor alpha chain sequencing (TCR\u03b1-NGS) to monitor changes in the repertoire of Treg upon polyclonal expansion and after subsequent adoptive transfer. We applied TCR\u03b1-NGS to samples from two patients with chronic GvHD who received comparable doses of stem cell donor derived expanded Treg. We found that in vitro polyclonal expansion led to notable repertoire changes in vitro and that Treg cell therapy considerably altered peripheral Treg repertoire toward that of the infused cell product, to different degrees in each patient. Clonal changes in the peripheral blood were transient and correlated well with the clinical parameters. We suggest that T cell clonotype analyses using TCR sequencing should be considered as a means to monitor longevity and fate of adoptively transferred T cells.",
         "inclusion_exclusion_criteria": "",
@@ -29,7 +29,7 @@
         "submitted_by": "Scott Christley <scott.christley@utsouthwestern.edu>",
         "collected_by": "",
         "grants": "",
-        "pub_ids": "Theil et al. 2016",
+        "pub_ids": "PMID:27774628",
         "keywords_study": [
           "contains_tcr"
         ],
@@ -38,15 +38,15 @@
       "subject": {
         "subject_id": "Patient 1",
         "synthetic": false,
-        "organism": {
-          "id": "9606",
+        "species": {
+          "id": "NCBITaxon:9606",
           "value": "Homo sapiens"
         },
         "sex": "male",
         "age_min": 54,
         "age_max": 54,
         "age_unit": {
-          "id": "UO_0000036",
+          "id": "UO:0000036",
           "value": "year"
         },
         "age_event": "sampling",
@@ -59,7 +59,10 @@
         "diagnosis": [
           {
             "study_group_description": "graft-versus-host disease",
-            "disease_diagnosis": "B-cell chronic lymphocytic leukemia",
+            "disease_diagnosis": {
+              "id": "DOID:1040",
+              "value": "chronic lymphocytic leukemia"
+            },
             "disease_length": "",
             "disease_stage": "",
             "prior_therapies": "",
@@ -74,7 +77,10 @@
           "sample_processing_id": "",
           "sample_id": "P1_pre",
           "sample_type": null,
-          "tissue": "peripheral blood",
+          "tissue": {
+            "id": "UBERON:0013756",
+            "value": "venous blood"
+          },
           "anatomic_site": null,
           "disease_state_sample": "treatment-refractory chronic GvHD",
           "collection_time_point_relative": "Treg infusion",
@@ -82,7 +88,7 @@
           "biomaterial_provider": null,
           "tissue_processing": null,
           "cell_subset": {
-            "id": "CL_0000625",
+            "id": "CL:0000625",
             "value": "CD8-positive, alpha-beta T cell"
           },
           "cell_phenotype": "CD8+",
@@ -127,7 +133,10 @@
           "sample_processing_id": "",
           "sample_id": "P1_pre",
           "sample_type": null,
-          "tissue": "peripheral blood",
+          "tissue": {
+            "id": "UBERON:0013756",
+            "value": "venous blood"
+          },
           "anatomic_site": null,
           "disease_state_sample": "treatment-refractory chronic GvHD",
           "collection_time_point_relative": "Treg infusion",
@@ -135,7 +144,7 @@
           "biomaterial_provider": null,
           "tissue_processing": null,
           "cell_subset": {
-            "id": "CL_0000625",
+            "id": "CL:0000625",
             "value": "CD8-positive, alpha-beta T cell"
           },
           "cell_phenotype": "CD8+",
@@ -202,8 +211,8 @@
         "study_id": "1371444213709729305-242ac11c-0001-012",
         "study_title": "T cell receptor repertoires after adoptive transfer of expanded allogeneic regulatory T cells",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "NCIT:C16084",
+          "value": "Observational Study"
         },
         "study_description": "T regulatory cell (Treg) therapy has been exploited in autoimmune disease, solid organ transplantation and in efforts to prevent or treat graft-versus-host disease (GvHD). However, our knowledge on in vivo persistence of transfused Treg is limited. Whether Treg transfusion leads to notable changes in the overall Treg repertoire and or whether longevity of Treg in the periphery is restricted to certain clones is unknown. Here we use T cell receptor alpha chain sequencing (TCR\u03b1-NGS) to monitor changes in the repertoire of Treg upon polyclonal expansion and after subsequent adoptive transfer. We applied TCR\u03b1-NGS to samples from two patients with chronic GvHD who received comparable doses of stem cell donor derived expanded Treg. We found that in vitro polyclonal expansion led to notable repertoire changes in vitro and that Treg cell therapy considerably altered peripheral Treg repertoire toward that of the infused cell product, to different degrees in each patient. Clonal changes in the peripheral blood were transient and correlated well with the clinical parameters. We suggest that T cell clonotype analyses using TCR sequencing should be considered as a means to monitor longevity and fate of adoptively transferred T cells.",
         "inclusion_exclusion_criteria": "",
@@ -212,7 +221,7 @@
         "submitted_by": "Scott Christley <scott.christley@utsouthwestern.edu>",
         "collected_by": "",
         "grants": "",
-        "pub_ids": "Theil et al. 2016",
+        "pub_ids": "PMID:27774628",
         "keywords_study": [
           "contains_tcr"
         ],
@@ -221,15 +230,15 @@
       "subject": {
         "subject_id": "Patient 1",
         "synthetic": false,
-        "organism": {
-          "id": "9606",
+        "species": {
+          "id": "NCBITaxon:9606",
           "value": "Homo sapiens"
         },
         "sex": "male",
         "age_min": 54,
         "age_max": 54,
         "age_unit": {
-          "id": "UO_0000036",
+          "id": "UO:0000036",
           "value": "year"
         },
         "age_event": "sampling",
@@ -242,7 +251,10 @@
         "diagnosis": [
           {
             "study_group_description": "graft-versus-host disease",
-            "disease_diagnosis": "B-cell chronic lymphocytic leukemia",
+            "disease_diagnosis": {
+              "id": "DOID:1040",
+              "value": "chronic lymphocytic leukemia"
+            },
             "disease_length": "",
             "disease_stage": "",
             "prior_therapies": "",
@@ -257,7 +269,10 @@
           "sample_processing_id": "",
           "sample_id": "P1_24h",
           "sample_type": null,
-          "tissue": "peripheral blood",
+          "tissue": {
+            "id": "UBERON:0013756",
+            "value": "venous blood"
+          },
           "anatomic_site": null,
           "disease_state_sample": "treatment-refractory chronic GvHD",
           "collection_time_point_relative": "Treg infusion",
@@ -265,7 +280,7 @@
           "biomaterial_provider": null,
           "tissue_processing": null,
           "cell_subset": {
-            "id": "CL_0000625",
+            "id": "CL:0000625",
             "value": "CD8-positive, alpha-beta T cell"
           },
           "cell_phenotype": "CD8+",
@@ -310,7 +325,10 @@
           "sample_processing_id": "",
           "sample_id": "P1_24h",
           "sample_type": null,
-          "tissue": "peripheral blood",
+          "tissue": {
+            "id": "UBERON:0013756",
+            "value": "venous blood"
+          },
           "anatomic_site": null,
           "disease_state_sample": "treatment-refractory chronic GvHD",
           "collection_time_point_relative": "Treg infusion",
@@ -318,7 +336,7 @@
           "biomaterial_provider": null,
           "tissue_processing": null,
           "cell_subset": {
-            "id": "CL_0000625",
+            "id": "CL:0000625",
             "value": "CD8-positive, alpha-beta T cell"
           },
           "cell_phenotype": "CD8+",
@@ -385,8 +403,8 @@
         "study_id": "1371444213709729305-242ac11c-0001-012",
         "study_title": "T cell receptor repertoires after adoptive transfer of expanded allogeneic regulatory T cells",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "NCIT:C16084",
+          "value": "Observational Study"
         },
         "study_description": "T regulatory cell (Treg) therapy has been exploited in autoimmune disease, solid organ transplantation and in efforts to prevent or treat graft-versus-host disease (GvHD). However, our knowledge on in vivo persistence of transfused Treg is limited. Whether Treg transfusion leads to notable changes in the overall Treg repertoire and or whether longevity of Treg in the periphery is restricted to certain clones is unknown. Here we use T cell receptor alpha chain sequencing (TCR\u03b1-NGS) to monitor changes in the repertoire of Treg upon polyclonal expansion and after subsequent adoptive transfer. We applied TCR\u03b1-NGS to samples from two patients with chronic GvHD who received comparable doses of stem cell donor derived expanded Treg. We found that in vitro polyclonal expansion led to notable repertoire changes in vitro and that Treg cell therapy considerably altered peripheral Treg repertoire toward that of the infused cell product, to different degrees in each patient. Clonal changes in the peripheral blood were transient and correlated well with the clinical parameters. We suggest that T cell clonotype analyses using TCR sequencing should be considered as a means to monitor longevity and fate of adoptively transferred T cells.",
         "inclusion_exclusion_criteria": "",
@@ -395,7 +413,7 @@
         "submitted_by": "Scott Christley <scott.christley@utsouthwestern.edu>",
         "collected_by": "",
         "grants": "",
-        "pub_ids": "Theil et al. 2016",
+        "pub_ids": "PMID:27774628",
         "keywords_study": [
           "contains_tcr"
         ],
@@ -404,15 +422,15 @@
       "subject": {
         "subject_id": "Patient 1",
         "synthetic": false,
-        "organism": {
-          "id": "9606",
+        "species": {
+          "id": "NCBITaxon:9606",
           "value": "Homo sapiens"
         },
         "sex": "male",
         "age_min": 54,
         "age_max": 54,
         "age_unit": {
-          "id": "UO_0000036",
+          "id": "UO:0000036",
           "value": "year"
         },
         "age_event": "sampling",
@@ -425,7 +443,10 @@
         "diagnosis": [
           {
             "study_group_description": "graft-versus-host disease",
-            "disease_diagnosis": "B-cell chronic lymphocytic leukemia",
+            "disease_diagnosis": {
+              "id": "DOID:1040",
+              "value": "chronic lymphocytic leukemia"
+            },
             "disease_length": "",
             "disease_stage": "",
             "prior_therapies": "",
@@ -440,7 +461,10 @@
           "sample_processing_id": "",
           "sample_id": "P1_1w",
           "sample_type": null,
-          "tissue": "peripheral blood",
+          "tissue": {
+            "id": "UBERON:0013756",
+            "value": "venous blood"
+          },
           "anatomic_site": null,
           "disease_state_sample": "treatment-refractory chronic GvHD",
           "collection_time_point_relative": "Treg infusion",
@@ -448,7 +472,7 @@
           "biomaterial_provider": null,
           "tissue_processing": null,
           "cell_subset": {
-            "id": "CL_0000625",
+            "id": "CL:0000625",
             "value": "CD8-positive, alpha-beta T cell"
           },
           "cell_phenotype": "CD8+",
@@ -493,7 +517,10 @@
           "sample_processing_id": "",
           "sample_id": "P1_1w",
           "sample_type": null,
-          "tissue": "peripheral blood",
+          "tissue": {
+            "id": "UBERON:0013756",
+            "value": "venous blood"
+          },
           "anatomic_site": null,
           "disease_state_sample": "treatment-refractory chronic GvHD",
           "collection_time_point_relative": "Treg infusion",
@@ -501,7 +528,7 @@
           "biomaterial_provider": null,
           "tissue_processing": null,
           "cell_subset": {
-            "id": "CL_0000625",
+            "id": "CL:0000625",
             "value": "CD8-positive, alpha-beta T cell"
           },
           "cell_phenotype": "CD8+",
@@ -568,8 +595,8 @@
         "study_id": "1371444213709729305-242ac11c-0001-012",
         "study_title": "T cell receptor repertoires after adoptive transfer of expanded allogeneic regulatory T cells",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "NCIT:C16084",
+          "value": "Observational Study"
         },
         "study_description": "T regulatory cell (Treg) therapy has been exploited in autoimmune disease, solid organ transplantation and in efforts to prevent or treat graft-versus-host disease (GvHD). However, our knowledge on in vivo persistence of transfused Treg is limited. Whether Treg transfusion leads to notable changes in the overall Treg repertoire and or whether longevity of Treg in the periphery is restricted to certain clones is unknown. Here we use T cell receptor alpha chain sequencing (TCR\u03b1-NGS) to monitor changes in the repertoire of Treg upon polyclonal expansion and after subsequent adoptive transfer. We applied TCR\u03b1-NGS to samples from two patients with chronic GvHD who received comparable doses of stem cell donor derived expanded Treg. We found that in vitro polyclonal expansion led to notable repertoire changes in vitro and that Treg cell therapy considerably altered peripheral Treg repertoire toward that of the infused cell product, to different degrees in each patient. Clonal changes in the peripheral blood were transient and correlated well with the clinical parameters. We suggest that T cell clonotype analyses using TCR sequencing should be considered as a means to monitor longevity and fate of adoptively transferred T cells.",
         "inclusion_exclusion_criteria": "",
@@ -578,7 +605,7 @@
         "submitted_by": "Scott Christley <scott.christley@utsouthwestern.edu>",
         "collected_by": "",
         "grants": "",
-        "pub_ids": "Theil et al. 2016",
+        "pub_ids": "PMID:27774628",
         "keywords_study": [
           "contains_tcr"
         ],
@@ -587,15 +614,15 @@
       "subject": {
         "subject_id": "Patient 1",
         "synthetic": false,
-        "organism": {
-          "id": "9606",
+        "species": {
+          "id": "NCBITaxon:9606",
           "value": "Homo sapiens"
         },
         "sex": "male",
         "age_min": 54,
         "age_max": 54,
         "age_unit": {
-          "id": "UO_0000036",
+          "id": "UO:0000036",
           "value": "year"
         },
         "age_event": "sampling",
@@ -608,7 +635,10 @@
         "diagnosis": [
           {
             "study_group_description": "graft-versus-host disease",
-            "disease_diagnosis": "B-cell chronic lymphocytic leukemia",
+            "disease_diagnosis": {
+              "id": "DOID:1040",
+              "value": "chronic lymphocytic leukemia"
+            },
             "disease_length": "",
             "disease_stage": "",
             "prior_therapies": "",
@@ -623,7 +653,10 @@
           "sample_processing_id": "",
           "sample_id": "P1_2w",
           "sample_type": null,
-          "tissue": "peripheral blood",
+          "tissue": {
+            "id": "UBERON:0013756",
+            "value": "venous blood"
+          },
           "anatomic_site": null,
           "disease_state_sample": "treatment-refractory chronic GvHD",
           "collection_time_point_relative": "Treg infusion",
@@ -631,7 +664,7 @@
           "biomaterial_provider": null,
           "tissue_processing": null,
           "cell_subset": {
-            "id": "CL_0000625",
+            "id": "CL:0000625",
             "value": "CD8-positive, alpha-beta T cell"
           },
           "cell_phenotype": "CD8+",
@@ -676,7 +709,10 @@
           "sample_processing_id": "",
           "sample_id": "P1_2w",
           "sample_type": null,
-          "tissue": "peripheral blood",
+          "tissue": {
+            "id": "UBERON:0013756",
+            "value": "venous blood"
+          },
           "anatomic_site": null,
           "disease_state_sample": "treatment-refractory chronic GvHD",
           "collection_time_point_relative": "Treg infusion",
@@ -684,7 +720,7 @@
           "biomaterial_provider": null,
           "tissue_processing": null,
           "cell_subset": {
-            "id": "CL_0000625",
+            "id": "CL:0000625",
             "value": "CD8-positive, alpha-beta T cell"
           },
           "cell_phenotype": "CD8+",
@@ -751,8 +787,8 @@
         "study_id": "1371444213709729305-242ac11c-0001-012",
         "study_title": "T cell receptor repertoires after adoptive transfer of expanded allogeneic regulatory T cells",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "NCIT:C16084",
+          "value": "Observational Study"
         },
         "study_description": "T regulatory cell (Treg) therapy has been exploited in autoimmune disease, solid organ transplantation and in efforts to prevent or treat graft-versus-host disease (GvHD). However, our knowledge on in vivo persistence of transfused Treg is limited. Whether Treg transfusion leads to notable changes in the overall Treg repertoire and or whether longevity of Treg in the periphery is restricted to certain clones is unknown. Here we use T cell receptor alpha chain sequencing (TCR\u03b1-NGS) to monitor changes in the repertoire of Treg upon polyclonal expansion and after subsequent adoptive transfer. We applied TCR\u03b1-NGS to samples from two patients with chronic GvHD who received comparable doses of stem cell donor derived expanded Treg. We found that in vitro polyclonal expansion led to notable repertoire changes in vitro and that Treg cell therapy considerably altered peripheral Treg repertoire toward that of the infused cell product, to different degrees in each patient. Clonal changes in the peripheral blood were transient and correlated well with the clinical parameters. We suggest that T cell clonotype analyses using TCR sequencing should be considered as a means to monitor longevity and fate of adoptively transferred T cells.",
         "inclusion_exclusion_criteria": "",
@@ -761,7 +797,7 @@
         "submitted_by": "Scott Christley <scott.christley@utsouthwestern.edu>",
         "collected_by": "",
         "grants": "",
-        "pub_ids": "Theil et al. 2016",
+        "pub_ids": "PMID:27774628",
         "keywords_study": [
           "contains_tcr"
         ],
@@ -770,15 +806,15 @@
       "subject": {
         "subject_id": "Patient 1",
         "synthetic": false,
-        "organism": {
-          "id": "9606",
+        "species": {
+          "id": "NCBITaxon:9606",
           "value": "Homo sapiens"
         },
         "sex": "male",
         "age_min": 54,
         "age_max": 54,
         "age_unit": {
-          "id": "UO_0000036",
+          "id": "UO:0000036",
           "value": "year"
         },
         "age_event": "sampling",
@@ -791,7 +827,10 @@
         "diagnosis": [
           {
             "study_group_description": "graft-versus-host disease",
-            "disease_diagnosis": "B-cell chronic lymphocytic leukemia",
+            "disease_diagnosis": {
+              "id": "DOID:1040",
+              "value": "chronic lymphocytic leukemia"
+            },
             "disease_length": "",
             "disease_stage": "",
             "prior_therapies": "",
@@ -806,7 +845,10 @@
           "sample_processing_id": "",
           "sample_id": "P1_3w",
           "sample_type": null,
-          "tissue": "peripheral blood",
+          "tissue": {
+            "id": "UBERON:0013756",
+            "value": "venous blood"
+          },
           "anatomic_site": null,
           "disease_state_sample": "treatment-refractory chronic GvHD",
           "collection_time_point_relative": "Treg infusion",
@@ -814,7 +856,7 @@
           "biomaterial_provider": null,
           "tissue_processing": null,
           "cell_subset": {
-            "id": "CL_0000625",
+            "id": "CL:0000625",
             "value": "CD8-positive, alpha-beta T cell"
           },
           "cell_phenotype": "CD8+",
@@ -880,8 +922,8 @@
         "study_id": "1371444213709729305-242ac11c-0001-012",
         "study_title": "T cell receptor repertoires after adoptive transfer of expanded allogeneic regulatory T cells",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "NCIT:C16084",
+          "value": "Observational Study"
         },
         "study_description": "T regulatory cell (Treg) therapy has been exploited in autoimmune disease, solid organ transplantation and in efforts to prevent or treat graft-versus-host disease (GvHD). However, our knowledge on in vivo persistence of transfused Treg is limited. Whether Treg transfusion leads to notable changes in the overall Treg repertoire and or whether longevity of Treg in the periphery is restricted to certain clones is unknown. Here we use T cell receptor alpha chain sequencing (TCR\u03b1-NGS) to monitor changes in the repertoire of Treg upon polyclonal expansion and after subsequent adoptive transfer. We applied TCR\u03b1-NGS to samples from two patients with chronic GvHD who received comparable doses of stem cell donor derived expanded Treg. We found that in vitro polyclonal expansion led to notable repertoire changes in vitro and that Treg cell therapy considerably altered peripheral Treg repertoire toward that of the infused cell product, to different degrees in each patient. Clonal changes in the peripheral blood were transient and correlated well with the clinical parameters. We suggest that T cell clonotype analyses using TCR sequencing should be considered as a means to monitor longevity and fate of adoptively transferred T cells.",
         "inclusion_exclusion_criteria": "",
@@ -890,7 +932,7 @@
         "submitted_by": "Scott Christley <scott.christley@utsouthwestern.edu>",
         "collected_by": "",
         "grants": "",
-        "pub_ids": "Theil et al. 2016",
+        "pub_ids": "PMID:27774628",
         "keywords_study": [
           "contains_tcr"
         ],
@@ -899,15 +941,15 @@
       "subject": {
         "subject_id": "Patient 1",
         "synthetic": false,
-        "organism": {
-          "id": "9606",
+        "species": {
+          "id": "NCBITaxon:9606",
           "value": "Homo sapiens"
         },
         "sex": "male",
         "age_min": 54,
         "age_max": 54,
         "age_unit": {
-          "id": "UO_0000036",
+          "id": "UO:0000036",
           "value": "year"
         },
         "age_event": "sampling",
@@ -920,7 +962,10 @@
         "diagnosis": [
           {
             "study_group_description": "graft-versus-host disease",
-            "disease_diagnosis": "B-cell chronic lymphocytic leukemia",
+            "disease_diagnosis": {
+              "id": "DOID:1040",
+              "value": "chronic lymphocytic leukemia"
+            },
             "disease_length": "",
             "disease_stage": "",
             "prior_therapies": "",
@@ -935,7 +980,10 @@
           "sample_processing_id": "",
           "sample_id": "P1_6w",
           "sample_type": null,
-          "tissue": "peripheral blood",
+          "tissue": {
+            "id": "UBERON:0013756",
+            "value": "venous blood"
+          },
           "anatomic_site": null,
           "disease_state_sample": "treatment-refractory chronic GvHD",
           "collection_time_point_relative": "Treg infusion",
@@ -943,7 +991,7 @@
           "biomaterial_provider": null,
           "tissue_processing": null,
           "cell_subset": {
-            "id": "CL_0000625",
+            "id": "CL:0000625",
             "value": "CD8-positive, alpha-beta T cell"
           },
           "cell_phenotype": "CD8+",
@@ -988,7 +1036,10 @@
           "sample_processing_id": "",
           "sample_id": "P1_6w",
           "sample_type": null,
-          "tissue": "peripheral blood",
+          "tissue": {
+            "id": "UBERON:0013756",
+            "value": "venous blood"
+          },
           "anatomic_site": null,
           "disease_state_sample": "treatment-refractory chronic GvHD",
           "collection_time_point_relative": "Treg infusion",
@@ -996,7 +1047,7 @@
           "biomaterial_provider": null,
           "tissue_processing": null,
           "cell_subset": {
-            "id": "CL_0000625",
+            "id": "CL:0000625",
             "value": "CD8-positive, alpha-beta T cell"
           },
           "cell_phenotype": "CD8+",
@@ -1041,7 +1092,10 @@
           "sample_processing_id": "",
           "sample_id": "P1_6w",
           "sample_type": null,
-          "tissue": "peripheral blood",
+          "tissue": {
+            "id": "UBERON:0013756",
+            "value": "venous blood"
+          },
           "anatomic_site": null,
           "disease_state_sample": "treatment-refractory chronic GvHD",
           "collection_time_point_relative": "Treg infusion",
@@ -1049,7 +1103,7 @@
           "biomaterial_provider": null,
           "tissue_processing": null,
           "cell_subset": {
-            "id": "CL_0000625",
+            "id": "CL:0000625",
             "value": "CD8-positive, alpha-beta T cell"
           },
           "cell_phenotype": "CD8+",
@@ -1117,8 +1171,8 @@
         "study_id": "1371444213709729305-242ac11c-0001-012",
         "study_title": "T cell receptor repertoires after adoptive transfer of expanded allogeneic regulatory T cells",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "NCIT:C16084",
+          "value": "Observational Study"
         },
         "study_description": "T regulatory cell (Treg) therapy has been exploited in autoimmune disease, solid organ transplantation and in efforts to prevent or treat graft-versus-host disease (GvHD). However, our knowledge on in vivo persistence of transfused Treg is limited. Whether Treg transfusion leads to notable changes in the overall Treg repertoire and or whether longevity of Treg in the periphery is restricted to certain clones is unknown. Here we use T cell receptor alpha chain sequencing (TCR\u03b1-NGS) to monitor changes in the repertoire of Treg upon polyclonal expansion and after subsequent adoptive transfer. We applied TCR\u03b1-NGS to samples from two patients with chronic GvHD who received comparable doses of stem cell donor derived expanded Treg. We found that in vitro polyclonal expansion led to notable repertoire changes in vitro and that Treg cell therapy considerably altered peripheral Treg repertoire toward that of the infused cell product, to different degrees in each patient. Clonal changes in the peripheral blood were transient and correlated well with the clinical parameters. We suggest that T cell clonotype analyses using TCR sequencing should be considered as a means to monitor longevity and fate of adoptively transferred T cells.",
         "inclusion_exclusion_criteria": "",
@@ -1127,7 +1181,7 @@
         "submitted_by": "Scott Christley <scott.christley@utsouthwestern.edu>",
         "collected_by": "",
         "grants": "",
-        "pub_ids": "Theil et al. 2016",
+        "pub_ids": "PMID:27774628",
         "keywords_study": [
           "contains_tcr"
         ],
@@ -1136,15 +1190,15 @@
       "subject": {
         "subject_id": "Patient 1",
         "synthetic": false,
-        "organism": {
-          "id": "9606",
+        "species": {
+          "id": "NCBITaxon:9606",
           "value": "Homo sapiens"
         },
         "sex": "male",
         "age_min": 54,
         "age_max": 54,
         "age_unit": {
-          "id": "UO_0000036",
+          "id": "UO:0000036",
           "value": "year"
         },
         "age_event": "sampling",
@@ -1157,7 +1211,10 @@
         "diagnosis": [
           {
             "study_group_description": "graft-versus-host disease",
-            "disease_diagnosis": "B-cell chronic lymphocytic leukemia",
+            "disease_diagnosis": {
+              "id": "DOID:1040",
+              "value": "chronic lymphocytic leukemia"
+            },
             "disease_length": "",
             "disease_stage": "",
             "prior_therapies": "",
@@ -1172,7 +1229,10 @@
           "sample_processing_id": "",
           "sample_id": "P1_8w",
           "sample_type": null,
-          "tissue": "peripheral blood",
+          "tissue": {
+            "id": "UBERON:0013756",
+            "value": "venous blood"
+          },
           "anatomic_site": null,
           "disease_state_sample": "treatment-refractory chronic GvHD",
           "collection_time_point_relative": "Treg infusion",
@@ -1180,7 +1240,7 @@
           "biomaterial_provider": null,
           "tissue_processing": null,
           "cell_subset": {
-            "id": "CL_0000625",
+            "id": "CL:0000625",
             "value": "CD8-positive, alpha-beta T cell"
           },
           "cell_phenotype": "CD8+",
@@ -1225,7 +1285,10 @@
           "sample_processing_id": "",
           "sample_id": "P1_8w",
           "sample_type": null,
-          "tissue": "peripheral blood",
+          "tissue": {
+            "id": "UBERON:0013756",
+            "value": "venous blood"
+          },
           "anatomic_site": null,
           "disease_state_sample": "treatment-refractory chronic GvHD",
           "collection_time_point_relative": "Treg infusion",
@@ -1233,7 +1296,7 @@
           "biomaterial_provider": null,
           "tissue_processing": null,
           "cell_subset": {
-            "id": "CL_0000625",
+            "id": "CL:0000625",
             "value": "CD8-positive, alpha-beta T cell"
           },
           "cell_phenotype": "CD8+",
@@ -1300,8 +1363,8 @@
         "study_id": "1371444213709729305-242ac11c-0001-012",
         "study_title": "T cell receptor repertoires after adoptive transfer of expanded allogeneic regulatory T cells",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "NCIT:C16084",
+          "value": "Observational Study"
         },
         "study_description": "T regulatory cell (Treg) therapy has been exploited in autoimmune disease, solid organ transplantation and in efforts to prevent or treat graft-versus-host disease (GvHD). However, our knowledge on in vivo persistence of transfused Treg is limited. Whether Treg transfusion leads to notable changes in the overall Treg repertoire and or whether longevity of Treg in the periphery is restricted to certain clones is unknown. Here we use T cell receptor alpha chain sequencing (TCR\u03b1-NGS) to monitor changes in the repertoire of Treg upon polyclonal expansion and after subsequent adoptive transfer. We applied TCR\u03b1-NGS to samples from two patients with chronic GvHD who received comparable doses of stem cell donor derived expanded Treg. We found that in vitro polyclonal expansion led to notable repertoire changes in vitro and that Treg cell therapy considerably altered peripheral Treg repertoire toward that of the infused cell product, to different degrees in each patient. Clonal changes in the peripheral blood were transient and correlated well with the clinical parameters. We suggest that T cell clonotype analyses using TCR sequencing should be considered as a means to monitor longevity and fate of adoptively transferred T cells.",
         "inclusion_exclusion_criteria": "",
@@ -1310,7 +1373,7 @@
         "submitted_by": "Scott Christley <scott.christley@utsouthwestern.edu>",
         "collected_by": "",
         "grants": "",
-        "pub_ids": "Theil et al. 2016",
+        "pub_ids": "PMID:27774628",
         "keywords_study": [
           "contains_tcr"
         ],
@@ -1319,15 +1382,15 @@
       "subject": {
         "subject_id": "Patient 1",
         "synthetic": false,
-        "organism": {
-          "id": "9606",
+        "species": {
+          "id": "NCBITaxon:9606",
           "value": "Homo sapiens"
         },
         "sex": "male",
         "age_min": 54,
         "age_max": 54,
         "age_unit": {
-          "id": "UO_0000036",
+          "id": "UO:0000036",
           "value": "year"
         },
         "age_event": "sampling",
@@ -1340,7 +1403,10 @@
         "diagnosis": [
           {
             "study_group_description": "graft-versus-host disease",
-            "disease_diagnosis": "B-cell chronic lymphocytic leukemia",
+            "disease_diagnosis": {
+              "id": "DOID:1040",
+              "value": "chronic lymphocytic leukemia"
+            },
             "disease_length": "",
             "disease_stage": "",
             "prior_therapies": "",
@@ -1355,7 +1421,10 @@
           "sample_processing_id": "",
           "sample_id": "P1_11w",
           "sample_type": null,
-          "tissue": "peripheral blood",
+          "tissue": {
+            "id": "UBERON:0013756",
+            "value": "venous blood"
+          },
           "anatomic_site": null,
           "disease_state_sample": "treatment-refractory chronic GvHD",
           "collection_time_point_relative": "Treg infusion",
@@ -1363,7 +1432,7 @@
           "biomaterial_provider": null,
           "tissue_processing": null,
           "cell_subset": {
-            "id": "CL_0000625",
+            "id": "CL:0000625",
             "value": "CD8-positive, alpha-beta T cell"
           },
           "cell_phenotype": "CD8+",
@@ -1408,7 +1477,10 @@
           "sample_processing_id": "",
           "sample_id": "P1_11w",
           "sample_type": null,
-          "tissue": "peripheral blood",
+          "tissue": {
+            "id": "UBERON:0013756",
+            "value": "venous blood"
+          },
           "anatomic_site": null,
           "disease_state_sample": "treatment-refractory chronic GvHD",
           "collection_time_point_relative": "Treg infusion",
@@ -1416,7 +1488,7 @@
           "biomaterial_provider": null,
           "tissue_processing": null,
           "cell_subset": {
-            "id": "CL_0000625",
+            "id": "CL:0000625",
             "value": "CD8-positive, alpha-beta T cell"
           },
           "cell_phenotype": "CD8+",
@@ -1483,8 +1555,8 @@
         "study_id": "1371444213709729305-242ac11c-0001-012",
         "study_title": "T cell receptor repertoires after adoptive transfer of expanded allogeneic regulatory T cells",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "NCIT:C16084",
+          "value": "Observational Study"
         },
         "study_description": "T regulatory cell (Treg) therapy has been exploited in autoimmune disease, solid organ transplantation and in efforts to prevent or treat graft-versus-host disease (GvHD). However, our knowledge on in vivo persistence of transfused Treg is limited. Whether Treg transfusion leads to notable changes in the overall Treg repertoire and or whether longevity of Treg in the periphery is restricted to certain clones is unknown. Here we use T cell receptor alpha chain sequencing (TCR\u03b1-NGS) to monitor changes in the repertoire of Treg upon polyclonal expansion and after subsequent adoptive transfer. We applied TCR\u03b1-NGS to samples from two patients with chronic GvHD who received comparable doses of stem cell donor derived expanded Treg. We found that in vitro polyclonal expansion led to notable repertoire changes in vitro and that Treg cell therapy considerably altered peripheral Treg repertoire toward that of the infused cell product, to different degrees in each patient. Clonal changes in the peripheral blood were transient and correlated well with the clinical parameters. We suggest that T cell clonotype analyses using TCR sequencing should be considered as a means to monitor longevity and fate of adoptively transferred T cells.",
         "inclusion_exclusion_criteria": "",
@@ -1493,7 +1565,7 @@
         "submitted_by": "Scott Christley <scott.christley@utsouthwestern.edu>",
         "collected_by": "",
         "grants": "",
-        "pub_ids": "Theil et al. 2016",
+        "pub_ids": "PMID:27774628",
         "keywords_study": [
           "contains_tcr"
         ],
@@ -1502,15 +1574,15 @@
       "subject": {
         "subject_id": "Donor 1",
         "synthetic": false,
-        "organism": {
-          "id": "9606",
+        "species": {
+          "id": "NCBITaxon:9606",
           "value": "Homo sapiens"
         },
         "sex": "male",
         "age_min": 39,
         "age_max": 39,
         "age_unit": {
-          "id": "UO_0000036",
+          "id": "UO:0000036",
           "value": "year"
         },
         "age_event": null,
@@ -1538,7 +1610,10 @@
           "sample_processing_id": "",
           "sample_id": "D1_iso",
           "sample_type": null,
-          "tissue": "peripheral blood",
+          "tissue": {
+            "id": "UBERON:0013756",
+            "value": "venous blood"
+          },
           "anatomic_site": null,
           "disease_state_sample": null,
           "collection_time_point_relative": null,
@@ -1546,7 +1621,7 @@
           "biomaterial_provider": null,
           "tissue_processing": "leukapheresis",
           "cell_subset": {
-            "id": "CL_0000792",
+            "id": "CL:0000792",
             "value": "CD4-positive, CD25-positive, alpha-beta regulatory T cell"
           },
           "cell_phenotype": "CD4+ CD25_high CD127_low",
@@ -1612,8 +1687,8 @@
         "study_id": "1371444213709729305-242ac11c-0001-012",
         "study_title": "T cell receptor repertoires after adoptive transfer of expanded allogeneic regulatory T cells",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "NCIT:C16084",
+          "value": "Observational Study"
         },
         "study_description": "T regulatory cell (Treg) therapy has been exploited in autoimmune disease, solid organ transplantation and in efforts to prevent or treat graft-versus-host disease (GvHD). However, our knowledge on in vivo persistence of transfused Treg is limited. Whether Treg transfusion leads to notable changes in the overall Treg repertoire and or whether longevity of Treg in the periphery is restricted to certain clones is unknown. Here we use T cell receptor alpha chain sequencing (TCR\u03b1-NGS) to monitor changes in the repertoire of Treg upon polyclonal expansion and after subsequent adoptive transfer. We applied TCR\u03b1-NGS to samples from two patients with chronic GvHD who received comparable doses of stem cell donor derived expanded Treg. We found that in vitro polyclonal expansion led to notable repertoire changes in vitro and that Treg cell therapy considerably altered peripheral Treg repertoire toward that of the infused cell product, to different degrees in each patient. Clonal changes in the peripheral blood were transient and correlated well with the clinical parameters. We suggest that T cell clonotype analyses using TCR sequencing should be considered as a means to monitor longevity and fate of adoptively transferred T cells.",
         "inclusion_exclusion_criteria": "",
@@ -1622,7 +1697,7 @@
         "submitted_by": "Scott Christley <scott.christley@utsouthwestern.edu>",
         "collected_by": "",
         "grants": "",
-        "pub_ids": "Theil et al. 2016",
+        "pub_ids": "PMID:27774628",
         "keywords_study": [
           "contains_tcr"
         ],
@@ -1631,15 +1706,15 @@
       "subject": {
         "subject_id": "Donor 1",
         "synthetic": false,
-        "organism": {
-          "id": "9606",
+        "species": {
+          "id": "NCBITaxon:9606",
           "value": "Homo sapiens"
         },
         "sex": "male",
         "age_min": 39,
         "age_max": 39,
         "age_unit": {
-          "id": "UO_0000036",
+          "id": "UO:0000036",
           "value": "year"
         },
         "age_event": null,
@@ -1667,7 +1742,10 @@
           "sample_processing_id": "",
           "sample_id": "D1_exp",
           "sample_type": null,
-          "tissue": "peripheral blood",
+          "tissue": {
+            "id": "UBERON:0013756",
+            "value": "venous blood"
+          },
           "anatomic_site": null,
           "disease_state_sample": null,
           "collection_time_point_relative": null,
@@ -1675,7 +1753,7 @@
           "biomaterial_provider": null,
           "tissue_processing": "leukapheresis ",
           "cell_subset": {
-            "id": "CL_0000792",
+            "id": "CL:0000792",
             "value": "CD4-positive, CD25-positive, alpha-beta regulatory T cell"
           },
           "cell_phenotype": "CD4+ CD25_high CD127_low",
@@ -1741,8 +1819,8 @@
         "study_id": "1371444213709729305-242ac11c-0001-012",
         "study_title": "T cell receptor repertoires after adoptive transfer of expanded allogeneic regulatory T cells",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "NCIT:C16084",
+          "value": "Observational Study"
         },
         "study_description": "T regulatory cell (Treg) therapy has been exploited in autoimmune disease, solid organ transplantation and in efforts to prevent or treat graft-versus-host disease (GvHD). However, our knowledge on in vivo persistence of transfused Treg is limited. Whether Treg transfusion leads to notable changes in the overall Treg repertoire and or whether longevity of Treg in the periphery is restricted to certain clones is unknown. Here we use T cell receptor alpha chain sequencing (TCR\u03b1-NGS) to monitor changes in the repertoire of Treg upon polyclonal expansion and after subsequent adoptive transfer. We applied TCR\u03b1-NGS to samples from two patients with chronic GvHD who received comparable doses of stem cell donor derived expanded Treg. We found that in vitro polyclonal expansion led to notable repertoire changes in vitro and that Treg cell therapy considerably altered peripheral Treg repertoire toward that of the infused cell product, to different degrees in each patient. Clonal changes in the peripheral blood were transient and correlated well with the clinical parameters. We suggest that T cell clonotype analyses using TCR sequencing should be considered as a means to monitor longevity and fate of adoptively transferred T cells.",
         "inclusion_exclusion_criteria": "",
@@ -1751,7 +1829,7 @@
         "submitted_by": "Scott Christley <scott.christley@utsouthwestern.edu>",
         "collected_by": "",
         "grants": "",
-        "pub_ids": "Theil et al. 2016",
+        "pub_ids": "PMID:27774628",
         "keywords_study": [
           "contains_tcr"
         ],
@@ -1760,15 +1838,15 @@
       "subject": {
         "subject_id": "Patient 1",
         "synthetic": false,
-        "organism": {
-          "id": "9606",
+        "species": {
+          "id": "NCBITaxon:9606",
           "value": "Homo sapiens"
         },
         "sex": "male",
         "age_min": 54,
         "age_max": 54,
         "age_unit": {
-          "id": "UO_0000036",
+          "id": "UO:0000036",
           "value": "year"
         },
         "age_event": "sampling",
@@ -1781,7 +1859,10 @@
         "diagnosis": [
           {
             "study_group_description": "graft-versus-host disease",
-            "disease_diagnosis": "B-cell chronic lymphocytic leukemia",
+            "disease_diagnosis": {
+              "id": "DOID:1040",
+              "value": "chronic lymphocytic leukemia"
+            },
             "disease_length": "",
             "disease_stage": "",
             "prior_therapies": "",
@@ -1796,7 +1877,10 @@
           "sample_processing_id": "",
           "sample_id": "P1_pre",
           "sample_type": null,
-          "tissue": "peripheral blood",
+          "tissue": {
+            "id": "UBERON:0013756",
+            "value": "venous blood"
+          },
           "anatomic_site": null,
           "disease_state_sample": "treatment-refractory chronic GvHD",
           "collection_time_point_relative": "Treg infusion",
@@ -1804,7 +1888,7 @@
           "biomaterial_provider": null,
           "tissue_processing": null,
           "cell_subset": {
-            "id": "CL_0000792",
+            "id": "CL:0000792",
             "value": "CD4-positive, CD25-positive, alpha-beta regulatory T cell"
           },
           "cell_phenotype": "CD4+ CD25_high CD127_low",
@@ -1849,7 +1933,10 @@
           "sample_processing_id": "",
           "sample_id": "P1_pre",
           "sample_type": null,
-          "tissue": "peripheral blood",
+          "tissue": {
+            "id": "UBERON:0013756",
+            "value": "venous blood"
+          },
           "anatomic_site": null,
           "disease_state_sample": "treatment-refractory chronic GvHD",
           "collection_time_point_relative": "Treg infusion",
@@ -1857,7 +1944,7 @@
           "biomaterial_provider": null,
           "tissue_processing": null,
           "cell_subset": {
-            "id": "CL_0000792",
+            "id": "CL:0000792",
             "value": "CD4-positive, CD25-positive, alpha-beta regulatory T cell"
           },
           "cell_phenotype": "CD4+ CD25_high CD127_low",
@@ -1924,8 +2011,8 @@
         "study_id": "1371444213709729305-242ac11c-0001-012",
         "study_title": "T cell receptor repertoires after adoptive transfer of expanded allogeneic regulatory T cells",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "NCIT:C16084",
+          "value": "Observational Study"
         },
         "study_description": "T regulatory cell (Treg) therapy has been exploited in autoimmune disease, solid organ transplantation and in efforts to prevent or treat graft-versus-host disease (GvHD). However, our knowledge on in vivo persistence of transfused Treg is limited. Whether Treg transfusion leads to notable changes in the overall Treg repertoire and or whether longevity of Treg in the periphery is restricted to certain clones is unknown. Here we use T cell receptor alpha chain sequencing (TCR\u03b1-NGS) to monitor changes in the repertoire of Treg upon polyclonal expansion and after subsequent adoptive transfer. We applied TCR\u03b1-NGS to samples from two patients with chronic GvHD who received comparable doses of stem cell donor derived expanded Treg. We found that in vitro polyclonal expansion led to notable repertoire changes in vitro and that Treg cell therapy considerably altered peripheral Treg repertoire toward that of the infused cell product, to different degrees in each patient. Clonal changes in the peripheral blood were transient and correlated well with the clinical parameters. We suggest that T cell clonotype analyses using TCR sequencing should be considered as a means to monitor longevity and fate of adoptively transferred T cells.",
         "inclusion_exclusion_criteria": "",
@@ -1934,7 +2021,7 @@
         "submitted_by": "Scott Christley <scott.christley@utsouthwestern.edu>",
         "collected_by": "",
         "grants": "",
-        "pub_ids": "Theil et al. 2016",
+        "pub_ids": "PMID:27774628",
         "keywords_study": [
           "contains_tcr"
         ],
@@ -1943,15 +2030,15 @@
       "subject": {
         "subject_id": "Patient 1",
         "synthetic": false,
-        "organism": {
-          "id": "9606",
+        "species": {
+          "id": "NCBITaxon:9606",
           "value": "Homo sapiens"
         },
         "sex": "male",
         "age_min": 54,
         "age_max": 54,
         "age_unit": {
-          "id": "UO_0000036",
+          "id": "UO:0000036",
           "value": "year"
         },
         "age_event": "sampling",
@@ -1964,7 +2051,10 @@
         "diagnosis": [
           {
             "study_group_description": "graft-versus-host disease",
-            "disease_diagnosis": "B-cell chronic lymphocytic leukemia",
+            "disease_diagnosis": {
+              "id": "DOID:1040",
+              "value": "chronic lymphocytic leukemia"
+            },
             "disease_length": "",
             "disease_stage": "",
             "prior_therapies": "",
@@ -1979,7 +2069,10 @@
           "sample_processing_id": "",
           "sample_id": "P1_24h",
           "sample_type": null,
-          "tissue": "peripheral blood",
+          "tissue": {
+            "id": "UBERON:0013756",
+            "value": "venous blood"
+          },
           "anatomic_site": null,
           "disease_state_sample": "treatment-refractory chronic GvHD",
           "collection_time_point_relative": "Treg infusion",
@@ -1987,7 +2080,7 @@
           "biomaterial_provider": null,
           "tissue_processing": null,
           "cell_subset": {
-            "id": "CL_0000792",
+            "id": "CL:0000792",
             "value": "CD4-positive, CD25-positive, alpha-beta regulatory T cell"
           },
           "cell_phenotype": "CD4+ CD25_high CD127_low",
@@ -2053,8 +2146,8 @@
         "study_id": "1371444213709729305-242ac11c-0001-012",
         "study_title": "T cell receptor repertoires after adoptive transfer of expanded allogeneic regulatory T cells",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "NCIT:C16084",
+          "value": "Observational Study"
         },
         "study_description": "T regulatory cell (Treg) therapy has been exploited in autoimmune disease, solid organ transplantation and in efforts to prevent or treat graft-versus-host disease (GvHD). However, our knowledge on in vivo persistence of transfused Treg is limited. Whether Treg transfusion leads to notable changes in the overall Treg repertoire and or whether longevity of Treg in the periphery is restricted to certain clones is unknown. Here we use T cell receptor alpha chain sequencing (TCR\u03b1-NGS) to monitor changes in the repertoire of Treg upon polyclonal expansion and after subsequent adoptive transfer. We applied TCR\u03b1-NGS to samples from two patients with chronic GvHD who received comparable doses of stem cell donor derived expanded Treg. We found that in vitro polyclonal expansion led to notable repertoire changes in vitro and that Treg cell therapy considerably altered peripheral Treg repertoire toward that of the infused cell product, to different degrees in each patient. Clonal changes in the peripheral blood were transient and correlated well with the clinical parameters. We suggest that T cell clonotype analyses using TCR sequencing should be considered as a means to monitor longevity and fate of adoptively transferred T cells.",
         "inclusion_exclusion_criteria": "",
@@ -2063,7 +2156,7 @@
         "submitted_by": "Scott Christley <scott.christley@utsouthwestern.edu>",
         "collected_by": "",
         "grants": "",
-        "pub_ids": "Theil et al. 2016",
+        "pub_ids": "PMID:27774628",
         "keywords_study": [
           "contains_tcr"
         ],
@@ -2072,15 +2165,15 @@
       "subject": {
         "subject_id": "Patient 1",
         "synthetic": false,
-        "organism": {
-          "id": "9606",
+        "species": {
+          "id": "NCBITaxon:9606",
           "value": "Homo sapiens"
         },
         "sex": "male",
         "age_min": 54,
         "age_max": 54,
         "age_unit": {
-          "id": "UO_0000036",
+          "id": "UO:0000036",
           "value": "year"
         },
         "age_event": "sampling",
@@ -2093,7 +2186,10 @@
         "diagnosis": [
           {
             "study_group_description": "graft-versus-host disease",
-            "disease_diagnosis": "B-cell chronic lymphocytic leukemia",
+            "disease_diagnosis": {
+              "id": "DOID:1040",
+              "value": "chronic lymphocytic leukemia"
+            },
             "disease_length": "",
             "disease_stage": "",
             "prior_therapies": "",
@@ -2108,7 +2204,10 @@
           "sample_processing_id": "",
           "sample_id": "P1_1w",
           "sample_type": null,
-          "tissue": "peripheral blood",
+          "tissue": {
+            "id": "UBERON:0013756",
+            "value": "venous blood"
+          },
           "anatomic_site": null,
           "disease_state_sample": "treatment-refractory chronic GvHD",
           "collection_time_point_relative": "Treg infusion",
@@ -2116,7 +2215,7 @@
           "biomaterial_provider": null,
           "tissue_processing": null,
           "cell_subset": {
-            "id": "CL_0000792",
+            "id": "CL:0000792",
             "value": "CD4-positive, CD25-positive, alpha-beta regulatory T cell"
           },
           "cell_phenotype": "CD4+ CD25_high CD127_low",
@@ -2182,8 +2281,8 @@
         "study_id": "1371444213709729305-242ac11c-0001-012",
         "study_title": "T cell receptor repertoires after adoptive transfer of expanded allogeneic regulatory T cells",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "NCIT:C16084",
+          "value": "Observational Study"
         },
         "study_description": "T regulatory cell (Treg) therapy has been exploited in autoimmune disease, solid organ transplantation and in efforts to prevent or treat graft-versus-host disease (GvHD). However, our knowledge on in vivo persistence of transfused Treg is limited. Whether Treg transfusion leads to notable changes in the overall Treg repertoire and or whether longevity of Treg in the periphery is restricted to certain clones is unknown. Here we use T cell receptor alpha chain sequencing (TCR\u03b1-NGS) to monitor changes in the repertoire of Treg upon polyclonal expansion and after subsequent adoptive transfer. We applied TCR\u03b1-NGS to samples from two patients with chronic GvHD who received comparable doses of stem cell donor derived expanded Treg. We found that in vitro polyclonal expansion led to notable repertoire changes in vitro and that Treg cell therapy considerably altered peripheral Treg repertoire toward that of the infused cell product, to different degrees in each patient. Clonal changes in the peripheral blood were transient and correlated well with the clinical parameters. We suggest that T cell clonotype analyses using TCR sequencing should be considered as a means to monitor longevity and fate of adoptively transferred T cells.",
         "inclusion_exclusion_criteria": "",
@@ -2192,7 +2291,7 @@
         "submitted_by": "Scott Christley <scott.christley@utsouthwestern.edu>",
         "collected_by": "",
         "grants": "",
-        "pub_ids": "Theil et al. 2016",
+        "pub_ids": "PMID:27774628",
         "keywords_study": [
           "contains_tcr"
         ],
@@ -2201,15 +2300,15 @@
       "subject": {
         "subject_id": "Patient 1",
         "synthetic": false,
-        "organism": {
-          "id": "9606",
+        "species": {
+          "id": "NCBITaxon:9606",
           "value": "Homo sapiens"
         },
         "sex": "male",
         "age_min": 54,
         "age_max": 54,
         "age_unit": {
-          "id": "UO_0000036",
+          "id": "UO:0000036",
           "value": "year"
         },
         "age_event": "sampling",
@@ -2222,7 +2321,10 @@
         "diagnosis": [
           {
             "study_group_description": "graft-versus-host disease",
-            "disease_diagnosis": "B-cell chronic lymphocytic leukemia",
+            "disease_diagnosis": {
+              "id": "DOID:1040",
+              "value": "chronic lymphocytic leukemia"
+            },
             "disease_length": "",
             "disease_stage": "",
             "prior_therapies": "",
@@ -2237,7 +2339,10 @@
           "sample_processing_id": "",
           "sample_id": "P1_2w",
           "sample_type": null,
-          "tissue": "peripheral blood",
+          "tissue": {
+            "id": "UBERON:0013756",
+            "value": "venous blood"
+          },
           "anatomic_site": null,
           "disease_state_sample": "treatment-refractory chronic GvHD",
           "collection_time_point_relative": "Treg infusion",
@@ -2245,7 +2350,7 @@
           "biomaterial_provider": null,
           "tissue_processing": null,
           "cell_subset": {
-            "id": "CL_0000792",
+            "id": "CL:0000792",
             "value": "CD4-positive, CD25-positive, alpha-beta regulatory T cell"
           },
           "cell_phenotype": "CD4+ CD25_high CD127_low",
@@ -2290,7 +2395,10 @@
           "sample_processing_id": "",
           "sample_id": "P1_2w",
           "sample_type": null,
-          "tissue": "peripheral blood",
+          "tissue": {
+            "id": "UBERON:0013756",
+            "value": "venous blood"
+          },
           "anatomic_site": null,
           "disease_state_sample": "treatment-refractory chronic GvHD",
           "collection_time_point_relative": "Treg infusion",
@@ -2298,7 +2406,7 @@
           "biomaterial_provider": null,
           "tissue_processing": null,
           "cell_subset": {
-            "id": "CL_0000792",
+            "id": "CL:0000792",
             "value": "CD4-positive, CD25-positive, alpha-beta regulatory T cell"
           },
           "cell_phenotype": "CD4+ CD25_high CD127_low",
@@ -2343,7 +2451,10 @@
           "sample_processing_id": "",
           "sample_id": "P1_2w",
           "sample_type": null,
-          "tissue": "peripheral blood",
+          "tissue": {
+            "id": "UBERON:0013756",
+            "value": "venous blood"
+          },
           "anatomic_site": null,
           "disease_state_sample": "treatment-refractory chronic GvHD",
           "collection_time_point_relative": "Treg infusion",
@@ -2351,7 +2462,7 @@
           "biomaterial_provider": null,
           "tissue_processing": null,
           "cell_subset": {
-            "id": "CL_0000792",
+            "id": "CL:0000792",
             "value": "CD4-positive, CD25-positive, alpha-beta regulatory T cell"
           },
           "cell_phenotype": "CD4+ CD25_high CD127_low",
@@ -2419,8 +2530,8 @@
         "study_id": "1371444213709729305-242ac11c-0001-012",
         "study_title": "T cell receptor repertoires after adoptive transfer of expanded allogeneic regulatory T cells",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "NCIT:C16084",
+          "value": "Observational Study"
         },
         "study_description": "T regulatory cell (Treg) therapy has been exploited in autoimmune disease, solid organ transplantation and in efforts to prevent or treat graft-versus-host disease (GvHD). However, our knowledge on in vivo persistence of transfused Treg is limited. Whether Treg transfusion leads to notable changes in the overall Treg repertoire and or whether longevity of Treg in the periphery is restricted to certain clones is unknown. Here we use T cell receptor alpha chain sequencing (TCR\u03b1-NGS) to monitor changes in the repertoire of Treg upon polyclonal expansion and after subsequent adoptive transfer. We applied TCR\u03b1-NGS to samples from two patients with chronic GvHD who received comparable doses of stem cell donor derived expanded Treg. We found that in vitro polyclonal expansion led to notable repertoire changes in vitro and that Treg cell therapy considerably altered peripheral Treg repertoire toward that of the infused cell product, to different degrees in each patient. Clonal changes in the peripheral blood were transient and correlated well with the clinical parameters. We suggest that T cell clonotype analyses using TCR sequencing should be considered as a means to monitor longevity and fate of adoptively transferred T cells.",
         "inclusion_exclusion_criteria": "",
@@ -2429,7 +2540,7 @@
         "submitted_by": "Scott Christley <scott.christley@utsouthwestern.edu>",
         "collected_by": "",
         "grants": "",
-        "pub_ids": "Theil et al. 2016",
+        "pub_ids": "PMID:27774628",
         "keywords_study": [
           "contains_tcr"
         ],
@@ -2438,15 +2549,15 @@
       "subject": {
         "subject_id": "Patient 1",
         "synthetic": false,
-        "organism": {
-          "id": "9606",
+        "species": {
+          "id": "NCBITaxon:9606",
           "value": "Homo sapiens"
         },
         "sex": "male",
         "age_min": 54,
         "age_max": 54,
         "age_unit": {
-          "id": "UO_0000036",
+          "id": "UO:0000036",
           "value": "year"
         },
         "age_event": "sampling",
@@ -2459,7 +2570,10 @@
         "diagnosis": [
           {
             "study_group_description": "graft-versus-host disease",
-            "disease_diagnosis": "B-cell chronic lymphocytic leukemia",
+            "disease_diagnosis": {
+              "id": "DOID:1040",
+              "value": "chronic lymphocytic leukemia"
+            },
             "disease_length": "",
             "disease_stage": "",
             "prior_therapies": "",
@@ -2474,7 +2588,10 @@
           "sample_processing_id": "",
           "sample_id": "P1_3w",
           "sample_type": null,
-          "tissue": "peripheral blood",
+          "tissue": {
+            "id": "UBERON:0013756",
+            "value": "venous blood"
+          },
           "anatomic_site": null,
           "disease_state_sample": "treatment-refractory chronic GvHD",
           "collection_time_point_relative": "Treg infusion",
@@ -2482,7 +2599,7 @@
           "biomaterial_provider": null,
           "tissue_processing": null,
           "cell_subset": {
-            "id": "CL_0000792",
+            "id": "CL:0000792",
             "value": "CD4-positive, CD25-positive, alpha-beta regulatory T cell"
           },
           "cell_phenotype": "CD4+ CD25_high CD127_low",
@@ -2527,7 +2644,10 @@
           "sample_processing_id": "",
           "sample_id": "P1_3w",
           "sample_type": null,
-          "tissue": "peripheral blood",
+          "tissue": {
+            "id": "UBERON:0013756",
+            "value": "venous blood"
+          },
           "anatomic_site": null,
           "disease_state_sample": "treatment-refractory chronic GvHD",
           "collection_time_point_relative": "Treg infusion",
@@ -2535,7 +2655,7 @@
           "biomaterial_provider": null,
           "tissue_processing": null,
           "cell_subset": {
-            "id": "CL_0000792",
+            "id": "CL:0000792",
             "value": "CD4-positive, CD25-positive, alpha-beta regulatory T cell"
           },
           "cell_phenotype": "CD4+ CD25_high CD127_low",
@@ -2602,8 +2722,8 @@
         "study_id": "1371444213709729305-242ac11c-0001-012",
         "study_title": "T cell receptor repertoires after adoptive transfer of expanded allogeneic regulatory T cells",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "NCIT:C16084",
+          "value": "Observational Study"
         },
         "study_description": "T regulatory cell (Treg) therapy has been exploited in autoimmune disease, solid organ transplantation and in efforts to prevent or treat graft-versus-host disease (GvHD). However, our knowledge on in vivo persistence of transfused Treg is limited. Whether Treg transfusion leads to notable changes in the overall Treg repertoire and or whether longevity of Treg in the periphery is restricted to certain clones is unknown. Here we use T cell receptor alpha chain sequencing (TCR\u03b1-NGS) to monitor changes in the repertoire of Treg upon polyclonal expansion and after subsequent adoptive transfer. We applied TCR\u03b1-NGS to samples from two patients with chronic GvHD who received comparable doses of stem cell donor derived expanded Treg. We found that in vitro polyclonal expansion led to notable repertoire changes in vitro and that Treg cell therapy considerably altered peripheral Treg repertoire toward that of the infused cell product, to different degrees in each patient. Clonal changes in the peripheral blood were transient and correlated well with the clinical parameters. We suggest that T cell clonotype analyses using TCR sequencing should be considered as a means to monitor longevity and fate of adoptively transferred T cells.",
         "inclusion_exclusion_criteria": "",
@@ -2612,7 +2732,7 @@
         "submitted_by": "Scott Christley <scott.christley@utsouthwestern.edu>",
         "collected_by": "",
         "grants": "",
-        "pub_ids": "Theil et al. 2016",
+        "pub_ids": "PMID:27774628",
         "keywords_study": [
           "contains_tcr"
         ],
@@ -2621,15 +2741,15 @@
       "subject": {
         "subject_id": "Patient 1",
         "synthetic": false,
-        "organism": {
-          "id": "9606",
+        "species": {
+          "id": "NCBITaxon:9606",
           "value": "Homo sapiens"
         },
         "sex": "male",
         "age_min": 54,
         "age_max": 54,
         "age_unit": {
-          "id": "UO_0000036",
+          "id": "UO:0000036",
           "value": "year"
         },
         "age_event": "sampling",
@@ -2642,7 +2762,10 @@
         "diagnosis": [
           {
             "study_group_description": "graft-versus-host disease",
-            "disease_diagnosis": "B-cell chronic lymphocytic leukemia",
+            "disease_diagnosis": {
+              "id": "DOID:1040",
+              "value": "chronic lymphocytic leukemia"
+            },
             "disease_length": "",
             "disease_stage": "",
             "prior_therapies": "",
@@ -2657,7 +2780,10 @@
           "sample_processing_id": "",
           "sample_id": "P1_6w",
           "sample_type": null,
-          "tissue": "peripheral blood",
+          "tissue": {
+            "id": "UBERON:0013756",
+            "value": "venous blood"
+          },
           "anatomic_site": null,
           "disease_state_sample": "treatment-refractory chronic GvHD",
           "collection_time_point_relative": "Treg infusion",
@@ -2665,7 +2791,7 @@
           "biomaterial_provider": null,
           "tissue_processing": null,
           "cell_subset": {
-            "id": "CL_0000792",
+            "id": "CL:0000792",
             "value": "CD4-positive, CD25-positive, alpha-beta regulatory T cell"
           },
           "cell_phenotype": "CD4+ CD25_high CD127_low",
@@ -2731,8 +2857,8 @@
         "study_id": "1371444213709729305-242ac11c-0001-012",
         "study_title": "T cell receptor repertoires after adoptive transfer of expanded allogeneic regulatory T cells",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "NCIT:C16084",
+          "value": "Observational Study"
         },
         "study_description": "T regulatory cell (Treg) therapy has been exploited in autoimmune disease, solid organ transplantation and in efforts to prevent or treat graft-versus-host disease (GvHD). However, our knowledge on in vivo persistence of transfused Treg is limited. Whether Treg transfusion leads to notable changes in the overall Treg repertoire and or whether longevity of Treg in the periphery is restricted to certain clones is unknown. Here we use T cell receptor alpha chain sequencing (TCR\u03b1-NGS) to monitor changes in the repertoire of Treg upon polyclonal expansion and after subsequent adoptive transfer. We applied TCR\u03b1-NGS to samples from two patients with chronic GvHD who received comparable doses of stem cell donor derived expanded Treg. We found that in vitro polyclonal expansion led to notable repertoire changes in vitro and that Treg cell therapy considerably altered peripheral Treg repertoire toward that of the infused cell product, to different degrees in each patient. Clonal changes in the peripheral blood were transient and correlated well with the clinical parameters. We suggest that T cell clonotype analyses using TCR sequencing should be considered as a means to monitor longevity and fate of adoptively transferred T cells.",
         "inclusion_exclusion_criteria": "",
@@ -2741,7 +2867,7 @@
         "submitted_by": "Scott Christley <scott.christley@utsouthwestern.edu>",
         "collected_by": "",
         "grants": "",
-        "pub_ids": "Theil et al. 2016",
+        "pub_ids": "PMID:27774628",
         "keywords_study": [
           "contains_tcr"
         ],
@@ -2750,15 +2876,15 @@
       "subject": {
         "subject_id": "Patient 1",
         "synthetic": false,
-        "organism": {
-          "id": "9606",
+        "species": {
+          "id": "NCBITaxon:9606",
           "value": "Homo sapiens"
         },
         "sex": "male",
         "age_min": 54,
         "age_max": 54,
         "age_unit": {
-          "id": "UO_0000036",
+          "id": "UO:0000036",
           "value": "year"
         },
         "age_event": "sampling",
@@ -2771,7 +2897,10 @@
         "diagnosis": [
           {
             "study_group_description": "graft-versus-host disease",
-            "disease_diagnosis": "B-cell chronic lymphocytic leukemia",
+            "disease_diagnosis": {
+              "id": "DOID:1040",
+              "value": "chronic lymphocytic leukemia"
+            },
             "disease_length": "",
             "disease_stage": "",
             "prior_therapies": "",
@@ -2786,7 +2915,10 @@
           "sample_processing_id": "",
           "sample_id": "P1_8w",
           "sample_type": null,
-          "tissue": "peripheral blood",
+          "tissue": {
+            "id": "UBERON:0013756",
+            "value": "venous blood"
+          },
           "anatomic_site": null,
           "disease_state_sample": "treatment-refractory chronic GvHD",
           "collection_time_point_relative": "Treg infusion",
@@ -2794,7 +2926,7 @@
           "biomaterial_provider": null,
           "tissue_processing": null,
           "cell_subset": {
-            "id": "CL_0000792",
+            "id": "CL:0000792",
             "value": "CD4-positive, CD25-positive, alpha-beta regulatory T cell"
           },
           "cell_phenotype": "CD4+ CD25_high CD127_low",
@@ -2839,7 +2971,10 @@
           "sample_processing_id": "",
           "sample_id": "P1_8w",
           "sample_type": null,
-          "tissue": "peripheral blood",
+          "tissue": {
+            "id": "UBERON:0013756",
+            "value": "venous blood"
+          },
           "anatomic_site": null,
           "disease_state_sample": "treatment-refractory chronic GvHD",
           "collection_time_point_relative": "Treg infusion",
@@ -2847,7 +2982,7 @@
           "biomaterial_provider": null,
           "tissue_processing": null,
           "cell_subset": {
-            "id": "CL_0000792",
+            "id": "CL:0000792",
             "value": "CD4-positive, CD25-positive, alpha-beta regulatory T cell"
           },
           "cell_phenotype": "CD4+ CD25_high CD127_low",
@@ -2892,7 +3027,10 @@
           "sample_processing_id": "",
           "sample_id": "P1_8w",
           "sample_type": null,
-          "tissue": "peripheral blood",
+          "tissue": {
+            "id": "UBERON:0013756",
+            "value": "venous blood"
+          },
           "anatomic_site": null,
           "disease_state_sample": "treatment-refractory chronic GvHD",
           "collection_time_point_relative": "Treg infusion",
@@ -2900,7 +3038,7 @@
           "biomaterial_provider": null,
           "tissue_processing": null,
           "cell_subset": {
-            "id": "CL_0000792",
+            "id": "CL:0000792",
             "value": "CD4-positive, CD25-positive, alpha-beta regulatory T cell"
           },
           "cell_phenotype": "CD4+ CD25_high CD127_low",
@@ -2968,8 +3106,8 @@
         "study_id": "1371444213709729305-242ac11c-0001-012",
         "study_title": "T cell receptor repertoires after adoptive transfer of expanded allogeneic regulatory T cells",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "NCIT:C16084",
+          "value": "Observational Study"
         },
         "study_description": "T regulatory cell (Treg) therapy has been exploited in autoimmune disease, solid organ transplantation and in efforts to prevent or treat graft-versus-host disease (GvHD). However, our knowledge on in vivo persistence of transfused Treg is limited. Whether Treg transfusion leads to notable changes in the overall Treg repertoire and or whether longevity of Treg in the periphery is restricted to certain clones is unknown. Here we use T cell receptor alpha chain sequencing (TCR\u03b1-NGS) to monitor changes in the repertoire of Treg upon polyclonal expansion and after subsequent adoptive transfer. We applied TCR\u03b1-NGS to samples from two patients with chronic GvHD who received comparable doses of stem cell donor derived expanded Treg. We found that in vitro polyclonal expansion led to notable repertoire changes in vitro and that Treg cell therapy considerably altered peripheral Treg repertoire toward that of the infused cell product, to different degrees in each patient. Clonal changes in the peripheral blood were transient and correlated well with the clinical parameters. We suggest that T cell clonotype analyses using TCR sequencing should be considered as a means to monitor longevity and fate of adoptively transferred T cells.",
         "inclusion_exclusion_criteria": "",
@@ -2978,7 +3116,7 @@
         "submitted_by": "Scott Christley <scott.christley@utsouthwestern.edu>",
         "collected_by": "",
         "grants": "",
-        "pub_ids": "Theil et al. 2016",
+        "pub_ids": "PMID:27774628",
         "keywords_study": [
           "contains_tcr"
         ],
@@ -2987,15 +3125,15 @@
       "subject": {
         "subject_id": "Patient 1",
         "synthetic": false,
-        "organism": {
-          "id": "9606",
+        "species": {
+          "id": "NCBITaxon:9606",
           "value": "Homo sapiens"
         },
         "sex": "male",
         "age_min": 54,
         "age_max": 54,
         "age_unit": {
-          "id": "UO_0000036",
+          "id": "UO:0000036",
           "value": "year"
         },
         "age_event": "sampling",
@@ -3008,7 +3146,10 @@
         "diagnosis": [
           {
             "study_group_description": "graft-versus-host disease",
-            "disease_diagnosis": "B-cell chronic lymphocytic leukemia",
+            "disease_diagnosis": {
+              "id": "DOID:1040",
+              "value": "chronic lymphocytic leukemia"
+            },
             "disease_length": "",
             "disease_stage": "",
             "prior_therapies": "",
@@ -3023,7 +3164,10 @@
           "sample_processing_id": "",
           "sample_id": "P1_pre",
           "sample_type": null,
-          "tissue": "peripheral blood",
+          "tissue": {
+            "id": "UBERON:0013756",
+            "value": "venous blood"
+          },
           "anatomic_site": null,
           "disease_state_sample": "treatment-refractory chronic GvHD",
           "collection_time_point_relative": "Treg infusion",
@@ -3031,7 +3175,7 @@
           "biomaterial_provider": null,
           "tissue_processing": null,
           "cell_subset": {
-            "id": "CL_0000624",
+            "id": "CL:0000624",
             "value": "CD4-positive, alpha-beta T cell"
           },
           "cell_phenotype": "CD4+ CD25+ CD127+ CD45RO+",
@@ -3097,8 +3241,8 @@
         "study_id": "1371444213709729305-242ac11c-0001-012",
         "study_title": "T cell receptor repertoires after adoptive transfer of expanded allogeneic regulatory T cells",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "NCIT:C16084",
+          "value": "Observational Study"
         },
         "study_description": "T regulatory cell (Treg) therapy has been exploited in autoimmune disease, solid organ transplantation and in efforts to prevent or treat graft-versus-host disease (GvHD). However, our knowledge on in vivo persistence of transfused Treg is limited. Whether Treg transfusion leads to notable changes in the overall Treg repertoire and or whether longevity of Treg in the periphery is restricted to certain clones is unknown. Here we use T cell receptor alpha chain sequencing (TCR\u03b1-NGS) to monitor changes in the repertoire of Treg upon polyclonal expansion and after subsequent adoptive transfer. We applied TCR\u03b1-NGS to samples from two patients with chronic GvHD who received comparable doses of stem cell donor derived expanded Treg. We found that in vitro polyclonal expansion led to notable repertoire changes in vitro and that Treg cell therapy considerably altered peripheral Treg repertoire toward that of the infused cell product, to different degrees in each patient. Clonal changes in the peripheral blood were transient and correlated well with the clinical parameters. We suggest that T cell clonotype analyses using TCR sequencing should be considered as a means to monitor longevity and fate of adoptively transferred T cells.",
         "inclusion_exclusion_criteria": "",
@@ -3107,7 +3251,7 @@
         "submitted_by": "Scott Christley <scott.christley@utsouthwestern.edu>",
         "collected_by": "",
         "grants": "",
-        "pub_ids": "Theil et al. 2016",
+        "pub_ids": "PMID:27774628",
         "keywords_study": [
           "contains_tcr"
         ],
@@ -3116,15 +3260,15 @@
       "subject": {
         "subject_id": "Patient 1",
         "synthetic": false,
-        "organism": {
-          "id": "9606",
+        "species": {
+          "id": "NCBITaxon:9606",
           "value": "Homo sapiens"
         },
         "sex": "male",
         "age_min": 54,
         "age_max": 54,
         "age_unit": {
-          "id": "UO_0000036",
+          "id": "UO:0000036",
           "value": "year"
         },
         "age_event": "sampling",
@@ -3137,7 +3281,10 @@
         "diagnosis": [
           {
             "study_group_description": "graft-versus-host disease",
-            "disease_diagnosis": "B-cell chronic lymphocytic leukemia",
+            "disease_diagnosis": {
+              "id": "DOID:1040",
+              "value": "chronic lymphocytic leukemia"
+            },
             "disease_length": "",
             "disease_stage": "",
             "prior_therapies": "",
@@ -3152,7 +3299,10 @@
           "sample_processing_id": "",
           "sample_id": "P1_24h",
           "sample_type": null,
-          "tissue": "peripheral blood",
+          "tissue": {
+            "id": "UBERON:0013756",
+            "value": "venous blood"
+          },
           "anatomic_site": null,
           "disease_state_sample": "treatment-refractory chronic GvHD",
           "collection_time_point_relative": "Treg infusion",
@@ -3160,7 +3310,7 @@
           "biomaterial_provider": null,
           "tissue_processing": null,
           "cell_subset": {
-            "id": "CL_0000624",
+            "id": "CL:0000624",
             "value": "CD4-positive, alpha-beta T cell"
           },
           "cell_phenotype": "CD4+ CD25+ CD127+ CD45RO+",
@@ -3226,8 +3376,8 @@
         "study_id": "1371444213709729305-242ac11c-0001-012",
         "study_title": "T cell receptor repertoires after adoptive transfer of expanded allogeneic regulatory T cells",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "NCIT:C16084",
+          "value": "Observational Study"
         },
         "study_description": "T regulatory cell (Treg) therapy has been exploited in autoimmune disease, solid organ transplantation and in efforts to prevent or treat graft-versus-host disease (GvHD). However, our knowledge on in vivo persistence of transfused Treg is limited. Whether Treg transfusion leads to notable changes in the overall Treg repertoire and or whether longevity of Treg in the periphery is restricted to certain clones is unknown. Here we use T cell receptor alpha chain sequencing (TCR\u03b1-NGS) to monitor changes in the repertoire of Treg upon polyclonal expansion and after subsequent adoptive transfer. We applied TCR\u03b1-NGS to samples from two patients with chronic GvHD who received comparable doses of stem cell donor derived expanded Treg. We found that in vitro polyclonal expansion led to notable repertoire changes in vitro and that Treg cell therapy considerably altered peripheral Treg repertoire toward that of the infused cell product, to different degrees in each patient. Clonal changes in the peripheral blood were transient and correlated well with the clinical parameters. We suggest that T cell clonotype analyses using TCR sequencing should be considered as a means to monitor longevity and fate of adoptively transferred T cells.",
         "inclusion_exclusion_criteria": "",
@@ -3236,7 +3386,7 @@
         "submitted_by": "Scott Christley <scott.christley@utsouthwestern.edu>",
         "collected_by": "",
         "grants": "",
-        "pub_ids": "Theil et al. 2016",
+        "pub_ids": "PMID:27774628",
         "keywords_study": [
           "contains_tcr"
         ],
@@ -3245,15 +3395,15 @@
       "subject": {
         "subject_id": "Patient 1",
         "synthetic": false,
-        "organism": {
-          "id": "9606",
+        "species": {
+          "id": "NCBITaxon:9606",
           "value": "Homo sapiens"
         },
         "sex": "male",
         "age_min": 54,
         "age_max": 54,
         "age_unit": {
-          "id": "UO_0000036",
+          "id": "UO:0000036",
           "value": "year"
         },
         "age_event": "sampling",
@@ -3266,7 +3416,10 @@
         "diagnosis": [
           {
             "study_group_description": "graft-versus-host disease",
-            "disease_diagnosis": "B-cell chronic lymphocytic leukemia",
+            "disease_diagnosis": {
+              "id": "DOID:1040",
+              "value": "chronic lymphocytic leukemia"
+            },
             "disease_length": "",
             "disease_stage": "",
             "prior_therapies": "",
@@ -3281,7 +3434,10 @@
           "sample_processing_id": "",
           "sample_id": "P1_1w",
           "sample_type": null,
-          "tissue": "peripheral blood",
+          "tissue": {
+            "id": "UBERON:0013756",
+            "value": "venous blood"
+          },
           "anatomic_site": null,
           "disease_state_sample": "treatment-refractory chronic GvHD",
           "collection_time_point_relative": "Treg infusion",
@@ -3289,7 +3445,7 @@
           "biomaterial_provider": null,
           "tissue_processing": null,
           "cell_subset": {
-            "id": "CL_0000624",
+            "id": "CL:0000624",
             "value": "CD4-positive, alpha-beta T cell"
           },
           "cell_phenotype": "CD4+ CD25+ CD127+ CD45RO+",
@@ -3355,8 +3511,8 @@
         "study_id": "1371444213709729305-242ac11c-0001-012",
         "study_title": "T cell receptor repertoires after adoptive transfer of expanded allogeneic regulatory T cells",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "NCIT:C16084",
+          "value": "Observational Study"
         },
         "study_description": "T regulatory cell (Treg) therapy has been exploited in autoimmune disease, solid organ transplantation and in efforts to prevent or treat graft-versus-host disease (GvHD). However, our knowledge on in vivo persistence of transfused Treg is limited. Whether Treg transfusion leads to notable changes in the overall Treg repertoire and or whether longevity of Treg in the periphery is restricted to certain clones is unknown. Here we use T cell receptor alpha chain sequencing (TCR\u03b1-NGS) to monitor changes in the repertoire of Treg upon polyclonal expansion and after subsequent adoptive transfer. We applied TCR\u03b1-NGS to samples from two patients with chronic GvHD who received comparable doses of stem cell donor derived expanded Treg. We found that in vitro polyclonal expansion led to notable repertoire changes in vitro and that Treg cell therapy considerably altered peripheral Treg repertoire toward that of the infused cell product, to different degrees in each patient. Clonal changes in the peripheral blood were transient and correlated well with the clinical parameters. We suggest that T cell clonotype analyses using TCR sequencing should be considered as a means to monitor longevity and fate of adoptively transferred T cells.",
         "inclusion_exclusion_criteria": "",
@@ -3365,7 +3521,7 @@
         "submitted_by": "Scott Christley <scott.christley@utsouthwestern.edu>",
         "collected_by": "",
         "grants": "",
-        "pub_ids": "Theil et al. 2016",
+        "pub_ids": "PMID:27774628",
         "keywords_study": [
           "contains_tcr"
         ],
@@ -3374,15 +3530,15 @@
       "subject": {
         "subject_id": "Patient 1",
         "synthetic": false,
-        "organism": {
-          "id": "9606",
+        "species": {
+          "id": "NCBITaxon:9606",
           "value": "Homo sapiens"
         },
         "sex": "male",
         "age_min": 54,
         "age_max": 54,
         "age_unit": {
-          "id": "UO_0000036",
+          "id": "UO:0000036",
           "value": "year"
         },
         "age_event": "sampling",
@@ -3395,7 +3551,10 @@
         "diagnosis": [
           {
             "study_group_description": "graft-versus-host disease",
-            "disease_diagnosis": "B-cell chronic lymphocytic leukemia",
+            "disease_diagnosis": {
+              "id": "DOID:1040",
+              "value": "chronic lymphocytic leukemia"
+            },
             "disease_length": "",
             "disease_stage": "",
             "prior_therapies": "",
@@ -3410,7 +3569,10 @@
           "sample_processing_id": "",
           "sample_id": "P1_2w",
           "sample_type": null,
-          "tissue": "peripheral blood",
+          "tissue": {
+            "id": "UBERON:0013756",
+            "value": "venous blood"
+          },
           "anatomic_site": null,
           "disease_state_sample": "treatment-refractory chronic GvHD",
           "collection_time_point_relative": "Treg infusion",
@@ -3418,7 +3580,7 @@
           "biomaterial_provider": null,
           "tissue_processing": null,
           "cell_subset": {
-            "id": "CL_0000624",
+            "id": "CL:0000624",
             "value": "CD4-positive, alpha-beta T cell"
           },
           "cell_phenotype": "CD4+ CD25+ CD127+ CD45RO+",
@@ -3484,8 +3646,8 @@
         "study_id": "1371444213709729305-242ac11c-0001-012",
         "study_title": "T cell receptor repertoires after adoptive transfer of expanded allogeneic regulatory T cells",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "NCIT:C16084",
+          "value": "Observational Study"
         },
         "study_description": "T regulatory cell (Treg) therapy has been exploited in autoimmune disease, solid organ transplantation and in efforts to prevent or treat graft-versus-host disease (GvHD). However, our knowledge on in vivo persistence of transfused Treg is limited. Whether Treg transfusion leads to notable changes in the overall Treg repertoire and or whether longevity of Treg in the periphery is restricted to certain clones is unknown. Here we use T cell receptor alpha chain sequencing (TCR\u03b1-NGS) to monitor changes in the repertoire of Treg upon polyclonal expansion and after subsequent adoptive transfer. We applied TCR\u03b1-NGS to samples from two patients with chronic GvHD who received comparable doses of stem cell donor derived expanded Treg. We found that in vitro polyclonal expansion led to notable repertoire changes in vitro and that Treg cell therapy considerably altered peripheral Treg repertoire toward that of the infused cell product, to different degrees in each patient. Clonal changes in the peripheral blood were transient and correlated well with the clinical parameters. We suggest that T cell clonotype analyses using TCR sequencing should be considered as a means to monitor longevity and fate of adoptively transferred T cells.",
         "inclusion_exclusion_criteria": "",
@@ -3494,7 +3656,7 @@
         "submitted_by": "Scott Christley <scott.christley@utsouthwestern.edu>",
         "collected_by": "",
         "grants": "",
-        "pub_ids": "Theil et al. 2016",
+        "pub_ids": "PMID:27774628",
         "keywords_study": [
           "contains_tcr"
         ],
@@ -3503,15 +3665,15 @@
       "subject": {
         "subject_id": "Patient 1",
         "synthetic": false,
-        "organism": {
-          "id": "9606",
+        "species": {
+          "id": "NCBITaxon:9606",
           "value": "Homo sapiens"
         },
         "sex": "male",
         "age_min": 54,
         "age_max": 54,
         "age_unit": {
-          "id": "UO_0000036",
+          "id": "UO:0000036",
           "value": "year"
         },
         "age_event": "sampling",
@@ -3524,7 +3686,10 @@
         "diagnosis": [
           {
             "study_group_description": "graft-versus-host disease",
-            "disease_diagnosis": "B-cell chronic lymphocytic leukemia",
+            "disease_diagnosis": {
+              "id": "DOID:1040",
+              "value": "chronic lymphocytic leukemia"
+            },
             "disease_length": "",
             "disease_stage": "",
             "prior_therapies": "",
@@ -3539,7 +3704,10 @@
           "sample_processing_id": "",
           "sample_id": "P1_3w",
           "sample_type": null,
-          "tissue": "peripheral blood",
+          "tissue": {
+            "id": "UBERON:0013756",
+            "value": "venous blood"
+          },
           "anatomic_site": null,
           "disease_state_sample": "treatment-refractory chronic GvHD",
           "collection_time_point_relative": "Treg infusion",
@@ -3547,7 +3715,7 @@
           "biomaterial_provider": null,
           "tissue_processing": null,
           "cell_subset": {
-            "id": "CL_0000624",
+            "id": "CL:0000624",
             "value": "CD4-positive, alpha-beta T cell"
           },
           "cell_phenotype": "CD4+ CD25+ CD127+ CD45RO+",
@@ -3613,8 +3781,8 @@
         "study_id": "1371444213709729305-242ac11c-0001-012",
         "study_title": "T cell receptor repertoires after adoptive transfer of expanded allogeneic regulatory T cells",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "NCIT:C16084",
+          "value": "Observational Study"
         },
         "study_description": "T regulatory cell (Treg) therapy has been exploited in autoimmune disease, solid organ transplantation and in efforts to prevent or treat graft-versus-host disease (GvHD). However, our knowledge on in vivo persistence of transfused Treg is limited. Whether Treg transfusion leads to notable changes in the overall Treg repertoire and or whether longevity of Treg in the periphery is restricted to certain clones is unknown. Here we use T cell receptor alpha chain sequencing (TCR\u03b1-NGS) to monitor changes in the repertoire of Treg upon polyclonal expansion and after subsequent adoptive transfer. We applied TCR\u03b1-NGS to samples from two patients with chronic GvHD who received comparable doses of stem cell donor derived expanded Treg. We found that in vitro polyclonal expansion led to notable repertoire changes in vitro and that Treg cell therapy considerably altered peripheral Treg repertoire toward that of the infused cell product, to different degrees in each patient. Clonal changes in the peripheral blood were transient and correlated well with the clinical parameters. We suggest that T cell clonotype analyses using TCR sequencing should be considered as a means to monitor longevity and fate of adoptively transferred T cells.",
         "inclusion_exclusion_criteria": "",
@@ -3623,7 +3791,7 @@
         "submitted_by": "Scott Christley <scott.christley@utsouthwestern.edu>",
         "collected_by": "",
         "grants": "",
-        "pub_ids": "Theil et al. 2016",
+        "pub_ids": "PMID:27774628",
         "keywords_study": [
           "contains_tcr"
         ],
@@ -3632,15 +3800,15 @@
       "subject": {
         "subject_id": "Patient 1",
         "synthetic": false,
-        "organism": {
-          "id": "9606",
+        "species": {
+          "id": "NCBITaxon:9606",
           "value": "Homo sapiens"
         },
         "sex": "male",
         "age_min": 54,
         "age_max": 54,
         "age_unit": {
-          "id": "UO_0000036",
+          "id": "UO:0000036",
           "value": "year"
         },
         "age_event": "sampling",
@@ -3653,7 +3821,10 @@
         "diagnosis": [
           {
             "study_group_description": "graft-versus-host disease",
-            "disease_diagnosis": "B-cell chronic lymphocytic leukemia",
+            "disease_diagnosis": {
+              "id": "DOID:1040",
+              "value": "chronic lymphocytic leukemia"
+            },
             "disease_length": "",
             "disease_stage": "",
             "prior_therapies": "",
@@ -3668,7 +3839,10 @@
           "sample_processing_id": "",
           "sample_id": "P1_6w",
           "sample_type": null,
-          "tissue": "peripheral blood",
+          "tissue": {
+            "id": "UBERON:0013756",
+            "value": "venous blood"
+          },
           "anatomic_site": null,
           "disease_state_sample": "treatment-refractory chronic GvHD",
           "collection_time_point_relative": "Treg infusion",
@@ -3676,7 +3850,7 @@
           "biomaterial_provider": null,
           "tissue_processing": null,
           "cell_subset": {
-            "id": "CL_0000624",
+            "id": "CL:0000624",
             "value": "CD4-positive, alpha-beta T cell"
           },
           "cell_phenotype": "CD4+ CD25+ CD127+ CD45RO+",
@@ -3742,8 +3916,8 @@
         "study_id": "1371444213709729305-242ac11c-0001-012",
         "study_title": "T cell receptor repertoires after adoptive transfer of expanded allogeneic regulatory T cells",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "NCIT:C16084",
+          "value": "Observational Study"
         },
         "study_description": "T regulatory cell (Treg) therapy has been exploited in autoimmune disease, solid organ transplantation and in efforts to prevent or treat graft-versus-host disease (GvHD). However, our knowledge on in vivo persistence of transfused Treg is limited. Whether Treg transfusion leads to notable changes in the overall Treg repertoire and or whether longevity of Treg in the periphery is restricted to certain clones is unknown. Here we use T cell receptor alpha chain sequencing (TCR\u03b1-NGS) to monitor changes in the repertoire of Treg upon polyclonal expansion and after subsequent adoptive transfer. We applied TCR\u03b1-NGS to samples from two patients with chronic GvHD who received comparable doses of stem cell donor derived expanded Treg. We found that in vitro polyclonal expansion led to notable repertoire changes in vitro and that Treg cell therapy considerably altered peripheral Treg repertoire toward that of the infused cell product, to different degrees in each patient. Clonal changes in the peripheral blood were transient and correlated well with the clinical parameters. We suggest that T cell clonotype analyses using TCR sequencing should be considered as a means to monitor longevity and fate of adoptively transferred T cells.",
         "inclusion_exclusion_criteria": "",
@@ -3752,7 +3926,7 @@
         "submitted_by": "Scott Christley <scott.christley@utsouthwestern.edu>",
         "collected_by": "",
         "grants": "",
-        "pub_ids": "Theil et al. 2016",
+        "pub_ids": "PMID:27774628",
         "keywords_study": [
           "contains_tcr"
         ],
@@ -3761,15 +3935,15 @@
       "subject": {
         "subject_id": "Patient 1",
         "synthetic": false,
-        "organism": {
-          "id": "9606",
+        "species": {
+          "id": "NCBITaxon:9606",
           "value": "Homo sapiens"
         },
         "sex": "male",
         "age_min": 54,
         "age_max": 54,
         "age_unit": {
-          "id": "UO_0000036",
+          "id": "UO:0000036",
           "value": "year"
         },
         "age_event": "sampling",
@@ -3782,7 +3956,10 @@
         "diagnosis": [
           {
             "study_group_description": "graft-versus-host disease",
-            "disease_diagnosis": "B-cell chronic lymphocytic leukemia",
+            "disease_diagnosis": {
+              "id": "DOID:1040",
+              "value": "chronic lymphocytic leukemia"
+            },
             "disease_length": "",
             "disease_stage": "",
             "prior_therapies": "",
@@ -3797,7 +3974,10 @@
           "sample_processing_id": "",
           "sample_id": "P1_11w",
           "sample_type": null,
-          "tissue": "peripheral blood",
+          "tissue": {
+            "id": "UBERON:0013756",
+            "value": "venous blood"
+          },
           "anatomic_site": null,
           "disease_state_sample": "treatment-refractory chronic GvHD",
           "collection_time_point_relative": "Treg infusion",
@@ -3805,7 +3985,7 @@
           "biomaterial_provider": null,
           "tissue_processing": null,
           "cell_subset": {
-            "id": "CL_0000624",
+            "id": "CL:0000624",
             "value": "CD4-positive, alpha-beta T cell"
           },
           "cell_phenotype": "CD4+ CD25+ CD127+ CD45RO+",
@@ -3871,8 +4051,8 @@
         "study_id": "1371444213709729305-242ac11c-0001-012",
         "study_title": "T cell receptor repertoires after adoptive transfer of expanded allogeneic regulatory T cells",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "NCIT:C16084",
+          "value": "Observational Study"
         },
         "study_description": "T regulatory cell (Treg) therapy has been exploited in autoimmune disease, solid organ transplantation and in efforts to prevent or treat graft-versus-host disease (GvHD). However, our knowledge on in vivo persistence of transfused Treg is limited. Whether Treg transfusion leads to notable changes in the overall Treg repertoire and or whether longevity of Treg in the periphery is restricted to certain clones is unknown. Here we use T cell receptor alpha chain sequencing (TCR\u03b1-NGS) to monitor changes in the repertoire of Treg upon polyclonal expansion and after subsequent adoptive transfer. We applied TCR\u03b1-NGS to samples from two patients with chronic GvHD who received comparable doses of stem cell donor derived expanded Treg. We found that in vitro polyclonal expansion led to notable repertoire changes in vitro and that Treg cell therapy considerably altered peripheral Treg repertoire toward that of the infused cell product, to different degrees in each patient. Clonal changes in the peripheral blood were transient and correlated well with the clinical parameters. We suggest that T cell clonotype analyses using TCR sequencing should be considered as a means to monitor longevity and fate of adoptively transferred T cells.",
         "inclusion_exclusion_criteria": "",
@@ -3881,7 +4061,7 @@
         "submitted_by": "Scott Christley <scott.christley@utsouthwestern.edu>",
         "collected_by": "",
         "grants": "",
-        "pub_ids": "Theil et al. 2016",
+        "pub_ids": "PMID:27774628",
         "keywords_study": [
           "contains_tcr"
         ],
@@ -3890,15 +4070,15 @@
       "subject": {
         "subject_id": "Donor 2",
         "synthetic": false,
-        "organism": {
-          "id": "9606",
+        "species": {
+          "id": "NCBITaxon:9606",
           "value": "Homo sapiens"
         },
         "sex": "female",
         "age_min": 51,
         "age_max": 51,
         "age_unit": {
-          "id": "UO_0000036",
+          "id": "UO:0000036",
           "value": "year"
         },
         "age_event": null,
@@ -3926,7 +4106,10 @@
           "sample_processing_id": "",
           "sample_id": "D2_iso",
           "sample_type": null,
-          "tissue": "peripheral blood",
+          "tissue": {
+            "id": "UBERON:0013756",
+            "value": "venous blood"
+          },
           "anatomic_site": null,
           "disease_state_sample": null,
           "collection_time_point_relative": null,
@@ -3934,7 +4117,7 @@
           "biomaterial_provider": null,
           "tissue_processing": "leukapheresis",
           "cell_subset": {
-            "id": "CL_0000792",
+            "id": "CL:0000792",
             "value": "CD4-positive, CD25-positive, alpha-beta regulatory T cell"
           },
           "cell_phenotype": "CD4+ CD25_high CD127_low",
@@ -3979,7 +4162,10 @@
           "sample_processing_id": "",
           "sample_id": "D2_iso",
           "sample_type": null,
-          "tissue": "peripheral blood",
+          "tissue": {
+            "id": "UBERON:0013756",
+            "value": "venous blood"
+          },
           "anatomic_site": null,
           "disease_state_sample": null,
           "collection_time_point_relative": null,
@@ -3987,7 +4173,7 @@
           "biomaterial_provider": null,
           "tissue_processing": "leukapheresis",
           "cell_subset": {
-            "id": "CL_0000792",
+            "id": "CL:0000792",
             "value": "CD4-positive, CD25-positive, alpha-beta regulatory T cell"
           },
           "cell_phenotype": "CD4+ CD25_high CD127_low",
@@ -4054,8 +4240,8 @@
         "study_id": "1371444213709729305-242ac11c-0001-012",
         "study_title": "T cell receptor repertoires after adoptive transfer of expanded allogeneic regulatory T cells",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "NCIT:C16084",
+          "value": "Observational Study"
         },
         "study_description": "T regulatory cell (Treg) therapy has been exploited in autoimmune disease, solid organ transplantation and in efforts to prevent or treat graft-versus-host disease (GvHD). However, our knowledge on in vivo persistence of transfused Treg is limited. Whether Treg transfusion leads to notable changes in the overall Treg repertoire and or whether longevity of Treg in the periphery is restricted to certain clones is unknown. Here we use T cell receptor alpha chain sequencing (TCR\u03b1-NGS) to monitor changes in the repertoire of Treg upon polyclonal expansion and after subsequent adoptive transfer. We applied TCR\u03b1-NGS to samples from two patients with chronic GvHD who received comparable doses of stem cell donor derived expanded Treg. We found that in vitro polyclonal expansion led to notable repertoire changes in vitro and that Treg cell therapy considerably altered peripheral Treg repertoire toward that of the infused cell product, to different degrees in each patient. Clonal changes in the peripheral blood were transient and correlated well with the clinical parameters. We suggest that T cell clonotype analyses using TCR sequencing should be considered as a means to monitor longevity and fate of adoptively transferred T cells.",
         "inclusion_exclusion_criteria": "",
@@ -4064,7 +4250,7 @@
         "submitted_by": "Scott Christley <scott.christley@utsouthwestern.edu>",
         "collected_by": "",
         "grants": "",
-        "pub_ids": "Theil et al. 2016",
+        "pub_ids": "PMID:27774628",
         "keywords_study": [
           "contains_tcr"
         ],
@@ -4073,15 +4259,15 @@
       "subject": {
         "subject_id": "Donor 2",
         "synthetic": false,
-        "organism": {
-          "id": "9606",
+        "species": {
+          "id": "NCBITaxon:9606",
           "value": "Homo sapiens"
         },
         "sex": "female",
         "age_min": 51,
         "age_max": 51,
         "age_unit": {
-          "id": "UO_0000036",
+          "id": "UO:0000036",
           "value": "year"
         },
         "age_event": null,
@@ -4109,7 +4295,10 @@
           "sample_processing_id": "",
           "sample_id": "D2_exp",
           "sample_type": null,
-          "tissue": "peripheral blood",
+          "tissue": {
+            "id": "UBERON:0013756",
+            "value": "venous blood"
+          },
           "anatomic_site": null,
           "disease_state_sample": null,
           "collection_time_point_relative": null,
@@ -4117,7 +4306,7 @@
           "biomaterial_provider": null,
           "tissue_processing": "leukapheresis",
           "cell_subset": {
-            "id": "CL_0000792",
+            "id": "CL:0000792",
             "value": "CD4-positive, CD25-positive, alpha-beta regulatory T cell"
           },
           "cell_phenotype": "CD4+ CD25_high CD127_low",
@@ -4162,7 +4351,10 @@
           "sample_processing_id": "",
           "sample_id": "D2_exp",
           "sample_type": null,
-          "tissue": "peripheral blood",
+          "tissue": {
+            "id": "UBERON:0013756",
+            "value": "venous blood"
+          },
           "anatomic_site": null,
           "disease_state_sample": null,
           "collection_time_point_relative": null,
@@ -4170,7 +4362,7 @@
           "biomaterial_provider": null,
           "tissue_processing": "leukapheresis",
           "cell_subset": {
-            "id": "CL_0000792",
+            "id": "CL:0000792",
             "value": "CD4-positive, CD25-positive, alpha-beta regulatory T cell"
           },
           "cell_phenotype": "CD4+ CD25_high CD127_low",
@@ -4237,8 +4429,8 @@
         "study_id": "1371444213709729305-242ac11c-0001-012",
         "study_title": "T cell receptor repertoires after adoptive transfer of expanded allogeneic regulatory T cells",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "NCIT:C16084",
+          "value": "Observational Study"
         },
         "study_description": "T regulatory cell (Treg) therapy has been exploited in autoimmune disease, solid organ transplantation and in efforts to prevent or treat graft-versus-host disease (GvHD). However, our knowledge on in vivo persistence of transfused Treg is limited. Whether Treg transfusion leads to notable changes in the overall Treg repertoire and or whether longevity of Treg in the periphery is restricted to certain clones is unknown. Here we use T cell receptor alpha chain sequencing (TCR\u03b1-NGS) to monitor changes in the repertoire of Treg upon polyclonal expansion and after subsequent adoptive transfer. We applied TCR\u03b1-NGS to samples from two patients with chronic GvHD who received comparable doses of stem cell donor derived expanded Treg. We found that in vitro polyclonal expansion led to notable repertoire changes in vitro and that Treg cell therapy considerably altered peripheral Treg repertoire toward that of the infused cell product, to different degrees in each patient. Clonal changes in the peripheral blood were transient and correlated well with the clinical parameters. We suggest that T cell clonotype analyses using TCR sequencing should be considered as a means to monitor longevity and fate of adoptively transferred T cells.",
         "inclusion_exclusion_criteria": "",
@@ -4247,7 +4439,7 @@
         "submitted_by": "Scott Christley <scott.christley@utsouthwestern.edu>",
         "collected_by": "",
         "grants": "",
-        "pub_ids": "Theil et al. 2016",
+        "pub_ids": "PMID:27774628",
         "keywords_study": [
           "contains_tcr"
         ],
@@ -4256,15 +4448,15 @@
       "subject": {
         "subject_id": "Patient 2",
         "synthetic": false,
-        "organism": {
-          "id": "9606",
+        "species": {
+          "id": "NCBITaxon:9606",
           "value": "Homo sapiens"
         },
         "sex": "female",
         "age_min": 45,
         "age_max": 45,
         "age_unit": {
-          "id": "UO_0000036",
+          "id": "UO:0000036",
           "value": "year"
         },
         "age_event": "sampling",
@@ -4292,7 +4484,10 @@
           "sample_processing_id": "",
           "sample_id": "P2_pre",
           "sample_type": null,
-          "tissue": "peripheral blood",
+          "tissue": {
+            "id": "UBERON:0013756",
+            "value": "venous blood"
+          },
           "anatomic_site": null,
           "disease_state_sample": "treatment-refractory chronic GvHD",
           "collection_time_point_relative": "Treg infusion",
@@ -4300,7 +4495,7 @@
           "biomaterial_provider": null,
           "tissue_processing": null,
           "cell_subset": {
-            "id": "CL_0000792",
+            "id": "CL:0000792",
             "value": "CD4-positive, CD25-positive, alpha-beta regulatory T cell"
           },
           "cell_phenotype": "CD4+ CD25_high CD127_low",
@@ -4345,7 +4540,10 @@
           "sample_processing_id": "",
           "sample_id": "P2_pre",
           "sample_type": null,
-          "tissue": "peripheral blood",
+          "tissue": {
+            "id": "UBERON:0013756",
+            "value": "venous blood"
+          },
           "anatomic_site": null,
           "disease_state_sample": "treatment-refractory chronic GvHD",
           "collection_time_point_relative": "Treg infusion",
@@ -4353,7 +4551,7 @@
           "biomaterial_provider": null,
           "tissue_processing": null,
           "cell_subset": {
-            "id": "CL_0000792",
+            "id": "CL:0000792",
             "value": "CD4-positive, CD25-positive, alpha-beta regulatory T cell"
           },
           "cell_phenotype": "CD4+ CD25_high CD127_low",
@@ -4420,8 +4618,8 @@
         "study_id": "1371444213709729305-242ac11c-0001-012",
         "study_title": "T cell receptor repertoires after adoptive transfer of expanded allogeneic regulatory T cells",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "NCIT:C16084",
+          "value": "Observational Study"
         },
         "study_description": "T regulatory cell (Treg) therapy has been exploited in autoimmune disease, solid organ transplantation and in efforts to prevent or treat graft-versus-host disease (GvHD). However, our knowledge on in vivo persistence of transfused Treg is limited. Whether Treg transfusion leads to notable changes in the overall Treg repertoire and or whether longevity of Treg in the periphery is restricted to certain clones is unknown. Here we use T cell receptor alpha chain sequencing (TCR\u03b1-NGS) to monitor changes in the repertoire of Treg upon polyclonal expansion and after subsequent adoptive transfer. We applied TCR\u03b1-NGS to samples from two patients with chronic GvHD who received comparable doses of stem cell donor derived expanded Treg. We found that in vitro polyclonal expansion led to notable repertoire changes in vitro and that Treg cell therapy considerably altered peripheral Treg repertoire toward that of the infused cell product, to different degrees in each patient. Clonal changes in the peripheral blood were transient and correlated well with the clinical parameters. We suggest that T cell clonotype analyses using TCR sequencing should be considered as a means to monitor longevity and fate of adoptively transferred T cells.",
         "inclusion_exclusion_criteria": "",
@@ -4430,7 +4628,7 @@
         "submitted_by": "Scott Christley <scott.christley@utsouthwestern.edu>",
         "collected_by": "",
         "grants": "",
-        "pub_ids": "Theil et al. 2016",
+        "pub_ids": "PMID:27774628",
         "keywords_study": [
           "contains_tcr"
         ],
@@ -4439,15 +4637,15 @@
       "subject": {
         "subject_id": "Patient 2",
         "synthetic": false,
-        "organism": {
-          "id": "9606",
+        "species": {
+          "id": "NCBITaxon:9606",
           "value": "Homo sapiens"
         },
         "sex": "female",
         "age_min": 45,
         "age_max": 45,
         "age_unit": {
-          "id": "UO_0000036",
+          "id": "UO:0000036",
           "value": "year"
         },
         "age_event": "sampling",
@@ -4475,7 +4673,10 @@
           "sample_processing_id": "",
           "sample_id": "P2_1w",
           "sample_type": null,
-          "tissue": "peripheral blood",
+          "tissue": {
+            "id": "UBERON:0013756",
+            "value": "venous blood"
+          },
           "anatomic_site": null,
           "disease_state_sample": "treatment-refractory chronic GvHD",
           "collection_time_point_relative": "Treg infusion",
@@ -4483,7 +4684,7 @@
           "biomaterial_provider": null,
           "tissue_processing": null,
           "cell_subset": {
-            "id": "CL_0000792",
+            "id": "CL:0000792",
             "value": "CD4-positive, CD25-positive, alpha-beta regulatory T cell"
           },
           "cell_phenotype": "CD4+ CD25_high CD127_low",
@@ -4528,7 +4729,10 @@
           "sample_processing_id": "",
           "sample_id": "P2_1w",
           "sample_type": null,
-          "tissue": "peripheral blood",
+          "tissue": {
+            "id": "UBERON:0013756",
+            "value": "venous blood"
+          },
           "anatomic_site": null,
           "disease_state_sample": "treatment-refractory chronic GvHD",
           "collection_time_point_relative": "Treg infusion",
@@ -4536,7 +4740,7 @@
           "biomaterial_provider": null,
           "tissue_processing": null,
           "cell_subset": {
-            "id": "CL_0000792",
+            "id": "CL:0000792",
             "value": "CD4-positive, CD25-positive, alpha-beta regulatory T cell"
           },
           "cell_phenotype": "CD4+ CD25_high CD127_low",
@@ -4603,8 +4807,8 @@
         "study_id": "1371444213709729305-242ac11c-0001-012",
         "study_title": "T cell receptor repertoires after adoptive transfer of expanded allogeneic regulatory T cells",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "NCIT:C16084",
+          "value": "Observational Study"
         },
         "study_description": "T regulatory cell (Treg) therapy has been exploited in autoimmune disease, solid organ transplantation and in efforts to prevent or treat graft-versus-host disease (GvHD). However, our knowledge on in vivo persistence of transfused Treg is limited. Whether Treg transfusion leads to notable changes in the overall Treg repertoire and or whether longevity of Treg in the periphery is restricted to certain clones is unknown. Here we use T cell receptor alpha chain sequencing (TCR\u03b1-NGS) to monitor changes in the repertoire of Treg upon polyclonal expansion and after subsequent adoptive transfer. We applied TCR\u03b1-NGS to samples from two patients with chronic GvHD who received comparable doses of stem cell donor derived expanded Treg. We found that in vitro polyclonal expansion led to notable repertoire changes in vitro and that Treg cell therapy considerably altered peripheral Treg repertoire toward that of the infused cell product, to different degrees in each patient. Clonal changes in the peripheral blood were transient and correlated well with the clinical parameters. We suggest that T cell clonotype analyses using TCR sequencing should be considered as a means to monitor longevity and fate of adoptively transferred T cells.",
         "inclusion_exclusion_criteria": "",
@@ -4613,7 +4817,7 @@
         "submitted_by": "Scott Christley <scott.christley@utsouthwestern.edu>",
         "collected_by": "",
         "grants": "",
-        "pub_ids": "Theil et al. 2016",
+        "pub_ids": "PMID:27774628",
         "keywords_study": [
           "contains_tcr"
         ],
@@ -4622,15 +4826,15 @@
       "subject": {
         "subject_id": "Patient 2",
         "synthetic": false,
-        "organism": {
-          "id": "9606",
+        "species": {
+          "id": "NCBITaxon:9606",
           "value": "Homo sapiens"
         },
         "sex": "female",
         "age_min": 45,
         "age_max": 45,
         "age_unit": {
-          "id": "UO_0000036",
+          "id": "UO:0000036",
           "value": "year"
         },
         "age_event": "sampling",
@@ -4658,7 +4862,10 @@
           "sample_processing_id": "",
           "sample_id": "P2_5w",
           "sample_type": null,
-          "tissue": "peripheral blood",
+          "tissue": {
+            "id": "UBERON:0013756",
+            "value": "venous blood"
+          },
           "anatomic_site": null,
           "disease_state_sample": "treatment-refractory chronic GvHD",
           "collection_time_point_relative": "Treg infusion",
@@ -4666,7 +4873,7 @@
           "biomaterial_provider": null,
           "tissue_processing": null,
           "cell_subset": {
-            "id": "CL_0000792",
+            "id": "CL:0000792",
             "value": "CD4-positive, CD25-positive, alpha-beta regulatory T cell"
           },
           "cell_phenotype": "CD4+ CD25_high CD127_low",
@@ -4711,7 +4918,10 @@
           "sample_processing_id": "",
           "sample_id": "P2_5w",
           "sample_type": null,
-          "tissue": "peripheral blood",
+          "tissue": {
+            "id": "UBERON:0013756",
+            "value": "venous blood"
+          },
           "anatomic_site": null,
           "disease_state_sample": "treatment-refractory chronic GvHD",
           "collection_time_point_relative": "Treg infusion",
@@ -4719,7 +4929,7 @@
           "biomaterial_provider": null,
           "tissue_processing": null,
           "cell_subset": {
-            "id": "CL_0000792",
+            "id": "CL:0000792",
             "value": "CD4-positive, CD25-positive, alpha-beta regulatory T cell"
           },
           "cell_phenotype": "CD4+ CD25_high CD127_low",
