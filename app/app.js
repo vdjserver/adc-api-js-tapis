@@ -70,6 +70,9 @@ GuestAccount.getToken()
 	Runner.create(swaggerConfig, function(err, runner) {
 	    if (err) { throw err; }
 
+	    // trust proxy so we can get client IP
+	    app.set('trust proxy', true);
+
 	    // install middleware
 	    var swaggerExpress = runner.expressMiddleware();
 	    swaggerExpress.register(app);

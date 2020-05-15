@@ -1,8 +1,8 @@
 'use strict';
 
 //
-// guestAccount.js
-// guest account for performing queries
+// serviceAccount.js
+// service account for admin tasks
 //
 // VDJServer Community Data Portal
 // ADC API for VDJServer
@@ -32,18 +32,18 @@ var Q = require('q');
 var agaveSettings = require('../../config/tapisSettings');
 var AgaveToken = require('./agaveToken');
 
-var GuestAccount = {
-    username: agaveSettings.guestAccountKey,
-    password: agaveSettings.guestAccountSecret,
+var ServiceAccount = {
+    username: agaveSettings.serviceAccountKey,
+    password: agaveSettings.serviceAccountSecret,
     agaveToken: null
 };
 
-module.exports = GuestAccount;
+module.exports = ServiceAccount;
 
 // Processing
 var agaveIO = require('../vendor/agaveIO');
 
-GuestAccount.getToken = function() {
+ServiceAccount.getToken = function() {
 
     var deferred = Q.defer();
     var that = this;
@@ -54,13 +54,13 @@ GuestAccount.getToken = function() {
 	deferred.resolve(that.agaveToken);
     })
     .fail(function(errorObject) {
-	console.log('VDJServer ADC API ERROR: Unable to login with guest account. ' + errorObject);
+	console.log('VDJServer ADC API ERROR: Unable to login with service account. ' + errorObject);
         deferred.reject(errorObject);
     });
 
     return deferred.promise;
 }
 
-GuestAccount.accessToken = function() {
+ServiceAccount.accessToken = function() {
     return this.agaveToken.access_token;
 }
