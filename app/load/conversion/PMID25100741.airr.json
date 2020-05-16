@@ -19,8 +19,8 @@
         "study_id": "PRJNA248475",
         "study_title": "B cells populating the multiple sclerosis brain mature in the draining cervical lymph nodes",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "NCIT:C16084",
+          "value": "Observational Study"
         },
         "study_description": "Multiple sclerosis (MS) is an inflammatory disease of the central nervous system (CNS) characterized by autoimmune- mediated demyelination and neurodegeneration. The CNS of patients with MS harbors expanded clones of antigen- experienced B cells that reside in distinct compartments including the meninges, cerebrospinal fluid (CSF), and parenchyma. It is not understood whether this immune infiltrate initiates its development in the CNS or in pe- ripheral tissues. B cells in the CSF can exchange with those in peripheral blood, implying that CNS B cells may have access to lymphoid tissue that may be the specific compartment(s) in which CNS-resident B cells encounter antigen and experience affinity maturation. Paired tissues were used to determine whether the B cells that populate the CNS mature in the draining cervical lymph nodes (CLNs). High-throughput sequencing of the antibody repertoire demonstrated that clonally expanded B cells were present in both compartments. Founding members of clones were more often found in the draining CLNs. More mature clonal members derived from these founders were observed in the draining CLNs and also in the CNS, including lesions. These data provide new evidence that B cells traffic freely across the tissue barrier, with the majority of B cell maturation occurring outside of the CNS in the secondary lymphoid tissue. Our study may aid in further defining the mechanisms of immunomodulatory thera- pies that either deplete circulating B cells or affect the intrathecal B cell compartment by inhibiting lymphocyte transmigration into the CNS.",
         "inclusion_exclusion_criteria": "",
@@ -38,15 +38,15 @@
       "subject": {
         "subject_id": "M2",
         "synthetic": false,
-        "organism": {
-          "id": "9606",
+        "species": {
+          "id": "NCBITaxon:9606",
           "value": "Homo sapiens"
         },
         "sex": "female",
         "age_min": 53,
         "age_max": 53,
         "age_unit": {
-          "id": "UO_0000036",
+          "id": "UO:0000036",
           "value": "year"
         },
         "age_event": "sampling",
@@ -56,14 +56,31 @@
         "strain_name": null,
         "linked_subjects": null,
         "link_type": null,
-        "diagnosis": null
+        "diagnosis": [
+          {
+            "study_group_description": "",
+            "disease_diagnosis": {
+              "id": "DOID:0050783",
+              "value": "secondary progressive multiple sclerosis"
+            },
+            "disease_length": "",
+            "disease_stage": "",
+            "prior_therapies": "",
+            "immunogen": "",
+            "intervention": "",
+            "medical_history": ""
+          }
+        ]
       },
       "sample": [
         {
           "sample_processing_id": "",
           "sample_id": "M2 CLN section 1",
           "sample_type": "Tissue sample",
-          "tissue": "Cervical lymph node",
+          "tissue": {
+            "id": "UBERON:0002429",
+            "value": "cervical lymph node"
+          },
           "anatomic_site": null,
           "disease_state_sample": "Secondary progressive",
           "collection_time_point_relative": null,
@@ -135,8 +152,8 @@
         "study_id": "PRJNA248475",
         "study_title": "B cells populating the multiple sclerosis brain mature in the draining cervical lymph nodes",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "NCIT:C16084",
+          "value": "Observational Study"
         },
         "study_description": "Multiple sclerosis (MS) is an inflammatory disease of the central nervous system (CNS) characterized by autoimmune- mediated demyelination and neurodegeneration. The CNS of patients with MS harbors expanded clones of antigen- experienced B cells that reside in distinct compartments including the meninges, cerebrospinal fluid (CSF), and parenchyma. It is not understood whether this immune infiltrate initiates its development in the CNS or in pe- ripheral tissues. B cells in the CSF can exchange with those in peripheral blood, implying that CNS B cells may have access to lymphoid tissue that may be the specific compartment(s) in which CNS-resident B cells encounter antigen and experience affinity maturation. Paired tissues were used to determine whether the B cells that populate the CNS mature in the draining cervical lymph nodes (CLNs). High-throughput sequencing of the antibody repertoire demonstrated that clonally expanded B cells were present in both compartments. Founding members of clones were more often found in the draining CLNs. More mature clonal members derived from these founders were observed in the draining CLNs and also in the CNS, including lesions. These data provide new evidence that B cells traffic freely across the tissue barrier, with the majority of B cell maturation occurring outside of the CNS in the secondary lymphoid tissue. Our study may aid in further defining the mechanisms of immunomodulatory thera- pies that either deplete circulating B cells or affect the intrathecal B cell compartment by inhibiting lymphocyte transmigration into the CNS.",
         "inclusion_exclusion_criteria": "",
@@ -154,15 +171,15 @@
       "subject": {
         "subject_id": "M2",
         "synthetic": false,
-        "organism": {
-          "id": "9606",
+        "species": {
+          "id": "NCBITaxon:9606",
           "value": "Homo sapiens"
         },
         "sex": "female",
         "age_min": 53,
         "age_max": 53,
         "age_unit": {
-          "id": "UO_0000036",
+          "id": "UO:0000036",
           "value": "year"
         },
         "age_event": "sampling",
@@ -172,14 +189,31 @@
         "strain_name": null,
         "linked_subjects": null,
         "link_type": null,
-        "diagnosis": null
+        "diagnosis": [
+          {
+            "study_group_description": "",
+            "disease_diagnosis": {
+              "id": "DOID:0050783",
+              "value": "secondary progressive multiple sclerosis"
+            },
+            "disease_length": "",
+            "disease_stage": "",
+            "prior_therapies": "",
+            "immunogen": "",
+            "intervention": "",
+            "medical_history": ""
+          }
+        ]
       },
       "sample": [
         {
           "sample_processing_id": "",
           "sample_id": "M2 CLN section 2",
           "sample_type": "Tissue sample",
-          "tissue": "Cervical lymph node",
+          "tissue": {
+            "id": "UBERON:0002429",
+            "value": "cervical lymph node"
+          },
           "anatomic_site": null,
           "disease_state_sample": "Secondary progressive",
           "collection_time_point_relative": null,
@@ -251,8 +285,8 @@
         "study_id": "PRJNA248475",
         "study_title": "B cells populating the multiple sclerosis brain mature in the draining cervical lymph nodes",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "NCIT:C16084",
+          "value": "Observational Study"
         },
         "study_description": "Multiple sclerosis (MS) is an inflammatory disease of the central nervous system (CNS) characterized by autoimmune- mediated demyelination and neurodegeneration. The CNS of patients with MS harbors expanded clones of antigen- experienced B cells that reside in distinct compartments including the meninges, cerebrospinal fluid (CSF), and parenchyma. It is not understood whether this immune infiltrate initiates its development in the CNS or in pe- ripheral tissues. B cells in the CSF can exchange with those in peripheral blood, implying that CNS B cells may have access to lymphoid tissue that may be the specific compartment(s) in which CNS-resident B cells encounter antigen and experience affinity maturation. Paired tissues were used to determine whether the B cells that populate the CNS mature in the draining cervical lymph nodes (CLNs). High-throughput sequencing of the antibody repertoire demonstrated that clonally expanded B cells were present in both compartments. Founding members of clones were more often found in the draining CLNs. More mature clonal members derived from these founders were observed in the draining CLNs and also in the CNS, including lesions. These data provide new evidence that B cells traffic freely across the tissue barrier, with the majority of B cell maturation occurring outside of the CNS in the secondary lymphoid tissue. Our study may aid in further defining the mechanisms of immunomodulatory thera- pies that either deplete circulating B cells or affect the intrathecal B cell compartment by inhibiting lymphocyte transmigration into the CNS.",
         "inclusion_exclusion_criteria": "",
@@ -270,15 +304,15 @@
       "subject": {
         "subject_id": "M2",
         "synthetic": false,
-        "organism": {
-          "id": "9606",
+        "species": {
+          "id": "NCBITaxon:9606",
           "value": "Homo sapiens"
         },
         "sex": "female",
         "age_min": 53,
         "age_max": 53,
         "age_unit": {
-          "id": "UO_0000036",
+          "id": "UO:0000036",
           "value": "year"
         },
         "age_event": "sampling",
@@ -288,14 +322,31 @@
         "strain_name": null,
         "linked_subjects": null,
         "link_type": null,
-        "diagnosis": null
+        "diagnosis": [
+          {
+            "study_group_description": "",
+            "disease_diagnosis": {
+              "id": "DOID:0050783",
+              "value": "secondary progressive multiple sclerosis"
+            },
+            "disease_length": "",
+            "disease_stage": "",
+            "prior_therapies": "",
+            "immunogen": "",
+            "intervention": "",
+            "medical_history": ""
+          }
+        ]
       },
       "sample": [
         {
           "sample_processing_id": "",
           "sample_id": "M2 CLN section 3",
           "sample_type": "Tissue sample",
-          "tissue": "Cervical lymph node",
+          "tissue": {
+            "id": "UBERON:0002429",
+            "value": "cervical lymph node"
+          },
           "anatomic_site": null,
           "disease_state_sample": "Secondary progressive",
           "collection_time_point_relative": null,
@@ -367,8 +418,8 @@
         "study_id": "PRJNA248475",
         "study_title": "B cells populating the multiple sclerosis brain mature in the draining cervical lymph nodes",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "NCIT:C16084",
+          "value": "Observational Study"
         },
         "study_description": "Multiple sclerosis (MS) is an inflammatory disease of the central nervous system (CNS) characterized by autoimmune- mediated demyelination and neurodegeneration. The CNS of patients with MS harbors expanded clones of antigen- experienced B cells that reside in distinct compartments including the meninges, cerebrospinal fluid (CSF), and parenchyma. It is not understood whether this immune infiltrate initiates its development in the CNS or in pe- ripheral tissues. B cells in the CSF can exchange with those in peripheral blood, implying that CNS B cells may have access to lymphoid tissue that may be the specific compartment(s) in which CNS-resident B cells encounter antigen and experience affinity maturation. Paired tissues were used to determine whether the B cells that populate the CNS mature in the draining cervical lymph nodes (CLNs). High-throughput sequencing of the antibody repertoire demonstrated that clonally expanded B cells were present in both compartments. Founding members of clones were more often found in the draining CLNs. More mature clonal members derived from these founders were observed in the draining CLNs and also in the CNS, including lesions. These data provide new evidence that B cells traffic freely across the tissue barrier, with the majority of B cell maturation occurring outside of the CNS in the secondary lymphoid tissue. Our study may aid in further defining the mechanisms of immunomodulatory thera- pies that either deplete circulating B cells or affect the intrathecal B cell compartment by inhibiting lymphocyte transmigration into the CNS.",
         "inclusion_exclusion_criteria": "",
@@ -386,15 +437,15 @@
       "subject": {
         "subject_id": "M2",
         "synthetic": false,
-        "organism": {
-          "id": "9606",
+        "species": {
+          "id": "NCBITaxon:9606",
           "value": "Homo sapiens"
         },
         "sex": "female",
         "age_min": 53,
         "age_max": 53,
         "age_unit": {
-          "id": "UO_0000036",
+          "id": "UO:0000036",
           "value": "year"
         },
         "age_event": "sampling",
@@ -404,14 +455,31 @@
         "strain_name": null,
         "linked_subjects": null,
         "link_type": null,
-        "diagnosis": null
+        "diagnosis": [
+          {
+            "study_group_description": "",
+            "disease_diagnosis": {
+              "id": "DOID:0050783",
+              "value": "secondary progressive multiple sclerosis"
+            },
+            "disease_length": "",
+            "disease_stage": "",
+            "prior_therapies": "",
+            "immunogen": "",
+            "intervention": "",
+            "medical_history": ""
+          }
+        ]
       },
       "sample": [
         {
           "sample_processing_id": "",
           "sample_id": "M2 Lesion section 1",
-          "sample_type": "Tissue sample",
-          "tissue": "Brain lesion",
+          "sample_type": "Lesion sample",
+          "tissue": {
+            "id": "UBERON:0003544",
+            "value": "brain white matter"
+          },
           "anatomic_site": null,
           "disease_state_sample": "Secondary progressive",
           "collection_time_point_relative": null,
@@ -483,8 +551,8 @@
         "study_id": "PRJNA248475",
         "study_title": "B cells populating the multiple sclerosis brain mature in the draining cervical lymph nodes",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "NCIT:C16084",
+          "value": "Observational Study"
         },
         "study_description": "Multiple sclerosis (MS) is an inflammatory disease of the central nervous system (CNS) characterized by autoimmune- mediated demyelination and neurodegeneration. The CNS of patients with MS harbors expanded clones of antigen- experienced B cells that reside in distinct compartments including the meninges, cerebrospinal fluid (CSF), and parenchyma. It is not understood whether this immune infiltrate initiates its development in the CNS or in pe- ripheral tissues. B cells in the CSF can exchange with those in peripheral blood, implying that CNS B cells may have access to lymphoid tissue that may be the specific compartment(s) in which CNS-resident B cells encounter antigen and experience affinity maturation. Paired tissues were used to determine whether the B cells that populate the CNS mature in the draining cervical lymph nodes (CLNs). High-throughput sequencing of the antibody repertoire demonstrated that clonally expanded B cells were present in both compartments. Founding members of clones were more often found in the draining CLNs. More mature clonal members derived from these founders were observed in the draining CLNs and also in the CNS, including lesions. These data provide new evidence that B cells traffic freely across the tissue barrier, with the majority of B cell maturation occurring outside of the CNS in the secondary lymphoid tissue. Our study may aid in further defining the mechanisms of immunomodulatory thera- pies that either deplete circulating B cells or affect the intrathecal B cell compartment by inhibiting lymphocyte transmigration into the CNS.",
         "inclusion_exclusion_criteria": "",
@@ -502,15 +570,15 @@
       "subject": {
         "subject_id": "M2",
         "synthetic": false,
-        "organism": {
-          "id": "9606",
+        "species": {
+          "id": "NCBITaxon:9606",
           "value": "Homo sapiens"
         },
         "sex": "female",
         "age_min": 53,
         "age_max": 53,
         "age_unit": {
-          "id": "UO_0000036",
+          "id": "UO:0000036",
           "value": "year"
         },
         "age_event": "sampling",
@@ -520,14 +588,31 @@
         "strain_name": null,
         "linked_subjects": null,
         "link_type": null,
-        "diagnosis": null
+        "diagnosis": [
+          {
+            "study_group_description": "",
+            "disease_diagnosis": {
+              "id": "DOID:0050783",
+              "value": "secondary progressive multiple sclerosis"
+            },
+            "disease_length": "",
+            "disease_stage": "",
+            "prior_therapies": "",
+            "immunogen": "",
+            "intervention": "",
+            "medical_history": ""
+          }
+        ]
       },
       "sample": [
         {
           "sample_processing_id": "",
           "sample_id": "M2 Lesion section 2",
-          "sample_type": "Tissue sample",
-          "tissue": "Brain lesion",
+          "sample_type": "Lesion sample",
+          "tissue": {
+            "id": "UBERON:0003544",
+            "value": "brain white matter"
+          },
           "anatomic_site": null,
           "disease_state_sample": "Secondary progressive",
           "collection_time_point_relative": null,
@@ -599,8 +684,8 @@
         "study_id": "PRJNA248475",
         "study_title": "B cells populating the multiple sclerosis brain mature in the draining cervical lymph nodes",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "NCIT:C16084",
+          "value": "Observational Study"
         },
         "study_description": "Multiple sclerosis (MS) is an inflammatory disease of the central nervous system (CNS) characterized by autoimmune- mediated demyelination and neurodegeneration. The CNS of patients with MS harbors expanded clones of antigen- experienced B cells that reside in distinct compartments including the meninges, cerebrospinal fluid (CSF), and parenchyma. It is not understood whether this immune infiltrate initiates its development in the CNS or in pe- ripheral tissues. B cells in the CSF can exchange with those in peripheral blood, implying that CNS B cells may have access to lymphoid tissue that may be the specific compartment(s) in which CNS-resident B cells encounter antigen and experience affinity maturation. Paired tissues were used to determine whether the B cells that populate the CNS mature in the draining cervical lymph nodes (CLNs). High-throughput sequencing of the antibody repertoire demonstrated that clonally expanded B cells were present in both compartments. Founding members of clones were more often found in the draining CLNs. More mature clonal members derived from these founders were observed in the draining CLNs and also in the CNS, including lesions. These data provide new evidence that B cells traffic freely across the tissue barrier, with the majority of B cell maturation occurring outside of the CNS in the secondary lymphoid tissue. Our study may aid in further defining the mechanisms of immunomodulatory thera- pies that either deplete circulating B cells or affect the intrathecal B cell compartment by inhibiting lymphocyte transmigration into the CNS.",
         "inclusion_exclusion_criteria": "",
@@ -618,15 +703,15 @@
       "subject": {
         "subject_id": "M2",
         "synthetic": false,
-        "organism": {
-          "id": "9606",
+        "species": {
+          "id": "NCBITaxon:9606",
           "value": "Homo sapiens"
         },
         "sex": "female",
         "age_min": 53,
         "age_max": 53,
         "age_unit": {
-          "id": "UO_0000036",
+          "id": "UO:0000036",
           "value": "year"
         },
         "age_event": "sampling",
@@ -636,14 +721,31 @@
         "strain_name": null,
         "linked_subjects": null,
         "link_type": null,
-        "diagnosis": null
+        "diagnosis": [
+          {
+            "study_group_description": "",
+            "disease_diagnosis": {
+              "id": "DOID:0050783",
+              "value": "secondary progressive multiple sclerosis"
+            },
+            "disease_length": "",
+            "disease_stage": "",
+            "prior_therapies": "",
+            "immunogen": "",
+            "intervention": "",
+            "medical_history": ""
+          }
+        ]
       },
       "sample": [
         {
           "sample_processing_id": "",
           "sample_id": "M2 Lesion section 3",
-          "sample_type": "Tissue sample",
-          "tissue": "Brain lesion",
+          "sample_type": "Lesion sample",
+          "tissue": {
+            "id": "UBERON:0003544",
+            "value": "brain white matter"
+          },
           "anatomic_site": null,
           "disease_state_sample": "Secondary progressive",
           "collection_time_point_relative": null,
@@ -715,8 +817,8 @@
         "study_id": "PRJNA248475",
         "study_title": "B cells populating the multiple sclerosis brain mature in the draining cervical lymph nodes",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "NCIT:C16084",
+          "value": "Observational Study"
         },
         "study_description": "Multiple sclerosis (MS) is an inflammatory disease of the central nervous system (CNS) characterized by autoimmune- mediated demyelination and neurodegeneration. The CNS of patients with MS harbors expanded clones of antigen- experienced B cells that reside in distinct compartments including the meninges, cerebrospinal fluid (CSF), and parenchyma. It is not understood whether this immune infiltrate initiates its development in the CNS or in pe- ripheral tissues. B cells in the CSF can exchange with those in peripheral blood, implying that CNS B cells may have access to lymphoid tissue that may be the specific compartment(s) in which CNS-resident B cells encounter antigen and experience affinity maturation. Paired tissues were used to determine whether the B cells that populate the CNS mature in the draining cervical lymph nodes (CLNs). High-throughput sequencing of the antibody repertoire demonstrated that clonally expanded B cells were present in both compartments. Founding members of clones were more often found in the draining CLNs. More mature clonal members derived from these founders were observed in the draining CLNs and also in the CNS, including lesions. These data provide new evidence that B cells traffic freely across the tissue barrier, with the majority of B cell maturation occurring outside of the CNS in the secondary lymphoid tissue. Our study may aid in further defining the mechanisms of immunomodulatory thera- pies that either deplete circulating B cells or affect the intrathecal B cell compartment by inhibiting lymphocyte transmigration into the CNS.",
         "inclusion_exclusion_criteria": "",
@@ -734,15 +836,15 @@
       "subject": {
         "subject_id": "M3",
         "synthetic": false,
-        "organism": {
-          "id": "9606",
+        "species": {
+          "id": "NCBITaxon:9606",
           "value": "Homo sapiens"
         },
         "sex": "female",
         "age_min": 74,
         "age_max": 74,
         "age_unit": {
-          "id": "UO_0000036",
+          "id": "UO:0000036",
           "value": "year"
         },
         "age_event": "sampling",
@@ -752,14 +854,31 @@
         "strain_name": null,
         "linked_subjects": null,
         "link_type": null,
-        "diagnosis": null
+        "diagnosis": [
+          {
+            "study_group_description": "",
+            "disease_diagnosis": {
+              "id": "DOID:0050784",
+              "value": "primary progressive multiple sclerosis"
+            },
+            "disease_length": "",
+            "disease_stage": "",
+            "prior_therapies": "",
+            "immunogen": "",
+            "intervention": "",
+            "medical_history": ""
+          }
+        ]
       },
       "sample": [
         {
           "sample_processing_id": "",
           "sample_id": "M3 CLN section 1",
           "sample_type": "Tissue sample",
-          "tissue": "Cervical lymph node",
+          "tissue": {
+            "id": "UBERON:0002429",
+            "value": "cervical lymph node"
+          },
           "anatomic_site": null,
           "disease_state_sample": "Primary progressive",
           "collection_time_point_relative": null,
@@ -831,8 +950,8 @@
         "study_id": "PRJNA248475",
         "study_title": "B cells populating the multiple sclerosis brain mature in the draining cervical lymph nodes",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "NCIT:C16084",
+          "value": "Observational Study"
         },
         "study_description": "Multiple sclerosis (MS) is an inflammatory disease of the central nervous system (CNS) characterized by autoimmune- mediated demyelination and neurodegeneration. The CNS of patients with MS harbors expanded clones of antigen- experienced B cells that reside in distinct compartments including the meninges, cerebrospinal fluid (CSF), and parenchyma. It is not understood whether this immune infiltrate initiates its development in the CNS or in pe- ripheral tissues. B cells in the CSF can exchange with those in peripheral blood, implying that CNS B cells may have access to lymphoid tissue that may be the specific compartment(s) in which CNS-resident B cells encounter antigen and experience affinity maturation. Paired tissues were used to determine whether the B cells that populate the CNS mature in the draining cervical lymph nodes (CLNs). High-throughput sequencing of the antibody repertoire demonstrated that clonally expanded B cells were present in both compartments. Founding members of clones were more often found in the draining CLNs. More mature clonal members derived from these founders were observed in the draining CLNs and also in the CNS, including lesions. These data provide new evidence that B cells traffic freely across the tissue barrier, with the majority of B cell maturation occurring outside of the CNS in the secondary lymphoid tissue. Our study may aid in further defining the mechanisms of immunomodulatory thera- pies that either deplete circulating B cells or affect the intrathecal B cell compartment by inhibiting lymphocyte transmigration into the CNS.",
         "inclusion_exclusion_criteria": "",
@@ -850,15 +969,15 @@
       "subject": {
         "subject_id": "M3",
         "synthetic": false,
-        "organism": {
-          "id": "9606",
+        "species": {
+          "id": "NCBITaxon:9606",
           "value": "Homo sapiens"
         },
         "sex": "female",
         "age_min": 74,
         "age_max": 74,
         "age_unit": {
-          "id": "UO_0000036",
+          "id": "UO:0000036",
           "value": "year"
         },
         "age_event": "sampling",
@@ -868,14 +987,31 @@
         "strain_name": null,
         "linked_subjects": null,
         "link_type": null,
-        "diagnosis": null
+        "diagnosis": [
+          {
+            "study_group_description": "",
+            "disease_diagnosis": {
+              "id": "DOID:0050784",
+              "value": "primary progressive multiple sclerosis"
+            },
+            "disease_length": "",
+            "disease_stage": "",
+            "prior_therapies": "",
+            "immunogen": "",
+            "intervention": "",
+            "medical_history": ""
+          }
+        ]
       },
       "sample": [
         {
           "sample_processing_id": "",
           "sample_id": "M3 CLN section 2",
           "sample_type": "Tissue sample",
-          "tissue": "Cervical lymph node",
+          "tissue": {
+            "id": "UBERON:0002429",
+            "value": "cervical lymph node"
+          },
           "anatomic_site": null,
           "disease_state_sample": "Primary progressive",
           "collection_time_point_relative": null,
@@ -947,8 +1083,8 @@
         "study_id": "PRJNA248475",
         "study_title": "B cells populating the multiple sclerosis brain mature in the draining cervical lymph nodes",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "NCIT:C16084",
+          "value": "Observational Study"
         },
         "study_description": "Multiple sclerosis (MS) is an inflammatory disease of the central nervous system (CNS) characterized by autoimmune- mediated demyelination and neurodegeneration. The CNS of patients with MS harbors expanded clones of antigen- experienced B cells that reside in distinct compartments including the meninges, cerebrospinal fluid (CSF), and parenchyma. It is not understood whether this immune infiltrate initiates its development in the CNS or in pe- ripheral tissues. B cells in the CSF can exchange with those in peripheral blood, implying that CNS B cells may have access to lymphoid tissue that may be the specific compartment(s) in which CNS-resident B cells encounter antigen and experience affinity maturation. Paired tissues were used to determine whether the B cells that populate the CNS mature in the draining cervical lymph nodes (CLNs). High-throughput sequencing of the antibody repertoire demonstrated that clonally expanded B cells were present in both compartments. Founding members of clones were more often found in the draining CLNs. More mature clonal members derived from these founders were observed in the draining CLNs and also in the CNS, including lesions. These data provide new evidence that B cells traffic freely across the tissue barrier, with the majority of B cell maturation occurring outside of the CNS in the secondary lymphoid tissue. Our study may aid in further defining the mechanisms of immunomodulatory thera- pies that either deplete circulating B cells or affect the intrathecal B cell compartment by inhibiting lymphocyte transmigration into the CNS.",
         "inclusion_exclusion_criteria": "",
@@ -966,15 +1102,15 @@
       "subject": {
         "subject_id": "M3",
         "synthetic": false,
-        "organism": {
-          "id": "9606",
+        "species": {
+          "id": "NCBITaxon:9606",
           "value": "Homo sapiens"
         },
         "sex": "female",
         "age_min": 74,
         "age_max": 74,
         "age_unit": {
-          "id": "UO_0000036",
+          "id": "UO:0000036",
           "value": "year"
         },
         "age_event": "sampling",
@@ -984,14 +1120,31 @@
         "strain_name": null,
         "linked_subjects": null,
         "link_type": null,
-        "diagnosis": null
+        "diagnosis": [
+          {
+            "study_group_description": "",
+            "disease_diagnosis": {
+              "id": "DOID:0050784",
+              "value": "primary progressive multiple sclerosis"
+            },
+            "disease_length": "",
+            "disease_stage": "",
+            "prior_therapies": "",
+            "immunogen": "",
+            "intervention": "",
+            "medical_history": ""
+          }
+        ]
       },
       "sample": [
         {
           "sample_processing_id": "",
           "sample_id": "M3 CLN section 3",
           "sample_type": "Tissue sample",
-          "tissue": "Cervical lymph node",
+          "tissue": {
+            "id": "UBERON:0002429",
+            "value": "cervical lymph node"
+          },
           "anatomic_site": null,
           "disease_state_sample": "Primary progressive",
           "collection_time_point_relative": null,
@@ -1063,8 +1216,8 @@
         "study_id": "PRJNA248475",
         "study_title": "B cells populating the multiple sclerosis brain mature in the draining cervical lymph nodes",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "NCIT:C16084",
+          "value": "Observational Study"
         },
         "study_description": "Multiple sclerosis (MS) is an inflammatory disease of the central nervous system (CNS) characterized by autoimmune- mediated demyelination and neurodegeneration. The CNS of patients with MS harbors expanded clones of antigen- experienced B cells that reside in distinct compartments including the meninges, cerebrospinal fluid (CSF), and parenchyma. It is not understood whether this immune infiltrate initiates its development in the CNS or in pe- ripheral tissues. B cells in the CSF can exchange with those in peripheral blood, implying that CNS B cells may have access to lymphoid tissue that may be the specific compartment(s) in which CNS-resident B cells encounter antigen and experience affinity maturation. Paired tissues were used to determine whether the B cells that populate the CNS mature in the draining cervical lymph nodes (CLNs). High-throughput sequencing of the antibody repertoire demonstrated that clonally expanded B cells were present in both compartments. Founding members of clones were more often found in the draining CLNs. More mature clonal members derived from these founders were observed in the draining CLNs and also in the CNS, including lesions. These data provide new evidence that B cells traffic freely across the tissue barrier, with the majority of B cell maturation occurring outside of the CNS in the secondary lymphoid tissue. Our study may aid in further defining the mechanisms of immunomodulatory thera- pies that either deplete circulating B cells or affect the intrathecal B cell compartment by inhibiting lymphocyte transmigration into the CNS.",
         "inclusion_exclusion_criteria": "",
@@ -1082,15 +1235,15 @@
       "subject": {
         "subject_id": "M3",
         "synthetic": false,
-        "organism": {
-          "id": "9606",
+        "species": {
+          "id": "NCBITaxon:9606",
           "value": "Homo sapiens"
         },
         "sex": "female",
         "age_min": 74,
         "age_max": 74,
         "age_unit": {
-          "id": "UO_0000036",
+          "id": "UO:0000036",
           "value": "year"
         },
         "age_event": "sampling",
@@ -1100,14 +1253,31 @@
         "strain_name": null,
         "linked_subjects": null,
         "link_type": null,
-        "diagnosis": null
+        "diagnosis": [
+          {
+            "study_group_description": "",
+            "disease_diagnosis": {
+              "id": "DOID:0050784",
+              "value": "primary progressive multiple sclerosis"
+            },
+            "disease_length": "",
+            "disease_stage": "",
+            "prior_therapies": "",
+            "immunogen": "",
+            "intervention": "",
+            "medical_history": ""
+          }
+        ]
       },
       "sample": [
         {
           "sample_processing_id": "",
           "sample_id": "M3 Lesion section 1",
-          "sample_type": "Tissue sample",
-          "tissue": "Brain lesion",
+          "sample_type": "Lesion sample",
+          "tissue": {
+            "id": "UBERON:0003544",
+            "value": "brain white matter"
+          },
           "anatomic_site": null,
           "disease_state_sample": "Primary progressive",
           "collection_time_point_relative": null,
@@ -1179,8 +1349,8 @@
         "study_id": "PRJNA248475",
         "study_title": "B cells populating the multiple sclerosis brain mature in the draining cervical lymph nodes",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "NCIT:C16084",
+          "value": "Observational Study"
         },
         "study_description": "Multiple sclerosis (MS) is an inflammatory disease of the central nervous system (CNS) characterized by autoimmune- mediated demyelination and neurodegeneration. The CNS of patients with MS harbors expanded clones of antigen- experienced B cells that reside in distinct compartments including the meninges, cerebrospinal fluid (CSF), and parenchyma. It is not understood whether this immune infiltrate initiates its development in the CNS or in pe- ripheral tissues. B cells in the CSF can exchange with those in peripheral blood, implying that CNS B cells may have access to lymphoid tissue that may be the specific compartment(s) in which CNS-resident B cells encounter antigen and experience affinity maturation. Paired tissues were used to determine whether the B cells that populate the CNS mature in the draining cervical lymph nodes (CLNs). High-throughput sequencing of the antibody repertoire demonstrated that clonally expanded B cells were present in both compartments. Founding members of clones were more often found in the draining CLNs. More mature clonal members derived from these founders were observed in the draining CLNs and also in the CNS, including lesions. These data provide new evidence that B cells traffic freely across the tissue barrier, with the majority of B cell maturation occurring outside of the CNS in the secondary lymphoid tissue. Our study may aid in further defining the mechanisms of immunomodulatory thera- pies that either deplete circulating B cells or affect the intrathecal B cell compartment by inhibiting lymphocyte transmigration into the CNS.",
         "inclusion_exclusion_criteria": "",
@@ -1198,15 +1368,15 @@
       "subject": {
         "subject_id": "M3",
         "synthetic": false,
-        "organism": {
-          "id": "9606",
+        "species": {
+          "id": "NCBITaxon:9606",
           "value": "Homo sapiens"
         },
         "sex": "female",
         "age_min": 74,
         "age_max": 74,
         "age_unit": {
-          "id": "UO_0000036",
+          "id": "UO:0000036",
           "value": "year"
         },
         "age_event": "sampling",
@@ -1216,14 +1386,31 @@
         "strain_name": null,
         "linked_subjects": null,
         "link_type": null,
-        "diagnosis": null
+        "diagnosis": [
+          {
+            "study_group_description": "",
+            "disease_diagnosis": {
+              "id": "DOID:0050784",
+              "value": "primary progressive multiple sclerosis"
+            },
+            "disease_length": "",
+            "disease_stage": "",
+            "prior_therapies": "",
+            "immunogen": "",
+            "intervention": "",
+            "medical_history": ""
+          }
+        ]
       },
       "sample": [
         {
           "sample_processing_id": "",
           "sample_id": "M3 Lesion section 2",
-          "sample_type": "Tissue sample",
-          "tissue": "Brain lesion",
+          "sample_type": "Lesion sample",
+          "tissue": {
+            "id": "UBERON:0003544",
+            "value": "brain white matter"
+          },
           "anatomic_site": null,
           "disease_state_sample": "Primary progressive",
           "collection_time_point_relative": null,
@@ -1295,8 +1482,8 @@
         "study_id": "PRJNA248475",
         "study_title": "B cells populating the multiple sclerosis brain mature in the draining cervical lymph nodes",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "NCIT:C16084",
+          "value": "Observational Study"
         },
         "study_description": "Multiple sclerosis (MS) is an inflammatory disease of the central nervous system (CNS) characterized by autoimmune- mediated demyelination and neurodegeneration. The CNS of patients with MS harbors expanded clones of antigen- experienced B cells that reside in distinct compartments including the meninges, cerebrospinal fluid (CSF), and parenchyma. It is not understood whether this immune infiltrate initiates its development in the CNS or in pe- ripheral tissues. B cells in the CSF can exchange with those in peripheral blood, implying that CNS B cells may have access to lymphoid tissue that may be the specific compartment(s) in which CNS-resident B cells encounter antigen and experience affinity maturation. Paired tissues were used to determine whether the B cells that populate the CNS mature in the draining cervical lymph nodes (CLNs). High-throughput sequencing of the antibody repertoire demonstrated that clonally expanded B cells were present in both compartments. Founding members of clones were more often found in the draining CLNs. More mature clonal members derived from these founders were observed in the draining CLNs and also in the CNS, including lesions. These data provide new evidence that B cells traffic freely across the tissue barrier, with the majority of B cell maturation occurring outside of the CNS in the secondary lymphoid tissue. Our study may aid in further defining the mechanisms of immunomodulatory thera- pies that either deplete circulating B cells or affect the intrathecal B cell compartment by inhibiting lymphocyte transmigration into the CNS.",
         "inclusion_exclusion_criteria": "",
@@ -1314,15 +1501,15 @@
       "subject": {
         "subject_id": "M4",
         "synthetic": false,
-        "organism": {
-          "id": "9606",
+        "species": {
+          "id": "NCBITaxon:9606",
           "value": "Homo sapiens"
         },
         "sex": "male",
         "age_min": 80,
         "age_max": 80,
         "age_unit": {
-          "id": "UO_0000036",
+          "id": "UO:0000036",
           "value": "year"
         },
         "age_event": "sampling",
@@ -1332,14 +1519,31 @@
         "strain_name": null,
         "linked_subjects": null,
         "link_type": null,
-        "diagnosis": null
+        "diagnosis": [
+          {
+            "study_group_description": "",
+            "disease_diagnosis": {
+              "id": "DOID:2377",
+              "value": "multiple sclerosis"
+            },
+            "disease_length": "",
+            "disease_stage": "chronic progressive",
+            "prior_therapies": "",
+            "immunogen": "",
+            "intervention": "",
+            "medical_history": ""
+          }
+        ]
       },
       "sample": [
         {
           "sample_processing_id": "",
           "sample_id": "M4 CLN section 1",
           "sample_type": "Tissue sample",
-          "tissue": "Cervical lymph node",
+          "tissue": {
+            "id": "UBERON:0002429",
+            "value": "cervical lymph node"
+          },
           "anatomic_site": null,
           "disease_state_sample": "Chronic progressive",
           "collection_time_point_relative": null,
@@ -1411,8 +1615,8 @@
         "study_id": "PRJNA248475",
         "study_title": "B cells populating the multiple sclerosis brain mature in the draining cervical lymph nodes",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "NCIT:C16084",
+          "value": "Observational Study"
         },
         "study_description": "Multiple sclerosis (MS) is an inflammatory disease of the central nervous system (CNS) characterized by autoimmune- mediated demyelination and neurodegeneration. The CNS of patients with MS harbors expanded clones of antigen- experienced B cells that reside in distinct compartments including the meninges, cerebrospinal fluid (CSF), and parenchyma. It is not understood whether this immune infiltrate initiates its development in the CNS or in pe- ripheral tissues. B cells in the CSF can exchange with those in peripheral blood, implying that CNS B cells may have access to lymphoid tissue that may be the specific compartment(s) in which CNS-resident B cells encounter antigen and experience affinity maturation. Paired tissues were used to determine whether the B cells that populate the CNS mature in the draining cervical lymph nodes (CLNs). High-throughput sequencing of the antibody repertoire demonstrated that clonally expanded B cells were present in both compartments. Founding members of clones were more often found in the draining CLNs. More mature clonal members derived from these founders were observed in the draining CLNs and also in the CNS, including lesions. These data provide new evidence that B cells traffic freely across the tissue barrier, with the majority of B cell maturation occurring outside of the CNS in the secondary lymphoid tissue. Our study may aid in further defining the mechanisms of immunomodulatory thera- pies that either deplete circulating B cells or affect the intrathecal B cell compartment by inhibiting lymphocyte transmigration into the CNS.",
         "inclusion_exclusion_criteria": "",
@@ -1430,15 +1634,15 @@
       "subject": {
         "subject_id": "M4",
         "synthetic": false,
-        "organism": {
-          "id": "9606",
+        "species": {
+          "id": "NCBITaxon:9606",
           "value": "Homo sapiens"
         },
         "sex": "male",
         "age_min": 80,
         "age_max": 80,
         "age_unit": {
-          "id": "UO_0000036",
+          "id": "UO:0000036",
           "value": "year"
         },
         "age_event": "sampling",
@@ -1448,14 +1652,31 @@
         "strain_name": null,
         "linked_subjects": null,
         "link_type": null,
-        "diagnosis": null
+        "diagnosis": [
+          {
+            "study_group_description": "",
+            "disease_diagnosis": {
+              "id": "DOID:2377",
+              "value": "multiple sclerosis"
+            },
+            "disease_length": "",
+            "disease_stage": "chronic progressive",
+            "prior_therapies": "",
+            "immunogen": "",
+            "intervention": "",
+            "medical_history": ""
+          }
+        ]
       },
       "sample": [
         {
           "sample_processing_id": "",
           "sample_id": "M4 CLN section 2",
           "sample_type": "Tissue sample",
-          "tissue": "Cervical lymph node",
+          "tissue": {
+            "id": "UBERON:0002429",
+            "value": "cervical lymph node"
+          },
           "anatomic_site": null,
           "disease_state_sample": "Chronic progressive",
           "collection_time_point_relative": null,
@@ -1527,8 +1748,8 @@
         "study_id": "PRJNA248475",
         "study_title": "B cells populating the multiple sclerosis brain mature in the draining cervical lymph nodes",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "NCIT:C16084",
+          "value": "Observational Study"
         },
         "study_description": "Multiple sclerosis (MS) is an inflammatory disease of the central nervous system (CNS) characterized by autoimmune- mediated demyelination and neurodegeneration. The CNS of patients with MS harbors expanded clones of antigen- experienced B cells that reside in distinct compartments including the meninges, cerebrospinal fluid (CSF), and parenchyma. It is not understood whether this immune infiltrate initiates its development in the CNS or in pe- ripheral tissues. B cells in the CSF can exchange with those in peripheral blood, implying that CNS B cells may have access to lymphoid tissue that may be the specific compartment(s) in which CNS-resident B cells encounter antigen and experience affinity maturation. Paired tissues were used to determine whether the B cells that populate the CNS mature in the draining cervical lymph nodes (CLNs). High-throughput sequencing of the antibody repertoire demonstrated that clonally expanded B cells were present in both compartments. Founding members of clones were more often found in the draining CLNs. More mature clonal members derived from these founders were observed in the draining CLNs and also in the CNS, including lesions. These data provide new evidence that B cells traffic freely across the tissue barrier, with the majority of B cell maturation occurring outside of the CNS in the secondary lymphoid tissue. Our study may aid in further defining the mechanisms of immunomodulatory thera- pies that either deplete circulating B cells or affect the intrathecal B cell compartment by inhibiting lymphocyte transmigration into the CNS.",
         "inclusion_exclusion_criteria": "",
@@ -1546,15 +1767,15 @@
       "subject": {
         "subject_id": "M4",
         "synthetic": false,
-        "organism": {
-          "id": "9606",
+        "species": {
+          "id": "NCBITaxon:9606",
           "value": "Homo sapiens"
         },
         "sex": "male",
         "age_min": 80,
         "age_max": 80,
         "age_unit": {
-          "id": "UO_0000036",
+          "id": "UO:0000036",
           "value": "year"
         },
         "age_event": "sampling",
@@ -1564,14 +1785,31 @@
         "strain_name": null,
         "linked_subjects": null,
         "link_type": null,
-        "diagnosis": null
+        "diagnosis": [
+          {
+            "study_group_description": "",
+            "disease_diagnosis": {
+              "id": "DOID:2377",
+              "value": "multiple sclerosis"
+            },
+            "disease_length": "",
+            "disease_stage": "chronic progressive",
+            "prior_therapies": "",
+            "immunogen": "",
+            "intervention": "",
+            "medical_history": ""
+          }
+        ]
       },
       "sample": [
         {
           "sample_processing_id": "",
           "sample_id": "M4 CLN section 3",
           "sample_type": "Tissue sample",
-          "tissue": "Cervical lymph node",
+          "tissue": {
+            "id": "UBERON:0002429",
+            "value": "cervical lymph node"
+          },
           "anatomic_site": null,
           "disease_state_sample": "Chronic progressive",
           "collection_time_point_relative": null,
@@ -1643,8 +1881,8 @@
         "study_id": "PRJNA248475",
         "study_title": "B cells populating the multiple sclerosis brain mature in the draining cervical lymph nodes",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "NCIT:C16084",
+          "value": "Observational Study"
         },
         "study_description": "Multiple sclerosis (MS) is an inflammatory disease of the central nervous system (CNS) characterized by autoimmune- mediated demyelination and neurodegeneration. The CNS of patients with MS harbors expanded clones of antigen- experienced B cells that reside in distinct compartments including the meninges, cerebrospinal fluid (CSF), and parenchyma. It is not understood whether this immune infiltrate initiates its development in the CNS or in pe- ripheral tissues. B cells in the CSF can exchange with those in peripheral blood, implying that CNS B cells may have access to lymphoid tissue that may be the specific compartment(s) in which CNS-resident B cells encounter antigen and experience affinity maturation. Paired tissues were used to determine whether the B cells that populate the CNS mature in the draining cervical lymph nodes (CLNs). High-throughput sequencing of the antibody repertoire demonstrated that clonally expanded B cells were present in both compartments. Founding members of clones were more often found in the draining CLNs. More mature clonal members derived from these founders were observed in the draining CLNs and also in the CNS, including lesions. These data provide new evidence that B cells traffic freely across the tissue barrier, with the majority of B cell maturation occurring outside of the CNS in the secondary lymphoid tissue. Our study may aid in further defining the mechanisms of immunomodulatory thera- pies that either deplete circulating B cells or affect the intrathecal B cell compartment by inhibiting lymphocyte transmigration into the CNS.",
         "inclusion_exclusion_criteria": "",
@@ -1662,15 +1900,15 @@
       "subject": {
         "subject_id": "M4",
         "synthetic": false,
-        "organism": {
-          "id": "9606",
+        "species": {
+          "id": "NCBITaxon:9606",
           "value": "Homo sapiens"
         },
         "sex": "male",
         "age_min": 80,
         "age_max": 80,
         "age_unit": {
-          "id": "UO_0000036",
+          "id": "UO:0000036",
           "value": "year"
         },
         "age_event": "sampling",
@@ -1680,14 +1918,31 @@
         "strain_name": null,
         "linked_subjects": null,
         "link_type": null,
-        "diagnosis": null
+        "diagnosis": [
+          {
+            "study_group_description": "",
+            "disease_diagnosis": {
+              "id": "DOID:2377",
+              "value": "multiple sclerosis"
+            },
+            "disease_length": "",
+            "disease_stage": "chronic progressive",
+            "prior_therapies": "",
+            "immunogen": "",
+            "intervention": "",
+            "medical_history": ""
+          }
+        ]
       },
       "sample": [
         {
           "sample_processing_id": "",
           "sample_id": "M4 Lesion section 1",
-          "sample_type": "Tissue sample",
-          "tissue": "Brain lesion",
+          "sample_type": "Lesion sample",
+          "tissue": {
+            "id": "UBERON:0003544",
+            "value": "brain white matter"
+          },
           "anatomic_site": null,
           "disease_state_sample": "Chronic progressive",
           "collection_time_point_relative": null,
@@ -1759,8 +2014,8 @@
         "study_id": "PRJNA248475",
         "study_title": "B cells populating the multiple sclerosis brain mature in the draining cervical lymph nodes",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "NCIT:C16084",
+          "value": "Observational Study"
         },
         "study_description": "Multiple sclerosis (MS) is an inflammatory disease of the central nervous system (CNS) characterized by autoimmune- mediated demyelination and neurodegeneration. The CNS of patients with MS harbors expanded clones of antigen- experienced B cells that reside in distinct compartments including the meninges, cerebrospinal fluid (CSF), and parenchyma. It is not understood whether this immune infiltrate initiates its development in the CNS or in pe- ripheral tissues. B cells in the CSF can exchange with those in peripheral blood, implying that CNS B cells may have access to lymphoid tissue that may be the specific compartment(s) in which CNS-resident B cells encounter antigen and experience affinity maturation. Paired tissues were used to determine whether the B cells that populate the CNS mature in the draining cervical lymph nodes (CLNs). High-throughput sequencing of the antibody repertoire demonstrated that clonally expanded B cells were present in both compartments. Founding members of clones were more often found in the draining CLNs. More mature clonal members derived from these founders were observed in the draining CLNs and also in the CNS, including lesions. These data provide new evidence that B cells traffic freely across the tissue barrier, with the majority of B cell maturation occurring outside of the CNS in the secondary lymphoid tissue. Our study may aid in further defining the mechanisms of immunomodulatory thera- pies that either deplete circulating B cells or affect the intrathecal B cell compartment by inhibiting lymphocyte transmigration into the CNS.",
         "inclusion_exclusion_criteria": "",
@@ -1778,15 +2033,15 @@
       "subject": {
         "subject_id": "M4",
         "synthetic": false,
-        "organism": {
-          "id": "9606",
+        "species": {
+          "id": "NCBITaxon:9606",
           "value": "Homo sapiens"
         },
         "sex": "male",
         "age_min": 80,
         "age_max": 80,
         "age_unit": {
-          "id": "UO_0000036",
+          "id": "UO:0000036",
           "value": "year"
         },
         "age_event": "sampling",
@@ -1796,14 +2051,31 @@
         "strain_name": null,
         "linked_subjects": null,
         "link_type": null,
-        "diagnosis": null
+        "diagnosis": [
+          {
+            "study_group_description": "",
+            "disease_diagnosis": {
+              "id": "DOID:2377",
+              "value": "multiple sclerosis"
+            },
+            "disease_length": "",
+            "disease_stage": "chronic progressive",
+            "prior_therapies": "",
+            "immunogen": "",
+            "intervention": "",
+            "medical_history": ""
+          }
+        ]
       },
       "sample": [
         {
           "sample_processing_id": "",
           "sample_id": "M4 Lesion section 2",
-          "sample_type": "Tissue sample",
-          "tissue": "Brain lesion",
+          "sample_type": "Lesion sample",
+          "tissue": {
+            "id": "UBERON:0003544",
+            "value": "brain white matter"
+          },
           "anatomic_site": null,
           "disease_state_sample": "Chronic progressive",
           "collection_time_point_relative": null,
@@ -1875,8 +2147,8 @@
         "study_id": "PRJNA248475",
         "study_title": "B cells populating the multiple sclerosis brain mature in the draining cervical lymph nodes",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "NCIT:C16084",
+          "value": "Observational Study"
         },
         "study_description": "Multiple sclerosis (MS) is an inflammatory disease of the central nervous system (CNS) characterized by autoimmune- mediated demyelination and neurodegeneration. The CNS of patients with MS harbors expanded clones of antigen- experienced B cells that reside in distinct compartments including the meninges, cerebrospinal fluid (CSF), and parenchyma. It is not understood whether this immune infiltrate initiates its development in the CNS or in pe- ripheral tissues. B cells in the CSF can exchange with those in peripheral blood, implying that CNS B cells may have access to lymphoid tissue that may be the specific compartment(s) in which CNS-resident B cells encounter antigen and experience affinity maturation. Paired tissues were used to determine whether the B cells that populate the CNS mature in the draining cervical lymph nodes (CLNs). High-throughput sequencing of the antibody repertoire demonstrated that clonally expanded B cells were present in both compartments. Founding members of clones were more often found in the draining CLNs. More mature clonal members derived from these founders were observed in the draining CLNs and also in the CNS, including lesions. These data provide new evidence that B cells traffic freely across the tissue barrier, with the majority of B cell maturation occurring outside of the CNS in the secondary lymphoid tissue. Our study may aid in further defining the mechanisms of immunomodulatory thera- pies that either deplete circulating B cells or affect the intrathecal B cell compartment by inhibiting lymphocyte transmigration into the CNS.",
         "inclusion_exclusion_criteria": "",
@@ -1894,15 +2166,15 @@
       "subject": {
         "subject_id": "M4",
         "synthetic": false,
-        "organism": {
-          "id": "9606",
+        "species": {
+          "id": "NCBITaxon:9606",
           "value": "Homo sapiens"
         },
         "sex": "male",
         "age_min": 80,
         "age_max": 80,
         "age_unit": {
-          "id": "UO_0000036",
+          "id": "UO:0000036",
           "value": "year"
         },
         "age_event": "sampling",
@@ -1912,14 +2184,31 @@
         "strain_name": null,
         "linked_subjects": null,
         "link_type": null,
-        "diagnosis": null
+        "diagnosis": [
+          {
+            "study_group_description": "",
+            "disease_diagnosis": {
+              "id": "DOID:2377",
+              "value": "multiple sclerosis"
+            },
+            "disease_length": "",
+            "disease_stage": "chronic progressive",
+            "prior_therapies": "",
+            "immunogen": "",
+            "intervention": "",
+            "medical_history": ""
+          }
+        ]
       },
       "sample": [
         {
           "sample_processing_id": "",
           "sample_id": "M4 Lesion section 3",
-          "sample_type": "Tissue sample",
-          "tissue": "Brain lesion",
+          "sample_type": "Lesion sample",
+          "tissue": {
+            "id": "UBERON:0003544",
+            "value": "brain white matter"
+          },
           "anatomic_site": null,
           "disease_state_sample": "Chronic progressive",
           "collection_time_point_relative": null,
@@ -1991,8 +2280,8 @@
         "study_id": "PRJNA248475",
         "study_title": "B cells populating the multiple sclerosis brain mature in the draining cervical lymph nodes",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "NCIT:C16084",
+          "value": "Observational Study"
         },
         "study_description": "Multiple sclerosis (MS) is an inflammatory disease of the central nervous system (CNS) characterized by autoimmune- mediated demyelination and neurodegeneration. The CNS of patients with MS harbors expanded clones of antigen- experienced B cells that reside in distinct compartments including the meninges, cerebrospinal fluid (CSF), and parenchyma. It is not understood whether this immune infiltrate initiates its development in the CNS or in pe- ripheral tissues. B cells in the CSF can exchange with those in peripheral blood, implying that CNS B cells may have access to lymphoid tissue that may be the specific compartment(s) in which CNS-resident B cells encounter antigen and experience affinity maturation. Paired tissues were used to determine whether the B cells that populate the CNS mature in the draining cervical lymph nodes (CLNs). High-throughput sequencing of the antibody repertoire demonstrated that clonally expanded B cells were present in both compartments. Founding members of clones were more often found in the draining CLNs. More mature clonal members derived from these founders were observed in the draining CLNs and also in the CNS, including lesions. These data provide new evidence that B cells traffic freely across the tissue barrier, with the majority of B cell maturation occurring outside of the CNS in the secondary lymphoid tissue. Our study may aid in further defining the mechanisms of immunomodulatory thera- pies that either deplete circulating B cells or affect the intrathecal B cell compartment by inhibiting lymphocyte transmigration into the CNS.",
         "inclusion_exclusion_criteria": "",
@@ -2010,15 +2299,15 @@
       "subject": {
         "subject_id": "M5",
         "synthetic": false,
-        "organism": {
-          "id": "9606",
+        "species": {
+          "id": "NCBITaxon:9606",
           "value": "Homo sapiens"
         },
         "sex": "female",
         "age_min": 63,
         "age_max": 63,
         "age_unit": {
-          "id": "UO_0000036",
+          "id": "UO:0000036",
           "value": "year"
         },
         "age_event": "sampling",
@@ -2028,14 +2317,31 @@
         "strain_name": null,
         "linked_subjects": null,
         "link_type": null,
-        "diagnosis": null
+        "diagnosis": [
+          {
+            "study_group_description": "",
+            "disease_diagnosis": {
+              "id": "DOID:2377",
+              "value": "multiple sclerosis"
+            },
+            "disease_length": "",
+            "disease_stage": "chronic",
+            "prior_therapies": "",
+            "immunogen": "",
+            "intervention": "",
+            "medical_history": ""
+          }
+        ]
       },
       "sample": [
         {
           "sample_processing_id": "",
           "sample_id": "M5 Pia section 1",
           "sample_type": "Tissue sample",
-          "tissue": "Pia mater",
+          "tissue": {
+            "id": "UBERON:0002361",
+            "value": "pia mater"
+          },
           "anatomic_site": null,
           "disease_state_sample": "Chronic",
           "collection_time_point_relative": null,
@@ -2107,8 +2413,8 @@
         "study_id": "PRJNA248475",
         "study_title": "B cells populating the multiple sclerosis brain mature in the draining cervical lymph nodes",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "NCIT:C16084",
+          "value": "Observational Study"
         },
         "study_description": "Multiple sclerosis (MS) is an inflammatory disease of the central nervous system (CNS) characterized by autoimmune- mediated demyelination and neurodegeneration. The CNS of patients with MS harbors expanded clones of antigen- experienced B cells that reside in distinct compartments including the meninges, cerebrospinal fluid (CSF), and parenchyma. It is not understood whether this immune infiltrate initiates its development in the CNS or in pe- ripheral tissues. B cells in the CSF can exchange with those in peripheral blood, implying that CNS B cells may have access to lymphoid tissue that may be the specific compartment(s) in which CNS-resident B cells encounter antigen and experience affinity maturation. Paired tissues were used to determine whether the B cells that populate the CNS mature in the draining cervical lymph nodes (CLNs). High-throughput sequencing of the antibody repertoire demonstrated that clonally expanded B cells were present in both compartments. Founding members of clones were more often found in the draining CLNs. More mature clonal members derived from these founders were observed in the draining CLNs and also in the CNS, including lesions. These data provide new evidence that B cells traffic freely across the tissue barrier, with the majority of B cell maturation occurring outside of the CNS in the secondary lymphoid tissue. Our study may aid in further defining the mechanisms of immunomodulatory thera- pies that either deplete circulating B cells or affect the intrathecal B cell compartment by inhibiting lymphocyte transmigration into the CNS.",
         "inclusion_exclusion_criteria": "",
@@ -2126,15 +2432,15 @@
       "subject": {
         "subject_id": "M5",
         "synthetic": false,
-        "organism": {
-          "id": "9606",
+        "species": {
+          "id": "NCBITaxon:9606",
           "value": "Homo sapiens"
         },
         "sex": "female",
         "age_min": 63,
         "age_max": 63,
         "age_unit": {
-          "id": "UO_0000036",
+          "id": "UO:0000036",
           "value": "year"
         },
         "age_event": "sampling",
@@ -2144,14 +2450,31 @@
         "strain_name": null,
         "linked_subjects": null,
         "link_type": null,
-        "diagnosis": null
+        "diagnosis": [
+          {
+            "study_group_description": "",
+            "disease_diagnosis": {
+              "id": "DOID:2377",
+              "value": "multiple sclerosis"
+            },
+            "disease_length": "",
+            "disease_stage": "chronic",
+            "prior_therapies": "",
+            "immunogen": "",
+            "intervention": "",
+            "medical_history": ""
+          }
+        ]
       },
       "sample": [
         {
           "sample_processing_id": "",
           "sample_id": "M5 Pia section 2",
           "sample_type": "Tissue sample",
-          "tissue": "Pia mater",
+          "tissue": {
+            "id": "UBERON:0002361",
+            "value": "pia mater"
+          },
           "anatomic_site": null,
           "disease_state_sample": "Chronic",
           "collection_time_point_relative": null,
@@ -2223,8 +2546,8 @@
         "study_id": "PRJNA248475",
         "study_title": "B cells populating the multiple sclerosis brain mature in the draining cervical lymph nodes",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "NCIT:C16084",
+          "value": "Observational Study"
         },
         "study_description": "Multiple sclerosis (MS) is an inflammatory disease of the central nervous system (CNS) characterized by autoimmune- mediated demyelination and neurodegeneration. The CNS of patients with MS harbors expanded clones of antigen- experienced B cells that reside in distinct compartments including the meninges, cerebrospinal fluid (CSF), and parenchyma. It is not understood whether this immune infiltrate initiates its development in the CNS or in pe- ripheral tissues. B cells in the CSF can exchange with those in peripheral blood, implying that CNS B cells may have access to lymphoid tissue that may be the specific compartment(s) in which CNS-resident B cells encounter antigen and experience affinity maturation. Paired tissues were used to determine whether the B cells that populate the CNS mature in the draining cervical lymph nodes (CLNs). High-throughput sequencing of the antibody repertoire demonstrated that clonally expanded B cells were present in both compartments. Founding members of clones were more often found in the draining CLNs. More mature clonal members derived from these founders were observed in the draining CLNs and also in the CNS, including lesions. These data provide new evidence that B cells traffic freely across the tissue barrier, with the majority of B cell maturation occurring outside of the CNS in the secondary lymphoid tissue. Our study may aid in further defining the mechanisms of immunomodulatory thera- pies that either deplete circulating B cells or affect the intrathecal B cell compartment by inhibiting lymphocyte transmigration into the CNS.",
         "inclusion_exclusion_criteria": "",
@@ -2242,15 +2565,15 @@
       "subject": {
         "subject_id": "M5",
         "synthetic": false,
-        "organism": {
-          "id": "9606",
+        "species": {
+          "id": "NCBITaxon:9606",
           "value": "Homo sapiens"
         },
         "sex": "female",
         "age_min": 63,
         "age_max": 63,
         "age_unit": {
-          "id": "UO_0000036",
+          "id": "UO:0000036",
           "value": "year"
         },
         "age_event": "sampling",
@@ -2260,14 +2583,31 @@
         "strain_name": null,
         "linked_subjects": null,
         "link_type": null,
-        "diagnosis": null
+        "diagnosis": [
+          {
+            "study_group_description": "",
+            "disease_diagnosis": {
+              "id": "DOID:2377",
+              "value": "multiple sclerosis"
+            },
+            "disease_length": "",
+            "disease_stage": "chronic",
+            "prior_therapies": "",
+            "immunogen": "",
+            "intervention": "",
+            "medical_history": ""
+          }
+        ]
       },
       "sample": [
         {
           "sample_processing_id": "",
           "sample_id": "M5 Pia section 3",
           "sample_type": "Tissue sample",
-          "tissue": "Pia mater",
+          "tissue": {
+            "id": "UBERON:0002361",
+            "value": "pia mater"
+          },
           "anatomic_site": null,
           "disease_state_sample": "Chronic",
           "collection_time_point_relative": null,
@@ -2339,8 +2679,8 @@
         "study_id": "PRJNA248475",
         "study_title": "B cells populating the multiple sclerosis brain mature in the draining cervical lymph nodes",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "NCIT:C16084",
+          "value": "Observational Study"
         },
         "study_description": "Multiple sclerosis (MS) is an inflammatory disease of the central nervous system (CNS) characterized by autoimmune- mediated demyelination and neurodegeneration. The CNS of patients with MS harbors expanded clones of antigen- experienced B cells that reside in distinct compartments including the meninges, cerebrospinal fluid (CSF), and parenchyma. It is not understood whether this immune infiltrate initiates its development in the CNS or in pe- ripheral tissues. B cells in the CSF can exchange with those in peripheral blood, implying that CNS B cells may have access to lymphoid tissue that may be the specific compartment(s) in which CNS-resident B cells encounter antigen and experience affinity maturation. Paired tissues were used to determine whether the B cells that populate the CNS mature in the draining cervical lymph nodes (CLNs). High-throughput sequencing of the antibody repertoire demonstrated that clonally expanded B cells were present in both compartments. Founding members of clones were more often found in the draining CLNs. More mature clonal members derived from these founders were observed in the draining CLNs and also in the CNS, including lesions. These data provide new evidence that B cells traffic freely across the tissue barrier, with the majority of B cell maturation occurring outside of the CNS in the secondary lymphoid tissue. Our study may aid in further defining the mechanisms of immunomodulatory thera- pies that either deplete circulating B cells or affect the intrathecal B cell compartment by inhibiting lymphocyte transmigration into the CNS.",
         "inclusion_exclusion_criteria": "",
@@ -2358,15 +2698,15 @@
       "subject": {
         "subject_id": "M5",
         "synthetic": false,
-        "organism": {
-          "id": "9606",
+        "species": {
+          "id": "NCBITaxon:9606",
           "value": "Homo sapiens"
         },
         "sex": "female",
         "age_min": 63,
         "age_max": 63,
         "age_unit": {
-          "id": "UO_0000036",
+          "id": "UO:0000036",
           "value": "year"
         },
         "age_event": "sampling",
@@ -2376,14 +2716,31 @@
         "strain_name": null,
         "linked_subjects": null,
         "link_type": null,
-        "diagnosis": null
+        "diagnosis": [
+          {
+            "study_group_description": "",
+            "disease_diagnosis": {
+              "id": "DOID:2377",
+              "value": "multiple sclerosis"
+            },
+            "disease_length": "",
+            "disease_stage": "chronic",
+            "prior_therapies": "",
+            "immunogen": "",
+            "intervention": "",
+            "medical_history": ""
+          }
+        ]
       },
       "sample": [
         {
           "sample_processing_id": "",
           "sample_id": "M5 CLN-B section 1",
           "sample_type": "Tissue sample",
-          "tissue": "Cervical lymph node",
+          "tissue": {
+            "id": "UBERON:0002429",
+            "value": "cervical lymph node"
+          },
           "anatomic_site": null,
           "disease_state_sample": "Chronic",
           "collection_time_point_relative": null,
@@ -2455,8 +2812,8 @@
         "study_id": "PRJNA248475",
         "study_title": "B cells populating the multiple sclerosis brain mature in the draining cervical lymph nodes",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "NCIT:C16084",
+          "value": "Observational Study"
         },
         "study_description": "Multiple sclerosis (MS) is an inflammatory disease of the central nervous system (CNS) characterized by autoimmune- mediated demyelination and neurodegeneration. The CNS of patients with MS harbors expanded clones of antigen- experienced B cells that reside in distinct compartments including the meninges, cerebrospinal fluid (CSF), and parenchyma. It is not understood whether this immune infiltrate initiates its development in the CNS or in pe- ripheral tissues. B cells in the CSF can exchange with those in peripheral blood, implying that CNS B cells may have access to lymphoid tissue that may be the specific compartment(s) in which CNS-resident B cells encounter antigen and experience affinity maturation. Paired tissues were used to determine whether the B cells that populate the CNS mature in the draining cervical lymph nodes (CLNs). High-throughput sequencing of the antibody repertoire demonstrated that clonally expanded B cells were present in both compartments. Founding members of clones were more often found in the draining CLNs. More mature clonal members derived from these founders were observed in the draining CLNs and also in the CNS, including lesions. These data provide new evidence that B cells traffic freely across the tissue barrier, with the majority of B cell maturation occurring outside of the CNS in the secondary lymphoid tissue. Our study may aid in further defining the mechanisms of immunomodulatory thera- pies that either deplete circulating B cells or affect the intrathecal B cell compartment by inhibiting lymphocyte transmigration into the CNS.",
         "inclusion_exclusion_criteria": "",
@@ -2474,15 +2831,15 @@
       "subject": {
         "subject_id": "M5",
         "synthetic": false,
-        "organism": {
-          "id": "9606",
+        "species": {
+          "id": "NCBITaxon:9606",
           "value": "Homo sapiens"
         },
         "sex": "female",
         "age_min": 63,
         "age_max": 63,
         "age_unit": {
-          "id": "UO_0000036",
+          "id": "UO:0000036",
           "value": "year"
         },
         "age_event": "sampling",
@@ -2492,14 +2849,31 @@
         "strain_name": null,
         "linked_subjects": null,
         "link_type": null,
-        "diagnosis": null
+        "diagnosis": [
+          {
+            "study_group_description": "",
+            "disease_diagnosis": {
+              "id": "DOID:2377",
+              "value": "multiple sclerosis"
+            },
+            "disease_length": "",
+            "disease_stage": "chronic",
+            "prior_therapies": "",
+            "immunogen": "",
+            "intervention": "",
+            "medical_history": ""
+          }
+        ]
       },
       "sample": [
         {
           "sample_processing_id": "",
           "sample_id": "M5 CLN-B section 2",
           "sample_type": "Tissue sample",
-          "tissue": "Cervical lymph node",
+          "tissue": {
+            "id": "UBERON:0002429",
+            "value": "cervical lymph node"
+          },
           "anatomic_site": null,
           "disease_state_sample": "Chronic",
           "collection_time_point_relative": null,
@@ -2571,8 +2945,8 @@
         "study_id": "PRJNA248475",
         "study_title": "B cells populating the multiple sclerosis brain mature in the draining cervical lymph nodes",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "NCIT:C16084",
+          "value": "Observational Study"
         },
         "study_description": "Multiple sclerosis (MS) is an inflammatory disease of the central nervous system (CNS) characterized by autoimmune- mediated demyelination and neurodegeneration. The CNS of patients with MS harbors expanded clones of antigen- experienced B cells that reside in distinct compartments including the meninges, cerebrospinal fluid (CSF), and parenchyma. It is not understood whether this immune infiltrate initiates its development in the CNS or in pe- ripheral tissues. B cells in the CSF can exchange with those in peripheral blood, implying that CNS B cells may have access to lymphoid tissue that may be the specific compartment(s) in which CNS-resident B cells encounter antigen and experience affinity maturation. Paired tissues were used to determine whether the B cells that populate the CNS mature in the draining cervical lymph nodes (CLNs). High-throughput sequencing of the antibody repertoire demonstrated that clonally expanded B cells were present in both compartments. Founding members of clones were more often found in the draining CLNs. More mature clonal members derived from these founders were observed in the draining CLNs and also in the CNS, including lesions. These data provide new evidence that B cells traffic freely across the tissue barrier, with the majority of B cell maturation occurring outside of the CNS in the secondary lymphoid tissue. Our study may aid in further defining the mechanisms of immunomodulatory thera- pies that either deplete circulating B cells or affect the intrathecal B cell compartment by inhibiting lymphocyte transmigration into the CNS.",
         "inclusion_exclusion_criteria": "",
@@ -2590,15 +2964,15 @@
       "subject": {
         "subject_id": "M5",
         "synthetic": false,
-        "organism": {
-          "id": "9606",
+        "species": {
+          "id": "NCBITaxon:9606",
           "value": "Homo sapiens"
         },
         "sex": "female",
         "age_min": 63,
         "age_max": 63,
         "age_unit": {
-          "id": "UO_0000036",
+          "id": "UO:0000036",
           "value": "year"
         },
         "age_event": "sampling",
@@ -2608,14 +2982,31 @@
         "strain_name": null,
         "linked_subjects": null,
         "link_type": null,
-        "diagnosis": null
+        "diagnosis": [
+          {
+            "study_group_description": "",
+            "disease_diagnosis": {
+              "id": "DOID:2377",
+              "value": "multiple sclerosis"
+            },
+            "disease_length": "",
+            "disease_stage": "chronic",
+            "prior_therapies": "",
+            "immunogen": "",
+            "intervention": "",
+            "medical_history": ""
+          }
+        ]
       },
       "sample": [
         {
           "sample_processing_id": "",
           "sample_id": "M5 CLN-B section 3",
           "sample_type": "Tissue sample",
-          "tissue": "Cervical lymph node",
+          "tissue": {
+            "id": "UBERON:0002429",
+            "value": "cervical lymph node"
+          },
           "anatomic_site": null,
           "disease_state_sample": "Chronic",
           "collection_time_point_relative": null,
@@ -2687,8 +3078,8 @@
         "study_id": "PRJNA248475",
         "study_title": "B cells populating the multiple sclerosis brain mature in the draining cervical lymph nodes",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "NCIT:C16084",
+          "value": "Observational Study"
         },
         "study_description": "Multiple sclerosis (MS) is an inflammatory disease of the central nervous system (CNS) characterized by autoimmune- mediated demyelination and neurodegeneration. The CNS of patients with MS harbors expanded clones of antigen- experienced B cells that reside in distinct compartments including the meninges, cerebrospinal fluid (CSF), and parenchyma. It is not understood whether this immune infiltrate initiates its development in the CNS or in pe- ripheral tissues. B cells in the CSF can exchange with those in peripheral blood, implying that CNS B cells may have access to lymphoid tissue that may be the specific compartment(s) in which CNS-resident B cells encounter antigen and experience affinity maturation. Paired tissues were used to determine whether the B cells that populate the CNS mature in the draining cervical lymph nodes (CLNs). High-throughput sequencing of the antibody repertoire demonstrated that clonally expanded B cells were present in both compartments. Founding members of clones were more often found in the draining CLNs. More mature clonal members derived from these founders were observed in the draining CLNs and also in the CNS, including lesions. These data provide new evidence that B cells traffic freely across the tissue barrier, with the majority of B cell maturation occurring outside of the CNS in the secondary lymphoid tissue. Our study may aid in further defining the mechanisms of immunomodulatory thera- pies that either deplete circulating B cells or affect the intrathecal B cell compartment by inhibiting lymphocyte transmigration into the CNS.",
         "inclusion_exclusion_criteria": "",
@@ -2706,15 +3097,15 @@
       "subject": {
         "subject_id": "M5",
         "synthetic": false,
-        "organism": {
-          "id": "9606",
+        "species": {
+          "id": "NCBITaxon:9606",
           "value": "Homo sapiens"
         },
         "sex": "female",
         "age_min": 63,
         "age_max": 63,
         "age_unit": {
-          "id": "UO_0000036",
+          "id": "UO:0000036",
           "value": "year"
         },
         "age_event": "sampling",
@@ -2724,14 +3115,31 @@
         "strain_name": null,
         "linked_subjects": null,
         "link_type": null,
-        "diagnosis": null
+        "diagnosis": [
+          {
+            "study_group_description": "",
+            "disease_diagnosis": {
+              "id": "DOID:2377",
+              "value": "multiple sclerosis"
+            },
+            "disease_length": "",
+            "disease_stage": "chronic",
+            "prior_therapies": "",
+            "immunogen": "",
+            "intervention": "",
+            "medical_history": ""
+          }
+        ]
       },
       "sample": [
         {
           "sample_processing_id": "",
           "sample_id": "M5 CLN-A section 1",
           "sample_type": "Tissue sample",
-          "tissue": "Cervical lymph node",
+          "tissue": {
+            "id": "UBERON:0002429",
+            "value": "cervical lymph node"
+          },
           "anatomic_site": null,
           "disease_state_sample": "Chronic",
           "collection_time_point_relative": null,
@@ -2803,8 +3211,8 @@
         "study_id": "PRJNA248475",
         "study_title": "B cells populating the multiple sclerosis brain mature in the draining cervical lymph nodes",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "NCIT:C16084",
+          "value": "Observational Study"
         },
         "study_description": "Multiple sclerosis (MS) is an inflammatory disease of the central nervous system (CNS) characterized by autoimmune- mediated demyelination and neurodegeneration. The CNS of patients with MS harbors expanded clones of antigen- experienced B cells that reside in distinct compartments including the meninges, cerebrospinal fluid (CSF), and parenchyma. It is not understood whether this immune infiltrate initiates its development in the CNS or in pe- ripheral tissues. B cells in the CSF can exchange with those in peripheral blood, implying that CNS B cells may have access to lymphoid tissue that may be the specific compartment(s) in which CNS-resident B cells encounter antigen and experience affinity maturation. Paired tissues were used to determine whether the B cells that populate the CNS mature in the draining cervical lymph nodes (CLNs). High-throughput sequencing of the antibody repertoire demonstrated that clonally expanded B cells were present in both compartments. Founding members of clones were more often found in the draining CLNs. More mature clonal members derived from these founders were observed in the draining CLNs and also in the CNS, including lesions. These data provide new evidence that B cells traffic freely across the tissue barrier, with the majority of B cell maturation occurring outside of the CNS in the secondary lymphoid tissue. Our study may aid in further defining the mechanisms of immunomodulatory thera- pies that either deplete circulating B cells or affect the intrathecal B cell compartment by inhibiting lymphocyte transmigration into the CNS.",
         "inclusion_exclusion_criteria": "",
@@ -2822,15 +3230,15 @@
       "subject": {
         "subject_id": "M5",
         "synthetic": false,
-        "organism": {
-          "id": "9606",
+        "species": {
+          "id": "NCBITaxon:9606",
           "value": "Homo sapiens"
         },
         "sex": "female",
         "age_min": 63,
         "age_max": 63,
         "age_unit": {
-          "id": "UO_0000036",
+          "id": "UO:0000036",
           "value": "year"
         },
         "age_event": "sampling",
@@ -2840,14 +3248,31 @@
         "strain_name": null,
         "linked_subjects": null,
         "link_type": null,
-        "diagnosis": null
+        "diagnosis": [
+          {
+            "study_group_description": "",
+            "disease_diagnosis": {
+              "id": "DOID:2377",
+              "value": "multiple sclerosis"
+            },
+            "disease_length": "",
+            "disease_stage": "chronic",
+            "prior_therapies": "",
+            "immunogen": "",
+            "intervention": "",
+            "medical_history": ""
+          }
+        ]
       },
       "sample": [
         {
           "sample_processing_id": "",
           "sample_id": "M5 CLN-A section 2",
           "sample_type": "Tissue sample",
-          "tissue": "Cervical lymph node",
+          "tissue": {
+            "id": "UBERON:0002429",
+            "value": "cervical lymph node"
+          },
           "anatomic_site": null,
           "disease_state_sample": "Chronic",
           "collection_time_point_relative": null,
@@ -2919,8 +3344,8 @@
         "study_id": "PRJNA248475",
         "study_title": "B cells populating the multiple sclerosis brain mature in the draining cervical lymph nodes",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "NCIT:C16084",
+          "value": "Observational Study"
         },
         "study_description": "Multiple sclerosis (MS) is an inflammatory disease of the central nervous system (CNS) characterized by autoimmune- mediated demyelination and neurodegeneration. The CNS of patients with MS harbors expanded clones of antigen- experienced B cells that reside in distinct compartments including the meninges, cerebrospinal fluid (CSF), and parenchyma. It is not understood whether this immune infiltrate initiates its development in the CNS or in pe- ripheral tissues. B cells in the CSF can exchange with those in peripheral blood, implying that CNS B cells may have access to lymphoid tissue that may be the specific compartment(s) in which CNS-resident B cells encounter antigen and experience affinity maturation. Paired tissues were used to determine whether the B cells that populate the CNS mature in the draining cervical lymph nodes (CLNs). High-throughput sequencing of the antibody repertoire demonstrated that clonally expanded B cells were present in both compartments. Founding members of clones were more often found in the draining CLNs. More mature clonal members derived from these founders were observed in the draining CLNs and also in the CNS, including lesions. These data provide new evidence that B cells traffic freely across the tissue barrier, with the majority of B cell maturation occurring outside of the CNS in the secondary lymphoid tissue. Our study may aid in further defining the mechanisms of immunomodulatory thera- pies that either deplete circulating B cells or affect the intrathecal B cell compartment by inhibiting lymphocyte transmigration into the CNS.",
         "inclusion_exclusion_criteria": "",
@@ -2938,15 +3363,15 @@
       "subject": {
         "subject_id": "M5",
         "synthetic": false,
-        "organism": {
-          "id": "9606",
+        "species": {
+          "id": "NCBITaxon:9606",
           "value": "Homo sapiens"
         },
         "sex": "female",
         "age_min": 63,
         "age_max": 63,
         "age_unit": {
-          "id": "UO_0000036",
+          "id": "UO:0000036",
           "value": "year"
         },
         "age_event": "sampling",
@@ -2956,14 +3381,31 @@
         "strain_name": null,
         "linked_subjects": null,
         "link_type": null,
-        "diagnosis": null
+        "diagnosis": [
+          {
+            "study_group_description": "",
+            "disease_diagnosis": {
+              "id": "DOID:2377",
+              "value": "multiple sclerosis"
+            },
+            "disease_length": "",
+            "disease_stage": "chronic",
+            "prior_therapies": "",
+            "immunogen": "",
+            "intervention": "",
+            "medical_history": ""
+          }
+        ]
       },
       "sample": [
         {
           "sample_processing_id": "",
           "sample_id": "M5 CLN-A section 3",
           "sample_type": "Tissue sample",
-          "tissue": "Cervical lymph node",
+          "tissue": {
+            "id": "UBERON:0002429",
+            "value": "cervical lymph node"
+          },
           "anatomic_site": null,
           "disease_state_sample": "Chronic",
           "collection_time_point_relative": null,
@@ -3035,8 +3477,8 @@
         "study_id": "PRJNA248475",
         "study_title": "B cells populating the multiple sclerosis brain mature in the draining cervical lymph nodes",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "NCIT:C16084",
+          "value": "Observational Study"
         },
         "study_description": "Multiple sclerosis (MS) is an inflammatory disease of the central nervous system (CNS) characterized by autoimmune- mediated demyelination and neurodegeneration. The CNS of patients with MS harbors expanded clones of antigen- experienced B cells that reside in distinct compartments including the meninges, cerebrospinal fluid (CSF), and parenchyma. It is not understood whether this immune infiltrate initiates its development in the CNS or in pe- ripheral tissues. B cells in the CSF can exchange with those in peripheral blood, implying that CNS B cells may have access to lymphoid tissue that may be the specific compartment(s) in which CNS-resident B cells encounter antigen and experience affinity maturation. Paired tissues were used to determine whether the B cells that populate the CNS mature in the draining cervical lymph nodes (CLNs). High-throughput sequencing of the antibody repertoire demonstrated that clonally expanded B cells were present in both compartments. Founding members of clones were more often found in the draining CLNs. More mature clonal members derived from these founders were observed in the draining CLNs and also in the CNS, including lesions. These data provide new evidence that B cells traffic freely across the tissue barrier, with the majority of B cell maturation occurring outside of the CNS in the secondary lymphoid tissue. Our study may aid in further defining the mechanisms of immunomodulatory thera- pies that either deplete circulating B cells or affect the intrathecal B cell compartment by inhibiting lymphocyte transmigration into the CNS.",
         "inclusion_exclusion_criteria": "",
@@ -3054,15 +3496,15 @@
       "subject": {
         "subject_id": "M5",
         "synthetic": false,
-        "organism": {
-          "id": "9606",
+        "species": {
+          "id": "NCBITaxon:9606",
           "value": "Homo sapiens"
         },
         "sex": "female",
         "age_min": 63,
         "age_max": 63,
         "age_unit": {
-          "id": "UO_0000036",
+          "id": "UO:0000036",
           "value": "year"
         },
         "age_event": "sampling",
@@ -3072,14 +3514,31 @@
         "strain_name": null,
         "linked_subjects": null,
         "link_type": null,
-        "diagnosis": null
+        "diagnosis": [
+          {
+            "study_group_description": "",
+            "disease_diagnosis": {
+              "id": "DOID:2377",
+              "value": "multiple sclerosis"
+            },
+            "disease_length": "",
+            "disease_stage": "chronic",
+            "prior_therapies": "",
+            "immunogen": "",
+            "intervention": "",
+            "medical_history": ""
+          }
+        ]
       },
       "sample": [
         {
           "sample_processing_id": "",
           "sample_id": "M5 Lesion section 1",
-          "sample_type": "Tissue sample",
-          "tissue": "Brain lesion",
+          "sample_type": "Lesion sample",
+          "tissue": {
+            "id": "UBERON:0003544",
+            "value": "brain white matter"
+          },
           "anatomic_site": null,
           "disease_state_sample": "Chronic",
           "collection_time_point_relative": null,
@@ -3151,8 +3610,8 @@
         "study_id": "PRJNA248475",
         "study_title": "B cells populating the multiple sclerosis brain mature in the draining cervical lymph nodes",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "NCIT:C16084",
+          "value": "Observational Study"
         },
         "study_description": "Multiple sclerosis (MS) is an inflammatory disease of the central nervous system (CNS) characterized by autoimmune- mediated demyelination and neurodegeneration. The CNS of patients with MS harbors expanded clones of antigen- experienced B cells that reside in distinct compartments including the meninges, cerebrospinal fluid (CSF), and parenchyma. It is not understood whether this immune infiltrate initiates its development in the CNS or in pe- ripheral tissues. B cells in the CSF can exchange with those in peripheral blood, implying that CNS B cells may have access to lymphoid tissue that may be the specific compartment(s) in which CNS-resident B cells encounter antigen and experience affinity maturation. Paired tissues were used to determine whether the B cells that populate the CNS mature in the draining cervical lymph nodes (CLNs). High-throughput sequencing of the antibody repertoire demonstrated that clonally expanded B cells were present in both compartments. Founding members of clones were more often found in the draining CLNs. More mature clonal members derived from these founders were observed in the draining CLNs and also in the CNS, including lesions. These data provide new evidence that B cells traffic freely across the tissue barrier, with the majority of B cell maturation occurring outside of the CNS in the secondary lymphoid tissue. Our study may aid in further defining the mechanisms of immunomodulatory thera- pies that either deplete circulating B cells or affect the intrathecal B cell compartment by inhibiting lymphocyte transmigration into the CNS.",
         "inclusion_exclusion_criteria": "",
@@ -3170,15 +3629,15 @@
       "subject": {
         "subject_id": "M5",
         "synthetic": false,
-        "organism": {
-          "id": "9606",
+        "species": {
+          "id": "NCBITaxon:9606",
           "value": "Homo sapiens"
         },
         "sex": "female",
         "age_min": 63,
         "age_max": 63,
         "age_unit": {
-          "id": "UO_0000036",
+          "id": "UO:0000036",
           "value": "year"
         },
         "age_event": "sampling",
@@ -3188,14 +3647,31 @@
         "strain_name": null,
         "linked_subjects": null,
         "link_type": null,
-        "diagnosis": null
+        "diagnosis": [
+          {
+            "study_group_description": "",
+            "disease_diagnosis": {
+              "id": "DOID:2377",
+              "value": "multiple sclerosis"
+            },
+            "disease_length": "",
+            "disease_stage": "chronic",
+            "prior_therapies": "",
+            "immunogen": "",
+            "intervention": "",
+            "medical_history": ""
+          }
+        ]
       },
       "sample": [
         {
           "sample_processing_id": "",
           "sample_id": "M5 Lesion section 2",
-          "sample_type": "Tissue sample",
-          "tissue": "Brain lesion",
+          "sample_type": "Lesion sample",
+          "tissue": {
+            "id": "UBERON:0003544",
+            "value": "brain white matter"
+          },
           "anatomic_site": null,
           "disease_state_sample": "Chronic",
           "collection_time_point_relative": null,
@@ -3267,8 +3743,8 @@
         "study_id": "PRJNA248475",
         "study_title": "B cells populating the multiple sclerosis brain mature in the draining cervical lymph nodes",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "NCIT:C16084",
+          "value": "Observational Study"
         },
         "study_description": "Multiple sclerosis (MS) is an inflammatory disease of the central nervous system (CNS) characterized by autoimmune- mediated demyelination and neurodegeneration. The CNS of patients with MS harbors expanded clones of antigen- experienced B cells that reside in distinct compartments including the meninges, cerebrospinal fluid (CSF), and parenchyma. It is not understood whether this immune infiltrate initiates its development in the CNS or in pe- ripheral tissues. B cells in the CSF can exchange with those in peripheral blood, implying that CNS B cells may have access to lymphoid tissue that may be the specific compartment(s) in which CNS-resident B cells encounter antigen and experience affinity maturation. Paired tissues were used to determine whether the B cells that populate the CNS mature in the draining cervical lymph nodes (CLNs). High-throughput sequencing of the antibody repertoire demonstrated that clonally expanded B cells were present in both compartments. Founding members of clones were more often found in the draining CLNs. More mature clonal members derived from these founders were observed in the draining CLNs and also in the CNS, including lesions. These data provide new evidence that B cells traffic freely across the tissue barrier, with the majority of B cell maturation occurring outside of the CNS in the secondary lymphoid tissue. Our study may aid in further defining the mechanisms of immunomodulatory thera- pies that either deplete circulating B cells or affect the intrathecal B cell compartment by inhibiting lymphocyte transmigration into the CNS.",
         "inclusion_exclusion_criteria": "",
@@ -3286,15 +3762,15 @@
       "subject": {
         "subject_id": "M5",
         "synthetic": false,
-        "organism": {
-          "id": "9606",
+        "species": {
+          "id": "NCBITaxon:9606",
           "value": "Homo sapiens"
         },
         "sex": "female",
         "age_min": 63,
         "age_max": 63,
         "age_unit": {
-          "id": "UO_0000036",
+          "id": "UO:0000036",
           "value": "year"
         },
         "age_event": "sampling",
@@ -3304,14 +3780,31 @@
         "strain_name": null,
         "linked_subjects": null,
         "link_type": null,
-        "diagnosis": null
+        "diagnosis": [
+          {
+            "study_group_description": "",
+            "disease_diagnosis": {
+              "id": "DOID:2377",
+              "value": "multiple sclerosis"
+            },
+            "disease_length": "",
+            "disease_stage": "chronic",
+            "prior_therapies": "",
+            "immunogen": "",
+            "intervention": "",
+            "medical_history": ""
+          }
+        ]
       },
       "sample": [
         {
           "sample_processing_id": "",
           "sample_id": "M5 Lesion section 3",
-          "sample_type": "Tissue sample",
-          "tissue": "Brain lesion",
+          "sample_type": "Lesion sample",
+          "tissue": {
+            "id": "UBERON:0003544",
+            "value": "brain white matter"
+          },
           "anatomic_site": null,
           "disease_state_sample": "Chronic",
           "collection_time_point_relative": null,
@@ -3383,8 +3876,8 @@
         "study_id": "PRJNA248475",
         "study_title": "B cells populating the multiple sclerosis brain mature in the draining cervical lymph nodes",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "NCIT:C16084",
+          "value": "Observational Study"
         },
         "study_description": "Multiple sclerosis (MS) is an inflammatory disease of the central nervous system (CNS) characterized by autoimmune- mediated demyelination and neurodegeneration. The CNS of patients with MS harbors expanded clones of antigen- experienced B cells that reside in distinct compartments including the meninges, cerebrospinal fluid (CSF), and parenchyma. It is not understood whether this immune infiltrate initiates its development in the CNS or in pe- ripheral tissues. B cells in the CSF can exchange with those in peripheral blood, implying that CNS B cells may have access to lymphoid tissue that may be the specific compartment(s) in which CNS-resident B cells encounter antigen and experience affinity maturation. Paired tissues were used to determine whether the B cells that populate the CNS mature in the draining cervical lymph nodes (CLNs). High-throughput sequencing of the antibody repertoire demonstrated that clonally expanded B cells were present in both compartments. Founding members of clones were more often found in the draining CLNs. More mature clonal members derived from these founders were observed in the draining CLNs and also in the CNS, including lesions. These data provide new evidence that B cells traffic freely across the tissue barrier, with the majority of B cell maturation occurring outside of the CNS in the secondary lymphoid tissue. Our study may aid in further defining the mechanisms of immunomodulatory thera- pies that either deplete circulating B cells or affect the intrathecal B cell compartment by inhibiting lymphocyte transmigration into the CNS.",
         "inclusion_exclusion_criteria": "",
@@ -3402,15 +3895,15 @@
       "subject": {
         "subject_id": "M5",
         "synthetic": false,
-        "organism": {
-          "id": "9606",
+        "species": {
+          "id": "NCBITaxon:9606",
           "value": "Homo sapiens"
         },
         "sex": "female",
         "age_min": 63,
         "age_max": 63,
         "age_unit": {
-          "id": "UO_0000036",
+          "id": "UO:0000036",
           "value": "year"
         },
         "age_event": "sampling",
@@ -3420,14 +3913,31 @@
         "strain_name": null,
         "linked_subjects": null,
         "link_type": null,
-        "diagnosis": null
+        "diagnosis": [
+          {
+            "study_group_description": "",
+            "disease_diagnosis": {
+              "id": "DOID:2377",
+              "value": "multiple sclerosis"
+            },
+            "disease_length": "",
+            "disease_stage": "chronic",
+            "prior_therapies": "",
+            "immunogen": "",
+            "intervention": "",
+            "medical_history": ""
+          }
+        ]
       },
       "sample": [
         {
           "sample_processing_id": "",
           "sample_id": "M5 Choroid section 1",
           "sample_type": "Tissue sample",
-          "tissue": "Choroid plexus",
+          "tissue": {
+            "id": "UBERON:0001886",
+            "value": "choroid plexus"
+          },
           "anatomic_site": null,
           "disease_state_sample": "Chronic",
           "collection_time_point_relative": null,
@@ -3499,8 +4009,8 @@
         "study_id": "PRJNA248475",
         "study_title": "B cells populating the multiple sclerosis brain mature in the draining cervical lymph nodes",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "NCIT:C16084",
+          "value": "Observational Study"
         },
         "study_description": "Multiple sclerosis (MS) is an inflammatory disease of the central nervous system (CNS) characterized by autoimmune- mediated demyelination and neurodegeneration. The CNS of patients with MS harbors expanded clones of antigen- experienced B cells that reside in distinct compartments including the meninges, cerebrospinal fluid (CSF), and parenchyma. It is not understood whether this immune infiltrate initiates its development in the CNS or in pe- ripheral tissues. B cells in the CSF can exchange with those in peripheral blood, implying that CNS B cells may have access to lymphoid tissue that may be the specific compartment(s) in which CNS-resident B cells encounter antigen and experience affinity maturation. Paired tissues were used to determine whether the B cells that populate the CNS mature in the draining cervical lymph nodes (CLNs). High-throughput sequencing of the antibody repertoire demonstrated that clonally expanded B cells were present in both compartments. Founding members of clones were more often found in the draining CLNs. More mature clonal members derived from these founders were observed in the draining CLNs and also in the CNS, including lesions. These data provide new evidence that B cells traffic freely across the tissue barrier, with the majority of B cell maturation occurring outside of the CNS in the secondary lymphoid tissue. Our study may aid in further defining the mechanisms of immunomodulatory thera- pies that either deplete circulating B cells or affect the intrathecal B cell compartment by inhibiting lymphocyte transmigration into the CNS.",
         "inclusion_exclusion_criteria": "",
@@ -3518,15 +4028,15 @@
       "subject": {
         "subject_id": "M5",
         "synthetic": false,
-        "organism": {
-          "id": "9606",
+        "species": {
+          "id": "NCBITaxon:9606",
           "value": "Homo sapiens"
         },
         "sex": "female",
         "age_min": 63,
         "age_max": 63,
         "age_unit": {
-          "id": "UO_0000036",
+          "id": "UO:0000036",
           "value": "year"
         },
         "age_event": "sampling",
@@ -3536,14 +4046,31 @@
         "strain_name": null,
         "linked_subjects": null,
         "link_type": null,
-        "diagnosis": null
+        "diagnosis": [
+          {
+            "study_group_description": "",
+            "disease_diagnosis": {
+              "id": "DOID:2377",
+              "value": "multiple sclerosis"
+            },
+            "disease_length": "",
+            "disease_stage": "chronic",
+            "prior_therapies": "",
+            "immunogen": "",
+            "intervention": "",
+            "medical_history": ""
+          }
+        ]
       },
       "sample": [
         {
           "sample_processing_id": "",
           "sample_id": "M5 Choroid section 2",
           "sample_type": "Tissue sample",
-          "tissue": "Choroid plexus",
+          "tissue": {
+            "id": "UBERON:0001886",
+            "value": "choroid plexus"
+          },
           "anatomic_site": null,
           "disease_state_sample": "Chronic",
           "collection_time_point_relative": null,
@@ -3615,8 +4142,8 @@
         "study_id": "PRJNA248475",
         "study_title": "B cells populating the multiple sclerosis brain mature in the draining cervical lymph nodes",
         "study_type": {
-          "id": "C147138",
-          "value": "Observational Study Model"
+          "id": "NCIT:C16084",
+          "value": "Observational Study"
         },
         "study_description": "Multiple sclerosis (MS) is an inflammatory disease of the central nervous system (CNS) characterized by autoimmune- mediated demyelination and neurodegeneration. The CNS of patients with MS harbors expanded clones of antigen- experienced B cells that reside in distinct compartments including the meninges, cerebrospinal fluid (CSF), and parenchyma. It is not understood whether this immune infiltrate initiates its development in the CNS or in pe- ripheral tissues. B cells in the CSF can exchange with those in peripheral blood, implying that CNS B cells may have access to lymphoid tissue that may be the specific compartment(s) in which CNS-resident B cells encounter antigen and experience affinity maturation. Paired tissues were used to determine whether the B cells that populate the CNS mature in the draining cervical lymph nodes (CLNs). High-throughput sequencing of the antibody repertoire demonstrated that clonally expanded B cells were present in both compartments. Founding members of clones were more often found in the draining CLNs. More mature clonal members derived from these founders were observed in the draining CLNs and also in the CNS, including lesions. These data provide new evidence that B cells traffic freely across the tissue barrier, with the majority of B cell maturation occurring outside of the CNS in the secondary lymphoid tissue. Our study may aid in further defining the mechanisms of immunomodulatory thera- pies that either deplete circulating B cells or affect the intrathecal B cell compartment by inhibiting lymphocyte transmigration into the CNS.",
         "inclusion_exclusion_criteria": "",
@@ -3634,15 +4161,15 @@
       "subject": {
         "subject_id": "M5",
         "synthetic": false,
-        "organism": {
-          "id": "9606",
+        "species": {
+          "id": "NCBITaxon:9606",
           "value": "Homo sapiens"
         },
         "sex": "female",
         "age_min": 63,
         "age_max": 63,
         "age_unit": {
-          "id": "UO_0000036",
+          "id": "UO:0000036",
           "value": "year"
         },
         "age_event": "sampling",
@@ -3652,14 +4179,31 @@
         "strain_name": null,
         "linked_subjects": null,
         "link_type": null,
-        "diagnosis": null
+        "diagnosis": [
+          {
+            "study_group_description": "",
+            "disease_diagnosis": {
+              "id": "DOID:2377",
+              "value": "multiple sclerosis"
+            },
+            "disease_length": "",
+            "disease_stage": "chronic",
+            "prior_therapies": "",
+            "immunogen": "",
+            "intervention": "",
+            "medical_history": ""
+          }
+        ]
       },
       "sample": [
         {
           "sample_processing_id": "",
           "sample_id": "M5 Choroid section 3",
           "sample_type": "Tissue sample",
-          "tissue": "Choroid plexus",
+          "tissue": {
+            "id": "UBERON:0001886",
+            "value": "choroid plexus"
+          },
           "anatomic_site": null,
           "disease_state_sample": "Chronic",
           "collection_time_point_relative": null,
