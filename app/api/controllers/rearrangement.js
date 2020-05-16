@@ -129,7 +129,7 @@ function constructQueryOperation(filter, error) {
     // if not in schema then maybe its a custom field
     // so use the same type as the value.
     if (!content_type) content_type = typeof content['value'];
-    if (config.debug) console.log('type: ' + content_type);
+    //if (config.debug) console.log('type: ' + content_type);
 
     // Check if query field is required. By default, the ADC API can reject
     // queries on the rearrangement endpoint for optional fields.
@@ -499,7 +499,7 @@ function queryRearrangements(req, res) {
     var all_fields = [];
     if (bodyData['include_fields']) {
 	airr.collectFields(global.airr['Rearrangement'], bodyData['include_fields'], all_fields, null);
-        if (config.debug) console.log(all_fields);
+        //if (config.debug) console.log(all_fields);
     }
     // collect all AIRR schema fields
     var schema_fields = [];
@@ -510,7 +510,7 @@ function queryRearrangements(req, res) {
     var projection = {};
     if (bodyData['fields'] != undefined) {
         var fields = bodyData['fields'];
-        if (config.debug) console.log('fields: ', fields);
+        //if (config.debug) console.log('fields: ', fields);
         if (! (fields instanceof Array)) {
             result_message = "fields parameter is not an array.";
             res.status(400).json({"message":result_message});
@@ -540,7 +540,7 @@ function queryRearrangements(req, res) {
             all_fields.push(fields[i]);
         }
     }
-    if (config.debug) console.log(projection);
+    //if (config.debug) console.log(projection);
 
     // format parameter
     var format = 'json';
@@ -659,7 +659,7 @@ function queryRearrangements(req, res) {
     // perform non-facets query
     var collection = 'rearrangement';
     if (!facets) {
-        if (config.debug) console.log(query);
+        //if (config.debug) console.log(query);
         agaveIO.performQuery(collection, query, null, page, pagesize)
             .then(function(records) {
                 if (abortQuery) {
@@ -794,7 +794,7 @@ function queryRearrangements(req, res) {
 
                     res.write(headers.join('\t'));
                     res.write('\n');
-                    if (config.debug) console.log(headers);
+                    //if (config.debug) console.log(headers);
 
                     var first = true;
                     for (var r in results) {

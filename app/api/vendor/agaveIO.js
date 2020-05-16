@@ -288,7 +288,7 @@ agaveIO.performQuery = function(collection, query, projection, page, pagesize) {
                 requestSettings['path'] += 'sort=' + encodeURIComponent(JSON.stringify(sort));
             }
 
-            console.log(requestSettings);
+            //console.log(requestSettings);
 
             return agaveIO.sendRequest(requestSettings, null);
         })
@@ -324,7 +324,7 @@ agaveIO.performAggregation = function(collection, aggregation, query, field) {
             requestSettings['path'] += '?avars=';
             requestSettings['path'] += encodeURIComponent('{"match":' + query + ',"field":"' + field + '"}');
 
-            console.log(requestSettings);
+            //console.log(requestSettings);
 
             return agaveIO.sendRequest(requestSettings, null);
         })
@@ -360,7 +360,7 @@ agaveIO.recordQuery = function(query) {
 		}
             };
 
-            console.log(requestSettings);
+            //console.log(requestSettings);
 
             return agaveIO.sendRequest(requestSettings, postData);
 	})
