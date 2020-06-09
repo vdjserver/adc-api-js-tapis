@@ -20,7 +20,7 @@
         "study_title": "A Model of Somatic Hypermutation Targeting in Mice Based on High-Throughput Ig Sequencing Data",
         "study_type": {
           "id": "NCIT:C93130",
-          "value": "Animal Study"
+          "label": "Animal Study"
         },
         "study_description": "Analyses of somatic hypermutation (SHM) patterns in B cell Ig sequences have important basic science and clinical applications, but they are often confounded by the intrinsic biases of SHM targeting on specific DNA motifs (i.e., hot and cold spots). Modeling these biases has been hindered by the difficulty in identifying mutated Ig sequences in vivo in the absence of selection pressures, which skew the observed mutation patterns. To generate a large number of unselected mutations, we immunized B1-8 H chain transgenic mice with nitrophenyl to stimulate nitrophenyl-specific \u03bb+ germinal center B cells and sequenced the unexpressed \u03ba L chains using next-generation methods. Most of these \u03ba sequences had out-of-frame junctions and were presumably uninfluenced by selection. Despite being nonfunctionally rearranged, they were targeted by SHM and displayed a higher mutation frequency than functional sequences. We used 39,173 mutations to construct a quantitative SHM targeting model. The model showed targeting biases that were consistent with classic hot and cold spots, yet revealed additional highly mutable motifs. We observed comparable targeting for functional and nonfunctional sequences, suggesting similar biological processes operate at both loci. However, we observed species- and chain-specific targeting patterns, demonstrating the need for multiple SHM targeting models. Interestingly, the targeting of C/G bases and the frequency of transition mutations at C/G bases was higher in mice compared with humans, suggesting lower levels of DNA repair activity in mice. Our models of SHM targeting provide insights into the SHM process and support future analyses of mutation patterns.",
         "inclusion_exclusion_criteria": "",
@@ -40,14 +40,14 @@
         "synthetic": false,
         "species": {
           "id": "NCBITaxon:10090",
-          "value": "Mus musculus"
+          "label": "Mus musculus"
         },
         "sex": "female",
         "age_min": 6,
         "age_max": 10,
         "age_unit": {
           "id": "UO:0000034",
-          "value": "week"
+          "label": "week"
         },
         "age_event": null,
         "ancestry_population": null,
@@ -65,7 +65,7 @@
           "sample_type": null,
           "tissue": {
             "id": "UBERON:0002106",
-            "value": "spleen"
+            "label": "spleen"
           },
           "anatomic_site": "Spleen Non-germinal center",
           "disease_state_sample": "control",
@@ -75,7 +75,7 @@
           "tissue_processing": null,
           "cell_subset": {
             "id": "CL:0000236",
-            "value": "B Cell"
+            "label": "B Cell"
           },
           "cell_phenotype": "B220+, CD95-, CD38+, lambda-",
           "single_cell": false,
@@ -142,7 +142,7 @@
         "study_title": "A Model of Somatic Hypermutation Targeting in Mice Based on High-Throughput Ig Sequencing Data",
         "study_type": {
           "id": "NCIT:C93130",
-          "value": "Animal Study"
+          "label": "Animal Study"
         },
         "study_description": "Analyses of somatic hypermutation (SHM) patterns in B cell Ig sequences have important basic science and clinical applications, but they are often confounded by the intrinsic biases of SHM targeting on specific DNA motifs (i.e., hot and cold spots). Modeling these biases has been hindered by the difficulty in identifying mutated Ig sequences in vivo in the absence of selection pressures, which skew the observed mutation patterns. To generate a large number of unselected mutations, we immunized B1-8 H chain transgenic mice with nitrophenyl to stimulate nitrophenyl-specific \u03bb+ germinal center B cells and sequenced the unexpressed \u03ba L chains using next-generation methods. Most of these \u03ba sequences had out-of-frame junctions and were presumably uninfluenced by selection. Despite being nonfunctionally rearranged, they were targeted by SHM and displayed a higher mutation frequency than functional sequences. We used 39,173 mutations to construct a quantitative SHM targeting model. The model showed targeting biases that were consistent with classic hot and cold spots, yet revealed additional highly mutable motifs. We observed comparable targeting for functional and nonfunctional sequences, suggesting similar biological processes operate at both loci. However, we observed species- and chain-specific targeting patterns, demonstrating the need for multiple SHM targeting models. Interestingly, the targeting of C/G bases and the frequency of transition mutations at C/G bases was higher in mice compared with humans, suggesting lower levels of DNA repair activity in mice. Our models of SHM targeting provide insights into the SHM process and support future analyses of mutation patterns.",
         "inclusion_exclusion_criteria": "",
@@ -162,14 +162,14 @@
         "synthetic": false,
         "species": {
           "id": "NCBITaxon:10090",
-          "value": "Mus musculus"
+          "label": "Mus musculus"
         },
         "sex": "female",
         "age_min": 6,
         "age_max": 10,
         "age_unit": {
           "id": "UO:0000034",
-          "value": "week"
+          "label": "week"
         },
         "age_event": null,
         "ancestry_population": null,
@@ -187,7 +187,7 @@
           "sample_type": null,
           "tissue": {
             "id": "UBERON:0002106",
-            "value": "spleen"
+            "label": "spleen"
           },
           "anatomic_site": "Spleen Non-germinal center",
           "disease_state_sample": "control",
@@ -197,7 +197,7 @@
           "tissue_processing": null,
           "cell_subset": {
             "id": "CL:0000236",
-            "value": "B Cell"
+            "label": "B Cell"
           },
           "cell_phenotype": "B220+, CD95-, CD38+, lambda-",
           "single_cell": false,
@@ -264,7 +264,7 @@
         "study_title": "A Model of Somatic Hypermutation Targeting in Mice Based on High-Throughput Ig Sequencing Data",
         "study_type": {
           "id": "NCIT:C93130",
-          "value": "Animal Study"
+          "label": "Animal Study"
         },
         "study_description": "Analyses of somatic hypermutation (SHM) patterns in B cell Ig sequences have important basic science and clinical applications, but they are often confounded by the intrinsic biases of SHM targeting on specific DNA motifs (i.e., hot and cold spots). Modeling these biases has been hindered by the difficulty in identifying mutated Ig sequences in vivo in the absence of selection pressures, which skew the observed mutation patterns. To generate a large number of unselected mutations, we immunized B1-8 H chain transgenic mice with nitrophenyl to stimulate nitrophenyl-specific \u03bb+ germinal center B cells and sequenced the unexpressed \u03ba L chains using next-generation methods. Most of these \u03ba sequences had out-of-frame junctions and were presumably uninfluenced by selection. Despite being nonfunctionally rearranged, they were targeted by SHM and displayed a higher mutation frequency than functional sequences. We used 39,173 mutations to construct a quantitative SHM targeting model. The model showed targeting biases that were consistent with classic hot and cold spots, yet revealed additional highly mutable motifs. We observed comparable targeting for functional and nonfunctional sequences, suggesting similar biological processes operate at both loci. However, we observed species- and chain-specific targeting patterns, demonstrating the need for multiple SHM targeting models. Interestingly, the targeting of C/G bases and the frequency of transition mutations at C/G bases was higher in mice compared with humans, suggesting lower levels of DNA repair activity in mice. Our models of SHM targeting provide insights into the SHM process and support future analyses of mutation patterns.",
         "inclusion_exclusion_criteria": "",
@@ -284,14 +284,14 @@
         "synthetic": false,
         "species": {
           "id": "NCBITaxon:10090",
-          "value": "Mus musculus"
+          "label": "Mus musculus"
         },
         "sex": "female",
         "age_min": 6,
         "age_max": 10,
         "age_unit": {
           "id": "UO:0000034",
-          "value": "week"
+          "label": "week"
         },
         "age_event": null,
         "ancestry_population": null,
@@ -320,7 +320,7 @@
           "sample_type": null,
           "tissue": {
             "id": "UBERON:0005196",
-            "value": "spleen germinal center"
+            "label": "spleen germinal center"
           },
           "anatomic_site": "spleen",
           "disease_state_sample": "NP-CGG",
@@ -330,7 +330,7 @@
           "tissue_processing": "harvested spleen",
           "cell_subset": {
             "id": "CL:0000844",
-            "value": "germinal center B Cell"
+            "label": "germinal center B Cell"
           },
           "cell_phenotype": "live, B220+, NIP+, CD95+, CD38-",
           "single_cell": false,
@@ -397,7 +397,7 @@
         "study_title": "A Model of Somatic Hypermutation Targeting in Mice Based on High-Throughput Ig Sequencing Data",
         "study_type": {
           "id": "NCIT:C93130",
-          "value": "Animal Study"
+          "label": "Animal Study"
         },
         "study_description": "Analyses of somatic hypermutation (SHM) patterns in B cell Ig sequences have important basic science and clinical applications, but they are often confounded by the intrinsic biases of SHM targeting on specific DNA motifs (i.e., hot and cold spots). Modeling these biases has been hindered by the difficulty in identifying mutated Ig sequences in vivo in the absence of selection pressures, which skew the observed mutation patterns. To generate a large number of unselected mutations, we immunized B1-8 H chain transgenic mice with nitrophenyl to stimulate nitrophenyl-specific \u03bb+ germinal center B cells and sequenced the unexpressed \u03ba L chains using next-generation methods. Most of these \u03ba sequences had out-of-frame junctions and were presumably uninfluenced by selection. Despite being nonfunctionally rearranged, they were targeted by SHM and displayed a higher mutation frequency than functional sequences. We used 39,173 mutations to construct a quantitative SHM targeting model. The model showed targeting biases that were consistent with classic hot and cold spots, yet revealed additional highly mutable motifs. We observed comparable targeting for functional and nonfunctional sequences, suggesting similar biological processes operate at both loci. However, we observed species- and chain-specific targeting patterns, demonstrating the need for multiple SHM targeting models. Interestingly, the targeting of C/G bases and the frequency of transition mutations at C/G bases was higher in mice compared with humans, suggesting lower levels of DNA repair activity in mice. Our models of SHM targeting provide insights into the SHM process and support future analyses of mutation patterns.",
         "inclusion_exclusion_criteria": "",
@@ -417,14 +417,14 @@
         "synthetic": false,
         "species": {
           "id": "NCBITaxon:10090",
-          "value": "Mus musculus"
+          "label": "Mus musculus"
         },
         "sex": "female",
         "age_min": 6,
         "age_max": 10,
         "age_unit": {
           "id": "UO:0000034",
-          "value": "week"
+          "label": "week"
         },
         "age_event": null,
         "ancestry_population": null,
@@ -453,7 +453,7 @@
           "sample_type": null,
           "tissue": {
             "id": "UBERON:0005196",
-            "value": "spleen germinal center"
+            "label": "spleen germinal center"
           },
           "anatomic_site": "spleen",
           "disease_state_sample": "NP-CGG",
@@ -463,7 +463,7 @@
           "tissue_processing": "harvested spleen",
           "cell_subset": {
             "id": "CL:0000844",
-            "value": "germinal center B Cell"
+            "label": "germinal center B Cell"
           },
           "cell_phenotype": "live, B220+, NIP+, CD95+, CD38-",
           "single_cell": false,
@@ -530,7 +530,7 @@
         "study_title": "A Model of Somatic Hypermutation Targeting in Mice Based on High-Throughput Ig Sequencing Data",
         "study_type": {
           "id": "NCIT:C93130",
-          "value": "Animal Study"
+          "label": "Animal Study"
         },
         "study_description": "Analyses of somatic hypermutation (SHM) patterns in B cell Ig sequences have important basic science and clinical applications, but they are often confounded by the intrinsic biases of SHM targeting on specific DNA motifs (i.e., hot and cold spots). Modeling these biases has been hindered by the difficulty in identifying mutated Ig sequences in vivo in the absence of selection pressures, which skew the observed mutation patterns. To generate a large number of unselected mutations, we immunized B1-8 H chain transgenic mice with nitrophenyl to stimulate nitrophenyl-specific \u03bb+ germinal center B cells and sequenced the unexpressed \u03ba L chains using next-generation methods. Most of these \u03ba sequences had out-of-frame junctions and were presumably uninfluenced by selection. Despite being nonfunctionally rearranged, they were targeted by SHM and displayed a higher mutation frequency than functional sequences. We used 39,173 mutations to construct a quantitative SHM targeting model. The model showed targeting biases that were consistent with classic hot and cold spots, yet revealed additional highly mutable motifs. We observed comparable targeting for functional and nonfunctional sequences, suggesting similar biological processes operate at both loci. However, we observed species- and chain-specific targeting patterns, demonstrating the need for multiple SHM targeting models. Interestingly, the targeting of C/G bases and the frequency of transition mutations at C/G bases was higher in mice compared with humans, suggesting lower levels of DNA repair activity in mice. Our models of SHM targeting provide insights into the SHM process and support future analyses of mutation patterns.",
         "inclusion_exclusion_criteria": "",
@@ -550,14 +550,14 @@
         "synthetic": false,
         "species": {
           "id": "NCBITaxon:10090",
-          "value": "Mus musculus"
+          "label": "Mus musculus"
         },
         "sex": "female",
         "age_min": 6,
         "age_max": 10,
         "age_unit": {
           "id": "UO:0000034",
-          "value": "week"
+          "label": "week"
         },
         "age_event": null,
         "ancestry_population": null,
@@ -586,7 +586,7 @@
           "sample_type": null,
           "tissue": {
             "id": "UBERON:0005196",
-            "value": "spleen germinal center"
+            "label": "spleen germinal center"
           },
           "anatomic_site": "spleen",
           "disease_state_sample": "NP-CGG",
@@ -596,7 +596,7 @@
           "tissue_processing": "harvested spleen",
           "cell_subset": {
             "id": "CL:0000844",
-            "value": "germinal center B Cell"
+            "label": "germinal center B Cell"
           },
           "cell_phenotype": "live, B220+, NIP+, CD95+, CD38-",
           "single_cell": false,
@@ -663,7 +663,7 @@
         "study_title": "A Model of Somatic Hypermutation Targeting in Mice Based on High-Throughput Ig Sequencing Data",
         "study_type": {
           "id": "NCIT:C93130",
-          "value": "Animal Study"
+          "label": "Animal Study"
         },
         "study_description": "Analyses of somatic hypermutation (SHM) patterns in B cell Ig sequences have important basic science and clinical applications, but they are often confounded by the intrinsic biases of SHM targeting on specific DNA motifs (i.e., hot and cold spots). Modeling these biases has been hindered by the difficulty in identifying mutated Ig sequences in vivo in the absence of selection pressures, which skew the observed mutation patterns. To generate a large number of unselected mutations, we immunized B1-8 H chain transgenic mice with nitrophenyl to stimulate nitrophenyl-specific \u03bb+ germinal center B cells and sequenced the unexpressed \u03ba L chains using next-generation methods. Most of these \u03ba sequences had out-of-frame junctions and were presumably uninfluenced by selection. Despite being nonfunctionally rearranged, they were targeted by SHM and displayed a higher mutation frequency than functional sequences. We used 39,173 mutations to construct a quantitative SHM targeting model. The model showed targeting biases that were consistent with classic hot and cold spots, yet revealed additional highly mutable motifs. We observed comparable targeting for functional and nonfunctional sequences, suggesting similar biological processes operate at both loci. However, we observed species- and chain-specific targeting patterns, demonstrating the need for multiple SHM targeting models. Interestingly, the targeting of C/G bases and the frequency of transition mutations at C/G bases was higher in mice compared with humans, suggesting lower levels of DNA repair activity in mice. Our models of SHM targeting provide insights into the SHM process and support future analyses of mutation patterns.",
         "inclusion_exclusion_criteria": "",
@@ -683,14 +683,14 @@
         "synthetic": false,
         "species": {
           "id": "NCBITaxon:10090",
-          "value": "Mus musculus"
+          "label": "Mus musculus"
         },
         "sex": "female",
         "age_min": 6,
         "age_max": 10,
         "age_unit": {
           "id": "UO:0000034",
-          "value": "week"
+          "label": "week"
         },
         "age_event": null,
         "ancestry_population": null,
@@ -719,7 +719,7 @@
           "sample_type": null,
           "tissue": {
             "id": "UBERON:0005196",
-            "value": "spleen germinal center"
+            "label": "spleen germinal center"
           },
           "anatomic_site": "spleen",
           "disease_state_sample": "NP-CGG",
@@ -729,7 +729,7 @@
           "tissue_processing": "harvested splenocytes",
           "cell_subset": {
             "id": "CL:0000844",
-            "value": "germinal center B Cell"
+            "label": "germinal center B Cell"
           },
           "cell_phenotype": "live, B220+, NIP+, CD95+, CD38-",
           "single_cell": false,
