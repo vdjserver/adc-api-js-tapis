@@ -119,4 +119,5 @@ if (__name__=="__main__"):
                 updateRepertoire(token, config, r)
 
         # write out the repertoires with their ids
-        data = airr.write_repertoire(args.repertoire_file, reps)
+        fname = args.repertoire_file.replace('.yaml', '.json')
+        data = airr.write_repertoire(fname, reps)
