@@ -105,6 +105,49 @@ def insertRearrangement(token, config, records):
     #print(resp.json())
     
 
+def getAllSubstrings(str, size=4):
+    result = []
+    for i in range(0, len(str)):
+        for j in range(len(str), i+size-1, -1):
+            result.append(str[i:j])
+    return result
+
+def parseGene(str):
+    result = { "gene": None, "subgroup": None }
+    aidx = str.find('*')
+    if aidx < 0:
+        return None
+    result['gene'] = str[0:aidx]
+
+    didx = result['gene'].find('-')
+    if didx >= 0:
+        result['subgroup'] = result['gene'][0:didx]
+    return result
+
+def changeGeneCall(name, name_gene, name_subgroup, obj):
+    fields = obj[name].split(',')
+    if len(fields) > 1:
+        obj[name] = fields
+        genes = []
+        subgroups = []
+        for i in range(0, len(fields)):
+            c = fields[i]
+            result = parseGene(c);
+            if result == None:
+                genes.append(None)
+                subgroups.append(None)
+            else:
+                genes.append(result['gene'])
+                subgroups.append(result['subgroup'])
+            obj[name_gene] = genes;
+            obj[name_subgroup] = subgroups;
+    else:
+        result = parseGene(obj[name])
+        if result:
+            obj[name_gene] = result['gene']
+            if result['subgroup']:
+                obj[name_subgroup] = result['subgroup']
+
 # main entry
 if (__name__=="__main__"):
     parser = argparse.ArgumentParser(description='Load AIRR rearrangements into VDJServer data repository.')
@@ -112,6 +155,8 @@ if (__name__=="__main__"):
     parser.add_argument('repertoire_file', type=str, help='AIRR repertoire metadata file name')
     parser.add_argument('file_prefix', type=str, help='Directory prefix to find the rearrangements files')
     args = parser.parse_args()
+
+    load_set_size = 1000
 
     if args:
         data = airr.load_repertoire(args.repertoire_file)
@@ -161,10 +206,21 @@ if (__name__=="__main__"):
                     if len(r['data_processing_id']) == 0:
                         r['data_processing_id'] = primary_dp['data_processing_id']
                     r['vdjserver_load_set'] = load_set
+                    
+                    r['receptor_id'] = r['sequence_id']
+                    del r['sequence_id']
+
+                    changeGeneCall('v_call', 'v_gene', 'v_subgroup', r)
+                    changeGeneCall('d_call', 'd_gene', 'd_subgroup', r)
+                    changeGeneCall('j_call', 'j_gene', 'j_subgroup', r)
+
+                    if len(r['junction_aa']) > 3:
+                        r['vdjserver_junction_substrings'] = getAllSubstrings(r['junction_aa'], 4)
+
                     records.append(r)
                     cnt += 1
                     total += 1
-                    if cnt == 10000:
+                    if cnt == load_set_size:
                         if load_set >= load_set_start:
                             print('Inserting load set: ' + str(load_set))
                             insertRearrangement(token, config, records)
