@@ -31,6 +31,7 @@ var util = require('util');
 // Server environment config
 var config = require('../../config/config');
 var agaveSettings = require('../../config/tapisSettings');
+var mongoSettings = require('../../config/mongoSettings');
 var airr = require('../helpers/airr-schema');
 
 var assert = require('assert');
@@ -403,7 +404,8 @@ function getRearrangement(req, res) {
         start: Date.now()
     };
 
-    var collection = 'rearrangement/' + req.swagger.params['sequence_id'].value;
+    console.log(mongoSettings.queryCollection);
+    var collection = mongoSettings.queryCollection + '/' + req.swagger.params['sequence_id'].value;
 
     // Handle client HTTP request abort
     var abortQuery = false;
@@ -430,7 +432,10 @@ function getRearrangement(req, res) {
                 res.json({"Info":info,"Rearrangement":[]});
                 queryRecord['count'] = 0;
             } else {
-                record['sequence_id'] = record['_id']['$oid'];
+                if (!record['sequence_id']) {
+                    if (record['_id']['$oid']) record['sequence_id'] = record['_id']['$oid'];
+                    else record['sequence_id'] = record['_id'];
+                }
                 if (record['_id']) delete record['_id'];
                 if (record['_etag']) delete record['_etag'];
 		airr.addFields(record, all_fields, global.airr['Rearrangement']);
@@ -657,7 +662,9 @@ function queryRearrangements(req, res) {
     });
 
     // perform non-facets query
-    var collection = 'rearrangement';
+    console.log(JSON.stringify(mongoSettings));
+    console.log(mongoSettings.queryCollection);
+    var collection = mongoSettings.queryCollection;
     if (!facets) {
         //if (config.debug) console.log(query);
         agaveIO.performQuery(collection, query, null, page, pagesize)
@@ -676,7 +683,10 @@ function queryRearrangements(req, res) {
                         if (i < from_skip) continue;
                         if (i >= size_stop) break;
                         var record = records[i];
-                        record['sequence_id'] = record['_id']['$oid'];
+                        if (!record['sequence_id']) {
+                            if (record['_id']['$oid']) record['sequence_id'] = record['_id']['$oid'];
+                            else record['sequence_id'] = record['_id'];
+                        }
 
                         // gene calls, join back to string
                         if ((typeof record['v_call']) == "object") record['v_call'] = record['v_call'].join(',');
@@ -725,7 +735,10 @@ function queryRearrangements(req, res) {
                             for (var i in records) {
                                 if (i >= second_size) break;
                                 var record = records[i];
-                                record['sequence_id'] = record['_id']['$oid'];
+                                if (!record['sequence_id']) {
+                                    if (record['_id']['$oid']) record['sequence_id'] = record['_id']['$oid'];
+                                    else record['sequence_id'] = record['_id'];
+                                }
 
                                 // gene calls, join back to string
                                 if ((typeof record['v_call']) == "object") record['v_call'] = record['v_call'].join(',');
