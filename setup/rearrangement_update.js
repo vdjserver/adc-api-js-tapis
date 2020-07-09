@@ -51,7 +51,7 @@ while ( cursor.hasNext() ) {
     if ((obj["vdjserver_junction_substrings"]) || (obj['junction_aa'].length < 4)) {
         // already updated
         skip_cnt += 1;
-        if ((skip_cnt % 10000) == 0) {
+        if ((skip_cnt % 1000000) == 0) {
             printjson('skipped ' + skip_cnt);
         }
         continue;

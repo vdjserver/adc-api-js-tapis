@@ -2,8 +2,7 @@
 // change gene calls to an array when it contains
 //
 
-//var cursor = db.rearrangement.find({repertoire_id:"1841923116114776551-242ac11c-0001-012"});
-var cursor = db.rearrangement.find({repertoire_id:"7578528411412459030-242ac116-0001-012"});
+var cursor = db.rearrangement.find({repertoire_id:"7727563776583659030-242ac116-0001-012"});
 
 var cnt = 0;
 var upcnt = 0;

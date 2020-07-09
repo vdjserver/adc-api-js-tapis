@@ -93,4 +93,5 @@ if (__name__=="__main__"):
         aggs = json.load(open(args.aggr_script,'r'))
         insertAggregation(token, config, 'repertoire', aggs)
         insertAggregation(token, config, 'rearrangement', aggs)
+        insertAggregation(token, config, 'rearrangement_1', aggs)
         showCollections(token, config)
