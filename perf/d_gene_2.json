@@ -1,0 +1,11 @@
+{
+  "filters": {
+    "op": "=",
+    "content": {
+      "field": "d_gene",
+      "value": "TRBD1"
+    }
+  },
+  "from":0,
+  "size":10
+}

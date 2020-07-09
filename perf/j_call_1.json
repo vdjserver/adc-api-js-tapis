@@ -1,0 +1,11 @@
+{
+  "filters": {
+    "op": "=",
+    "content": {
+      "field": "j_call",
+      "value": "IGHJ6*02"
+    }
+  },
+  "from":0,
+  "size":10
+}

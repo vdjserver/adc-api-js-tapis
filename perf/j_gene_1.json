@@ -1,0 +1,11 @@
+{
+  "filters": {
+    "op": "=",
+    "content": {
+      "field": "j_gene",
+      "value": "IGHJ6"
+    }
+  },
+  "from":0,
+  "size":10
+}

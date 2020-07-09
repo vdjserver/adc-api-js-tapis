@@ -1,0 +1,11 @@
+{
+  "filters": {
+    "op": "=",
+    "content": {
+      "field": "j_call",
+      "value": "TRAJ55*01"
+    }
+  },
+  "from":0,
+  "size":10
+}

@@ -1,0 +1,48 @@
+{
+    "filters": {
+        "op": "and",
+        "content": [
+            {
+                "op": "=",
+                "content": {
+                    "field": "j_call",
+                    "value": "IGHJ6*02"
+                }
+            },
+            {
+                "op": "in",
+                "content": {
+                    "field": "repertoire_id",
+                    "value": [
+                        "485", "504", "675", "682", "442", "589", "750", "670"
+                    ]
+                }
+            },
+{
+        "op": "and",
+        "content": [
+            {
+                "op": "=",
+                "content": {
+                    "field": "j_call",
+                    "value": "IGHJ6*02"
+                }
+            },
+            {
+                "op": "in",
+                "content": {
+                    "field": "repertoire_id",
+                    "value": [
+                        "485", "504", "675", "682", "442", "589", "750", "670"
+                    ]
+                }
+            }
+        ]
+}
+        ]
+    },
+    "jfrom":240,
+    "jsize":50,
+    "jfields":["repertoire_id"],
+    "facets":"repertoire_id"
+}

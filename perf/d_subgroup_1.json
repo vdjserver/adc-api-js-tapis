@@ -1,0 +1,11 @@
+{
+  "filters": {
+    "op": "=",
+    "content": {
+      "field": "d_subgroup",
+      "value": "IGHD2"
+    }
+  },
+  "from":0,
+  "size":10
+}

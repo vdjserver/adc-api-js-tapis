@@ -1,0 +1,11 @@
+{
+  "filters": {
+    "op": "=",
+    "content": {
+      "field": "v_subgroup",
+      "value": "TRBV29"
+    }
+  },
+  "from":0,
+  "size":10
+}

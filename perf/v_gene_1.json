@@ -1,0 +1,11 @@
+{
+  "filters": {
+    "op": "=",
+    "content": {
+      "field": "v_gene",
+      "value": "IGLV1-40"
+    }
+  },
+  "from":0,
+  "size":10
+}

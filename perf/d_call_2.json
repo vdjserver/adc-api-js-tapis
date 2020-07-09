@@ -1,0 +1,11 @@
+{
+  "filters": {
+    "op": "=",
+    "content": {
+      "field": "d_call",
+      "value": "TRBD1*01"
+    }
+  },
+  "from":0,
+  "size":10
+}

@@ -1,0 +1,11 @@
+{
+  "filters": {
+    "op": "=",
+    "content": {
+      "field": "d_call",
+      "value": "IGHD2-15*01"
+    }
+  },
+  "from":0,
+  "size":10
+}

@@ -1,0 +1,10 @@
+{
+  "filters": {
+    "op": "=",
+    "content": {
+      "field": "study.study_id",
+      "value": "PRJNA315079"
+    }
+  },
+  "fields":["repertoire_id"]
+}

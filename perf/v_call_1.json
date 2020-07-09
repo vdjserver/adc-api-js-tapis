@@ -1,0 +1,11 @@
+{
+  "filters": {
+    "op": "=",
+    "content": {
+      "field": "v_call",
+      "value": "IGLV1-40*03"
+    }
+  },
+  "from":0,
+  "size":10
+}

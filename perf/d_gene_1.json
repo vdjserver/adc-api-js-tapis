@@ -1,0 +1,11 @@
+{
+  "filters": {
+    "op": "=",
+    "content": {
+      "field": "d_gene",
+      "value": "IGHD2-15"
+    }
+  },
+  "from":0,
+  "size":10
+}

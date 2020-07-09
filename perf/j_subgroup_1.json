@@ -1,0 +1,11 @@
+{
+  "filters": {
+    "op": "=",
+    "content": {
+      "field": "j_subgroup",
+      "value": "TRBJ2"
+    }
+  },
+  "from":0,
+  "size":10
+}

@@ -1,0 +1,11 @@
+{
+  "filters": {
+    "op": "=",
+    "content": {
+      "field": "v_subgroup",
+      "value": "IGLV1"
+    }
+  },
+  "from":0,
+  "size":10
+}

@@ -29,15 +29,13 @@ python3 script.py
 
 * `rearrangements_single_repertoire.json` (PASSING): Get rearrangements for a `repertoire_id`. Actually this will only get the first 1000 rearrangements.
 
-* `rearrangements_single_repertoire.py` (FAILING): Get all rearrangements for a `repertoire_id`, need to iterate and query each page until all are downloaded.
+* `rearrangements_single_repertoire.py` (PASSING): Get all rearrangements for a `repertoire_id`, need to iterate and query each page until all are downloaded.
 
-* `prod_rearrangements_single_repertoire.py` (FAILING): Get all productive rearrangements for a `repertoire_id`, need to iterate and query each page until all are downloaded.
+* `prod_rearrangements_single_repertoire.py` (PASSING): Get all productive rearrangements for a `repertoire_id`, need to iterate and query each page until all are downloaded.
 
 * `rearrangements_multi_repertoire.json` (PASSING): Get rearrangements for a set of `repertoire_ids`. Actually this will only get the first 1000 rearrangements.
 
-* `rearrangements_multi_repertoire.py` (FAILING): Get all rearrangements for a set of `repertoire_id`, need to iterate and query each page until all are downloaded.
-
-* all productive (or non-productive) rearrangements for a set of `repertoire_id`
+* `rearrangements_multi_repertoire.py` (PASSING): Get all rearrangements for a set of `repertoire_id`, need to iterate and query each page until all are downloaded.
 
 * `junction_aa_1.json`, `junction_aa_2.json`, `junction_aa_3.json`, `junction_aa_4.json` (FAILING): junction (CDR3) substring search
 
