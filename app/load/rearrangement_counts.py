@@ -82,6 +82,7 @@ def countRearrangementsInFiles(token, config, rep, file_prefix):
     total = 0
     files = primary_dp['data_processing_files']
     for f in files:
+        f = f.replace('.gz','')
         if os.path.isfile(file_prefix + '/' + f):
             print('AIRR rearrangement file: ' + file_prefix + '/' + f)
             reader = open(file_prefix + '/' + f, 'r')
