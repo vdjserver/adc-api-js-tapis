@@ -199,8 +199,8 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "L4921_L4921_Treg73_R1.fastq.unique.igblast.airr.tsv",
-            "L6164_Treg73_R1.fastq.unique.igblast.airr.tsv"
+            "L4921_L4921_Treg73_R1.fastq.unique.igblast.airr.tsv.gz",
+            "L6164_Treg73_R1.fastq.unique.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -391,8 +391,8 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "L4922_L4922_Treg74_R1.fastq.unique.igblast.airr.tsv",
-            "L6165_Treg74_R1.fastq.unique.igblast.airr.tsv"
+            "L4922_L4922_Treg74_R1.fastq.unique.igblast.airr.tsv.gz",
+            "L6165_Treg74_R1.fastq.unique.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -583,8 +583,8 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "L4948_L4948_Treg75_R1.fastq.unique.igblast.airr.tsv",
-            "L6153_Treg75_R1.fastq.unique.igblast.airr.tsv"
+            "L4948_L4948_Treg75_R1.fastq.unique.igblast.airr.tsv.gz",
+            "L6153_Treg75_R1.fastq.unique.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -775,8 +775,8 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "L4933_L4933_Treg76_R1.fastq.unique.igblast.airr.tsv",
-            "L6151_Treg76_R1.fastq.unique.igblast.airr.tsv"
+            "L4933_L4933_Treg76_R1.fastq.unique.igblast.airr.tsv.gz",
+            "L6151_Treg76_R1.fastq.unique.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -911,7 +911,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "L4934_L4934_Treg77_R1.fastq.unique.igblast.airr.tsv"
+            "L4934_L4934_Treg77_R1.fastq.unique.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -1158,9 +1158,9 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "L4923_L4923_Treg78_R1.fastq.unique.igblast.airr.tsv",
-            "L6096_Treg78_R1.fastq.unique.igblast.airr.tsv",
-            "L6154_Treg78_R1.fastq.unique.igblast.airr.tsv"
+            "L4923_L4923_Treg78_R1.fastq.unique.igblast.airr.tsv.gz",
+            "L6096_Treg78_R1.fastq.unique.igblast.airr.tsv.gz",
+            "L6154_Treg78_R1.fastq.unique.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -1351,8 +1351,8 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "L4935_L4935_Treg79_R1.fastq.unique.igblast.airr.tsv",
-            "L6095_Treg79_R1.fastq.unique.igblast.airr.tsv"
+            "L4935_L4935_Treg79_R1.fastq.unique.igblast.airr.tsv.gz",
+            "L6095_Treg79_R1.fastq.unique.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -1543,8 +1543,8 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "L4947_L4947_Treg80_R1.fastq.unique.igblast.airr.tsv",
-            "L6152_Treg80_R1.fastq.unique.igblast.airr.tsv"
+            "L4947_L4947_Treg80_R1.fastq.unique.igblast.airr.tsv.gz",
+            "L6152_Treg80_R1.fastq.unique.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -1676,7 +1676,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "L6147_Treg81n_R1.fastq.unique.igblast.airr.tsv"
+            "L6147_Treg81n_R1.fastq.unique.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -1808,7 +1808,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "L6162_Treg82_R1.fastq.unique.igblast.airr.tsv"
+            "L6162_Treg82_R1.fastq.unique.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -1999,8 +1999,8 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "L4899_L4899_Treg83_R1.unique.igblast.airr.tsv",
-            "L5382_Treg83_R1.fastq.unique.igblast.airr.tsv"
+            "L4899_L4899_Treg83_R1.unique.igblast.airr.tsv.gz",
+            "L5382_Treg83_R1.fastq.unique.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -2135,7 +2135,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "L6160_Treg84_R1.fastq.unique.igblast.airr.tsv"
+            "L6160_Treg84_R1.fastq.unique.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -2270,7 +2270,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "L6161_Treg85_R1.fastq.unique.igblast.airr.tsv"
+            "L6161_Treg85_R1.fastq.unique.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -2517,9 +2517,9 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "L4906_L4906_Treg86_R1.fastq.unique.igblast.airr.tsv",
-            "L5388_Treg86_R1.fastq.unique.igblast.airr.tsv",
-            "L6163_Treg86_R1.fastq.unique.igblast.airr.tsv"
+            "L4906_L4906_Treg86_R1.fastq.unique.igblast.airr.tsv.gz",
+            "L5388_Treg86_R1.fastq.unique.igblast.airr.tsv.gz",
+            "L6163_Treg86_R1.fastq.unique.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -2710,8 +2710,8 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "L4908_L4908_Treg87_R1.fastq.unique.igblast.airr.tsv",
-            "L5390_Treg87_R1.fastq.unique.igblast.airr.tsv"
+            "L4908_L4908_Treg87_R1.fastq.unique.igblast.airr.tsv.gz",
+            "L5390_Treg87_R1.fastq.unique.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -2846,7 +2846,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "L4910_L4910_Treg88_R1.fastq.unique.igblast.airr.tsv"
+            "L4910_L4910_Treg88_R1.fastq.unique.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -3093,9 +3093,9 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "L4911_L4911_Treg89_R1.fastq.unique.igblast.airr.tsv",
-            "L5391_Treg88_R1.fastq.unique.igblast.airr.tsv",
-            "L5392_Treg89_R1.fastq.unique.igblast.airr.tsv"
+            "L4911_L4911_Treg89_R1.fastq.unique.igblast.airr.tsv.gz",
+            "L5391_Treg88_R1.fastq.unique.igblast.airr.tsv.gz",
+            "L5392_Treg89_R1.fastq.unique.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -3230,7 +3230,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "L6166_Treg91_R1.fastq.unique.igblast.airr.tsv"
+            "L6166_Treg91_R1.fastq.unique.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -3365,7 +3365,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "L6167_Treg92_R1.fastq.unique.igblast.airr.tsv"
+            "L6167_Treg92_R1.fastq.unique.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -3500,7 +3500,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "L6168_Treg93_R1.fastq.unique.igblast.airr.tsv"
+            "L6168_Treg93_R1.fastq.unique.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -3635,7 +3635,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "L6169_Treg94_R1.fastq.unique.igblast.airr.tsv"
+            "L6169_Treg94_R1.fastq.unique.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -3770,7 +3770,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "L6146_Treg95_R1.fastq.unique.igblast.airr.tsv"
+            "L6146_Treg95_R1.fastq.unique.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -3905,7 +3905,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "L6148_Treg96_R1.fastq.unique.igblast.airr.tsv"
+            "L6148_Treg96_R1.fastq.unique.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -4040,7 +4040,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "L6155_Treg98_R1.fastq.unique.igblast.airr.tsv"
+            "L6155_Treg98_R1.fastq.unique.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -4228,8 +4228,8 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "L10387_Track-28667_R1.unique.igblast.airr.tsv",
-            "L10387_Track-29486_R1.unique.igblast.airr.tsv"
+            "L10387_Track-28667_R1.unique.igblast.airr.tsv.gz",
+            "L10387_Track-29486_R1.unique.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -4417,8 +4417,8 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "L10388_Track-28668_R1.unique.igblast.airr.tsv",
-            "L10388_Track-29487_R1.unique.igblast.airr.tsv"
+            "L10388_Track-28668_R1.unique.igblast.airr.tsv.gz",
+            "L10388_Track-29487_R1.unique.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -4609,8 +4609,8 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "L10389_Track-28669_R1.unique.igblast.airr.tsv",
-            "L10389_Track-29488_R1.unique.igblast.airr.tsv"
+            "L10389_Track-28669_R1.unique.igblast.airr.tsv.gz",
+            "L10389_Track-29488_R1.unique.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -4801,8 +4801,8 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "L10390_Track-29489_R1.unique.igblast.airr.tsv",
-            "L10390_Track-28670_R1.unique.igblast.airr.tsv"
+            "L10390_Track-29489_R1.unique.igblast.airr.tsv.gz",
+            "L10390_Track-28670_R1.unique.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -4993,8 +4993,8 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "L10391_Track-28671_R1.unique.igblast.airr.tsv",
-            "L10391_Track-29490_R1.unique.igblast.airr.tsv"
+            "L10391_Track-28671_R1.unique.igblast.airr.tsv.gz",
+            "L10391_Track-29490_R1.unique.igblast.airr.tsv.gz"
           ]
         }
       ]

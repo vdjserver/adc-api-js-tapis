@@ -130,7 +130,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "ERR1759683_1.fastq.merged.unique.igblast.airr.tsv"
+            "ERR1759683_1.fastq.merged.unique.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -252,7 +252,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "ERR1759682_1.fastq.merged.unique.igblast.airr.tsv"
+            "ERR1759682_1.fastq.merged.unique.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -374,7 +374,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "ERR1759681_1.fastq.merged.unique.igblast.airr.tsv"
+            "ERR1759681_1.fastq.merged.unique.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -496,7 +496,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "ERR1759689_1.fastq.merged.unique.igblast.airr.tsv"
+            "ERR1759689_1.fastq.merged.unique.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -618,7 +618,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "ERR1759686_1.fastq.merged.unique.igblast.airr.tsv"
+            "ERR1759686_1.fastq.merged.unique.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -740,7 +740,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "ERR1759685_1.fastq.merged.unique.igblast.airr.tsv"
+            "ERR1759685_1.fastq.merged.unique.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -862,7 +862,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "ERR1759688_1.fastq.merged.unique.igblast.airr.tsv"
+            "ERR1759688_1.fastq.merged.unique.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -984,7 +984,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "ERR1759687_1.fastq.merged.unique.igblast.airr.tsv"
+            "ERR1759687_1.fastq.merged.unique.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -1106,7 +1106,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "ERR1759684_1.fastq.merged.unique.igblast.airr.tsv"
+            "ERR1759684_1.fastq.merged.unique.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -1228,7 +1228,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "ERR1759692_1.fastq.merged.unique.igblast.airr.tsv"
+            "ERR1759692_1.fastq.merged.unique.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -1350,7 +1350,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "ERR1759691_1.fastq.merged.unique.igblast.airr.tsv"
+            "ERR1759691_1.fastq.merged.unique.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -1472,7 +1472,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "ERR1759690_1.fastq.merged.unique.igblast.airr.tsv"
+            "ERR1759690_1.fastq.merged.unique.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -1594,7 +1594,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "ERR1759695_1.fastq.merged.unique.igblast.airr.tsv"
+            "ERR1759695_1.fastq.merged.unique.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -1716,7 +1716,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "ERR1759694_1.fastq.merged.unique.igblast.airr.tsv"
+            "ERR1759694_1.fastq.merged.unique.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -1838,7 +1838,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "ERR1759693_1.fastq.merged.unique.igblast.airr.tsv"
+            "ERR1759693_1.fastq.merged.unique.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -1960,7 +1960,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "ERR1759698_1.fastq.merged.unique.igblast.airr.tsv"
+            "ERR1759698_1.fastq.merged.unique.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -2082,7 +2082,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "ERR1759697_1.fastq.merged.unique.igblast.airr.tsv"
+            "ERR1759697_1.fastq.merged.unique.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -2204,7 +2204,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "ERR1759696_1.fastq.merged.unique.igblast.airr.tsv"
+            "ERR1759696_1.fastq.merged.unique.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -2323,7 +2323,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "ERR1759680_1.fastq.merged.unique.igblast.airr.tsv"
+            "ERR1759680_1.fastq.merged.unique.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -2442,7 +2442,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "ERR1759679_1.fastq.merged.unique.igblast.airr.tsv"
+            "ERR1759679_1.fastq.merged.unique.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -2561,7 +2561,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "ERR1759678_1.fastq.merged.unique.igblast.airr.tsv"
+            "ERR1759678_1.fastq.merged.unique.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -2683,7 +2683,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "ERR1759665_1.fastq.merged.unique.igblast.airr.tsv"
+            "ERR1759665_1.fastq.merged.unique.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -2805,7 +2805,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "ERR1759664_1.fastq.merged.unique.igblast.airr.tsv"
+            "ERR1759664_1.fastq.merged.unique.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -2927,7 +2927,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "ERR1759663_1.fastq.merged.unique.igblast.airr.tsv"
+            "ERR1759663_1.fastq.merged.unique.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -3049,7 +3049,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "ERR1759668_1.fastq.merged.unique.igblast.airr.tsv"
+            "ERR1759668_1.fastq.merged.unique.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -3171,7 +3171,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "ERR1759667_1.fastq.merged.unique.igblast.airr.tsv"
+            "ERR1759667_1.fastq.merged.unique.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -3293,7 +3293,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "ERR1759666_1.fastq.merged.unique.igblast.airr.tsv"
+            "ERR1759666_1.fastq.merged.unique.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -3415,7 +3415,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "ERR1759671_1.fastq.merged.unique.igblast.airr.tsv"
+            "ERR1759671_1.fastq.merged.unique.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -3537,7 +3537,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "ERR1759670_1.fastq.merged.unique.igblast.airr.tsv"
+            "ERR1759670_1.fastq.merged.unique.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -3659,7 +3659,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "ERR1759669_1.fastq.merged.unique.igblast.airr.tsv"
+            "ERR1759669_1.fastq.merged.unique.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -3781,7 +3781,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "ERR1759674_1.fastq.merged.unique.igblast.airr.tsv"
+            "ERR1759674_1.fastq.merged.unique.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -3903,7 +3903,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "ERR1759673_1.fastq.merged.unique.igblast.airr.tsv"
+            "ERR1759673_1.fastq.merged.unique.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -4025,7 +4025,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "ERR1759672_1.fastq.merged.unique.igblast.airr.tsv"
+            "ERR1759672_1.fastq.merged.unique.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -4147,7 +4147,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "ERR1759677_1.fastq.merged.unique.igblast.airr.tsv"
+            "ERR1759677_1.fastq.merged.unique.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -4269,7 +4269,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "ERR1759676_1.fastq.merged.unique.igblast.airr.tsv"
+            "ERR1759676_1.fastq.merged.unique.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -4391,7 +4391,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "ERR1759675_1.fastq.merged.unique.igblast.airr.tsv"
+            "ERR1759675_1.fastq.merged.unique.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -4513,7 +4513,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "ERR1759659_1.fastq.merged.unique.igblast.airr.tsv"
+            "ERR1759659_1.fastq.merged.unique.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -4635,7 +4635,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "ERR1759660_1.fastq.merged.unique.igblast.airr.tsv"
+            "ERR1759660_1.fastq.merged.unique.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -4757,7 +4757,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "ERR1759661_1.fastq.merged.unique.igblast.airr.tsv"
+            "ERR1759661_1.fastq.merged.unique.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -4879,7 +4879,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "ERR1759662_1.fastq.merged.unique.igblast.airr.tsv"
+            "ERR1759662_1.fastq.merged.unique.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -5001,7 +5001,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "ERR1759647_1.fastq.merged.unique.igblast.airr.tsv"
+            "ERR1759647_1.fastq.merged.unique.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -5123,7 +5123,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "ERR1759646_1.fastq.merged.unique.igblast.airr.tsv"
+            "ERR1759646_1.fastq.merged.unique.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -5245,7 +5245,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "ERR1759645_1.fastq.merged.unique.igblast.airr.tsv"
+            "ERR1759645_1.fastq.merged.unique.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -5367,7 +5367,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "ERR1759650_1.fastq.merged.unique.igblast.airr.tsv"
+            "ERR1759650_1.fastq.merged.unique.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -5489,7 +5489,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "ERR1759649_1.fastq.merged.unique.igblast.airr.tsv"
+            "ERR1759649_1.fastq.merged.unique.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -5611,7 +5611,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "ERR1759648_1.fastq.merged.unique.igblast.airr.tsv"
+            "ERR1759648_1.fastq.merged.unique.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -5733,7 +5733,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "ERR1759653_1.fastq.merged.unique.igblast.airr.tsv"
+            "ERR1759653_1.fastq.merged.unique.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -5855,7 +5855,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "ERR1759652_1.fastq.merged.unique.igblast.airr.tsv"
+            "ERR1759652_1.fastq.merged.unique.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -5977,7 +5977,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "ERR1759651_1.fastq.merged.unique.igblast.airr.tsv"
+            "ERR1759651_1.fastq.merged.unique.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -6099,7 +6099,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "ERR1759656_1.fastq.merged.unique.igblast.airr.tsv"
+            "ERR1759656_1.fastq.merged.unique.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -6221,7 +6221,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "ERR1759655_1.fastq.merged.unique.igblast.airr.tsv"
+            "ERR1759655_1.fastq.merged.unique.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -6343,7 +6343,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "ERR1759654_1.fastq.merged.unique.igblast.airr.tsv"
+            "ERR1759654_1.fastq.merged.unique.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -6465,7 +6465,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "ERR1759658_1.fastq.merged.unique.igblast.airr.tsv"
+            "ERR1759658_1.fastq.merged.unique.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -6587,7 +6587,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "ERR1759657_1.fastq.merged.unique.igblast.airr.tsv"
+            "ERR1759657_1.fastq.merged.unique.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -6709,7 +6709,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "ERR1759632_1.fastq.merged.unique.igblast.airr.tsv"
+            "ERR1759632_1.fastq.merged.unique.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -6831,7 +6831,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "ERR1759631_1.fastq.merged.unique.igblast.airr.tsv"
+            "ERR1759631_1.fastq.merged.unique.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -6953,7 +6953,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "ERR1759630_1.fastq.merged.unique.igblast.airr.tsv"
+            "ERR1759630_1.fastq.merged.unique.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -7075,7 +7075,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "ERR1759629_1.fastq.merged.unique.igblast.airr.tsv"
+            "ERR1759629_1.fastq.merged.unique.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -7197,7 +7197,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "ERR1759628_1.fastq.merged.unique.igblast.airr.tsv"
+            "ERR1759628_1.fastq.merged.unique.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -7319,7 +7319,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "ERR1759635_1.fastq.merged.unique.igblast.airr.tsv"
+            "ERR1759635_1.fastq.merged.unique.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -7441,7 +7441,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "ERR1759634_1.fastq.merged.unique.igblast.airr.tsv"
+            "ERR1759634_1.fastq.merged.unique.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -7563,7 +7563,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "ERR1759633_1.fastq.merged.unique.igblast.airr.tsv"
+            "ERR1759633_1.fastq.merged.unique.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -7685,7 +7685,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "ERR1759638_1.fastq.merged.unique.igblast.airr.tsv"
+            "ERR1759638_1.fastq.merged.unique.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -7807,7 +7807,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "ERR1759637_1.fastq.merged.unique.igblast.airr.tsv"
+            "ERR1759637_1.fastq.merged.unique.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -7929,7 +7929,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "ERR1759636_1.fastq.merged.unique.igblast.airr.tsv"
+            "ERR1759636_1.fastq.merged.unique.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -8051,7 +8051,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "ERR1759641_1.fastq.merged.unique.igblast.airr.tsv"
+            "ERR1759641_1.fastq.merged.unique.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -8173,7 +8173,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "ERR1759640_1.fastq.merged.unique.igblast.airr.tsv"
+            "ERR1759640_1.fastq.merged.unique.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -8295,7 +8295,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "ERR1759639_1.fastq.merged.unique.igblast.airr.tsv"
+            "ERR1759639_1.fastq.merged.unique.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -8417,7 +8417,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "ERR1759644_1.fastq.merged.unique.igblast.airr.tsv"
+            "ERR1759644_1.fastq.merged.unique.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -8539,7 +8539,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "ERR1759643_1.fastq.merged.unique.igblast.airr.tsv"
+            "ERR1759643_1.fastq.merged.unique.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -8661,7 +8661,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "ERR1759642_1.fastq.merged.unique.igblast.airr.tsv"
+            "ERR1759642_1.fastq.merged.unique.igblast.airr.tsv.gz"
           ]
         }
       ]

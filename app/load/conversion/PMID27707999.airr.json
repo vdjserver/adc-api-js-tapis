@@ -130,7 +130,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "SRR4038227_2_assemble-pass_collapse-unique.igblast.airr.tsv"
+            "SRR4038227_2_assemble-pass_collapse-unique.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -252,7 +252,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "SRR4038226_2_assemble-pass_collapse-unique.igblast.airr.tsv"
+            "SRR4038226_2_assemble-pass_collapse-unique.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -385,7 +385,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "SRR2017554_2_assemble-pass_collapse-unique.igblast.airr.tsv"
+            "SRR2017554_2_assemble-pass_collapse-unique.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -518,7 +518,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "SRR2017526_2_assemble-pass_collapse-unique.igblast.airr.tsv"
+            "SRR2017526_2_assemble-pass_collapse-unique.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -651,7 +651,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "SRR2017553_2_assemble-pass_collapse-unique.igblast.airr.tsv"
+            "SRR2017553_2_assemble-pass_collapse-unique.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -784,7 +784,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "SRR2017485_2_assemble-pass_collapse-unique.igblast.airr.tsv"
+            "SRR2017485_2_assemble-pass_collapse-unique.igblast.airr.tsv.gz"
           ]
         }
       ]

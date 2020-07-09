@@ -140,7 +140,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "15B-2.igblast.airr.tsv"
+            "15B-2.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -272,7 +272,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "O-1B.igblast.airr.tsv"
+            "O-1B.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -404,7 +404,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "O-2B.igblast.airr.tsv"
+            "O-2B.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -549,7 +549,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "O-3B.igblast.airr.tsv"
+            "O-3B.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -681,7 +681,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "O-4B.igblast.airr.tsv"
+            "O-4B.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -813,7 +813,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "O-5B.igblast.airr.tsv"
+            "O-5B.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -945,7 +945,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "O-6B.igblast.airr.tsv"
+            "O-6B.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -1077,7 +1077,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "O-7B.igblast.airr.tsv"
+            "O-7B.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -1209,7 +1209,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "O-8B.igblast.airr.tsv"
+            "O-8B.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -1341,7 +1341,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "O-9B.igblast.airr.tsv"
+            "O-9B.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -1473,7 +1473,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "O-10B.igblast.airr.tsv"
+            "O-10B.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -1605,7 +1605,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "11B-4.igblast.airr.tsv"
+            "11B-4.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -1750,7 +1750,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "12B-2.igblast.airr.tsv"
+            "12B-2.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -1882,7 +1882,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "13B-2.igblast.airr.tsv"
+            "13B-2.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -2014,7 +2014,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "14B-2.igblast.airr.tsv"
+            "14B-2.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -2146,7 +2146,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "16B-1.igblast.airr.tsv"
+            "16B-1.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -2278,7 +2278,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "17B-1.igblast.airr.tsv"
+            "17B-1.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -2423,7 +2423,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "18B-2.igblast.airr.tsv"
+            "18B-2.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -2555,7 +2555,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "19B-2.igblast.airr.tsv"
+            "19B-2.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -2687,7 +2687,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "20B-2.igblast.airr.tsv"
+            "20B-2.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -2819,7 +2819,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "O-1M.igblast.airr.tsv"
+            "O-1M.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -2951,7 +2951,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "O-2M.igblast.airr.tsv"
+            "O-2M.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -3083,7 +3083,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "O-3M.igblast.airr.tsv"
+            "O-3M.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -3215,7 +3215,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "O-4M.igblast.airr.tsv"
+            "O-4M.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -3360,7 +3360,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "O-5M.igblast.airr.tsv"
+            "O-5M.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -3492,7 +3492,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "O-6M.igblast.airr.tsv"
+            "O-6M.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -3624,7 +3624,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "O-7M.igblast.airr.tsv"
+            "O-7M.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -3756,7 +3756,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "O-8M.igblast.airr.tsv"
+            "O-8M.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -3888,7 +3888,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "O-9M.igblast.airr.tsv"
+            "O-9M.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -4020,7 +4020,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "O-10M.igblast.airr.tsv"
+            "O-10M.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -4152,7 +4152,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "11M.igblast.airr.tsv"
+            "11M.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -4284,7 +4284,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "12M.igblast.airr.tsv"
+            "12M.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -4416,7 +4416,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "13M.igblast.airr.tsv"
+            "13M.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -4548,7 +4548,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "14M.igblast.airr.tsv"
+            "14M.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -4680,7 +4680,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "15M.igblast.airr.tsv"
+            "15M.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -4812,7 +4812,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "16M.igblast.airr.tsv"
+            "16M.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -4944,7 +4944,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "17M.igblast.airr.tsv"
+            "17M.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -5076,7 +5076,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "18M.igblast.airr.tsv"
+            "18M.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -5208,7 +5208,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "19M.igblast.airr.tsv"
+            "19M.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -5340,7 +5340,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "20M.igblast.airr.tsv"
+            "20M.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -5469,7 +5469,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "O-1N.igblast.airr.tsv"
+            "O-1N.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -5598,7 +5598,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "O-2N.igblast.airr.tsv"
+            "O-2N.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -5727,7 +5727,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "O-3N.igblast.airr.tsv"
+            "O-3N.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -5856,7 +5856,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "O-4N.igblast.airr.tsv"
+            "O-4N.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -5985,7 +5985,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "O-5N.igblast.airr.tsv"
+            "O-5N.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -6114,7 +6114,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "O-6N.igblast.airr.tsv"
+            "O-6N.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -6243,7 +6243,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "O-7N.igblast.airr.tsv"
+            "O-7N.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -6372,7 +6372,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "O-8N.igblast.airr.tsv"
+            "O-8N.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -6501,7 +6501,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "O-9N.igblast.airr.tsv"
+            "O-9N.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -6630,7 +6630,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "O-10N.igblast.airr.tsv"
+            "O-10N.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -6759,7 +6759,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "11N-1.igblast.airr.tsv"
+            "11N-1.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -6888,7 +6888,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "12N-1.igblast.airr.tsv"
+            "12N-1.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -7017,7 +7017,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "13N-1.igblast.airr.tsv"
+            "13N-1.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -7146,7 +7146,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "14N-1.igblast.airr.tsv"
+            "14N-1.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -7275,7 +7275,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "15N-1.igblast.airr.tsv"
+            "15N-1.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -7404,7 +7404,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "16N.igblast.airr.tsv"
+            "16N.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -7533,7 +7533,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "17N.igblast.airr.tsv"
+            "17N.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -7662,7 +7662,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "18N-1.igblast.airr.tsv"
+            "18N-1.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -7791,7 +7791,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "19N-1.igblast.airr.tsv"
+            "19N-1.igblast.airr.tsv.gz"
           ]
         }
       ]
@@ -7920,7 +7920,7 @@
           "germline_database": "",
           "analysis_provenance_id": "",
           "data_processing_files": [
-            "20N-1.igblast.airr.tsv"
+            "20N-1.igblast.airr.tsv.gz"
           ]
         }
       ]
