@@ -281,7 +281,7 @@ function constructQueryOperation(filter, error) {
 		    + content['value'].length + ") characters, minimum is 4.";
 		return null;
 	    } else {
-		return '{"vdjserver_junction_substrings":' + content_value + '}';
+		return '{"vdjserver_junction_suffixes": {"$regex": "^' + content['value'] + '"}}';
 	    }
 	} else {
 	    error['message'] = "'contains' operator not supported for '" + content['field'] + "' field.";
@@ -404,8 +404,7 @@ function getRearrangement(req, res) {
         start: Date.now()
     };
 
-    console.log(mongoSettings.queryCollection);
-    var collection = mongoSettings.queryCollection + '/' + req.swagger.params['sequence_id'].value;
+    var collection = 'rearrangement' + mongoSettings.queryCollection + '/' + req.swagger.params['sequence_id'].value;
 
     // Handle client HTTP request abort
     var abortQuery = false;
@@ -662,9 +661,7 @@ function queryRearrangements(req, res) {
     });
 
     // perform non-facets query
-    console.log(JSON.stringify(mongoSettings));
-    console.log(mongoSettings.queryCollection);
-    var collection = mongoSettings.queryCollection;
+    var collection = 'rearrangement' + mongoSettings.queryCollection;
     if (!facets) {
         //if (config.debug) console.log(query);
         agaveIO.performQuery(collection, query, null, page, pagesize)
@@ -696,9 +693,9 @@ function queryRearrangements(req, res) {
 			// TODO: general this a bit in case we add more
                         if (record['_id']) delete record['_id'];
                         if (record['_etag']) delete record['_etag'];
-			if (record['vdjserver_junction_substrings'])
-			    if (projection['vdjserver_junction_substrings'] == undefined)
-				delete record['vdjserver_junction_substrings'];
+			if (record['vdjserver_junction_suffixes'])
+			    if (projection['vdjserver_junction_suffixes'] == undefined)
+				delete record['vdjserver_junction_suffixes'];
 
 		        // add any missing required fields
 		        if (all_fields.length > 0) {
@@ -748,9 +745,9 @@ function queryRearrangements(req, res) {
 			        // TODO: general this a bit in case we add more
                                 if (record['_id']) delete record['_id'];
                                 if (record['_etag']) delete record['_etag'];
-			        if (record['vdjserver_junction_substrings'])
-			            if (projection['vdjserver_junction_substrings'] == undefined)
-				        delete record['vdjserver_junction_substrings'];
+			        if (record['vdjserver_junction_suffixes'])
+			            if (projection['vdjserver_junction_suffixes'] == undefined)
+				        delete record['vdjserver_junction_suffixes'];
 
 		                // add any missing required fields
 		                if (all_fields.length > 0) {

@@ -10,9 +10,8 @@ module.exports = mongoSettings = {
     url: null
 };
 
-console.log(process.env);
-console.log(JSON.stringify(process.env));
-console.log(process.env.MONGODB_QUERY_COLLECTION);
+console.log('VDJ-ADC-API INFO: Using query collection: ' + mongoSettings.queryCollection);
+console.log('VDJ-ADC-API INFO: Using load collection: ' + mongoSettings.loadCollection);
 
 if (mongoSettings.username) {
     mongoSettings.url = 'mongodb://'

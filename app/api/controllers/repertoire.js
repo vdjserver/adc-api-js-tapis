@@ -31,6 +31,7 @@ var util = require('util');
 // Server environment config
 var config = require('../../config/config');
 var agaveSettings = require('../../config/tapisSettings');
+var mongoSettings = require('../../config/mongoSettings');
 var airr = require('../helpers/airr-schema');
 
 var assert = require('assert');
@@ -374,7 +375,7 @@ function getRepertoire(req, res) {
         start: Date.now()
     };
 
-    var collection = 'repertoire';
+    var collection = 'repertoire' + mongoSettings.queryCollection;
     var query = '{repertoire_id:"' + req.swagger.params['repertoire_id'].value + '"}';
 
     // Handle client HTTP request abort
@@ -625,7 +626,7 @@ function queryRepertoires(req, res) {
     });
 
     // perform non-facets query
-    var collection = 'repertoire';
+    var collection = 'repertoire' + mongoSettings.queryCollection;
     if (!facets) {
         //console.log(query);
         agaveIO.performQuery(collection, query, projection, page, pagesize)
