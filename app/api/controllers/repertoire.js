@@ -726,13 +726,39 @@ function queryRepertoires(req, res) {
                     results = [];
                 } else {
                     // loop through records, clean data
-                    // and only retrieve desired from/size
+                    // and collapse arrays
                     for (var i in records) {
+			var new_entries = [];
                         var entry = records[i];
-                        var new_entry = {}
-                        new_entry[facets] = entry['_id'];
-                        new_entry['count'] = entry['count'];
-                        results.push(new_entry);
+			if (entry['_id'] instanceof Array) {
+			    // get unique values
+			    var values = [];
+			    for (var j in entry['_id'])
+				if (values.indexOf(entry['_id'][j]) < 0) values.push(entry['_id'][j]);
+			    for (var j in values) {
+				var new_entry = {};
+				new_entry[facets] = values[j];
+				new_entry['count'] = entry['count'];
+				new_entries.push(new_entry);
+			    }
+			} else {
+			    // only single value
+			    var new_entry = {};
+                            new_entry[facets] = entry['_id'];
+                            new_entry['count'] = entry['count'];
+                            new_entries.push(new_entry);
+			}
+			for (var j in new_entries) {
+			    var found = false;
+			    for (var k in results) {
+				if (new_entries[j][facets] == results[k][facets]) {
+				    results[k]['count'] += new_entries[j]['count'];
+				    found = true;
+				    break;
+				}
+			    }
+			    if (! found) results.push(new_entries[j]);
+			}
                     }
                 }
                 queryRecord['count'] = results.length;
