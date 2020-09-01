@@ -663,8 +663,15 @@ function queryRearrangements(req, res) {
     // perform non-facets query
     var collection = 'rearrangement' + mongoSettings.queryCollection;
     if (!facets) {
+        console.log(query);
+        var queryFunction = agaveIO.performQuery;
+        if (query && query.length > config.large_query_size) {
+            if (config.debug) console.log('VDJ-ADC-API INFO: Large query detected.');
+            queryFunction = agaveIO.performLargeQuery;
+        }
         //if (config.debug) console.log(query);
-        agaveIO.performQuery(collection, query, null, page, pagesize)
+
+        queryFunction(collection, query, null, page, pagesize)
             .then(function(records) {
                 if (abortQuery) {
                     return;
@@ -723,7 +730,7 @@ function queryRearrangements(req, res) {
                 } else {
                     // we need to do a second query for the rest
                     page += 1;
-                    agaveIO.performQuery(collection, query, null, page, pagesize)
+                    queryFunction(collection, query, null, page, pagesize)
                         .then(function(records) {
                             if (config.debug) console.log('VDJ-ADC-API INFO: second query returned ' + records.length + ' records.')
 
@@ -852,7 +859,16 @@ function queryRearrangements(req, res) {
         // perform facets query
         var field = '$' + facets;
         if (!query) query = '{}';
-        agaveIO.performAggregation(collection, 'facets', query, field)
+
+        console.log('facets query');
+        console.log(query);
+
+        var aggrFunction = agaveIO.performAggregation;
+        if (query && query.length > config.large_query_size) {
+            if (config.debug) console.log('VDJ-ADC-API INFO: Large facets query detected.');
+            aggrFunction = agaveIO.performLargeAggregation;
+        }
+        aggrFunction(collection, 'facets', query, field)
             .then(function(records) {
                 //console.log(records);
                 if (records.length == 0) {
