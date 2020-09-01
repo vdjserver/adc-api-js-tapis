@@ -896,7 +896,8 @@ function queryRearrangements(req, res) {
                 }
             })
             .fail(function(error) {
-                var msg = "VDJ-ADC-API ERROR (queryRearrangements, facets): " + error;
+                var msg = "VDJ-ADC-API ERROR (queryRearrangements, facets): " + error
+                    + '\nWhile performing query: ' + query;
                 res.status(500).json({"message":result_message});
                 console.error(msg);
                 webhookIO.postToSlack(msg);
