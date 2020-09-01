@@ -442,7 +442,7 @@ function performQuery(collection, query, projection, start_page, pagesize) {
     var deferred = Q.defer();
     var models = [];
 
-    console.log(query);
+    //console.log(query);
     var doQuery = function(page) {
         var queryFunction = agaveIO.performQuery;
         if (query && query.length > config.large_query_size) queryFunction = agaveIO.performLargeQuery;
@@ -771,6 +771,7 @@ function queryRepertoires(req, res) {
 			}
                     }
                 }
+                if (config.debug) console.log('VDJ-ADC-API INFO: facets repertoire query returning ' + results.length + ' results to client.');
                 queryRecord['count'] = results.length;
                 res.json({"Info":info,"Facet":results});
             })

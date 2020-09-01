@@ -663,7 +663,6 @@ function queryRearrangements(req, res) {
     // perform non-facets query
     var collection = 'rearrangement' + mongoSettings.queryCollection;
     if (!facets) {
-        console.log(query);
         var queryFunction = agaveIO.performQuery;
         if (query && query.length > config.large_query_size) {
             if (config.debug) console.log('VDJ-ADC-API INFO: Large query detected.');
@@ -860,9 +859,6 @@ function queryRearrangements(req, res) {
         var field = '$' + facets;
         if (!query) query = '{}';
 
-        console.log('facets query');
-        console.log(query);
-
         var aggrFunction = agaveIO.performAggregation;
         if (query && query.length > config.large_query_size) {
             if (config.debug) console.log('VDJ-ADC-API INFO: Large facets query detected.');
@@ -884,6 +880,7 @@ function queryRearrangements(req, res) {
                         results.push(new_entry);
                     }
                 }
+                if (config.debug) console.log('VDJ-ADC-API INFO: facets rearrangement query returning ' + results.length + ' results to client.');
                 queryRecord['count'] = results.length;
                 res.json({"Info":info,"Facet":results});
             })
