@@ -376,7 +376,7 @@ agaveIO.performLargeAggregation = function(collection, aggregation, query, field
     var deferred = Q.defer();
 
     var postData = '{"match":' + query + ',"field":"' + field + '"}';
-    console.log(postData);
+    //console.log(postData);
 
     GuestAccount.getToken()
         .then(function(token) {
@@ -393,7 +393,7 @@ agaveIO.performLargeAggregation = function(collection, aggregation, query, field
                 }
             };
 
-            console.log(requestSettings);
+            //console.log(requestSettings);
 
             return agaveIO.sendRequest(requestSettings, postData);
         })
