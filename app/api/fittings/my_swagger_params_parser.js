@@ -15,16 +15,19 @@ module.exports = function create(fittingDef, bagpipes) {
 
   _.defaults(fittingDef, {
     jsonOptions: {
-      type: ['json', 'application/*+json']
+      type: ['json', 'application/*+json'],
+      limit: 2 * 1024 * 1024
     },
     urlencodedOptions: {
-      extended: false
+      extended: false,
+      limit: 2 * 1024 * 1024
     },
     multerOptions: {
       inMemory: true
     },
     textOptions: {
-      type: '*/*'
+      type: '*/*',
+      limit: 2 * 1024 * 1024
     }
   });
 
@@ -85,6 +88,7 @@ function parseRequest(req, fittingDef, cb) {
   if (req.body || (!shouldParseBody && !shouldParseForm)) { return cb(); }
 
   var res = null;
+    //console.log('parsing req.body for content-type: %s', req.headers['content-type']);
   debugContent('parsing req.body for content-type: %s', req.headers['content-type']);
   async.series([
     function parseMultipart(cb) {
