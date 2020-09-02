@@ -31,6 +31,7 @@ var path = require('path');
 var fs = require('fs');
 var yaml = require('js-yaml');
 var Runner = require('swagger-node-runner');
+var bodyParser = require('body-parser');
 
 // Server environment config
 var config = require('./config/config');
@@ -72,6 +73,12 @@ GuestAccount.getToken()
 
 	    // trust proxy so we can get client IP
 	    app.set('trust proxy', true);
+
+            // post data limit
+            app.use(bodyParser.json({limit: 2 * 1024 * 1024}));
+            app.use(bodyParser.raw({limit: 2 * 1024 * 1024}));
+            app.use(bodyParser.text({limit: 2 * 1024 * 1024}));
+            app.use(bodyParser.urlencoded({limit: 2 * 1024 * 1024, extended: true}));
 
 	    // install middleware
 	    var swaggerExpress = runner.expressMiddleware();
