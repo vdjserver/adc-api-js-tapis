@@ -453,7 +453,8 @@ function performQuery(collection, query, projection, start_page, pagesize) {
                     deferred.resolve(models);
                 } else {
                     models = models.concat(records);
-                    doQuery(page+1);
+                    if (records.length < pagesize) deferred.resolve(models);
+                    else doQuery(page+1);
                 }
             })
             .fail(function(errorObject) {
@@ -466,6 +467,35 @@ function performQuery(collection, query, projection, start_page, pagesize) {
     return deferred.promise;
 };
 
+/*
+function performFacets(collection, query, projection, start_page, pagesize) {
+    var deferred = Q.defer();
+    var models = [];
+
+    //console.log(query);
+    var doQuery = function(page) {
+        var queryFunction = agaveIO.performQuery;
+        if (query && query.length > config.large_query_size) queryFunction = agaveIO.performLargeQuery;
+        return queryFunction(collection, query, projection, page, pagesize)
+            .then(function(records) {
+                if (config.debug) console.log('VDJ-ADC-API INFO: query returned ' + records.length + ' records.');
+                if (records.length == 0) {
+                    deferred.resolve(models);
+                } else {
+                    models = models.concat(records);
+                    doQuery(page+1);
+                }
+            })
+            .fail(function(errorObject) {
+                deferred.reject(errorObject);
+            });
+    };
+
+    doQuery(start_page);
+
+    return deferred.promise;
+};
+*/
 
 function queryRepertoires(req, res) {
     if (config.debug) console.log('VDJ-ADC-API INFO: queryRepertoires');
@@ -737,6 +767,7 @@ function queryRepertoires(req, res) {
                 } else {
                     // loop through records, clean data
                     // and collapse arrays
+                    console.log(records);
                     for (var i in records) {
 			var new_entries = [];
                         var entry = records[i];
@@ -744,13 +775,21 @@ function queryRepertoires(req, res) {
 			    // get unique values
 			    var values = [];
 			    for (var j in entry['_id'])
-				if (values.indexOf(entry['_id'][j]) < 0) values.push(entry['_id'][j]);
+                                if (entry['_id'][j] instanceof Array) {
+                                    // array of arrays
+                                    for (var k in entry['_id'][j]) {
+				        if (values.indexOf(entry['_id'][j][k]) < 0) values.push(entry['_id'][j][k]);
+                                    }
+                                } else {
+				    if (values.indexOf(entry['_id'][j]) < 0) values.push(entry['_id'][j]);
+                                }
 			    for (var j in values) {
 				var new_entry = {};
 				new_entry[facets] = values[j];
 				new_entry['count'] = entry['count'];
 				new_entries.push(new_entry);
 			    }
+                            console.log(values);
 			} else {
 			    // only single value
 			    var new_entry = {};
@@ -758,6 +797,7 @@ function queryRepertoires(req, res) {
                             new_entry['count'] = entry['count'];
                             new_entries.push(new_entry);
 			}
+                        console.log(new_entries);
 			for (var j in new_entries) {
 			    var found = false;
 			    for (var k in results) {
