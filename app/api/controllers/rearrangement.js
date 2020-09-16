@@ -40,6 +40,9 @@ var assert = require('assert');
 var agaveIO = require('../vendor/agaveIO');
 var webhookIO = require('../vendor/webhookIO');
 
+// Node Libraries
+var Q = require('q');
+
 // API customization
 var custom_file = undefined;
 if (config.custom_file) {
@@ -466,6 +469,38 @@ function getRearrangement(req, res) {
         });
 }
 
+function performFacets(collection, query, field, start_page, pagesize) {
+    var deferred = Q.defer();
+    var models = [];
+
+    //console.log(query);
+    var doAggr = function(page) {
+        var aggrFunction = agaveIO.performAggregation;
+        if (query && query.length > config.large_query_size) {
+            if (config.debug) console.log('VDJ-ADC-API INFO: Large facets query detected.');
+            aggrFunction = agaveIO.performLargeAggregation;
+        }
+        return aggrFunction(collection, 'facets', query, field, page, pagesize)
+            .then(function(records) {
+                if (config.debug) console.log('VDJ-ADC-API INFO: query returned ' + records.length + ' records.');
+                if (records.length == 0) {
+                    deferred.resolve(models);
+                } else {
+                    models = models.concat(records);
+                    if (records.length < pagesize) deferred.resolve(models);
+                    else doAggr(page+1);
+                }
+            })
+            .fail(function(errorObject) {
+                deferred.reject(errorObject);
+            });
+    };
+    
+    doAggr(start_page);
+
+    return deferred.promise;
+};
+
 function queryRearrangements(req, res) {
     if (config.debug) console.log('VDJ-ADC-API INFO: queryRearrangements');
 
@@ -473,6 +508,10 @@ function queryRearrangements(req, res) {
     var result = {};
     var result_flag = false;
     var result_message = "Unknown error";
+
+    // 4 min response timeout
+    res.connection.setTimeout(4 * 60 * 1000);
+    //console.log(res.connection);
 
     var bodyData = req.swagger.params['data'].value;
 
@@ -859,52 +898,113 @@ function queryRearrangements(req, res) {
         var field = '$' + facets;
         if (!query) query = '{}';
 
-        var aggrFunction = agaveIO.performAggregation;
-        if (query && query.length > config.large_query_size) {
-            if (config.debug) console.log('VDJ-ADC-API INFO: Large facets query detected.');
-            aggrFunction = agaveIO.performLargeAggregation;
+        console.log(bodyData);
+        console.log(JSON.stringify(bodyData));
+
+        // optimization, check if its a single repertoire_id facet
+        var single_rep_facet = false;
+        var single_rep_id = null;
+        if (facets == 'repertoire_id') {
+            if (filter && filter['op'] == '=' && filter['content']['field'] == 'repertoire_id') {
+                single_rep_facet = true;
+                single_rep_id = filter['content']['value'];
+            }
+            if (filter && filter['op'] == 'in' && filter['content']['value'].length == 1) {
+                single_rep_facet = true;
+                query = '{"repertoire_id":"' + filter['content']['value'][0] + '"}';
+                single_rep_id = filter['content']['value'][0];
+            }
         }
-        aggrFunction(collection, 'facets', query, field)
-            .then(function(records) {
-                //console.log(records);
-                if (records.length == 0) {
-                    results = [];
-                } else {
-                    // loop through records, clean data
-                    // and only retrieve desired from/size
-                    for (var i in records) {
-                        var entry = records[i];
+
+        if (single_rep_facet) {
+            console.log('single repertoire facet');
+            console.log(query);
+
+            agaveIO.performQuery(collection, query, null, null, null, true)
+                .then(function(record) {
+                    console.log(record);
+                    var results = [];
+                    if (record) {
                         var new_entry = {}
-                        new_entry[facets] = entry['_id'];
-                        new_entry['count'] = entry['count'];
+                        new_entry[facets] = single_rep_id;
+                        new_entry['count'] = record['_size'];
                         results.push(new_entry);
                     }
-                }
-                if (config.debug) console.log('VDJ-ADC-API INFO: facets rearrangement query returning ' + results.length + ' results to client.');
-                queryRecord['count'] = results.length;
-                res.json({"Info":info,"Facet":results});
-            })
-            .then(function() {
-                if (abortQuery) {
-	            queryRecord['status'] = 'abort';
+                    if (config.debug) console.log('VDJ-ADC-API INFO: facets rearrangement query returning ' + results.length + ' results to client.');
+                    queryRecord['count'] = results.length;
+                    res.json({"Info":info,"Facet":results});
+                })
+                .then(function() {
+                    if (abortQuery) {
+	                queryRecord['status'] = 'abort';
+                        queryRecord['end'] = Date.now();
+	                agaveIO.recordQuery(queryRecord);
+                    } else {
+	                queryRecord['status'] = 'success';
+                        queryRecord['end'] = Date.now();
+	                agaveIO.recordQuery(queryRecord);
+                    }
+                })
+                .fail(function(error) {
+                    var msg = "VDJ-ADC-API ERROR (queryRearrangements, facets): " + error
+                        + '\nWhile performing query: ' + query;
+                    res.status(500).json({"message":result_message});
+                    console.error(msg);
+                    webhookIO.postToSlack(msg);
+	            queryRecord['status'] = 'error';
+	            queryRecord['message'] = msg;
                     queryRecord['end'] = Date.now();
 	            agaveIO.recordQuery(queryRecord);
-                } else {
-	            queryRecord['status'] = 'success';
+                });
+
+        } else {
+
+            performFacets(collection, query, field, 1, pagesize)
+                .then(function(records) {
+                    //console.log(records);
+                    if (records.length == 0) {
+                        results = [];
+                    } else {
+                        // loop through records, clean data
+                        // and only retrieve desired from/size
+                        for (var i in records) {
+                            var entry = records[i];
+                            var new_entry = {}
+                            new_entry[facets] = entry['_id'];
+                            new_entry['count'] = entry['count'];
+                            results.push(new_entry);
+                        }
+                    }
+                    if (config.debug) console.log('VDJ-ADC-API INFO: facets rearrangement query returning ' + results.length + ' results to client.');
+                    queryRecord['count'] = results.length;
+                    res.json({"Info":info,"Facet":results});
+                })
+                .then(function() {
+                    if (abortQuery) {
+	                queryRecord['status'] = 'abort';
+                        queryRecord['end'] = Date.now();
+	                agaveIO.recordQuery(queryRecord);
+                    } else {
+	                queryRecord['status'] = 'success';
+                        queryRecord['end'] = Date.now();
+	                agaveIO.recordQuery(queryRecord);
+                    }
+                })
+                .fail(function(error) {
+                    var msg = "VDJ-ADC-API ERROR (queryRearrangements, facets): " + error
+                        + '\nWhile performing query: ';                
+                    if (query && query.length > config.large_query_size)
+                        msg += 'a very large query (' + query.length + ')';
+                    else
+                        msg += query;
+                    res.status(500).json({"message":result_message});
+                    console.error(msg);
+                    webhookIO.postToSlack(msg);
+	            queryRecord['status'] = 'error';
+	            queryRecord['message'] = msg;
                     queryRecord['end'] = Date.now();
 	            agaveIO.recordQuery(queryRecord);
-                }
-            })
-            .fail(function(error) {
-                var msg = "VDJ-ADC-API ERROR (queryRearrangements, facets): " + error
-                    + '\nWhile performing query: ' + query;
-                res.status(500).json({"message":result_message});
-                console.error(msg);
-                webhookIO.postToSlack(msg);
-	        queryRecord['status'] = 'error';
-	        queryRecord['message'] = msg;
-                queryRecord['end'] = Date.now();
-	        agaveIO.recordQuery(queryRecord);
-            });
+                });
+        }
     }
 }
