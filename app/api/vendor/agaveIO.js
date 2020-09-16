@@ -307,7 +307,7 @@ agaveIO.performLargeQuery = function(collection, query, projection, page, pagesi
     return deferred.promise;
 };
 
-agaveIO.performQuery = function(collection, query, projection, page, pagesize) {
+agaveIO.performQuery = function(collection, query, projection, page, pagesize, count) {
 
     var deferred = Q.defer();
 
@@ -324,6 +324,9 @@ agaveIO.performQuery = function(collection, query, projection, page, pagesize) {
                     'Authorization': 'Bearer ' + GuestAccount.accessToken()
                 }
             };
+            if (count) {
+                requestSettings['path'] += '/_size';
+            }
             if (query != null) {
                 if (mark) requestSettings['path'] += '&';
                 else requestSettings['path'] += '?';
@@ -356,7 +359,7 @@ agaveIO.performQuery = function(collection, query, projection, page, pagesize) {
                 requestSettings['path'] += 'sort=' + encodeURIComponent(JSON.stringify(sort));
             }
 
-            //console.log(requestSettings);
+            console.log(requestSettings);
 
             return agaveIO.sendRequest(requestSettings, null);
         })
@@ -371,7 +374,7 @@ agaveIO.performQuery = function(collection, query, projection, page, pagesize) {
     return deferred.promise;
 };
 
-agaveIO.performLargeAggregation = function(collection, aggregation, query, field) {
+agaveIO.performLargeAggregation = function(collection, aggregation, query, field, page, pagesize) {
 
     var deferred = Q.defer();
 
@@ -380,6 +383,7 @@ agaveIO.performLargeAggregation = function(collection, aggregation, query, field
 
     GuestAccount.getToken()
         .then(function(token) {
+            var mark = false;
             var requestSettings = {
                 host:     agaveSettings.hostname,
                 method:   'POST',
@@ -392,8 +396,20 @@ agaveIO.performLargeAggregation = function(collection, aggregation, query, field
 		    'Content-Length': Buffer.byteLength(postData)
                 }
             };
+            if (page != null) {
+                if (mark) requestSettings['path'] += '&';
+                else requestSettings['path'] += '?';
+                mark = true;
+                requestSettings['path'] += 'page=' + encodeURIComponent(page);
+            }
+            if (pagesize != null) {
+                if (mark) requestSettings['path'] += '&';
+                else requestSettings['path'] += '?';
+                mark = true;
+                requestSettings['path'] += 'pagesize=' + encodeURIComponent(pagesize);
+            }
 
-            //console.log(requestSettings);
+            console.log(requestSettings);
 
             return agaveIO.sendRequest(requestSettings, postData);
         })
@@ -407,12 +423,12 @@ agaveIO.performLargeAggregation = function(collection, aggregation, query, field
     return deferred.promise;
 };
 
-agaveIO.performAggregation = function(collection, aggregation, query, field) {
+agaveIO.performAggregation = function(collection, aggregation, query, field, page, pagesize) {
 
     var deferred = Q.defer();
 
     GuestAccount.getToken()
-    .then(function(token) {
+        .then(function(token) {
             var requestSettings = {
                 host:     agaveSettings.hostname,
                 method:   'GET',
@@ -427,6 +443,20 @@ agaveIO.performAggregation = function(collection, aggregation, query, field) {
 
             requestSettings['path'] += '?avars=';
             requestSettings['path'] += encodeURIComponent('{"match":' + query + ',"field":"' + field + '"}');
+            var mark = true;
+
+            if (page != null) {
+                if (mark) requestSettings['path'] += '&';
+                else requestSettings['path'] += '?';
+                mark = true;
+                requestSettings['path'] += 'page=' + encodeURIComponent(page);
+            }
+            if (pagesize != null) {
+                if (mark) requestSettings['path'] += '&';
+                else requestSettings['path'] += '?';
+                mark = true;
+                requestSettings['path'] += 'pagesize=' + encodeURIComponent(pagesize);
+            }
 
             //console.log(requestSettings);
 
