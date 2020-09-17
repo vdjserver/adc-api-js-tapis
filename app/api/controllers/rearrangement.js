@@ -480,6 +480,8 @@ function performFacets(collection, query, field, start_page, pagesize) {
             if (config.debug) console.log('VDJ-ADC-API INFO: Large facets query detected.');
             aggrFunction = agaveIO.performLargeAggregation;
         }
+        // TAPIS BUG: with pagesize and normal aggregation so use the large one for now
+        aggrFunction = agaveIO.performLargeAggregation;
         return aggrFunction(collection, 'facets', query, field, page, pagesize)
             .then(function(records) {
                 if (config.debug) console.log('VDJ-ADC-API INFO: query returned ' + records.length + ' records.');
