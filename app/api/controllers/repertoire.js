@@ -467,35 +467,39 @@ function performQuery(collection, query, projection, start_page, pagesize) {
     return deferred.promise;
 };
 
-/*
-function performFacets(collection, query, projection, start_page, pagesize) {
+function performFacets(collection, query, field, start_page, pagesize) {
     var deferred = Q.defer();
     var models = [];
 
     //console.log(query);
-    var doQuery = function(page) {
-        var queryFunction = agaveIO.performQuery;
-        if (query && query.length > config.large_query_size) queryFunction = agaveIO.performLargeQuery;
-        return queryFunction(collection, query, projection, page, pagesize)
+    var doAggr = function(page) {
+        var aggrFunction = agaveIO.performAggregation;
+        if (query && query.length > config.large_query_size) {
+            if (config.debug) console.log('VDJ-ADC-API INFO: Large facets query detected.');
+            aggrFunction = agaveIO.performLargeAggregation;
+        }
+        // TAPIS BUG: with pagesize and normal aggregation so use the large one for now
+        aggrFunction = agaveIO.performLargeAggregation;
+        return aggrFunction(collection, 'facets', query, field, page, pagesize)
             .then(function(records) {
                 if (config.debug) console.log('VDJ-ADC-API INFO: query returned ' + records.length + ' records.');
                 if (records.length == 0) {
                     deferred.resolve(models);
                 } else {
                     models = models.concat(records);
-                    doQuery(page+1);
+                    if (records.length < pagesize) deferred.resolve(models);
+                    else doAggr(page+1);
                 }
             })
             .fail(function(errorObject) {
                 deferred.reject(errorObject);
             });
     };
-
-    doQuery(start_page);
+    
+    doAggr(start_page);
 
     return deferred.promise;
 };
-*/
 
 function queryRepertoires(req, res) {
     if (config.debug) console.log('VDJ-ADC-API INFO: queryRepertoires');
@@ -760,14 +764,19 @@ function queryRepertoires(req, res) {
         // perform facets query
         var field = '$' + facets;
         if (!query) query = '{}';
-        agaveIO.performAggregation(collection, 'facets', query, field)
+
+        //console.log(bodyData);
+        //console.log(JSON.stringify(bodyData));
+        //console.log(query);
+
+        performFacets(collection, query, field, 1, pagesize)
             .then(function(records) {
                 if (records.length == 0) {
                     results = [];
                 } else {
                     // loop through records, clean data
                     // and collapse arrays
-                    console.log(records);
+                    //console.log(records);
                     for (var i in records) {
 			var new_entries = [];
                         var entry = records[i];
@@ -789,7 +798,7 @@ function queryRepertoires(req, res) {
 				new_entry['count'] = entry['count'];
 				new_entries.push(new_entry);
 			    }
-                            console.log(values);
+                            //console.log(values);
 			} else {
 			    // only single value
 			    var new_entry = {};
@@ -797,7 +806,7 @@ function queryRepertoires(req, res) {
                             new_entry['count'] = entry['count'];
                             new_entries.push(new_entry);
 			}
-                        console.log(new_entries);
+                        //console.log(new_entries);
 			for (var j in new_entries) {
 			    var found = false;
 			    for (var k in results) {
