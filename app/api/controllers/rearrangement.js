@@ -900,8 +900,8 @@ function queryRearrangements(req, res) {
         var field = '$' + facets;
         if (!query) query = '{}';
 
-        console.log(bodyData);
-        console.log(JSON.stringify(bodyData));
+        //console.log(bodyData);
+        //console.log(JSON.stringify(bodyData));
 
         // optimization, check if its a single repertoire_id facet
         var single_rep_facet = false;
@@ -919,12 +919,12 @@ function queryRearrangements(req, res) {
         }
 
         if (single_rep_facet) {
-            console.log('single repertoire facet');
-            console.log(query);
+            //console.log('single repertoire facet');
+            //console.log(query);
 
             agaveIO.performQuery(collection, query, null, null, null, true)
                 .then(function(record) {
-                    console.log(record);
+                    //console.log(record);
                     var results = [];
                     if (record) {
                         var new_entry = {}

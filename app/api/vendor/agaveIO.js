@@ -300,7 +300,7 @@ agaveIO.performLargeQuery = function(collection, query, projection, page, pagesi
             deferred.resolve(responseObject);
         })
         .fail(function(errorObject) {
-            console.log('performQuery: ' + errorObject);
+            console.error('performQuery: ' + errorObject);
             deferred.reject(errorObject);
         });
 
@@ -359,7 +359,7 @@ agaveIO.performQuery = function(collection, query, projection, page, pagesize, c
                 requestSettings['path'] += 'sort=' + encodeURIComponent(JSON.stringify(sort));
             }
 
-            console.log(requestSettings);
+            //console.log(requestSettings);
 
             return agaveIO.sendRequest(requestSettings, null);
         })
@@ -367,7 +367,7 @@ agaveIO.performQuery = function(collection, query, projection, page, pagesize, c
             deferred.resolve(responseObject);
         })
         .fail(function(errorObject) {
-            console.log('performQuery: ' + errorObject);
+            console.error('performQuery: ' + errorObject);
             deferred.reject(errorObject);
         });
 
@@ -409,7 +409,7 @@ agaveIO.performLargeAggregation = function(collection, aggregation, query, field
                 requestSettings['path'] += 'pagesize=' + encodeURIComponent(pagesize);
             }
 
-            console.log(requestSettings);
+            //console.log(requestSettings);
 
             return agaveIO.sendRequest(requestSettings, postData);
         })
@@ -502,7 +502,7 @@ agaveIO.recordQuery = function(query) {
             deferred.resolve(responseObject);
         })
 	.fail(function(errorObject) {
-            console.log(errorObject);
+            console.error(errorObject);
             deferred.reject(errorObject);
         });
 
