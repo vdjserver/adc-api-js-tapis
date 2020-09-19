@@ -27,10 +27,12 @@
 //
 
 var app = require('express')();
+var errorHandler = require('errorhandler');
+var bodyParser   = require('body-parser');
+var openapi = require('express-openapi');
 var path = require('path');
 var fs = require('fs');
 var yaml = require('js-yaml');
-var Runner = require('swagger-node-runner');
 
 // Server environment config
 var config = require('./config/config');
@@ -40,11 +42,31 @@ var webhookIO = require('./api/vendor/webhookIO');
 
 module.exports = app; // for testing
 
-// Swagger middleware config
-var swaggerConfig = {
-  appRoot: __dirname, // required config
-  configDir: 'config'
+// CORS
+var allowCrossDomain = function(request, response, next) {
+    response.header('Access-Control-Allow-Origin', '*');
+    response.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+    response.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
+
+    // intercept OPTIONS method
+    if ('OPTIONS' === request.method) {
+        response.status(200).end();
+    }
+    else {
+        next();
+    }
 };
+
+// Server Settings
+app.set('port', config.port);
+app.use(allowCrossDomain);
+// trust proxy so we can get client IP
+app.set('trust proxy', true);
+
+app.use(errorHandler({
+    dumpExceptions: true,
+    showStack: true,
+}));
 
 // Verify we can login with guest account
 var GuestAccount = require('./api/models/guestAccount');
@@ -52,12 +74,11 @@ GuestAccount.getToken()
     .then(function(guestToken) {
 	console.log('VDJ-ADC-API INFO: Successfully acquired guest token.');
 
-	// Load swagger API
-	//console.log(config.appRoot);
-	var swaggerFile = path.resolve(swaggerConfig.appRoot, 'api/swagger/adc-api.yaml');
-	console.log('VDJ-ADC-API INFO: Using ADC API specification: ' + swaggerFile);
-	swaggerConfig.swagger = yaml.safeLoad(fs.readFileSync(swaggerFile, 'utf8'));
-	console.log('VDJ-ADC-API INFO: Loaded ADC API version: ' + swaggerConfig.swagger.info.version);
+	// Load API
+	var apiFile = path.resolve(__dirname, 'api/swagger/adc-api.yaml');
+	console.log('VDJ-ADC-API INFO: Using ADC API specification: ' + apiFile);
+	global.apiDoc = yaml.safeLoad(fs.readFileSync(apiFile, 'utf8'));
+	console.log('VDJ-ADC-API INFO: Loaded ADC API version: ' + global.apiDoc.info.version);
 
 	// Load AIRR Schema
 	return airr.schema();
@@ -67,21 +88,32 @@ GuestAccount.getToken()
 	console.log('VDJ-ADC-API INFO: Loaded AIRR Schema, version ' + schema['Info']['version']);
 	global.airr = schema;
 
-	Runner.create(swaggerConfig, function(err, runner) {
-	    if (err) { throw err; }
+        openapi.initialize({
+            apiDoc: global.apiDoc,
+            app: app,
+            promiseMode: true,
+            consumesMiddleware: {
+                'application/json': bodyParser.json(),
+                'application/x-www-form-urlencoded': bodyParser.urlencoded({extended: true})
+            },
+            operations: {
+                get_service_status: apiResponseController.confirmUpStatus,
 
-	    // trust proxy so we can get client IP
-	    app.set('trust proxy', true);
+                // rearrangement statistics
+                rearrangement_count: statsController.RearrangementCount,
+                rearrangement_junction_length: statsController.RearrangementJunctionLength,
+                rearrangement_gene_usage: statsController.RearrangementGeneUsage,
 
-	    // install middleware
-	    var swaggerExpress = runner.expressMiddleware();
-	    swaggerExpress.register(app);
+                // clone statistics
+                clone_count: statsController.CloneCount,
+                clone_junction_length: statsController.CloneJunctionLength,
+                clone_gene_usage: statsController.CloneGeneUsage
+            }
+        });
 
-	    var port = config.port || 8020;
-	    app.listen(port);
-
-	    console.log('VDJ-ADC-API INFO: listening on port:' + port);
-	});
+        app.listen(app.get('port'), function() {
+            console.log('VDJ-ADC-API INFO: VDJServer ADC API service listening on port ' + app.get('port'));
+        });
     })
     .fail(function(error) {
         var msg = 'VDJ-ADC-API ERROR: Service could not be start.\n' + error;
