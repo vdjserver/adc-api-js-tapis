@@ -1,14 +1,14 @@
 'use strict';
 
 //
-// app.js
+// app-async.js
 // Application entry point
 //
 // VDJServer Community Data Portal
-// ADC API for VDJServer
+// ADC API Asynchronous Extension for VDJServer
 // https://vdjserver.org
 //
-// Copyright (C) 2020 The University of Texas Southwestern Medical Center
+// Copyright (C) 2021 The University of Texas Southwestern Medical Center
 //
 // Author: Scott Christley <scott.christley@utsouthwestern.edu>
 //
@@ -45,9 +45,7 @@ var webhookIO = require('./api/vendor/webhookIO');
 
 // Controllers
 var statusController = require('./api/controllers/status');
-var repertoireController = require('./api/controllers/repertoire');
-var rearrangementController = require('./api/controllers/rearrangement');
-var cloneController = require('./api/controllers/clone');
+var asyncController = require('./api/controllers/async-query');
 
 // CORS
 var allowCrossDomain = function(request, response, next) {
@@ -65,38 +63,26 @@ var allowCrossDomain = function(request, response, next) {
 };
 
 // Server Settings
-app.set('port', config.port);
+app.set('port', config.async_port);
 app.use(allowCrossDomain);
 // trust proxy so we can get client IP
 app.set('trust proxy', true);
+
+app.redisConfig = {
+    port: 6379,
+    host: 'localhost',
+};
 
 app.use(errorHandler({
     dumpExceptions: true,
     showStack: true,
 }));
 
-/*
-    This is hack for when x-www-form-urlencoded is really JSON.
-    We don't want to use it.
-
-app.use(
-  bodyParser.raw({ type : 'application/x-www-form-urlencoded' }),
-  function(req, res, next) {
-    try {
-      req.body = JSON.parse(req.body)
-    } catch(e) {
-      req.body = require('qs').parse(req.body.toString());
-    }
-    next();
-  }
-);
-*/
-
 // Verify we can login with guest account
 var GuestAccount = require('./api/models/guestAccount');
 GuestAccount.getToken()
     .then(function(guestToken) {
-        console.log('VDJ-ADC-API INFO: Successfully acquired guest token.');
+        console.log('VDJ-ADC-API-ASYNC INFO: Successfully acquired guest token.');
 
         // Load AIRR Schema
         return airr.schema();
@@ -105,13 +91,13 @@ GuestAccount.getToken()
         // save in global
         global.airr = schema;
 
-        console.log('VDJ-ADC-API INFO: Loaded AIRR Schema, version ' + schema['Info']['version']);
+        console.log('VDJ-ADC-API-ASYNC INFO: Loaded AIRR Schema, version ' + schema['Info']['version']);
 
         // Load API
-        var apiFile = path.resolve(__dirname, 'api/swagger/adc-api.yaml');
-        console.log('VDJ-ADC-API INFO: Using ADC API specification: ' + apiFile);
+        var apiFile = path.resolve(__dirname, 'api/swagger/adc-api-async.yaml');
+        console.log('VDJ-ADC-API-ASYNC INFO: Using ADC API Async specification: ' + apiFile);
         var api_spec = yaml.safeLoad(fs.readFileSync(apiFile, 'utf8'));
-        console.log('VDJ-ADC-API INFO: Loaded ADC API version: ' + api_spec.info.version);
+        console.log('VDJ-ADC-API-ASYNC INFO: Loaded ADC API Async version: ' + api_spec.info.version);
 
         // dereference the API spec
         //
@@ -134,34 +120,26 @@ GuestAccount.getToken()
                 res.status(500).json(err.errors);
             },
             consumesMiddleware: {
-                'application/json': bodyParser.json()
-                //'application/x-www-form-urlencoded': bodyParser.urlencoded({extended: true})
+                'application/json': bodyParser.json(),
+                'application/x-www-form-urlencoded': bodyParser.urlencoded({extended: true})
             },
             operations: {
                 // service status and info
                 get_service_status: statusController.getStatus,
                 get_info: statusController.getInfo,
 
-                // repertoires
-                get_repertoire: repertoireController.getRepertoire,
-                query_repertoires: repertoireController.queryRepertoires,
-                
-                // rearrangements
-                get_rearrangement: rearrangementController.getRearrangement,
-                query_rearrangements: rearrangementController.queryRearrangements,
-
-                // clones
-                get_clone: cloneController.getClone,
-                query_clones: cloneController.queryClones
+                // queries
+                get_query_status: asyncController.getQueryStatus,
+                async_query: asyncController.asyncQuery
             }
         });
 
         app.listen(app.get('port'), function() {
-            console.log('VDJ-ADC-API INFO: VDJServer ADC API service listening on port ' + app.get('port'));
+            console.log('VDJ-ADC-API-ASYNC INFO: VDJServer ADC API service listening on port ' + app.get('port'));
         });
     })
     .catch(function(error) {
-        var msg = 'VDJ-ADC-API ERROR: Service could not be start.\n' + error;
+        var msg = 'VDJ-ADC-API-ASYNC ERROR: Service could not be start.\n' + error;
         console.error(msg);
         console.trace(msg);
         webhookIO.postToSlack(msg);

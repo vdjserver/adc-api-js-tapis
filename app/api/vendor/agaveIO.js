@@ -65,7 +65,7 @@ agaveIO.sendRequest = function(requestSettings, postData) {
 
             var responseObject;
 
-            if (response.statusCode >= 400) {
+            if ((response.statusCode >= 400) && (response.statusCode != 404)) {
                 deferred.reject(new Error('Request error: ' + output));
             } else if (output.length == 0) {
                 deferred.resolve(null);

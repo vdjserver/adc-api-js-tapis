@@ -26,15 +26,14 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 //
 
-var util = require('util');
+var RearrangementController = {};
+module.exports = RearrangementController;
 
 // Server environment config
 var config = require('../../config/config');
-var agaveSettings = require('../../config/tapisSettings');
+//var agaveSettings = require('../../config/tapisSettings');
 var mongoSettings = require('../../config/mongoSettings');
 var airr = require('../helpers/airr-schema');
-
-var assert = require('assert');
 
 // Processing
 var agaveIO = require('../vendor/agaveIO');
@@ -42,33 +41,15 @@ var webhookIO = require('../vendor/webhookIO');
 
 // Node Libraries
 var Q = require('q');
-
-// API customization
-var custom_file = undefined;
-if (config.custom_file) {
-    custom_file = require('../../config/' + config.custom_file);
-}
+var mongodb = require('mongodb');
 
 // escape strings for regex, double \\ for restheart
-var escapeString = function(text) {
-    var encoded = text.replace(/\*/g, '\\\\\*');
-    encoded = encoded.replace(/\+/g, '\\\\\+');
-    return encoded;
-}
 
-/*
-  Once you 'require' a module you can reference the things that it exports.  These are defined in module.exports.
-
-  For a controller in a127 (which this is) you should export the functions referenced in your Swagger document by name.
-
-  Either:
-  - The HTTP Verb of the corresponding operation (get, put, post, delete, etc)
-  - Or the operationId associated with the operation in your Swagger document
-*/
-module.exports = {
-    getRearrangement: getRearrangement,
-    queryRearrangements: queryRearrangements
-};
+//var escapeString = function(text) {
+//    var encoded = text.replace(/\*/g, '\\\\\*');
+//    encoded = encoded.replace(/\+/g, '\\\\\+');
+//    return encoded;
+//}
 
 /*
   Construct mongodb query based upon the filters parameters. The
@@ -277,20 +258,20 @@ function constructQueryOperation(filter, error) {
             error['message'] = "missing value for 'contains' operator";
             return null;
         }
-	// VDJServer optimization for substring searches on junction_aa
-	if (content['field'] == 'junction_aa') {
-	    if (content['value'].length < 4) {
-		error['message'] = "value for 'contains' operator on 'junction_aa' field is too small, length is ("
-		    + content['value'].length + ") characters, minimum is 4.";
-		return null;
-	    } else {
-		return '{"vdjserver_junction_suffixes": {"$regex": "^' + content['value'] + '"}}';
-	    }
-	} else {
-	    error['message'] = "'contains' operator not supported for '" + content['field'] + "' field.";
-	    return null;
-	}
-	return null;
+        // VDJServer optimization for substring searches on junction_aa
+        if (content['field'] == 'junction_aa') {
+            if (content['value'].length < 4) {
+                error['message'] = "value for 'contains' operator on 'junction_aa' field is too small, length is ("
+                    + content['value'].length + ") characters, minimum is 4.";
+                return null;
+            } else {
+                return '{"vdjserver_junction_suffixes": {"$regex": "^' + content['value'] + '"}}';
+            }
+        } else {
+            error['message'] = "'contains' operator not supported for '" + content['field'] + "' field.";
+            return null;
+        }
+        return null;
 
     case 'is': // is missing
     case 'is missing':
@@ -383,31 +364,27 @@ function constructQueryOperation(filter, error) {
     return null;
 }
 
-/*
-  Functions in a127 controllers used for operations should take two parameters:
-
-  Param 1: a handle to the request object
-  Param 2: a handle to the response object
-*/
-function getRearrangement(req, res) {
-    if (config.debug) console.log('VDJ-ADC-API INFO: getRearrangement: ' + req.swagger.params['sequence_id'].value);
+// get a single rearrangement
+RearrangementController.getRearrangement = function(req, res) {
+    var get_sequence_id = req.params.sequence_id;
+    if (config.debug) console.log('VDJ-ADC-API INFO: getRearrangement: ' + get_sequence_id);
 
     var result = {};
     var result_message = "Server error";
     var results = [];
 
     var queryRecord = {
-	endpoint: 'rearrangement',
-	method: 'GET',
-	query: req.swagger.params['sequence_id'].value,
-	ip: req.ip,
-	status: 'unknown',
-	message: null,
+        endpoint: 'rearrangement',
+        method: 'GET',
+        query: get_sequence_id,
+        ip: req.ip,
+        status: 'unknown',
+        message: null,
         count: null,
         start: Date.now()
     };
 
-    var collection = 'rearrangement' + mongoSettings.queryCollection + '/' + req.swagger.params['sequence_id'].value;
+    var collection = 'rearrangement' + mongoSettings.queryCollection + '/' + get_sequence_id;
 
     // Handle client HTTP request abort
     var abortQuery = false;
@@ -440,20 +417,20 @@ function getRearrangement(req, res) {
                 }
                 if (record['_id']) delete record['_id'];
                 if (record['_etag']) delete record['_etag'];
-		airr.addFields(record, all_fields, global.airr['Rearrangement']);
+                airr.addFields(record, all_fields, global.airr['Rearrangement']);
                 res.json({"Info":info,"Rearrangement":[record]});
                 queryRecord['count'] = 1;
             }
         })
         .then(function() {
             if (abortQuery) {
-	        queryRecord['status'] = 'abort';
+                queryRecord['status'] = 'abort';
                 queryRecord['end'] = Date.now();
-	        agaveIO.recordQuery(queryRecord);
+                agaveIO.recordQuery(queryRecord);
             } else {
-	        queryRecord['status'] = 'success';
+                queryRecord['status'] = 'success';
                 queryRecord['end'] = Date.now();
-	        agaveIO.recordQuery(queryRecord);
+                agaveIO.recordQuery(queryRecord);
             }
         })
         .fail(function(error) {
@@ -461,10 +438,10 @@ function getRearrangement(req, res) {
             res.status(500).json({"message":result_message});
             console.error(msg);
             webhookIO.postToSlack(msg);
-	    queryRecord['status'] = 'error';
-	    queryRecord['message'] = msg;
+            queryRecord['status'] = 'error';
+            queryRecord['message'] = msg;
             queryRecord['end'] = Date.now();
-	    agaveIO.recordQuery(queryRecord);
+            agaveIO.recordQuery(queryRecord);
             return;
         });
 }
@@ -503,7 +480,7 @@ function performFacets(collection, query, field, start_page, pagesize) {
     return deferred.promise;
 };
 
-function queryRearrangements(req, res) {
+RearrangementController.queryRearrangements = function(req, res) {
     if (config.debug) console.log('VDJ-ADC-API INFO: queryRearrangements');
 
     var results = [];
@@ -515,15 +492,15 @@ function queryRearrangements(req, res) {
     res.connection.setTimeout(4 * 60 * 1000);
     //console.log(res.connection);
 
-    var bodyData = req.swagger.params['data'].value;
+    var bodyData = req.body;
 
     var queryRecord = {
-	endpoint: 'rearrangement',
-	method: 'POST',
-	query: bodyData,
-	ip: req.ip,
-	status: 'unknown',
-	message: null,
+        endpoint: 'rearrangement',
+        method: 'POST',
+        query: bodyData,
+        ip: req.ip,
+        status: 'unknown',
+        message: null,
         count: null,
         start: Date.now()
     };
@@ -532,18 +509,18 @@ function queryRearrangements(req, res) {
     var bodyLength = JSON.stringify(bodyData).length;
     if (bodyLength > config.info.max_query_size) {
         result_message = "Query size (" + bodyLength + ") exceeds maximum size of " + config.info.max_query_size + " characters.";
-	console.error(result_message);
+        console.error(result_message);
         res.status(400).json({"message":result_message});
-	queryRecord['status'] = 'reject';
-	queryRecord['message'] = result_message;
-	agaveIO.recordQuery(queryRecord);
+        queryRecord['status'] = 'reject';
+        queryRecord['message'] = result_message;
+        agaveIO.recordQuery(queryRecord);
         return;
     }
 
     // AIRR fields
     var all_fields = [];
     if (bodyData['include_fields']) {
-	airr.collectFields(global.airr['Rearrangement'], bodyData['include_fields'], all_fields, null);
+        airr.collectFields(global.airr['Rearrangement'], bodyData['include_fields'], all_fields, null);
         //if (config.debug) console.log(all_fields);
     }
     // collect all AIRR schema fields
@@ -559,9 +536,9 @@ function queryRearrangements(req, res) {
         if (! (fields instanceof Array)) {
             result_message = "fields parameter is not an array.";
             res.status(400).json({"message":result_message});
-	    queryRecord['status'] = 'reject';
-	    queryRecord['message'] = result_message;
-	    agaveIO.recordQuery(queryRecord);
+            queryRecord['status'] = 'reject';
+            queryRecord['message'] = result_message;
+            agaveIO.recordQuery(queryRecord);
             return;
         }
         for (var i = 0; i < fields.length; ++i) {
@@ -571,17 +548,17 @@ function queryRearrangements(req, res) {
         }
         projection['_id'] = 1;
 
-	// add AIRR required fields to projection
-	// NOTE: projection will not add a field if it is not already in the document
-	// so below after the data has been retrieved, missing fields need to be
-	// added with null values.
-	if (all_fields.length > 0) {
-	    for (var r in all_fields) projection[all_fields[r]] = 1;
-	}
+        // add AIRR required fields to projection
+        // NOTE: projection will not add a field if it is not already in the document
+        // so below after the data has been retrieved, missing fields need to be
+        // added with null values.
+        if (all_fields.length > 0) {
+            for (var r in all_fields) projection[all_fields[r]] = 1;
+        }
 
         // add to field list so will be put in response if necessary
-	for (var i = 0; i < fields.length; ++i) {
-	    if (fields[i] == '_id') continue;
+        for (var i = 0; i < fields.length; ++i) {
+            if (fields[i] == '_id') continue;
             all_fields.push(fields[i]);
         }
     }
@@ -594,9 +571,9 @@ function queryRearrangements(req, res) {
     if ((format != 'json') && (format != 'tsv')) {
         result_message = "Unsupported format (" + format + ").";
         res.status(400).json({"message":result_message});
-	queryRecord['status'] = 'reject';
-	queryRecord['message'] = result_message;
-	agaveIO.recordQuery(queryRecord);
+        queryRecord['status'] = 'reject';
+        queryRecord['message'] = result_message;
+        agaveIO.recordQuery(queryRecord);
         return;
     }
 
@@ -613,17 +590,17 @@ function queryRearrangements(req, res) {
     if (size > config.max_size) {
         result_message = "Size too large (" + size + "), maximum size is " + config.max_size;
         res.status(400).json({"message":result_message});
-	queryRecord['status'] = 'reject';
-	queryRecord['message'] = result_message;
-	agaveIO.recordQuery(queryRecord);
+        queryRecord['status'] = 'reject';
+        queryRecord['message'] = result_message;
+        agaveIO.recordQuery(queryRecord);
         return;
     }
     if (size < 0) {
         result_message = "Negative size (" + size + ") not allowed.";
         res.status(400).json({"message":result_message});
-	queryRecord['status'] = 'reject';
-	queryRecord['message'] = result_message;
-	agaveIO.recordQuery(queryRecord);
+        queryRecord['status'] = 'reject';
+        queryRecord['message'] = result_message;
+        agaveIO.recordQuery(queryRecord);
         return;
     }
 
@@ -639,9 +616,9 @@ function queryRearrangements(req, res) {
     if (from < 0) {
         result_message = "Negative from (" + from + ") not allowed.";
         res.status(400).json({"message":result_message});
-	queryRecord['status'] = 'reject';
-	queryRecord['message'] = result_message;
-	agaveIO.recordQuery(queryRecord);
+        queryRecord['status'] = 'reject';
+        queryRecord['message'] = result_message;
+        agaveIO.recordQuery(queryRecord);
         return;
     } else {
         page = Math.trunc(from / pagesize) + 1;
@@ -669,18 +646,18 @@ function queryRearrangements(req, res) {
                 result_message = "Could not construct valid query. Error: " + error['message'];
                 if (config.debug) console.log('VDJ-ADC-API INFO: ' + result_message);
                 res.status(400).json({"message":result_message});
-	        queryRecord['status'] = 'reject';
-	        queryRecord['message'] = result_message;
-	        agaveIO.recordQuery(queryRecord);
+                queryRecord['status'] = 'reject';
+                queryRecord['message'] = result_message;
+                agaveIO.recordQuery(queryRecord);
                 return;
             }
         } catch (e) {
             result_message = "Could not construct valid query: " + e;
             if (config.debug) console.log('VDJ-ADC-API INFO: ' + result_message);
             res.status(400).json({"message":result_message});
-	    queryRecord['status'] = 'reject';
-	    queryRecord['message'] = result_message;
-	    agaveIO.recordQuery(queryRecord);
+            queryRecord['status'] = 'reject';
+            queryRecord['message'] = result_message;
+            agaveIO.recordQuery(queryRecord);
             return;
         }
     }
@@ -737,17 +714,17 @@ function queryRearrangements(req, res) {
                         if ((typeof record['d_call']) == "object") record['d_call'] = record['d_call'].join(',');
                         if ((typeof record['j_call']) == "object") record['j_call'] = record['j_call'].join(',');
 
-			// TODO: general this a bit in case we add more
+                        // TODO: general this a bit in case we add more
                         if (record['_id']) delete record['_id'];
                         if (record['_etag']) delete record['_etag'];
-			if (record['vdjserver_junction_suffixes'])
-			    if (projection['vdjserver_junction_suffixes'] == undefined)
-				delete record['vdjserver_junction_suffixes'];
+                        if (record['vdjserver_junction_suffixes'])
+                            if (projection['vdjserver_junction_suffixes'] == undefined)
+                                delete record['vdjserver_junction_suffixes'];
 
-		        // add any missing required fields
-		        if (all_fields.length > 0) {
-			    airr.addFields(record, all_fields, global.airr['Rearrangement']);
-		        }
+                        // add any missing required fields
+                        if (all_fields.length > 0) {
+                            airr.addFields(record, all_fields, global.airr['Rearrangement']);
+                        }
                         // apply projection
                         var keys = Object.keys(record);
                         if (Object.keys(projection).length > 0) {
@@ -789,17 +766,17 @@ function queryRearrangements(req, res) {
                                 if ((typeof record['d_call']) == "object") record['d_call'] = record['d_call'].join(',');
                                 if ((typeof record['j_call']) == "object") record['j_call'] = record['j_call'].join(',');
 
-			        // TODO: general this a bit in case we add more
+                                // TODO: general this a bit in case we add more
                                 if (record['_id']) delete record['_id'];
                                 if (record['_etag']) delete record['_etag'];
-			        if (record['vdjserver_junction_suffixes'])
-			            if (projection['vdjserver_junction_suffixes'] == undefined)
-				        delete record['vdjserver_junction_suffixes'];
+                                if (record['vdjserver_junction_suffixes'])
+                                    if (projection['vdjserver_junction_suffixes'] == undefined)
+                                        delete record['vdjserver_junction_suffixes'];
 
-		                // add any missing required fields
-		                if (all_fields.length > 0) {
-			            airr.addFields(record, all_fields, global.airr['Rearrangement']);
-		                }
+                                // add any missing required fields
+                                if (all_fields.length > 0) {
+                                    airr.addFields(record, all_fields, global.airr['Rearrangement']);
+                                }
                                 // apply projection
                                 var keys = Object.keys(record);
                                 if (Object.keys(projection).length > 0) {
@@ -876,13 +853,13 @@ function queryRearrangements(req, res) {
             })
             .then(function() {
                 if (abortQuery) {
-	            queryRecord['status'] = 'abort';
+                    queryRecord['status'] = 'abort';
                     queryRecord['end'] = Date.now();
-	            agaveIO.recordQuery(queryRecord);
+                    agaveIO.recordQuery(queryRecord);
                 } else {
-	            queryRecord['status'] = 'success';
+                    queryRecord['status'] = 'success';
                     queryRecord['end'] = Date.now();
-	            agaveIO.recordQuery(queryRecord);
+                    agaveIO.recordQuery(queryRecord);
                 }
             })
             .fail(function(error) {
@@ -890,10 +867,10 @@ function queryRearrangements(req, res) {
                 res.status(500).json({"message":result_message});
                 console.error(msg);
                 webhookIO.postToSlack(msg);
-	        queryRecord['status'] = 'error';
-	        queryRecord['message'] = msg;
+                queryRecord['status'] = 'error';
+                queryRecord['message'] = msg;
                 queryRecord['end'] = Date.now();
-	        agaveIO.recordQuery(queryRecord);
+                agaveIO.recordQuery(queryRecord);
             });
     } else {
         // perform facets query
@@ -938,13 +915,13 @@ function queryRearrangements(req, res) {
                 })
                 .then(function() {
                     if (abortQuery) {
-	                queryRecord['status'] = 'abort';
+                        queryRecord['status'] = 'abort';
                         queryRecord['end'] = Date.now();
-	                agaveIO.recordQuery(queryRecord);
+                        agaveIO.recordQuery(queryRecord);
                     } else {
-	                queryRecord['status'] = 'success';
+                        queryRecord['status'] = 'success';
                         queryRecord['end'] = Date.now();
-	                agaveIO.recordQuery(queryRecord);
+                        agaveIO.recordQuery(queryRecord);
                     }
                 })
                 .fail(function(error) {
@@ -953,10 +930,10 @@ function queryRearrangements(req, res) {
                     res.status(500).json({"message":result_message});
                     console.error(msg);
                     webhookIO.postToSlack(msg);
-	            queryRecord['status'] = 'error';
-	            queryRecord['message'] = msg;
+                    queryRecord['status'] = 'error';
+                    queryRecord['message'] = msg;
                     queryRecord['end'] = Date.now();
-	            agaveIO.recordQuery(queryRecord);
+                    agaveIO.recordQuery(queryRecord);
                 });
 
         } else {
@@ -983,13 +960,13 @@ function queryRearrangements(req, res) {
                 })
                 .then(function() {
                     if (abortQuery) {
-	                queryRecord['status'] = 'abort';
+                        queryRecord['status'] = 'abort';
                         queryRecord['end'] = Date.now();
-	                agaveIO.recordQuery(queryRecord);
+                        agaveIO.recordQuery(queryRecord);
                     } else {
-	                queryRecord['status'] = 'success';
+                        queryRecord['status'] = 'success';
                         queryRecord['end'] = Date.now();
-	                agaveIO.recordQuery(queryRecord);
+                        agaveIO.recordQuery(queryRecord);
                     }
                 })
                 .fail(function(error) {
@@ -1002,10 +979,10 @@ function queryRearrangements(req, res) {
                     res.status(500).json({"message":result_message});
                     console.error(msg);
                     webhookIO.postToSlack(msg);
-	            queryRecord['status'] = 'error';
-	            queryRecord['message'] = msg;
+                    queryRecord['status'] = 'error';
+                    queryRecord['message'] = msg;
                     queryRecord['end'] = Date.now();
-	            agaveIO.recordQuery(queryRecord);
+                    agaveIO.recordQuery(queryRecord);
                 });
         }
     }

@@ -26,7 +26,8 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 //
 
-var util = require('util');
+var RepertoireController = {};
+module.exports = RepertoireController;
 
 // Server environment config
 var config = require('../../config/config');
@@ -55,20 +56,6 @@ var escapeString = function(text) {
     encoded = encoded.replace(/\+/g, '\\\\\+');
     return encoded;
 }
-
-/*
-  Once you 'require' a module you can reference the things that it exports.  These are defined in module.exports.
-
-  For a controller in a127 (which this is) you should export the functions referenced in your Swagger document by name.
-
-  Either:
-  - The HTTP Verb of the corresponding operation (get, put, post, delete, etc)
-  - Or the operationId associated with the operation in your Swagger document
-*/
-module.exports = {
-    getRepertoire: getRepertoire,
-    queryRepertoires: queryRepertoires
-};
 
 /*
   Construct mongodb query based upon the filters parameters. The
@@ -354,32 +341,28 @@ function constructQueryOperation(filter, error) {
     return null;
 }
 
-/*
-  Functions in a127 controllers used for operations should take two parameters:
-
-  Param 1: a handle to the request object
-  Param 2: a handle to the response object
-*/
-function getRepertoire(req, res) {
-    if (config.debug) console.log('VDJ-ADC-API INFO: getRepertoire: ' + req.swagger.params['repertoire_id'].value);
+// Get a single repertoire
+RepertoireController.getRepertoire = function(req, res) {
+    var get_repertoire_id = req.params.repertoire_id;
+    if (config.debug) console.log('VDJ-ADC-API INFO: getRepertoire: ' + get_repertoire_id);
 
     var result = {};
     var result_message = "Server error";
     var results = [];
 
     var queryRecord = {
-	endpoint: 'repertoire',
-	method: 'GET',
-	query: req.swagger.params['repertoire_id'].value,
-	ip: req.ip,
-	status: 'unknown',
-	message: null,
+        endpoint: 'repertoire',
+        method: 'GET',
+        query: get_repertoire_id,
+        ip: req.ip,
+        status: 'unknown',
+        message: null,
         count: null,
         start: Date.now()
     };
 
     var collection = 'repertoire' + mongoSettings.queryCollection;
-    var query = '{repertoire_id:"' + req.swagger.params['repertoire_id'].value + '"}';
+    var query = '{repertoire_id:"' + get_repertoire_id + '"}';
 
     // Handle client HTTP request abort
     var abortQuery = false;
@@ -409,20 +392,20 @@ function getRepertoire(req, res) {
                 record = record[0];
                 if (record['_id']) delete record['_id'];
                 if (record['_etag']) delete record['_etag'];
-		airr.addFields(record, all_fields, global.airr['Repertoire']);
+                airr.addFields(record, all_fields, global.airr['Repertoire']);
                 res.json({"Info":info,"Repertoire":[record]});
                 queryRecord['count'] = 1;
             }
         })
         .then(function() {
             if (abortQuery) {
-	        queryRecord['status'] = 'abort';
+                queryRecord['status'] = 'abort';
                 queryRecord['end'] = Date.now();
-	        agaveIO.recordQuery(queryRecord);
+                agaveIO.recordQuery(queryRecord);
             } else {
-	        queryRecord['status'] = 'success';
+                queryRecord['status'] = 'success';
                 queryRecord['end'] = Date.now();
-	        agaveIO.recordQuery(queryRecord);
+                agaveIO.recordQuery(queryRecord);
             }
         })
         .fail(function(error) {
@@ -430,10 +413,10 @@ function getRepertoire(req, res) {
             res.status(500).json({"message":result_message});
             console.error(msg);
             webhookIO.postToSlack(msg);
-	    queryRecord['status'] = 'error';
-	    queryRecord['message'] = msg;
+            queryRecord['status'] = 'error';
+            queryRecord['message'] = msg;
             queryRecord['end'] = Date.now();
-	    agaveIO.recordQuery(queryRecord);
+            agaveIO.recordQuery(queryRecord);
             return;
         });
 }
@@ -501,7 +484,8 @@ function performFacets(collection, query, field, start_page, pagesize) {
     return deferred.promise;
 };
 
-function queryRepertoires(req, res) {
+// Generic query repertoires
+RepertoireController.queryRepertoires = function(req, res) {
     if (config.debug) console.log('VDJ-ADC-API INFO: queryRepertoires');
 
     var results = [];
@@ -509,15 +493,15 @@ function queryRepertoires(req, res) {
     var result_flag = false;
     var result_message = "Unknown error";
 
-    var bodyData = req.swagger.params['data'].value;
+    var bodyData = req.body;
 
     var queryRecord = {
-	endpoint: 'repertoire',
-	method: 'POST',
-	query: bodyData,
-	ip: req.ip,
-	status: 'unknown',
-	message: null,
+        endpoint: 'repertoire',
+        method: 'POST',
+        query: bodyData,
+        ip: req.ip,
+        status: 'unknown',
+        message: null,
         count: null,
         start: Date.now()
     };
@@ -526,43 +510,43 @@ function queryRepertoires(req, res) {
     var bodyLength = JSON.stringify(bodyData).length;
     if (bodyLength > config.info.max_query_size) {
         result_message = "Query size (" + bodyLength + ") exceeds maximum size of " + config.info.max_query_size + " characters.";
-	console.error(result_message);
+        console.error(result_message);
         res.status(400).json({"message":result_message});
-	queryRecord['status'] = 'reject';
-	queryRecord['message'] = result_message;
-	agaveIO.recordQuery(queryRecord);
+        queryRecord['status'] = 'reject';
+        queryRecord['message'] = result_message;
+        agaveIO.recordQuery(queryRecord);
         return;
     }
 /*
     if (bodyData['include_fields']) {
-	var half_size = config.info.max_query_size / 2;
-	if (bodyLength > half_size) {
+        var half_size = config.info.max_query_size / 2;
+        if (bodyLength > half_size) {
             result_message = "Query (" + bodyLength + ") exceeds maximum size of " + half_size
-		+ " characters. Maximum size is reduced from " + config.info.max_query_size
-		+ " characters when using the include_fields parameter.";
-	    console.error(result_message);
-	    queryRecord['status'] = 'reject';
-	    queryRecord['message'] = result_message;
-	    agaveIO.recordQuery(queryRecord);
+                + " characters. Maximum size is reduced from " + config.info.max_query_size
+                + " characters when using the include_fields parameter.";
+            console.error(result_message);
+            queryRecord['status'] = 'reject';
+            queryRecord['message'] = result_message;
+            agaveIO.recordQuery(queryRecord);
             res.status(400).json({"message":result_message});
             return;
-	}
+        }
     } else {
-	if (bodyLength > config.info.max_query_size) {
+        if (bodyLength > config.info.max_query_size) {
             result_message = "Query (" + bodyLength + ") exceeds maximum size of " + config.info.max_query_size + " characters.";
-	    console.error(result_message);
-	    queryRecord['status'] = 'reject';
-	    queryRecord['message'] = result_message;
-	    agaveIO.recordQuery(queryRecord);
+            console.error(result_message);
+            queryRecord['status'] = 'reject';
+            queryRecord['message'] = result_message;
+            agaveIO.recordQuery(queryRecord);
             res.status(400).json({"message":result_message});
             return;
-	}
+        }
     } */
 
     // AIRR fields
     var all_fields = [];
     if (bodyData['include_fields']) {
-	airr.collectFields(global.airr['Repertoire'], bodyData['include_fields'], all_fields, null);
+        airr.collectFields(global.airr['Repertoire'], bodyData['include_fields'], all_fields, null);
     }
 
     // field projection
@@ -572,9 +556,9 @@ function queryRepertoires(req, res) {
         //console.log('fields: ', fields);
         if (! (fields instanceof Array)) {
             result_message = "fields parameter is not an array.";
-	    queryRecord['status'] = 'reject';
-	    queryRecord['message'] = result_message;
-	    agaveIO.recordQuery(queryRecord);
+            queryRecord['status'] = 'reject';
+            queryRecord['message'] = result_message;
+            agaveIO.recordQuery(queryRecord);
             res.status(400).json({"message":result_message});
             return;
         }
@@ -584,17 +568,17 @@ function queryRepertoires(req, res) {
             projection[fields[i]] = 1;
         }
 
-	// add AIRR required fields to projection
-	// NOTE: projection will not add a field if it is not already in the document
-	// so below after the data has been retrieved, missing fields need to be
-	// added with null values.
-	if (all_fields.length > 0) {
-	    for (var r in all_fields) projection[all_fields[r]] = 1;
-	}
+        // add AIRR required fields to projection
+        // NOTE: projection will not add a field if it is not already in the document
+        // so below after the data has been retrieved, missing fields need to be
+        // added with null values.
+        if (all_fields.length > 0) {
+            for (var r in all_fields) projection[all_fields[r]] = 1;
+        }
 
         // add to field list so will be put in response if necessary
-	for (var i = 0; i < fields.length; ++i) {
-	    if (fields[i] == '_id') continue;
+        for (var i = 0; i < fields.length; ++i) {
+            if (fields[i] == '_id') continue;
             all_fields.push(fields[i]);
         }
     }
@@ -612,17 +596,17 @@ function queryRepertoires(req, res) {
     }
     if (size > config.max_size) {
         result_message = "Size too large (" + size + "), maximum size is " + config.max_size;
-	queryRecord['status'] = 'reject';
-	queryRecord['message'] = result_message;
-	agaveIO.recordQuery(queryRecord);
+        queryRecord['status'] = 'reject';
+        queryRecord['message'] = result_message;
+        agaveIO.recordQuery(queryRecord);
         res.status(400).json({"message":result_message});
         return;
     }
     if (size < 0) {
         result_message = "Negative size (" + size + ") not allowed.";
-	queryRecord['status'] = 'reject';
-	queryRecord['message'] = result_message;
-	agaveIO.recordQuery(queryRecord);
+        queryRecord['status'] = 'reject';
+        queryRecord['message'] = result_message;
+        agaveIO.recordQuery(queryRecord);
         res.status(400).json({"message":result_message});
         return;
     }
@@ -638,9 +622,9 @@ function queryRepertoires(req, res) {
     }
     if (from < 0) {
         result_message = "Negative from (" + from + ") not allowed.";
-	queryRecord['status'] = 'reject';
-	queryRecord['message'] = result_message;
-	agaveIO.recordQuery(queryRecord);
+        queryRecord['status'] = 'reject';
+        queryRecord['message'] = result_message;
+        agaveIO.recordQuery(queryRecord);
         res.status(400).json({"message":result_message});
         return;
     } else {
@@ -668,18 +652,18 @@ function queryRepertoires(req, res) {
             if (!query) {
                 result_message = "Could not construct valid query. Error: " + error['message'];
                 if (config.debug) console.log('VDJ-ADC-API INFO: ' + result_message);
-	        queryRecord['status'] = 'reject';
-	        queryRecord['message'] = result_message;
-	        agaveIO.recordQuery(queryRecord);
+                queryRecord['status'] = 'reject';
+                queryRecord['message'] = result_message;
+                agaveIO.recordQuery(queryRecord);
                 res.status(400).json({"message":result_message});
                 return;
             }
         } catch (e) {
             result_message = "Could not construct valid query: " + e;
             if (config.debug) console.log('VDJ-ADC-API INFO: ' + result_message);
-	    queryRecord['status'] = 'reject';
-	    queryRecord['message'] = result_message;
-	    agaveIO.recordQuery(queryRecord);
+            queryRecord['status'] = 'reject';
+            queryRecord['message'] = result_message;
+            agaveIO.recordQuery(queryRecord);
             res.status(400).json({"message":result_message});
             return;
         }
@@ -726,10 +710,10 @@ function queryRepertoires(req, res) {
                         if (record['_id']) delete record['_id'];
                         if (record['_etag']) delete record['_etag'];
 
-		        // add any missing required fields
-		        if (all_fields.length > 0) {
-			    airr.addFields(records[i], all_fields, global.airr['Repertoire']);
-		        }
+                        // add any missing required fields
+                        if (all_fields.length > 0) {
+                            airr.addFields(records[i], all_fields, global.airr['Repertoire']);
+                        }
                         results.push(record);
                     }
                 }
@@ -741,13 +725,13 @@ function queryRepertoires(req, res) {
             })
             .then(function() {
                 if (abortQuery) {
-	            queryRecord['status'] = 'abort';
+                    queryRecord['status'] = 'abort';
                     queryRecord['end'] = Date.now();
-	            agaveIO.recordQuery(queryRecord);
+                    agaveIO.recordQuery(queryRecord);
                 } else {
-	            queryRecord['status'] = 'success';
+                    queryRecord['status'] = 'success';
                     queryRecord['end'] = Date.now();
-	            agaveIO.recordQuery(queryRecord);
+                    agaveIO.recordQuery(queryRecord);
                 }
             })
             .fail(function(error) {
@@ -755,10 +739,10 @@ function queryRepertoires(req, res) {
                 res.status(500).json({"message":result_message});
                 console.error(msg);
                 webhookIO.postToSlack(msg);
-	        queryRecord['status'] = 'error';
-	        queryRecord['message'] = msg;
+                queryRecord['status'] = 'error';
+                queryRecord['message'] = msg;
                 queryRecord['end'] = Date.now();
-	        agaveIO.recordQuery(queryRecord);
+                agaveIO.recordQuery(queryRecord);
             });
     } else {
         // perform facets query
@@ -778,46 +762,46 @@ function queryRepertoires(req, res) {
                     // and collapse arrays
                     //console.log(records);
                     for (var i in records) {
-			var new_entries = [];
+                        var new_entries = [];
                         var entry = records[i];
-			if (entry['_id'] instanceof Array) {
-			    // get unique values
-			    var values = [];
-			    for (var j in entry['_id'])
+                        if (entry['_id'] instanceof Array) {
+                            // get unique values
+                            var values = [];
+                            for (var j in entry['_id'])
                                 if (entry['_id'][j] instanceof Array) {
                                     // array of arrays
                                     for (var k in entry['_id'][j]) {
-				        if (values.indexOf(entry['_id'][j][k]) < 0) values.push(entry['_id'][j][k]);
+                                        if (values.indexOf(entry['_id'][j][k]) < 0) values.push(entry['_id'][j][k]);
                                     }
                                 } else {
-				    if (values.indexOf(entry['_id'][j]) < 0) values.push(entry['_id'][j]);
+                                    if (values.indexOf(entry['_id'][j]) < 0) values.push(entry['_id'][j]);
                                 }
-			    for (var j in values) {
-				var new_entry = {};
-				new_entry[facets] = values[j];
-				new_entry['count'] = entry['count'];
-				new_entries.push(new_entry);
-			    }
+                            for (var j in values) {
+                                var new_entry = {};
+                                new_entry[facets] = values[j];
+                                new_entry['count'] = entry['count'];
+                                new_entries.push(new_entry);
+                            }
                             //console.log(values);
-			} else {
-			    // only single value
-			    var new_entry = {};
+                        } else {
+                            // only single value
+                            var new_entry = {};
                             new_entry[facets] = entry['_id'];
                             new_entry['count'] = entry['count'];
                             new_entries.push(new_entry);
-			}
+                        }
                         //console.log(new_entries);
-			for (var j in new_entries) {
-			    var found = false;
-			    for (var k in results) {
-				if (new_entries[j][facets] == results[k][facets]) {
-				    results[k]['count'] += new_entries[j]['count'];
-				    found = true;
-				    break;
-				}
-			    }
-			    if (! found) results.push(new_entries[j]);
-			}
+                        for (var j in new_entries) {
+                            var found = false;
+                            for (var k in results) {
+                                if (new_entries[j][facets] == results[k][facets]) {
+                                    results[k]['count'] += new_entries[j]['count'];
+                                    found = true;
+                                    break;
+                                }
+                            }
+                            if (! found) results.push(new_entries[j]);
+                        }
                     }
                 }
                 if (config.debug) console.log('VDJ-ADC-API INFO: facets repertoire query returning ' + results.length + ' results to client.');
@@ -826,13 +810,13 @@ function queryRepertoires(req, res) {
             })
             .then(function() {
                 if (abortQuery) {
-	            queryRecord['status'] = 'abort';
+                    queryRecord['status'] = 'abort';
                     queryRecord['end'] = Date.now();
-	            agaveIO.recordQuery(queryRecord);
+                    agaveIO.recordQuery(queryRecord);
                 } else {
-	            queryRecord['status'] = 'success';
+                    queryRecord['status'] = 'success';
                     queryRecord['end'] = Date.now();
-	            agaveIO.recordQuery(queryRecord);
+                    agaveIO.recordQuery(queryRecord);
                 }
             })
             .fail(function(error) {
@@ -840,10 +824,10 @@ function queryRepertoires(req, res) {
                 res.status(500).json({"message":result_message});
                 console.error(msg);
                 webhookIO.postToSlack(msg);
-	        queryRecord['status'] = 'error';
-	        queryRecord['message'] = msg;
+                queryRecord['status'] = 'error';
+                queryRecord['message'] = msg;
                 queryRecord['end'] = Date.now();
-	        agaveIO.recordQuery(queryRecord);
+                agaveIO.recordQuery(queryRecord);
             });
     }
 }

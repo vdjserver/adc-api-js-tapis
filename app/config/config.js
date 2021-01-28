@@ -36,6 +36,7 @@ module.exports = config;
 
 // General
 config.port = process.env.API_PORT;
+config.async_port = process.env.API_ASYNC_PORT;
 
 // API customization
 config.custom_file = process.env.CUSTOM_FILE;
@@ -45,6 +46,7 @@ config.debug = process.env.DEBUG_CONSOLE;
 if (config.debug == 'true') config.debug = true;
 else if (config.debug == 1) config.debug = true;
 else config.debug = false;
+if (config.debug) console.log('VDJ-ADC-API INFO: Debug console messages enabled.');
 
 // post error messages to a slack channel
 config.slackURL = process.env.SLACK_WEBHOOK_URL;

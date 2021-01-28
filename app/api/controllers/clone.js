@@ -1,8 +1,8 @@
 'use strict';
 
 //
-// status.js
-// Status and info end points
+// clone.js
+// Clone end points
 //
 // VDJServer Community Data Portal
 // ADC API for VDJServer
@@ -26,35 +26,18 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 //
 
-var StatusController = {};
-module.exports = StatusController;
+var CloneController = {};
+module.exports = CloneController;
 
 // Server environment config
 var config = require('../../config/config');
 
 // service status
-StatusController.getStatus = function(req, res) {
-    // Verify we can login with guest account
-    var GuestAccount = require('../models/guestAccount');
-    GuestAccount.getToken()
-        .then(function(guestToken) {
-            res.json({"result":"success"});
-        })
-        .fail(function(error) {
-            var msg = 'VDJServer ADC API ERROR (getStatus): Could not acquire guest token.\n.' + error;
-            res.status(500).json({"message":"Internal service error."});
-            console.error(msg);
-            webhookIO.postToSlack(msg);
-        });
+CloneController.getClone = function(req, res) {
+    res.status(500).json({"message":"Not implemented."});
 }
 
 // service info
-StatusController.getInfo = function(req, res) {
-    // Respond with service info
-    res.json(config.info);
-}
-
-// not implemented stub
-StatusController.notImplemented = function(req, res) {
+CloneController.queryClones = function(req, res) {
     res.status(500).json({"message":"Not implemented."});
 }

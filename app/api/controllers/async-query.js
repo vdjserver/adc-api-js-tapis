@@ -1,14 +1,14 @@
 'use strict';
 
 //
-// status.js
-// Status and info end points
+// async-query.js
+// Handle incoming asynchronous query requests
 //
 // VDJServer Community Data Portal
-// ADC API for VDJServer
+// ADC API Asynchronous Extension for VDJServer
 // https://vdjserver.org
 //
-// Copyright (C) 2020 The University of Texas Southwestern Medical Center
+// Copyright (C) 2021 The University of Texas Southwestern Medical Center
 //
 // Author: Scott Christley <scott.christley@utsouthwestern.edu>
 //
@@ -26,14 +26,14 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 //
 
-var StatusController = {};
-module.exports = StatusController;
+var AsyncController = {};
+module.exports = AsyncController;
 
 // Server environment config
 var config = require('../../config/config');
 
-// service status
-StatusController.getStatus = function(req, res) {
+// return status of asynchronous query
+AsyncController.getQueryStatus = function(req, res) {
     // Verify we can login with guest account
     var GuestAccount = require('../models/guestAccount');
     GuestAccount.getToken()
@@ -48,13 +48,7 @@ StatusController.getStatus = function(req, res) {
         });
 }
 
-// service info
-StatusController.getInfo = function(req, res) {
-    // Respond with service info
-    res.json(config.info);
-}
-
 // not implemented stub
-StatusController.notImplemented = function(req, res) {
+AsyncController.asyncQuery = function(req, res) {
     res.status(500).json({"message":"Not implemented."});
 }

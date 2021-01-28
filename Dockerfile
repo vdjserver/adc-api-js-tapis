@@ -22,7 +22,9 @@ RUN export DEBIAN_FRONTEND=noninteractive && apt-get update && apt-get install -
     python3-scipy \
     libyaml-dev \
     wget \
-    supervisor
+    supervisor \
+    redis-server \
+    redis-tools
 
 RUN pip3 install \
     pandas \
@@ -32,14 +34,10 @@ RUN pip3 install \
 ##################
 ##################
 
-# not currently using redis and supervisor
-
 # old stuff
 #    nodejs \
 #    nodejs-legacy \
 #    npm \
-#    redis-server \
-#    redis-tools \
 #    sendmail-bin \
 #    supervisor \
 
@@ -80,7 +78,7 @@ COPY app/package.json /api-js-tapis/app
 RUN cd /api-js-tapis/app && npm install
 
 # Setup redis
-#COPY docker/redis/redis.conf /etc/redis/redis.conf
+COPY docker/redis/redis.conf /etc/redis/redis.conf
 
 # Setup supervisor
 COPY docker/supervisor/supervisor.conf /etc/supervisor/conf.d/
@@ -88,11 +86,15 @@ COPY docker/supervisor/supervisor.conf /etc/supervisor/conf.d/
 # Copy project source
 COPY . /api-js-tapis
 
+# ESLint
+#RUN cd /api-js-tapis/app && npm run eslint app.js api
+
 # Install the local airr-standards
 RUN cd /api-js-tapis/airr-standards/lang/python && python3 setup.py install
 
 # Copy AIRR spec
 RUN cp /api-js-tapis/airr-standards/specs/adc-api-openapi3.yaml /api-js-tapis/app/api/swagger/adc-api.yaml
+RUN cp /api-js-tapis/airr-standards/specs/adc-api-async.yaml /api-js-tapis/app/api/swagger/adc-api-async.yaml
 RUN cp /api-js-tapis/airr-standards/specs/airr-schema-openapi3.yaml /api-js-tapis/app/config/airr-schema.yaml
 
 CMD ["bash", "/api-js-tapis/docker/scripts/vdjserver-adc-api.sh"]
