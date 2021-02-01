@@ -68,10 +68,10 @@ app.use(allowCrossDomain);
 // trust proxy so we can get client IP
 app.set('trust proxy', true);
 
-app.redisConfig = {
-    port: 6379,
-    host: 'localhost',
-};
+//app.redisConfig = {
+//    port: 6379,
+//    host: 'localhost',
+//};
 
 app.use(errorHandler({
     dumpExceptions: true,
@@ -146,3 +146,7 @@ GuestAccount.getToken()
         // continue in case its a temporary error
         //process.exit(1);
     });
+
+// Queue Management
+var AsyncQueue = require('./api/controllers/async-queue');
+AsyncQueue.processQueryJobs();

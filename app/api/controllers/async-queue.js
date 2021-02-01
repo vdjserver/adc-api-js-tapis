@@ -30,22 +30,55 @@ var AsyncQueue = {};
 module.exports = AsyncQueue;
 
 // App
-var app = require('../app');
+var app = require('../../app-async');
+var agaveIO = require('../vendor/agaveIO');
 
 // Server environment config
 var config = require('../../config/config');
 
 var Queue = require('bull');
 
-var queryQueue = new Queue('long-running queries', {redis: app.redisConfig});
-
 // Steps for a long-running query
 // 1. Process request parameters, construct query
 // 2. Submit query to Tapis LRQ API
 // 3. Create metadata record with any additional info
 // ... wait for notification that query is done
-// 4. 
+// 4. Additional processing/formating of the data, move file?
+// 5. Update metadata with status
+// 6. Send notification
 
-AsyncQueue.processQueryJobs()
-{
+AsyncQueue.processQueryJobs = function() {
+    //var submitQueue = new Queue('lrq submit', {redis: app.redisConfig});
+    //var finishQueue = new Queue('lrq finish', {redis: app.redisConfig});
+    var submitQueue = new Queue('lrq submit');
+    var finishQueue = new Queue('lrq finish'  );
+
+    submitQueue.process(async (job) => {
+        // submit query LRQ API
+        console.log('submitting query');
+        console.log(job['data']);
+
+        agaveIO.performAsyncQuery(job['data']['collection'], job['data']['query']);
+
+        // create metadata record
+        console.log('create metadata');
+        
+        //throw new Error('All is bad');
+        finishQueue.add({query: 'some info'});
+
+        return Promise.resolve();
+        //return Promise.reject(new Error('All is bad'));
+    });
+
+    finishQueue.process(async (job) => {
+        // process data
+        console.log('process data');
+        console.log(job['data']);
+        
+        // update metadata record
+        console.log('update metadata');
+        
+        return Promise.resolve();
+    });
+
 }

@@ -64,6 +64,11 @@ agaveIO.sendRequest = function(requestSettings, postData) {
         response.on('end', function() {
 
             var responseObject;
+            
+            console.log(output);
+            output = output.replace(/'/g, '"');
+            console.log(jsonApprover.isJSON(output));
+            console.log(JSON.parse(output));
 
             if ((response.statusCode >= 400) && (response.statusCode != 404)) {
                 deferred.reject(new Error('Request error: ' + output));
@@ -263,7 +268,7 @@ agaveIO.performLargeQuery = function(collection, query, projection, page, pagesi
                     'Accept':   'application/json',
                     'Authorization': 'Bearer ' + GuestAccount.accessToken(),
                     'Content-Type': 'application/json',
-		    'Content-Length': Buffer.byteLength(postData)
+                    'Content-Length': Buffer.byteLength(postData)
                 }
             };
             if (projection != null) {
@@ -374,6 +379,49 @@ agaveIO.performQuery = function(collection, query, projection, page, pagesize, c
     return deferred.promise;
 };
 
+agaveIO.performAsyncQuery = function(collection, query, projection, page, pagesize, count) {
+
+    var deferred = Q.defer();
+
+    var postData = {
+        name: "myQuery",
+        queryType: "SIMPLE",
+        query: [ query ],
+        notification: "https://vdj-staging.tacc.utexas.edu/bogus"
+    };
+    postData = JSON.stringify(postData);
+
+    ServiceAccount.getToken()
+        .then(function(token) {
+            var mark = false;
+            var requestSettings = {
+                host:     agaveSettings.hostname,
+                method:   'POST',
+                path:     '/meta/v3/' + mongoSettings.dbname + '/' + collection + '/_lrq',
+                rejectUnauthorized: false,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept':   'application/json',
+                    'Authorization': 'Bearer ' + ServiceAccount.accessToken(),
+                    'Content-Length': Buffer.byteLength(postData)
+                }
+            };
+
+            console.log(requestSettings);
+
+            return agaveIO.sendRequest(requestSettings, postData);
+        })
+        .then(function(responseObject) {
+            deferred.resolve(responseObject);
+        })
+        .fail(function(errorObject) {
+            console.error('performAsyncQuery: ' + errorObject);
+            deferred.reject(errorObject);
+        });
+
+    return deferred.promise;
+};
+
 agaveIO.performLargeAggregation = function(collection, aggregation, query, field, page, pagesize) {
 
     var deferred = Q.defer();
@@ -393,7 +441,7 @@ agaveIO.performLargeAggregation = function(collection, aggregation, query, field
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
                     'Authorization': 'Bearer ' + GuestAccount.accessToken(),
-		    'Content-Length': Buffer.byteLength(postData)
+                    'Content-Length': Buffer.byteLength(postData)
                 }
             };
             if (page != null) {
@@ -477,31 +525,31 @@ agaveIO.recordQuery = function(query) {
     var deferred = Q.defer();
 
     ServiceAccount.getToken()
-	.then(function(token) {
+        .then(function(token) {
 
-	    var postData = JSON.stringify(query);
+            var postData = JSON.stringify(query);
 
             var requestSettings = {
-		host:     agaveSettings.hostname,
-		method:   'POST',
-		path:     '/meta/v3/' + mongoSettings.dbname + '/query',
-		rejectUnauthorized: false,
-		headers: {
+                host:     agaveSettings.hostname,
+                method:   'POST',
+                path:     '/meta/v3/' + mongoSettings.dbname + '/query',
+                rejectUnauthorized: false,
+                headers: {
                     'Accept':   'application/json',
                     'Authorization': 'Bearer ' + ServiceAccount.accessToken(),
                     'Content-Type': 'application/json',
-		    'Content-Length': Buffer.byteLength(postData)
-		}
+                    'Content-Length': Buffer.byteLength(postData)
+                }
             };
 
             //console.log(requestSettings);
 
             return agaveIO.sendRequest(requestSettings, postData);
-	})
-	.then(function(responseObject) {
+        })
+        .then(function(responseObject) {
             deferred.resolve(responseObject);
         })
-	.fail(function(errorObject) {
+        .fail(function(errorObject) {
             console.error(errorObject);
             deferred.reject(errorObject);
         });

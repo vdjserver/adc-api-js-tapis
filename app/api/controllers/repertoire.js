@@ -43,6 +43,7 @@ var webhookIO = require('../vendor/webhookIO');
 
 // Node Libraries
 var Q = require('q');
+var Queue = require('bull');
 
 // API customization
 var custom_file = undefined;
@@ -485,7 +486,7 @@ function performFacets(collection, query, field, start_page, pagesize) {
 };
 
 // Generic query repertoires
-RepertoireController.queryRepertoires = function(req, res) {
+RepertoireController.queryRepertoires = function(req, res, do_async) {
     if (config.debug) console.log('VDJ-ADC-API INFO: queryRepertoires');
 
     var results = [];
@@ -687,7 +688,11 @@ RepertoireController.queryRepertoires = function(req, res) {
 
     // perform non-facets query
     var collection = 'repertoire' + mongoSettings.queryCollection;
-    if (!facets) {
+    if (do_async) {
+        var submitQueue = new Queue('lrq submit');
+
+        submitQueue.add({collection: collection, query: query}, {attempts: 5, backoff: 5000});
+    } else if (!facets) {
         //console.log(query);
         // we just get all of them then manually do from/size
         performQuery(collection, query, projection, 1, pagesize)

@@ -29,8 +29,14 @@
 var AsyncController = {};
 module.exports = AsyncController;
 
+// App
+var app = require('../../app-async');
+var repertoireController = require('./repertoire');
+
 // Server environment config
 var config = require('../../config/config');
+
+var Queue = require('bull');
 
 // return status of asynchronous query
 AsyncController.getQueryStatus = function(req, res) {
@@ -50,5 +56,13 @@ AsyncController.getQueryStatus = function(req, res) {
 
 // not implemented stub
 AsyncController.asyncQuery = function(req, res) {
+    //var submitQueue = new Queue('lrq submit', {redis: app.redisConfig});
+    console.log(req.params.endpoint_name);
+    if (req.params.endpoint_name == 'repertoire') {
+        repertoireController.queryRepertoires(req, res, true);
+        res.status(200).json({"message":"repertoire lrq submitted."});
+        return;
+    }
+
     res.status(500).json({"message":"Not implemented."});
 }
