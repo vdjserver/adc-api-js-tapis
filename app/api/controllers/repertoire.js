@@ -42,7 +42,6 @@ var agaveIO = require('../vendor/agaveIO');
 var webhookIO = require('../vendor/webhookIO');
 
 // Node Libraries
-var Q = require('q');
 var Queue = require('bull');
 
 // API customization
@@ -384,7 +383,7 @@ RepertoireController.getRepertoire = function(req, res) {
     info['version'] = schema.version;
     info['contact'] = config.info.contact;
 
-    agaveIO.performQuery(collection, query, null, null, null)
+    return agaveIO.performQuery(collection, query, null, null, null)
         .then(function(record) {
             if (record.length == 0) {
                 res.json({"Info":info,"Repertoire":[]});
@@ -409,7 +408,7 @@ RepertoireController.getRepertoire = function(req, res) {
                 agaveIO.recordQuery(queryRecord);
             }
         })
-        .fail(function(error) {
+        .catch(function(error) {
             var msg = 'VDJ-ADC-API ERROR (getRepertoire): ' + error;
             res.status(500).json({"message":result_message});
             console.error(msg);
@@ -423,7 +422,6 @@ RepertoireController.getRepertoire = function(req, res) {
 }
 
 function performQuery(collection, query, projection, start_page, pagesize) {
-    var deferred = Q.defer();
     var models = [];
 
     //console.log(query);
@@ -434,25 +432,22 @@ function performQuery(collection, query, projection, start_page, pagesize) {
             .then(function(records) {
                 if (config.debug) console.log('VDJ-ADC-API INFO: query returned ' + records.length + ' records.');
                 if (records.length == 0) {
-                    deferred.resolve(models);
+                    return Promise.resolve(models);
                 } else {
                     models = models.concat(records);
-                    if (records.length < pagesize) deferred.resolve(models);
-                    else doQuery(page+1);
+                    if (records.length < pagesize) return Promise.resolve(models);
+                    else return doQuery(page+1);
                 }
             })
-            .fail(function(errorObject) {
-                deferred.reject(errorObject);
+            .catch(function(errorObject) {
+                return Promise.reject(errorObject);
             });
     };
 
-    doQuery(start_page);
-
-    return deferred.promise;
+    return doQuery(start_page);
 };
 
 function performFacets(collection, query, field, start_page, pagesize) {
-    var deferred = Q.defer();
     var models = [];
 
     //console.log(query);
@@ -468,26 +463,27 @@ function performFacets(collection, query, field, start_page, pagesize) {
             .then(function(records) {
                 if (config.debug) console.log('VDJ-ADC-API INFO: query returned ' + records.length + ' records.');
                 if (records.length == 0) {
-                    deferred.resolve(models);
+                    return Promise.resolve(models);
                 } else {
                     models = models.concat(records);
-                    if (records.length < pagesize) deferred.resolve(models);
-                    else doAggr(page+1);
+                    if (records.length < pagesize) return Promise.resolve(models);
+                    else return doAggr(page+1);
                 }
             })
-            .fail(function(errorObject) {
-                deferred.reject(errorObject);
+            .catch(function(errorObject) {
+                return Promise.reject(errorObject);
             });
     };
     
-    doAggr(start_page);
-
-    return deferred.promise;
+    return doAggr(start_page);
 };
 
 // Generic query repertoires
-RepertoireController.queryRepertoires = function(req, res, do_async) {
+RepertoireController.queryRepertoires = function(req, res) {
     if (config.debug) console.log('VDJ-ADC-API INFO: queryRepertoires');
+
+    var do_async = false;
+    if (req.params.do_async) do_async = true;
 
     var results = [];
     var result = {};
@@ -690,17 +686,18 @@ RepertoireController.queryRepertoires = function(req, res, do_async) {
     var collection = 'repertoire' + mongoSettings.queryCollection;
     if (do_async) {
         var submitQueue = new Queue('lrq submit');
+        var parsed_query = JSON.parse(query);
 
-        submitQueue.add({collection: collection, query: query}, {attempts: 5, backoff: 5000});
+        submitQueue.add({collection: collection, query: parsed_query}, {attempts: 5, backoff: 5000});
     } else if (!facets) {
         //console.log(query);
         // we just get all of them then manually do from/size
-        performQuery(collection, query, projection, 1, pagesize)
+        return performQuery(collection, query, projection, 1, pagesize)
             .then(function(records) {
-                if (abortQuery) {
-                    if (config.debug) console.log('VDJ-ADC-API INFO: client aborted query.');
-                    return;
-                }
+                //if (abortQuery) {
+                //    if (config.debug) console.log('VDJ-ADC-API INFO: client aborted query.');
+                //    return;
+                //}
                 if (config.debug) console.log('VDJ-ADC-API INFO: query returned ' + records.length + ' records.');
 
                 if (records.length == 0) {
@@ -710,7 +707,7 @@ RepertoireController.queryRepertoires = function(req, res, do_async) {
                     // and only retrieve desired from/size
                     for (var i in records) {
                         if (i < from) continue;
-                        if ((size > 0) && (i > size)) break;
+                        if ((size > 0) && (i >= (size + from))) break;
                         var record = records[i];
                         if (record['_id']) delete record['_id'];
                         if (record['_etag']) delete record['_etag'];
@@ -739,7 +736,7 @@ RepertoireController.queryRepertoires = function(req, res, do_async) {
                     agaveIO.recordQuery(queryRecord);
                 }
             })
-            .fail(function(error) {
+            .catch(function(error) {
                 var msg = "VDJ-ADC-API ERROR (queryRepertoires): " + error;
                 res.status(500).json({"message":result_message});
                 console.error(msg);
@@ -758,7 +755,7 @@ RepertoireController.queryRepertoires = function(req, res, do_async) {
         //console.log(JSON.stringify(bodyData));
         //console.log(query);
 
-        performFacets(collection, query, field, 1, pagesize)
+        return performFacets(collection, query, field, 1, pagesize)
             .then(function(records) {
                 if (records.length == 0) {
                     results = [];
@@ -824,7 +821,7 @@ RepertoireController.queryRepertoires = function(req, res, do_async) {
                     agaveIO.recordQuery(queryRecord);
                 }
             })
-            .fail(function(error) {
+            .catch(function(error) {
                 var msg = "VDJ-ADC-API ERROR (queryRepertoires, facets): " + error;
                 res.status(500).json({"message":result_message});
                 console.error(msg);

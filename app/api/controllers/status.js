@@ -40,7 +40,7 @@ StatusController.getStatus = function(req, res) {
         .then(function(guestToken) {
             res.json({"result":"success"});
         })
-        .fail(function(error) {
+        .catch(function(error) {
             var msg = 'VDJServer ADC API ERROR (getStatus): Could not acquire guest token.\n.' + error;
             res.status(500).json({"message":"Internal service error."});
             console.error(msg);

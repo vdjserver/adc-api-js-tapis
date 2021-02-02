@@ -26,9 +26,6 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 //
 
-// Node Libraries
-var Q = require('q');
-
 var agaveSettings = require('../../config/tapisSettings');
 var AgaveToken = require('./agaveToken');
 
@@ -45,20 +42,17 @@ var agaveIO = require('../vendor/agaveIO');
 
 GuestAccount.getToken = function() {
 
-    var deferred = Q.defer();
     var that = this;
 
-    agaveIO.getToken(this)
+    return agaveIO.getToken(this)
     .then(function(responseObject) {
-	that.agaveToken = new AgaveToken(responseObject);
-	deferred.resolve(that.agaveToken);
+        that.agaveToken = new AgaveToken(responseObject);
+        return Promise.resolve(that.agaveToken);
     })
-    .fail(function(errorObject) {
-	console.log('VDJServer ADC API ERROR: Unable to login with guest account. ' + errorObject);
-        deferred.reject(errorObject);
+    .catch(function(errorObject) {
+        console.log('VDJServer ADC API ERROR: Unable to login with guest account. ' + errorObject);
+        return Promise.reject(errorObject);
     });
-
-    return deferred.promise;
 }
 
 GuestAccount.accessToken = function() {

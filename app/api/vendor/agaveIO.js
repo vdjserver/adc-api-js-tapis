@@ -41,188 +41,110 @@ var GuestAccount = require('../models/guestAccount');
 //var webhookIO = require('../vendor/webhookIO');
 
 // Node Libraries
-var Q = require('q');
-//var _ = require('underscore');
 var jsonApprover = require('json-approver');
-//var FormData = require('form-data');
 
 //
 // Generic send request
 //
 agaveIO.sendRequest = function(requestSettings, postData) {
 
-    var deferred = Q.defer();
-
-    var request = require('https').request(requestSettings, function(response) {
-
-        var output = '';
-
-        response.on('data', function(chunk) {
-            output += chunk;
-        });
-
-        response.on('end', function() {
-
-            var responseObject;
-            
-            console.log(output);
-            output = output.replace(/'/g, '"');
-            console.log(jsonApprover.isJSON(output));
-            console.log(JSON.parse(output));
-
-            if ((response.statusCode >= 400) && (response.statusCode != 404)) {
-                deferred.reject(new Error('Request error: ' + output));
-            } else if (output.length == 0) {
-                deferred.resolve(null);
-            } else if (output && jsonApprover.isJSON(output)) {
-                responseObject = JSON.parse(output);
-                //console.log(responseObject);
-                deferred.resolve(responseObject);
-            } else {
-                console.error('VDJ-ADC-API ERROR: Agave response is not json: ' + output);
-                deferred.reject(new Error('Agave response is not json: ' + output));
-            }
-
-        });
-    });
-
-    request.on('error', function(error) {
-        console.error('VDJ-ADC-API ERROR: Agave connection error, error:' + JSON.stringify(error));
-        if (error.code == 'ECONNRESET')
-            deferred.reject(new Error('Network timeout.'));
-        else
-            deferred.reject(new Error('Agave connection error'));
-    });
-
-    if (postData) {
-        // Request body parameters
-        request.write(postData);
-    }
-
-    request.end();
-
-    return deferred.promise;
-};
-
-//
-// This is specific to sending multi-part form post data, i.e. uploading files
-//
-agaveIO.sendFormRequest = function(requestSettings, formData) {
-
-    var deferred = Q.defer();
-
-    var request = formData.submit(requestSettings, function(error, response) {
+    return new Promise(function(resolve, reject) {
+        var request = require('https').request(requestSettings, function(response) {
 
             var output = '';
 
             response.on('data', function(chunk) {
-                    output += chunk;
-                });
+                output += chunk;
+            });
 
             response.on('end', function() {
 
-                    var responseObject;
+                var responseObject;
 
-                    if (output && jsonApprover.isJSON(output)) {
-                        responseObject = JSON.parse(output);
-                    }
-                    else {
+                // hack for LRQ
+                //output = output.replace(/'/g, '"');
 
-                        console.error('VDJ-ADC-API ERROR: Agave response is not json.');
-
-                        deferred.reject(new Error('Agave response is not json'));
-                    }
-
-                    if (responseObject && responseObject.status && responseObject.status.toLowerCase() === 'success') {
-                        deferred.resolve(responseObject);
-                    }
-                    else {
-
-                            console.error('VDJ-ADC-API ERROR: Agave returned an error. it is: ' + JSON.stringify(responseObject));
-                            console.error('VDJ-ADC0API ERROR: Agave returned an error. it is: ' + responseObject);
-
-                        deferred.reject(new Error('Agave response returned an error: ' + JSON.stringify(responseObject)));
-                    }
-
-                });
+                if ((response.statusCode >= 400) && (response.statusCode != 404)) {
+                    reject(new Error('Request error: ' + output));
+                } else if (output.length == 0) {
+                    resolve(null);
+                } else if (output && jsonApprover.isJSON(output)) {
+                    responseObject = JSON.parse(output);
+                    resolve(responseObject);
+                } else {
+                    console.error('VDJ-ADC-API ERROR: Agave response is not json: ' + output);
+                    reject(new Error('Agave response is not json: ' + output));
+                }
+            });
         });
 
-    request.on('error', function(error) {
-                console.error('VDJ-ADC-API ERROR: Agave connection error.' + JSON.stringify(error));
-
-            deferred.reject(new Error('Agave connection error. ' + JSON.stringify(error)));
+        request.on('error', function(error) {
+            console.error('VDJ-ADC-API ERROR: Agave connection error:' + JSON.stringify(error));
+            reject(new Error('Agave connection error:' + JSON.stringify(error)));
         });
 
-    return deferred.promise;
+        if (postData) {
+            // Request body parameters
+            request.write(postData);
+        }
+
+        request.end();
+    });
 };
 
 agaveIO.sendTokenRequest = function(requestSettings, postData) {
 
-    var deferred = Q.defer();
-
-    var request = require('https').request(requestSettings, function(response) {
+    return new Promise(function(resolve, reject) {
+        var request = require('https').request(requestSettings, function(response) {
 
             var output = '';
 
             response.on('data', function(chunk) {
-                    output += chunk;
-                });
+                output += chunk;
+            });
 
             response.on('end', function() {
 
-                    var responseObject;
+                var responseObject;
 
-                    if (output && jsonApprover.isJSON(output)) {
-                        responseObject = JSON.parse(output);
-                    }
-                    else {
+                if (output && jsonApprover.isJSON(output)) {
+                    responseObject = JSON.parse(output);
+                } else {
+                    console.error('VDJ-ADC-API ERROR: Agave response is not json: ' + output);
+                    reject(new Error('Agave response is not json: ' + output));
+                }
 
-                            console.error('VDJ-ADC-API ERROR: Agave token response is not json.');
-
-                        deferred.reject(new Error('Agave response is not json'));
-                    }
-
-                    if (
-                        responseObject
-                        && responseObject.access_token
-                        && responseObject.refresh_token
-                        && responseObject.token_type
-                        && responseObject.expires_in
-                        ) {
-                        deferred.resolve(responseObject);
-                    }
-                    else {
-
-                            console.error('VDJ-ADC-API ERROR: Agave returned a token error. it is: ' + JSON.stringify(responseObject));
-                            console.error('VDJ-ADC-API ERROR: Agave returned a token error. it is: ' + responseObject);
-
-                        deferred.reject(new Error('Agave response returned an error: ' + JSON.stringify(responseObject)));
-                    }
-
-                });
+                if (responseObject
+                    && responseObject.access_token
+                    && responseObject.refresh_token
+                    && responseObject.token_type
+                    && responseObject.expires_in)
+                {
+                    resolve(responseObject);
+                } else {
+                    reject(new Error('Agave response returned an error: ' + output));
+                }
+            });
         });
 
-    request.on('error', function(error) {
-                console.error('VDJ-ADC-API ERROR: Agave connection error.' + JSON.stringify(error));
-
-            deferred.reject(new Error('Agave connection error. ' + JSON.stringify(error)));
+        request.on('error', function() {
+            console.error('VDJ-ADC-API ERROR: Agave connection error:' + JSON.stringify(error));
+            reject(new Error('Agave connection error:' + JSON.stringify(error)));
         });
 
-    if (postData) {
-        // Request body parameters
-        request.write(postData);
-    }
+        if (postData) {
+            // Request body parameters
+            request.write(postData);
+        }
 
-    request.end();
-
-    return deferred.promise;
+        request.end();
+    });
 };
+
 
 // Fetches a user token based on the supplied auth object
 // and returns the auth object with token data on success
 agaveIO.getToken = function(auth) {
-
-    var deferred = Q.defer();
 
     var postData = 'grant_type=password&scope=PRODUCTION&username=' + auth.username + '&password=' + auth.password;
 
@@ -238,25 +160,15 @@ agaveIO.getToken = function(auth) {
         }
     };
 
-    agaveIO.sendTokenRequest(requestSettings, postData)
-    .then(function(responseObject) {
-            deferred.resolve(responseObject);
-        })
-    .fail(function(errorObject) {
-            deferred.reject(errorObject);
-        });
-
-    return deferred.promise;
+    return agaveIO.sendTokenRequest(requestSettings, postData);
 };
 
 agaveIO.performLargeQuery = function(collection, query, projection, page, pagesize) {
 
-    var deferred = Q.defer();
-
     var postData = query;
-    if (! postData) deferred.reject(new Error('Empty query passed to agaveIO.performLargeQuery'));
+    if (! postData) return Promise.reject(new Error('Empty query passed to agaveIO.performLargeQuery'));
 
-    GuestAccount.getToken()
+    return GuestAccount.getToken()
         .then(function(token) {
             var mark = false;
             var requestSettings = {
@@ -302,21 +214,17 @@ agaveIO.performLargeQuery = function(collection, query, projection, page, pagesi
             return agaveIO.sendRequest(requestSettings, postData);
         })
         .then(function(responseObject) {
-            deferred.resolve(responseObject);
+            return Promise.resolve(responseObject);
         })
-        .fail(function(errorObject) {
+        .catch(function(errorObject) {
             console.error('performQuery: ' + errorObject);
-            deferred.reject(errorObject);
+            return Promise.reject(errorObject);
         });
-
-    return deferred.promise;
 };
 
 agaveIO.performQuery = function(collection, query, projection, page, pagesize, count) {
 
-    var deferred = Q.defer();
-
-    GuestAccount.getToken()
+    return GuestAccount.getToken()
         .then(function(token) {
             var mark = false;
             var requestSettings = {
@@ -367,21 +275,17 @@ agaveIO.performQuery = function(collection, query, projection, page, pagesize, c
             //console.log(requestSettings);
 
             return agaveIO.sendRequest(requestSettings, null);
-        })
-        .then(function(responseObject) {
-            deferred.resolve(responseObject);
-        })
-        .fail(function(errorObject) {
-            console.error('performQuery: ' + errorObject);
-            deferred.reject(errorObject);
+//        })
+//        .then(function(responseObject) {
+//            return Promise.resolve(responseObject);
+//        })
+//        .catch(function(errorObject) {
+//            console.error('performQuery: ' + errorObject);
+//            return Promise.reject(errorObject);
         });
-
-    return deferred.promise;
 };
 
 agaveIO.performAsyncQuery = function(collection, query, projection, page, pagesize, count) {
-
-    var deferred = Q.defer();
 
     var postData = {
         name: "myQuery",
@@ -391,7 +295,7 @@ agaveIO.performAsyncQuery = function(collection, query, projection, page, pagesi
     };
     postData = JSON.stringify(postData);
 
-    ServiceAccount.getToken()
+    return ServiceAccount.getToken()
         .then(function(token) {
             var mark = false;
             var requestSettings = {
@@ -412,24 +316,20 @@ agaveIO.performAsyncQuery = function(collection, query, projection, page, pagesi
             return agaveIO.sendRequest(requestSettings, postData);
         })
         .then(function(responseObject) {
-            deferred.resolve(responseObject);
+            return Promise.resolve(responseObject);
         })
-        .fail(function(errorObject) {
+        .catch(function(errorObject) {
             console.error('performAsyncQuery: ' + errorObject);
-            deferred.reject(errorObject);
+            return Promise.reject(errorObject);
         });
-
-    return deferred.promise;
 };
 
 agaveIO.performLargeAggregation = function(collection, aggregation, query, field, page, pagesize) {
 
-    var deferred = Q.defer();
-
     var postData = '{"match":' + query + ',"field":"' + field + '"}';
     //console.log(postData);
 
-    GuestAccount.getToken()
+    return GuestAccount.getToken()
         .then(function(token) {
             var mark = false;
             var requestSettings = {
@@ -462,20 +362,16 @@ agaveIO.performLargeAggregation = function(collection, aggregation, query, field
             return agaveIO.sendRequest(requestSettings, postData);
         })
         .then(function(responseObject) {
-            deferred.resolve(responseObject);
+            return Promise.resolve(responseObject);
         })
-        .fail(function(errorObject) {
-            deferred.reject(errorObject);
+        .catch(function(errorObject) {
+            return Promise.reject(errorObject);
         });
-
-    return deferred.promise;
 };
 
 agaveIO.performAggregation = function(collection, aggregation, query, field, page, pagesize) {
 
-    var deferred = Q.defer();
-
-    GuestAccount.getToken()
+    return GuestAccount.getToken()
         .then(function(token) {
             var requestSettings = {
                 host:     agaveSettings.hostname,
@@ -510,21 +406,17 @@ agaveIO.performAggregation = function(collection, aggregation, query, field, pag
 
             return agaveIO.sendRequest(requestSettings, null);
         })
-    .then(function(responseObject) {
-            deferred.resolve(responseObject);
+        .then(function(responseObject) {
+            return Promise.resolve(responseObject);
         })
-    .fail(function(errorObject) {
-            deferred.reject(errorObject);
+        .catch(function(errorObject) {
+            return Promise.reject(errorObject);
         });
-
-    return deferred.promise;
 };
 
 agaveIO.recordQuery = function(query) {
 
-    var deferred = Q.defer();
-
-    ServiceAccount.getToken()
+    return ServiceAccount.getToken()
         .then(function(token) {
 
             var postData = JSON.stringify(query);
@@ -547,12 +439,10 @@ agaveIO.recordQuery = function(query) {
             return agaveIO.sendRequest(requestSettings, postData);
         })
         .then(function(responseObject) {
-            deferred.resolve(responseObject);
+            return Promise.resolve(responseObject);
         })
-        .fail(function(errorObject) {
+        .catch(function(errorObject) {
             console.error(errorObject);
-            deferred.reject(errorObject);
+            return Promise.reject(errorObject);
         });
-
-    return deferred.promise;
 };

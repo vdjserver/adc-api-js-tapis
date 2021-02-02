@@ -134,7 +134,7 @@ GuestAccount.getToken()
                 res.status(500).json(err.errors);
             },
             consumesMiddleware: {
-                'application/json': bodyParser.json()
+                'application/json': bodyParser.json({limit: config.max_query_size})
                 //'application/x-www-form-urlencoded': bodyParser.urlencoded({extended: true})
             },
             operations: {

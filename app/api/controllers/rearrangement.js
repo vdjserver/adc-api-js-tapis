@@ -40,8 +40,6 @@ var agaveIO = require('../vendor/agaveIO');
 var webhookIO = require('../vendor/webhookIO');
 
 // Node Libraries
-var Q = require('q');
-var mongodb = require('mongodb');
 
 // escape strings for regex, double \\ for restheart
 
@@ -405,7 +403,7 @@ RearrangementController.getRearrangement = function(req, res) {
     info['version'] = schema.version;
     info['contact'] = config.info.contact;
 
-    agaveIO.performQuery(collection, null, null, null, null)
+    return agaveIO.performQuery(collection, null, null, null, null)
         .then(function(record) {
             if (record['http status code'] == 404) {
                 res.json({"Info":info,"Rearrangement":[]});
@@ -433,7 +431,7 @@ RearrangementController.getRearrangement = function(req, res) {
                 agaveIO.recordQuery(queryRecord);
             }
         })
-        .fail(function(error) {
+        .catch(function(error) {
             var msg = 'VDJ-ADC-API ERROR (getRearrangment): ' + error;
             res.status(500).json({"message":result_message});
             console.error(msg);
@@ -447,7 +445,6 @@ RearrangementController.getRearrangement = function(req, res) {
 }
 
 function performFacets(collection, query, field, start_page, pagesize) {
-    var deferred = Q.defer();
     var models = [];
 
     //console.log(query);
@@ -463,21 +460,19 @@ function performFacets(collection, query, field, start_page, pagesize) {
             .then(function(records) {
                 if (config.debug) console.log('VDJ-ADC-API INFO: query returned ' + records.length + ' records.');
                 if (records.length == 0) {
-                    deferred.resolve(models);
+                    return Promise.resolve(models);
                 } else {
                     models = models.concat(records);
-                    if (records.length < pagesize) deferred.resolve(models);
-                    else doAggr(page+1);
+                    if (records.length < pagesize) return Promise.resolve(models);
+                    else return doAggr(page+1);
                 }
             })
-            .fail(function(errorObject) {
-                deferred.reject(errorObject);
+            .catch(function(errorObject) {
+                return Promise.reject(errorObject);
             });
     };
     
-    doAggr(start_page);
-
-    return deferred.promise;
+    return doAggr(start_page);
 };
 
 RearrangementController.queryRearrangements = function(req, res) {
@@ -688,7 +683,7 @@ RearrangementController.queryRearrangements = function(req, res) {
         }
         //if (config.debug) console.log(query);
 
-        queryFunction(collection, query, null, page, pagesize)
+        return queryFunction(collection, query, null, page, pagesize)
             .then(function(records) {
                 if (abortQuery) {
                     return;
@@ -747,7 +742,7 @@ RearrangementController.queryRearrangements = function(req, res) {
                 } else {
                     // we need to do a second query for the rest
                     page += 1;
-                    queryFunction(collection, query, null, page, pagesize)
+                    return queryFunction(collection, query, null, page, pagesize)
                         .then(function(records) {
                             if (config.debug) console.log('VDJ-ADC-API INFO: second query returned ' + records.length + ' records.')
 
@@ -862,7 +857,7 @@ RearrangementController.queryRearrangements = function(req, res) {
                     agaveIO.recordQuery(queryRecord);
                 }
             })
-            .fail(function(error) {
+            .catch(function(error) {
                 var msg = "VDJ-ADC-API ERROR (queryRearrangements): " + error;
                 res.status(500).json({"message":result_message});
                 console.error(msg);
@@ -899,7 +894,7 @@ RearrangementController.queryRearrangements = function(req, res) {
             //console.log('single repertoire facet');
             //console.log(query);
 
-            agaveIO.performQuery(collection, query, null, null, null, true)
+            return agaveIO.performQuery(collection, query, null, null, null, true)
                 .then(function(record) {
                     //console.log(record);
                     var results = [];
@@ -924,7 +919,7 @@ RearrangementController.queryRearrangements = function(req, res) {
                         agaveIO.recordQuery(queryRecord);
                     }
                 })
-                .fail(function(error) {
+                .catch(function(error) {
                     var msg = "VDJ-ADC-API ERROR (queryRearrangements, facets): " + error
                         + '\nWhile performing query: ' + query;
                     res.status(500).json({"message":result_message});
@@ -938,7 +933,7 @@ RearrangementController.queryRearrangements = function(req, res) {
 
         } else {
 
-            performFacets(collection, query, field, 1, pagesize)
+            return performFacets(collection, query, field, 1, pagesize)
                 .then(function(records) {
                     //console.log(records);
                     if (records.length == 0) {
@@ -969,7 +964,7 @@ RearrangementController.queryRearrangements = function(req, res) {
                         agaveIO.recordQuery(queryRecord);
                     }
                 })
-                .fail(function(error) {
+                .catch(function(error) {
                     var msg = "VDJ-ADC-API ERROR (queryRearrangements, facets): " + error
                         + '\nWhile performing query: ';                
                     if (query && query.length > config.large_query_size)

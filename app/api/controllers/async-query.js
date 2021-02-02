@@ -56,10 +56,11 @@ AsyncController.getQueryStatus = function(req, res) {
 
 // not implemented stub
 AsyncController.asyncQuery = function(req, res) {
-    //var submitQueue = new Queue('lrq submit', {redis: app.redisConfig});
-    console.log(req.params.endpoint_name);
+    if (config.debug) console.log('VDJ-ADC-API INFO: asynchronous query for endpoint:', req.params.endpoint_name);
+
     if (req.params.endpoint_name == 'repertoire') {
-        repertoireController.queryRepertoires(req, res, true);
+        req.params.do_async = true;
+        repertoireController.queryRepertoires(req, res);
         res.status(200).json({"message":"repertoire lrq submitted."});
         return;
     }
