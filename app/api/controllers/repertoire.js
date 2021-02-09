@@ -688,7 +688,24 @@ RepertoireController.queryRepertoires = function(req, res) {
         var submitQueue = new Queue('lrq submit');
         var parsed_query = JSON.parse(query);
 
-        submitQueue.add({collection: collection, query: parsed_query}, {attempts: 5, backoff: 5000});
+        return agaveIO.createAsyncQueryMetadata(collection, bodyData)
+            .then(function(metadata) {
+                console.log(metadata);
+                console.log('VDJ-ADC-API INFO: Created async metadata:', metadata.uuid);
+                submitQueue.add({collection: collection, query: parsed_query, metadata: metadata}, {attempts: 5, backoff: 5000});
+                res.status(200).json({"message":"repertoire lrq submitted.", "query_id": metadata.uuid});
+                return;
+            })
+            .catch(function(error) {
+                var msg = "VDJ-ADC-API ERROR (queryRepertoires): " + error;
+                res.status(500).json({"message":result_message});
+                console.error(msg);
+                webhookIO.postToSlack(msg);
+                queryRecord['status'] = 'error';
+                queryRecord['message'] = msg;
+                queryRecord['end'] = Date.now();
+                agaveIO.recordQuery(queryRecord);
+            });
     } else if (!facets) {
         //console.log(query);
         // we just get all of them then manually do from/size

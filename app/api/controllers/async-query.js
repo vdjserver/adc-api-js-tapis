@@ -31,12 +31,14 @@ module.exports = AsyncController;
 
 // App
 var app = require('../../app-async');
+var agaveIO = require('../vendor/agaveIO');
 var repertoireController = require('./repertoire');
 
 // Server environment config
 var config = require('../../config/config');
 
 var Queue = require('bull');
+var finishQueue = new Queue('lrq finish');
 
 // return status of asynchronous query
 AsyncController.getQueryStatus = function(req, res) {
@@ -46,7 +48,7 @@ AsyncController.getQueryStatus = function(req, res) {
         .then(function(guestToken) {
             res.json({"result":"success"});
         })
-        .fail(function(error) {
+        .catch(function(error) {
             var msg = 'VDJServer ADC API ERROR (getStatus): Could not acquire guest token.\n.' + error;
             res.status(500).json({"message":"Internal service error."});
             console.error(msg);
@@ -54,16 +56,58 @@ AsyncController.getQueryStatus = function(req, res) {
         });
 }
 
-// not implemented stub
-AsyncController.asyncQuery = function(req, res) {
-    if (config.debug) console.log('VDJ-ADC-API INFO: asynchronous query for endpoint:', req.params.endpoint_name);
+// submit asynchronous query
+AsyncController.asyncQueryRepertoire = function(req, res) {
+    if (config.debug) console.log('VDJ-ADC-API INFO: asynchronous query for repertoires.');
 
-    if (req.params.endpoint_name == 'repertoire') {
-        req.params.do_async = true;
-        repertoireController.queryRepertoires(req, res);
-        res.status(200).json({"message":"repertoire lrq submitted."});
-        return;
-    }
+    req.params.do_async = true;
+    return repertoireController.queryRepertoires(req, res);
 
     res.status(500).json({"message":"Not implemented."});
+}
+
+// submit asynchronous query
+AsyncController.asyncQueryRearrangement = function(req, res) {
+    if (config.debug) console.log('VDJ-ADC-API INFO: asynchronous query for rearrangements.');
+
+    res.status(500).json({"message":"Not implemented."});
+}
+
+// submit asynchronous query
+AsyncController.asyncQueryClone = function(req, res) {
+    if (config.debug) console.log('VDJ-ADC-API INFO: asynchronous query for clones.');
+
+    res.status(500).json({"message":"Not implemented."});
+}
+
+// receive notification from Tapis LRQ
+AsyncController.asyncNotify = function(req, res) {
+try {
+    console.log('VDJ-ADC-API-ASYNC INFO: Received LRQ notification: ' + JSON.stringify(req.body));
+
+    // return a response
+    res.status(200).json({"message":"notification received."});
+
+    // HACK: pull id from location string
+    var f = req.body['result']['location'].split('lrq-');
+    console.log(f);
+    f = f[1].split('.gz');
+    console.log(f);
+    var lrq_id = f[0];
+    console.log(lrq_id);
+
+    // search for metadata item for LRQ
+    return agaveIO.getAsyncQueryMetadata(lrq_id)
+        .then(function(metadata) {
+            console.log(metadata);
+        })
+        .catch(function(error) {
+            var msg = 'VDJ-ADC-ASYNC-API ERROR (asyncNotify): error.\n.' + error;
+            //res.status(500).json({"message":"Internal service error."});
+            console.error(msg);
+            //webhookIO.postToSlack(msg);
+        });
+} catch (e) {
+    console.log(e);
+}
 }

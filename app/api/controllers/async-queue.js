@@ -48,26 +48,36 @@ var Queue = require('bull');
 // 6. Send notification
 
 AsyncQueue.processQueryJobs = function() {
-    //var submitQueue = new Queue('lrq submit', {redis: app.redisConfig});
-    //var finishQueue = new Queue('lrq finish', {redis: app.redisConfig});
     var submitQueue = new Queue('lrq submit');
-    var finishQueue = new Queue('lrq finish'  );
+    var finishQueue = new Queue('lrq finish');
 
     submitQueue.process(async (job) => {
         // submit query LRQ API
         console.log('submitting query');
         console.log(job['data']);
 
-        agaveIO.performAsyncQuery(job['data']['collection'], job['data']['query']);
+        var metadata = null;
+        return agaveIO.performAsyncQuery(job['data']['collection'], job['data']['query'])
+            .then(function(async_query) {
+                metadata = job['data']['metadata'];
+                console.log(async_query);
+                metadata['value']['lrq_id'] = async_query['_id'];
+                metadata['value']['status'] = 'SUBMITTED';
+                return agaveIO.updateMetadata(metadata['uuid'], metadata['name'], metadata['value'], null);
+            })
+            .then(function() {
+                // create task to wait for finish notification
+                //finishQueue.add({query: 'some info'});
 
-        // create metadata record
-        console.log('create metadata');
-        
-        //throw new Error('All is bad');
-        finishQueue.add({query: 'some info'});
-
-        return Promise.resolve();
-        //return Promise.reject(new Error('All is bad'));
+                return Promise.resolve();
+            })
+            .catch(function(error) {
+                var msg = 'VDJ-ADC-ASYNC-API ERROR (submitQueue): Could not submit LRQ.\n.' + error;
+                // TODO: update metadata with ERROR
+                console.error(msg);
+                webhookIO.postToSlack(msg);
+                return Promise.reject(new Error(msg));
+            });
     });
 
     finishQueue.process(async (job) => {

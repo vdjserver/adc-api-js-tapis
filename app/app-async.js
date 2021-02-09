@@ -99,6 +99,17 @@ GuestAccount.getToken()
         var api_spec = yaml.safeLoad(fs.readFileSync(apiFile, 'utf8'));
         console.log('VDJ-ADC-API-ASYNC INFO: Loaded ADC API Async version: ' + api_spec.info.version);
 
+        // Load internal notify API
+        var notifyFile = path.resolve(__dirname, 'api/swagger/async-notify.yaml');
+        console.log('VDJ-ADC-API-ASYNC INFO: notify API specification: ' + notifyFile);
+        var notify_spec = yaml.safeLoad(fs.readFileSync(notifyFile, 'utf8'));
+        //var paths = api_spec['paths'];
+        //api_spec['paths'] = {};
+        api_spec['paths']['/notify'] = notify_spec['paths']['/notify'];
+        //for (var p in paths) {
+        //    api_spec['paths'][p] = paths[p];
+        //}
+
         // dereference the API spec
         //
         // OPENAPI BUG: We should not have to do this, but openapi does not seem
@@ -130,7 +141,10 @@ GuestAccount.getToken()
 
                 // queries
                 get_query_status: asyncController.getQueryStatus,
-                async_query: asyncController.asyncQuery
+                async_repertoire: asyncController.asyncQueryRepertoire,
+                async_rearrangement: asyncController.asyncQueryRearrangement,
+                async_clone: asyncController.asyncQueryClone,
+                async_notify: asyncController.asyncNotify
             }
         });
 

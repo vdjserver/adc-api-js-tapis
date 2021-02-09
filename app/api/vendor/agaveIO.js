@@ -61,8 +61,8 @@ agaveIO.sendRequest = function(requestSettings, postData) {
 
                 var responseObject;
 
-                // hack for LRQ
-                //output = output.replace(/'/g, '"');
+                // BUG: hack for LRQ bug
+                output = output.replace(/'/g, '"');
 
                 if ((response.statusCode >= 400) && (response.statusCode != 404)) {
                     reject(new Error('Request error: ' + output));
@@ -290,8 +290,8 @@ agaveIO.performAsyncQuery = function(collection, query, projection, page, pagesi
     var postData = {
         name: "myQuery",
         queryType: "SIMPLE",
-        query: [ query ],
-        notification: "https://vdj-staging.tacc.utexas.edu/bogus"
+        query: [ query ]
+        //notification: "https://vdj-staging.tacc.utexas.edu/bogus"
     };
     postData = JSON.stringify(postData);
 
@@ -443,6 +443,113 @@ agaveIO.recordQuery = function(query) {
         })
         .catch(function(errorObject) {
             console.error(errorObject);
+            return Promise.reject(errorObject);
+        });
+};
+
+agaveIO.createAsyncQueryMetadata = function(collection, body) {
+
+    var postData = {
+        name: 'async_query',
+        value: {
+            collection: collection,
+            lrq_id: null,
+            status: 'PENDING',
+            notification: null,
+            raw_file: null,
+            final_file: null,
+            body: body
+        }
+    };
+
+    postData = JSON.stringify(postData);
+
+    return ServiceAccount.getToken()
+        .then(function(token) {
+            var requestSettings = {
+                host:     agaveSettings.hostname,
+                method:   'POST',
+                path:     '/meta/v2/data',
+                rejectUnauthorized: false,
+                headers: {
+                    'Content-Type':   'application/json',
+                    'Content-Length': Buffer.byteLength(postData),
+                    'Authorization': 'Bearer ' + ServiceAccount.accessToken()
+                }
+            };
+
+            return agaveIO.sendRequest(requestSettings, postData);
+        })
+        .then(function(responseObject) {
+            return Promise.resolve(responseObject.result);
+        })
+        .catch(function(errorObject) {
+            return Promise.reject(errorObject);
+        });
+};
+
+agaveIO.updateMetadata = function(uuid, name, value, associationIds) {
+
+    var postData = {
+        name: name,
+        value: value
+    };
+    if (associationIds) postData.associationIds = associationIds;
+
+    postData = JSON.stringify(postData);
+
+    return ServiceAccount.getToken()
+        .then(function(token) {
+            var requestSettings = {
+                host:     agaveSettings.hostname,
+                method:   'POST',
+                path:     '/meta/v2/data/' + uuid,
+                rejectUnauthorized: false,
+                headers: {
+                    'Content-Type':   'application/json',
+                    'Content-Length': Buffer.byteLength(postData),
+                    'Authorization': 'Bearer ' + ServiceAccount.accessToken()
+                }
+            };
+            return agaveIO.sendRequest(requestSettings, postData);
+        })
+        .then(function(responseObject) {
+            return Promise.resolve(responseObject.result);
+        })
+        .catch(function(errorObject) {
+            console.log('agaveIO.updateMetadata error: ' + errorObject);
+            return Promise.reject(errorObject);
+        });
+};
+
+agaveIO.getAsyncQueryMetadata = function(lrq_id) {
+
+    return ServiceAccount.getToken()
+        .then(function(token) {
+            var requestSettings = {
+                host:     agaveSettings.hostname,
+                method:   'GET',
+                path:     '/meta/v2/data?q='
+                    + encodeURIComponent(
+                        '{"name":"async_query",'
+                            + ' "value.lrq_id":"' + lrq_id + '"}'
+                    )
+                    + '&limit=1'
+                ,
+                rejectUnauthorized: false,
+                headers: {
+                    'Authorization': 'Bearer ' + ServiceAccount.accessToken()
+                }
+            };
+
+            console.log(requestSettings);
+
+            return agaveIO.sendRequest(requestSettings, null);
+        })
+        .then(function(responseObject) {
+            return Promise.resolve(responseObject.result);
+        })
+        .catch(function(errorObject) {
             return Promise.reject(errorObject);
         });
 };
