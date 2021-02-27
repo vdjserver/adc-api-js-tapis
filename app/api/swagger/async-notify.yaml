@@ -1,11 +1,18 @@
 paths:
-  /notify:
+  /notify/{notify_id}:
     post:
       description: >
         Asynchronous query service on specified object.
       operationId: async_notify
       tags:
         - async
+      parameters:
+        - name: notify_id
+          in: path
+          description: ID of notification
+          required: true
+          schema:
+            type: string
       requestBody:
         content:
           application/json:

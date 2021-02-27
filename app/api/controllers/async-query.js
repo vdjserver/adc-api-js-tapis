@@ -33,6 +33,7 @@ module.exports = AsyncController;
 var app = require('../../app-async');
 var agaveIO = require('../vendor/agaveIO');
 var repertoireController = require('./repertoire');
+var rearrangementController = require('./rearrangement');
 
 // Server environment config
 var config = require('../../config/config');
@@ -42,17 +43,35 @@ var finishQueue = new Queue('lrq finish');
 
 // return status of asynchronous query
 AsyncController.getQueryStatus = function(req, res) {
-    // Verify we can login with guest account
-    var GuestAccount = require('../models/guestAccount');
-    GuestAccount.getToken()
-        .then(function(guestToken) {
-            res.json({"result":"success"});
+    var uuid = req.params.query_id;
+
+    agaveIO.getMetadata(uuid)
+        .then(function(metadata) {
+            console.log(metadata);
+            if (! metadata) {
+                res.status(404).json({"message":"Unknown query identifier."});
+                return;
+            }
+            if (metadata['name'] != 'async_query') {
+                res.status(400).json({"message":"Invalid query identifier."});
+                return;
+            }
+
+            // restrict the info that is sent back
+            var entry = {
+                query_id: metadata.uuid,
+                endpoint: metadata.value.endpoint,
+                status: metadata.value.status,
+                created: metadata.created
+            };
+
+            res.json(entry);
         })
         .catch(function(error) {
-            var msg = 'VDJServer ADC API ERROR (getStatus): Could not acquire guest token.\n.' + error;
+            var msg = 'VDJ-ADC-API ERROR (getStatus): Could not get status.\n.' + error;
             res.status(500).json({"message":"Internal service error."});
             console.error(msg);
-            webhookIO.postToSlack(msg);
+            //webhookIO.postToSlack(msg);
         });
 }
 
@@ -62,15 +81,18 @@ AsyncController.asyncQueryRepertoire = function(req, res) {
 
     req.params.do_async = true;
     return repertoireController.queryRepertoires(req, res);
-
-    res.status(500).json({"message":"Not implemented."});
 }
 
 // submit asynchronous query
 AsyncController.asyncQueryRearrangement = function(req, res) {
+try {
     if (config.debug) console.log('VDJ-ADC-API INFO: asynchronous query for rearrangements.');
 
-    res.status(500).json({"message":"Not implemented."});
+    req.params.do_async = true;
+    return rearrangementController.queryRearrangements(req, res);
+} catch (e) {
+    console.log(e);
+}
 }
 
 // submit asynchronous query
@@ -83,7 +105,7 @@ AsyncController.asyncQueryClone = function(req, res) {
 // receive notification from Tapis LRQ
 AsyncController.asyncNotify = function(req, res) {
 try {
-    console.log('VDJ-ADC-API-ASYNC INFO: Received LRQ notification: ' + JSON.stringify(req.body));
+    console.log('VDJ-ADC-API-ASYNC INFO: Received LRQ notification id:', req.params.notify_id, 'body:', JSON.stringify(req.body));
 
     // return a response
     res.status(200).json({"message":"notification received."});
@@ -100,10 +122,31 @@ try {
     return agaveIO.getAsyncQueryMetadata(lrq_id)
         .then(function(metadata) {
             console.log(metadata);
+            if (metadata.length != 1) {
+                return Promise.reject(new Error('Expected single metadata entry but got ' + metadata.length));
+            }
+            var entry = metadata[0];
+            if (entry['uuid'] != req.params.notify_id) {
+                return Promise.reject(new Error('Notification id and LRQ id do not match: ' + req.params.notify_id + ' != ' + entry['uuid']));
+            }
+
+            if (req.body['status'] == 'FINISHED') {
+                entry['value']['status'] = 'PROCESSING';
+                entry['value']['raw_file'] = req.body['result']['location'];
+            } else {
+                // TODO: what else besides FINISHED?
+                entry['value']['status'] = req.body['status'];
+            }
+
+            // update with additional info
+            return agaveIO.updateMetadata(entry['uuid'], entry['name'], entry['value'], null);
+        })
+        .then(function(metadata) {
+            // submit queue job to finish processing
+            finishQueue.add({metadata: metadata});
         })
         .catch(function(error) {
-            var msg = 'VDJ-ADC-ASYNC-API ERROR (asyncNotify): error.\n.' + error;
-            //res.status(500).json({"message":"Internal service error."});
+            var msg = 'VDJ-ADC-ASYNC-API ERROR (asyncNotify): ' + error;
             console.error(msg);
             //webhookIO.postToSlack(msg);
         });

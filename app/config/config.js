@@ -87,3 +87,8 @@ config.large_query_size = 2 * 1024;
 //config.info.max_query_size = 6 * 1024;
 config.max_query_size = 2 * 1024 * 1024;
 config.info.max_query_size = 2 * 1024 * 1024;
+
+// async API settings
+config.async = {};
+config.async.expire = 3; // 3 days
+config.async.max_size = 500 * 1024 * 1024; // 500M

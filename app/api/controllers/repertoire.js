@@ -682,13 +682,13 @@ RepertoireController.queryRepertoires = function(req, res) {
         abortQuery = true;
     });
 
-    // perform non-facets query
     var collection = 'repertoire' + mongoSettings.queryCollection;
     if (do_async) {
+        // perform async query
         var submitQueue = new Queue('lrq submit');
         var parsed_query = JSON.parse(query);
 
-        return agaveIO.createAsyncQueryMetadata(collection, bodyData)
+        return agaveIO.createAsyncQueryMetadata('repertoire', collection, bodyData)
             .then(function(metadata) {
                 console.log(metadata);
                 console.log('VDJ-ADC-API INFO: Created async metadata:', metadata.uuid);
@@ -707,6 +707,7 @@ RepertoireController.queryRepertoires = function(req, res) {
                 agaveIO.recordQuery(queryRecord);
             });
     } else if (!facets) {
+        // perform non-facets query
         //console.log(query);
         // we just get all of them then manually do from/size
         return performQuery(collection, query, projection, 1, pagesize)

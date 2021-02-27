@@ -40,6 +40,7 @@ var agaveIO = require('../vendor/agaveIO');
 var webhookIO = require('../vendor/webhookIO');
 
 // Node Libraries
+var Queue = require('bull');
 
 // escape strings for regex, double \\ for restheart
 
@@ -478,6 +479,9 @@ function performFacets(collection, query, field, start_page, pagesize) {
 RearrangementController.queryRearrangements = function(req, res) {
     if (config.debug) console.log('VDJ-ADC-API INFO: queryRearrangements');
 
+    var do_async = false;
+    if (req.params.do_async) do_async = true;
+
     var results = [];
     var result = {};
     var result_flag = false;
@@ -673,9 +677,32 @@ RearrangementController.queryRearrangements = function(req, res) {
         abortQuery = true;
     });
 
-    // perform non-facets query
     var collection = 'rearrangement' + mongoSettings.queryCollection;
-    if (!facets) {
+    if (do_async) {
+        // perform async query
+        var submitQueue = new Queue('lrq submit');
+        var parsed_query = JSON.parse(query);
+
+        return agaveIO.createAsyncQueryMetadata('rearrangement', collection, bodyData)
+            .then(function(metadata) {
+                console.log(metadata);
+                console.log('VDJ-ADC-API INFO: Created async metadata:', metadata.uuid);
+                submitQueue.add({collection: collection, query: parsed_query, metadata: metadata}, {attempts: 5, backoff: 5000});
+                res.status(200).json({"message":"rearrangement lrq submitted.", "query_id": metadata.uuid});
+                return;
+            })
+            .catch(function(error) {
+                var msg = "VDJ-ADC-API ERROR (queryRearrangements): " + error;
+                res.status(500).json({"message":result_message});
+                console.error(msg);
+                webhookIO.postToSlack(msg);
+                queryRecord['status'] = 'error';
+                queryRecord['message'] = msg;
+                queryRecord['end'] = Date.now();
+                agaveIO.recordQuery(queryRecord);
+            });
+    } else if (!facets) {
+        // perform non-facets query
         var queryFunction = agaveIO.performQuery;
         if (query && query.length > config.large_query_size) {
             if (config.debug) console.log('VDJ-ADC-API INFO: Large query detected.');

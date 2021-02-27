@@ -13,6 +13,9 @@ module.exports = {
     guestAccountKey: process.env.VDJ_GUEST_ACCOUNT,
     guestAccountSecret: process.env.VDJ_GUEST_ACCOUNT_SECRET,
 
+    // host URL for Tapis notifications
+    notifyHost: process.env.AGAVE_NOTIFY_HOST,
+
     // Debug
     debugConsole: process.env.DEBUG_CONSOLE,
 };

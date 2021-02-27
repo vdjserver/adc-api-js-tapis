@@ -34,6 +34,7 @@ var app = require('../../app-async');
 var agaveIO = require('../vendor/agaveIO');
 
 // Server environment config
+var agaveSettings = require('../../config/tapisSettings');
 var config = require('../../config/config');
 
 var Queue = require('bull');
@@ -57,7 +58,8 @@ AsyncQueue.processQueryJobs = function() {
         console.log(job['data']);
 
         var metadata = null;
-        return agaveIO.performAsyncQuery(job['data']['collection'], job['data']['query'])
+        var notification = agaveSettings.notifyHost + '/airr/async/v1/notify/' + job['data']['metadata']['uuid'];
+        return agaveIO.performAsyncQuery(job['data']['collection'], job['data']['query'], null, null, null, null, notification)
             .then(function(async_query) {
                 metadata = job['data']['metadata'];
                 console.log(async_query);
@@ -84,7 +86,10 @@ AsyncQueue.processQueryJobs = function() {
         // process data
         console.log('process data');
         console.log(job['data']);
-        
+
+        // create postit with expiration
+        // TODO: How to handle permanent?
+
         // update metadata record
         console.log('update metadata');
         

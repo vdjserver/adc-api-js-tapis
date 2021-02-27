@@ -103,12 +103,10 @@ GuestAccount.getToken()
         var notifyFile = path.resolve(__dirname, 'api/swagger/async-notify.yaml');
         console.log('VDJ-ADC-API-ASYNC INFO: notify API specification: ' + notifyFile);
         var notify_spec = yaml.safeLoad(fs.readFileSync(notifyFile, 'utf8'));
-        //var paths = api_spec['paths'];
-        //api_spec['paths'] = {};
-        api_spec['paths']['/notify'] = notify_spec['paths']['/notify'];
-        //for (var p in paths) {
-        //    api_spec['paths'][p] = paths[p];
-        //}
+        // copy paths
+        for (var p in notify_spec['paths']) {
+            api_spec['paths'][p] = notify_spec['paths'][p];
+        }
 
         // dereference the API spec
         //

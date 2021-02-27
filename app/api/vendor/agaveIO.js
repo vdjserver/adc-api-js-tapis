@@ -285,14 +285,14 @@ agaveIO.performQuery = function(collection, query, projection, page, pagesize, c
         });
 };
 
-agaveIO.performAsyncQuery = function(collection, query, projection, page, pagesize, count) {
+agaveIO.performAsyncQuery = function(collection, query, projection, page, pagesize, count, notification) {
 
     var postData = {
         name: "myQuery",
         queryType: "SIMPLE",
         query: [ query ]
-        //notification: "https://vdj-staging.tacc.utexas.edu/bogus"
     };
+    if (notification) postData['notification'] = notification;
     postData = JSON.stringify(postData);
 
     return ServiceAccount.getToken()
@@ -447,38 +447,21 @@ agaveIO.recordQuery = function(query) {
         });
 };
 
-agaveIO.createAsyncQueryMetadata = function(collection, body) {
-
-    var postData = {
-        name: 'async_query',
-        value: {
-            collection: collection,
-            lrq_id: null,
-            status: 'PENDING',
-            notification: null,
-            raw_file: null,
-            final_file: null,
-            body: body
-        }
-    };
-
-    postData = JSON.stringify(postData);
+agaveIO.getMetadata = function(uuid) {
 
     return ServiceAccount.getToken()
         .then(function(token) {
             var requestSettings = {
                 host:     agaveSettings.hostname,
-                method:   'POST',
-                path:     '/meta/v2/data',
+                method:   'GET',
+                path:     '/meta/v2/data/' + uuid,
                 rejectUnauthorized: false,
                 headers: {
-                    'Content-Type':   'application/json',
-                    'Content-Length': Buffer.byteLength(postData),
                     'Authorization': 'Bearer ' + ServiceAccount.accessToken()
                 }
             };
 
-            return agaveIO.sendRequest(requestSettings, postData);
+            return agaveIO.sendRequest(requestSettings, null);
         })
         .then(function(responseObject) {
             return Promise.resolve(responseObject.result);
@@ -518,6 +501,48 @@ agaveIO.updateMetadata = function(uuid, name, value, associationIds) {
         })
         .catch(function(errorObject) {
             console.log('agaveIO.updateMetadata error: ' + errorObject);
+            return Promise.reject(errorObject);
+        });
+};
+
+agaveIO.createAsyncQueryMetadata = function(endpoint, collection, body) {
+
+    var postData = {
+        name: 'async_query',
+        value: {
+            endpoint: endpoint,
+            collection: collection,
+            lrq_id: null,
+            status: 'PENDING',
+            notification: null,
+            raw_file: null,
+            final_file: null,
+            body: body
+        }
+    };
+
+    postData = JSON.stringify(postData);
+
+    return ServiceAccount.getToken()
+        .then(function(token) {
+            var requestSettings = {
+                host:     agaveSettings.hostname,
+                method:   'POST',
+                path:     '/meta/v2/data',
+                rejectUnauthorized: false,
+                headers: {
+                    'Content-Type':   'application/json',
+                    'Content-Length': Buffer.byteLength(postData),
+                    'Authorization': 'Bearer ' + ServiceAccount.accessToken()
+                }
+            };
+
+            return agaveIO.sendRequest(requestSettings, postData);
+        })
+        .then(function(responseObject) {
+            return Promise.resolve(responseObject.result);
+        })
+        .catch(function(errorObject) {
             return Promise.reject(errorObject);
         });
 };
