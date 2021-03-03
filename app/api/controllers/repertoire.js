@@ -43,6 +43,9 @@ var webhookIO = require('../vendor/webhookIO');
 
 // Node Libraries
 var Queue = require('bull');
+var fs = require('fs');
+const zlib = require('zlib');
+var stream = require('stream');
 
 // API customization
 var custom_file = undefined;
@@ -55,6 +58,16 @@ var escapeString = function(text) {
     var encoded = text.replace(/\*/g, '\\\\\*');
     encoded = encoded.replace(/\+/g, '\\\\\+');
     return encoded;
+}
+
+function getInfoObject() {
+    var info = { };
+    var schema = global.airr['Info'];
+    info['title'] = config.info.description;
+    info['description'] = 'VDJServer ADC API response for repertoire query'
+    info['version'] = schema.version;
+    info['contact'] = config.info.contact;
+    return info;
 }
 
 /*
@@ -340,6 +353,73 @@ function constructQueryOperation(filter, error) {
     // should not get here
     return null;
 }
+
+// Clean data record
+// Remove any internal fields
+function cleanRecord(record) {
+    if (record['_id']) delete record['_id'];
+    if (record['_etag']) delete record['_etag'];
+    return record;
+}
+
+// process LRQ file
+RepertoireController.processLRQfile = function(metadata_uuid) {
+    return agaveIO.getMetadata(metadata_uuid)
+        .then(function(metadata) {
+            console.log(metadata);
+
+            return new Promise(function(resolve, reject) {
+                if (metadata['value']['endpoint'] != 'repertoire') {
+                    return reject(new Error('wrong endpoint: repertoire != ' + metadata['value']['endpoint']));
+                }
+
+                // tranform stream
+                var transform = new stream.Transform();
+                var first = true;
+                transform._transform = function (chunk, encoding, done) {
+                    if (first) {
+                        // header
+                        var info = getInfoObject();
+                        this.push('{"Info":');
+                        this.push(JSON.stringify(info));
+                        this.push(',"Repertoire":[');
+                        first = false;
+                    }
+
+                    // transform the record
+                    var entry = cleanRecord(JSON.parse(chunk.toString()));
+
+                    this.push(JSON.stringify(entry));
+                    done();
+                }
+
+                transform._flush = function (done) {
+                    this.push(']}');
+                    done();
+                }
+
+                // Open read/write streams
+                var infile = config.lrqdata_path + 'lrq-' + metadata["value"]["lrq_id"] + '.gz';
+                var outname = metadata["uuid"] + '.airr.json.gz';
+                var outfile = config.lrqdata_path + outname;
+                var readable = fs.createReadStream(infile)
+                    .on('error', function(e) { return reject(e); });
+                var writable = fs.createWriteStream(outfile)
+                    .on('error', function(e) { return reject(e); });
+
+                readable.pipe(zlib.createGunzip())
+                    .pipe(transform)
+                    .pipe(zlib.createGzip())
+                    .pipe(writable)
+                    .on('end', function() {
+                        writable.end();
+                    });
+
+                return resolve(outname);
+            });
+        });
+}
+
 
 // Get a single repertoire
 RepertoireController.getRepertoire = function(req, res) {

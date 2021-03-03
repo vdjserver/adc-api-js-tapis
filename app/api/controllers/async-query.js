@@ -62,7 +62,9 @@ AsyncController.getQueryStatus = function(req, res) {
                 query_id: metadata.uuid,
                 endpoint: metadata.value.endpoint,
                 status: metadata.value.status,
-                created: metadata.created
+                created: metadata.created,
+                final_file: metadata.value.final_file,
+                download_url: metadata.value.download_url
             };
 
             res.json(entry);
@@ -110,15 +112,9 @@ try {
     // return a response
     res.status(200).json({"message":"notification received."});
 
-    // HACK: pull id from location string
-    var f = req.body['result']['location'].split('lrq-');
-    console.log(f);
-    f = f[1].split('.gz');
-    console.log(f);
-    var lrq_id = f[0];
+    // search for metadata item based on LRQ id
+    var lrq_id = req.body['result']['_id']
     console.log(lrq_id);
-
-    // search for metadata item for LRQ
     return agaveIO.getAsyncQueryMetadata(lrq_id)
         .then(function(metadata) {
             console.log(metadata);
@@ -143,6 +139,7 @@ try {
         })
         .then(function(metadata) {
             // submit queue job to finish processing
+            // TODO: should we retry on error?
             finishQueue.add({metadata: metadata});
         })
         .catch(function(error) {

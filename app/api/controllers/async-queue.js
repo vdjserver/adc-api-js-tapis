@@ -32,6 +32,9 @@ module.exports = AsyncQueue;
 // App
 var app = require('../../app-async');
 var agaveIO = require('../vendor/agaveIO');
+var webhookIO = require('../vendor/webhookIO');
+var repertoireController = require('./repertoire');
+var rearrangementController = require('./rearrangement');
 
 // Server environment config
 var agaveSettings = require('../../config/tapisSettings');
@@ -86,14 +89,83 @@ AsyncQueue.processQueryJobs = function() {
         // process data
         console.log('process data');
         console.log(job['data']);
+        var metadata = job['data']['metadata'];
+
+        var controller = null;
+        if (metadata["value"]["endpoint"] == "repertoire") controller = repertoireController;
+        if (metadata["value"]["endpoint"] == "rearrangement") controller = rearrangementController;
+        if (! controller) {
+            var msg = 'Unknown endpoint: ' + metadata["value"]["endpoint"];
+            console.error(msg);
+            return Promise.reject(new Error(msg));
+        }
+
+        // process data into final format
+        var msg = null;
+        var outname = await controller.processLRQfile(metadata["uuid"])
+            .catch(function(error) {
+                msg = 'VDJ-ADC-ASYNC-API ERROR (finishQueue): Could not finish processing LRQ ' + metadata["uuid"] + '.\n' + error;
+                console.error(msg);
+                webhookIO.postToSlack(msg);
+            });
+
+        // set to error status
+        if (! outname) {
+            metadata["value"]["status"] = "ERROR";
+            await agaveIO.updateMetadata(metadata['uuid'], metadata['name'], metadata['value'], null);
+            return Promise.reject(new Error(msg));
+        }
+
+        if (config.debug) console.log('VDJ-ADC-ASYNC-API INFO: final processed file: ' + outname);
+        metadata["value"]["final_file"] = outname;
 
         // create postit with expiration
         // TODO: How to handle permanent?
+        var url = 'https://' + agaveSettings.hostname
+            + '/files/v2/media/system/'
+            + agaveSettings.storageSystem
+            + '//irplus/data/lrqdata/' + outname
+            + '?force=true';
 
-        // update metadata record
-        console.log('update metadata');
-        
+        var postit = await agaveIO.createPublicFilePostit(url, false, config.async.max_uses, config.async.lifetime)
+            .catch(function(error) {
+                msg = 'VDJ-ADC-ASYNC-API ERROR (finishQueue): Could not create postit for LRQ ' + metadata["uuid"] + '.\n' + error;
+                console.error(msg);
+                webhookIO.postToSlack(msg);
+            });
+
+        // set to error status
+        if (! postit) {
+            metadata["value"]["status"] = "ERROR";
+            await agaveIO.updateMetadata(metadata['uuid'], metadata['name'], metadata['value'], null);
+            return Promise.reject(new Error(msg));
+        }
+
+        // update with processed file
+        if (config.debug) console.log('VDJ-ADC-ASYNC-API INFO: Created postit: ' + postit["postit"]);
+        metadata["value"]["postit_id"] = postit["postit"];
+        metadata["value"]["download_url"] = postit["_links"]["self"]["href"];
+        metadata["value"]["status"] = "FINISHED";
+        var retry = false;
+        await agaveIO.updateMetadata(metadata['uuid'], metadata['name'], metadata['value'], null)
+            .catch(function(error) {
+                msg = 'VDJ-ADC-ASYNC-API ERROR (finishQueue): Could not update metadata for LRQ ' + metadata["uuid"] + '.\n' + error;
+                console.error(msg);
+                retry = true;
+            });
+        if (retry) {
+            console.log('VDJ-ADC-ASYNC-API INFO (finishQueue): Retrying updateMetadata');
+            await agaveIO.updateMetadata(metadata['uuid'], metadata['name'], metadata['value'], null)
+            .catch(function(error) {
+                msg = 'VDJ-ADC-ASYNC-API ERROR (finishQueue): Could not update metadata for LRQ ' + metadata["uuid"] + '. Metadata in inconsistent state.\n' + error;
+                console.error(msg);
+                webhookIO.postToSlack(msg);
+                return Promise.reject(new Error(msg));
+            });
+        }
+
+        // TODO: send notification
+
         return Promise.resolve();
     });
-
 }

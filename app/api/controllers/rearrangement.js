@@ -41,6 +41,9 @@ var webhookIO = require('../vendor/webhookIO');
 
 // Node Libraries
 var Queue = require('bull');
+var fs = require('fs');
+const zlib = require('zlib');
+var stream = require('stream');
 
 // escape strings for regex, double \\ for restheart
 
@@ -49,6 +52,16 @@ var Queue = require('bull');
 //    encoded = encoded.replace(/\+/g, '\\\\\+');
 //    return encoded;
 //}
+
+function getInfoObject() {
+    var info = { };
+    var schema = global.airr['Info'];
+    info['title'] = config.info.description;
+    info['description'] = 'VDJServer ADC API response for rearrangement query'
+    info['version'] = schema.version;
+    info['contact'] = config.info.contact;
+    return info;
+}
 
 /*
   Construct mongodb query based upon the filters parameters. The
@@ -361,6 +374,264 @@ function constructQueryOperation(filter, error) {
 
     // should not get here
     return null;
+}
+
+// Clean data record
+// Remove any internal fields
+function cleanRecord(record, projection, all_fields) {
+    if (!record['sequence_id']) {
+        if (record['_id']['$oid']) record['sequence_id'] = record['_id']['$oid'];
+        else record['sequence_id'] = record['_id'];
+    }
+
+    // gene calls, join back to string
+    if ((typeof record['v_call']) == "object") record['v_call'] = record['v_call'].join(',');
+    if ((typeof record['d_call']) == "object") record['d_call'] = record['d_call'].join(',');
+    if ((typeof record['j_call']) == "object") record['j_call'] = record['j_call'].join(',');
+
+    // TODO: general this a bit in case we add more
+    if (record['_id']) delete record['_id'];
+    if (record['_etag']) delete record['_etag'];
+    if (record['vdjserver_junction_suffixes'])
+        if (projection['vdjserver_junction_suffixes'] == undefined)
+            delete record['vdjserver_junction_suffixes'];
+
+    // add any missing required fields
+    if (all_fields.length > 0) {
+        airr.addFields(record, all_fields, global.airr['Rearrangement']);
+    }
+    // apply projection
+    var keys = Object.keys(record);
+    if (Object.keys(projection).length > 0) {
+        for (var p = 0; p < keys.length; ++p)
+            if (projection[keys[p]] == undefined)
+                delete record[keys[p]];
+    } 
+    return record;
+}
+
+// process LRQ file
+RearrangementController.processLRQfile = function(metadata_uuid) {
+    return agaveIO.getMetadata(metadata_uuid)
+        .then(function(metadata) {
+            console.log(metadata);
+
+            return new Promise(function(resolve, reject) {
+                if (metadata['value']['endpoint'] != 'rearrangement') {
+                    return reject(new Error('wrong endpoint: rearrangement != ' + metadata['value']['endpoint']));
+                }
+
+                var bodyData = metadata['value']['body'];
+
+                // AIRR fields
+                var all_fields = [];
+                if (bodyData['include_fields']) {
+                    airr.collectFields(global.airr['Rearrangement'], bodyData['include_fields'], all_fields, null);
+                    //if (config.debug) console.log(all_fields);
+                }
+
+                // collect all AIRR schema fields
+                var schema_fields = [];
+                airr.collectFields(global.airr['Rearrangement'], 'airr-schema', schema_fields, null);
+
+                var projection = {};
+                if (bodyData['fields'] != undefined) {
+                    var fields = bodyData['fields'];
+                    for (var i = 0; i < fields.length; ++i) {
+                        if (fields[i] == '_id') continue;
+                        if (fields[i] == '_etag') continue;
+                        projection[fields[i]] = 1;
+                    }
+                    projection['_id'] = 1;
+
+                    // add AIRR required fields to projection
+                    // NOTE: projection will not add a field if it is not already in the document
+                    // so below after the data has been retrieved, missing fields need to be
+                    // added with null values.
+                    if (all_fields.length > 0) {
+                        for (var r in all_fields) projection[all_fields[r]] = 1;
+                    }
+
+                    // add to field list so will be put in response if necessary
+                    for (var i = 0; i < fields.length; ++i) {
+                        if (fields[i] == '_id') continue;
+                        all_fields.push(fields[i]);
+                    }
+                }
+
+                var format = 'json';
+                if (metadata["value"]["body"]["format"] != undefined)
+                    format = metadata["value"]["body"]["format"];
+
+                // determine TSV headers
+                var headers = [];
+                if (format == 'tsv') {
+                    // if no projection
+                    if (Object.keys(projection).length == 0) {
+                        // then return all schema fields
+                        headers = schema_fields;
+                    } else {
+                        // else only return specified fields
+                        // schema fields first
+                        for (var p = 0; p < schema_fields.length; ++p) {
+                            if (projection[schema_fields[p]]) headers.push(schema_fields[p]);
+                        }
+                        // add custom fields on end
+                        for (var p in projection) {
+                            if (p == '_id') continue;
+                            if (projection[p]) {
+                                if (schema_fields.indexOf(p) >= 0) continue;
+                                else headers.push(p);
+                            }
+                        }
+                    }
+                }
+
+                // tranform stream
+                var transform = new stream.Transform();
+                var first = true;
+                transform._first_record = true;
+                if (format == 'json') {
+                    transform._transform = function (chunk, encoding, done) {
+                        if (first) {
+                            // header
+                            var info = getInfoObject();
+                            this.push('{"Info":');
+                            this.push(JSON.stringify(info));
+                            this.push(',"Rearrangement":[\n');
+                            first = false;
+                        }
+
+                        // transform the record
+                        try {
+                            var data = chunk.toString();
+                            if (this._lastLineData) data = this._lastLineData + data;
+                            var lines = data.split('\n');
+                            this._lastLineData = lines.splice(lines.length-1,1)[0];
+
+                            for (var l in lines) {
+                                var entry = cleanRecord(JSON.parse(lines[l]), projection, all_fields);
+                                //var entry = cleanRecord(JSON.parse(l), projection, all_fields);
+                                if (transform._first_record) transform._first_record = false;
+                                else this.push(",\n");
+                                this.push(JSON.stringify(entry));
+                            }
+                            done();
+                        } catch (e) {
+                            console.error('VDJ-ADC-API ERROR (processLRQFile, JSON transform): Parse error on chunk: ' + data);
+                            console.error(e);
+                            done(e);
+                        }
+                    }
+
+                    transform._flush = function (done) {
+                        console.log('flush');
+                        console.log(this._lastLineData);
+                        try {
+                            if (this._lastLineData) {
+                                var entry = cleanRecord(JSON.parse(this._lastLineData), projection, all_fields);
+                                if (transform._first_record) transform._first_record = false;
+                                else this.push(",\n");
+                                this.push(JSON.stringify(entry));
+                            }
+                            this._lastLineData = null;
+                            this.push('\n]}\n');
+                            done();
+                        } catch (e) {
+                            console.error('VDJ-ADC-API ERROR (processLRQFile, JSON flush): Parse error on chunk: ' + this._lastLineData);
+                            console.error(e);
+                            done(e);
+                        }
+                    }
+                } else {
+                    // TSV format
+                    transform._transform = function (chunk, encoding, done) {
+                        if (first) {
+                            // write headers
+                            this.push(headers.join('\t'));
+                            this.push('\n');
+                            first = false;
+                        }
+
+                        // transform the record
+                        try {
+                            var data = chunk.toString();
+                            if (this._lastLineData) data = this._lastLineData + data;
+                            var lines = data.split('\n');
+                            this._lastLineData = lines.splice(lines.length-1,1)[0];
+
+                            for (var l in lines) {
+                                var entry = cleanRecord(JSON.parse(lines[l]), projection, all_fields);
+                                var vals = [];
+                                for (var i = 0; i < headers.length; ++i) {
+                                    var p = headers[i];
+                                    if (entry[p] == undefined) vals.push('');
+                                    else vals.push(entry[p]);
+                                }
+                                this.push(vals.join('\t'));
+                                this.push('\n');
+                            }
+                            done();
+                        } catch (e) {
+                            console.error('VDJ-ADC-API ERROR (processLRQFile, TSV transform): Parse error on chunk: ' + data);
+                            console.error(e);
+                            done(e);
+                        }
+                    }
+
+                    transform._flush = function (done) {
+                        try {
+                            if (this._lastLineData) {
+                                var entry = cleanRecord(JSON.parse(this._lastLineData), projection, all_fields);
+                                var vals = [];
+                                for (var i = 0; i < headers.length; ++i) {
+                                    var p = headers[i];
+                                    if (entry[p] == undefined) vals.push('');
+                                    else vals.push(entry[p]);
+                                }
+                                this.push(vals.join('\t'));
+                                this.push('\n');
+                            }
+                            this._lastLineData = null;
+                            done();
+                        } catch (e) {
+                            console.error('VDJ-ADC-API ERROR (processLRQFile, TSV flush): Parse error on chunk: ' + this._lastLineData);
+                            console.error(e);
+                            done(e);
+                        }
+                    }
+                }
+
+                // Open read/write streams
+                var infile = config.lrqdata_path + 'lrq-' + metadata["value"]["lrq_id"] + '.gz';
+                var outname;
+                if (format == 'json')
+                    outname = metadata["uuid"] + '.airr.json.gz';
+                else
+                    outname = metadata["uuid"] + '.airr.tsv.gz';
+                var outfile = config.lrqdata_path + outname;
+                var readable = fs.createReadStream(infile)
+                    .on('error', function(e) { return reject(e); });
+                var writable = fs.createWriteStream(outfile)
+                    .on('error', function(e) { return reject(e); });
+
+                // process the stream
+                readable.pipe(zlib.createGunzip())
+                    .pipe(transform)
+                    .on('error', function(e) { console.log('caught error'); console.log(e); return reject(e); })
+                    .pipe(zlib.createGzip())
+                    .pipe(writable)
+                    .on('finish', function() {
+                        console.log('end of stream');
+                        writable.end();
+                    });
+
+                writable.on('finish', function() {
+                    console.log('finish of write stream');
+                    return resolve(outname);
+                });
+            });
+        });
 }
 
 // get a single rearrangement

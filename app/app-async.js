@@ -78,6 +78,16 @@ app.use(errorHandler({
     showStack: true,
 }));
 
+// Downgrade to host vdj user
+// This is also so that the /vdjZ Corral file volume can be accessed,
+// as it is restricted to the TACC vdj account.
+// read/write access is required.
+console.log('VDJ-ADC-API-ASYNC INFO: Downgrading to host user: ' + config.hostServiceAccount);
+process.setgid(config.hostServiceGroup);
+process.setuid(config.hostServiceAccount);
+console.log('VDJ-ADC-API-ASYNC INFO: Current uid: ' + process.getuid());
+console.log('VDJ-ADC-API-ASYNC INFO: Current gid: ' + process.getgid());
+
 // Verify we can login with guest account
 var GuestAccount = require('./api/models/guestAccount');
 GuestAccount.getToken()

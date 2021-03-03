@@ -62,7 +62,7 @@ agaveIO.sendRequest = function(requestSettings, postData) {
                 var responseObject;
 
                 // BUG: hack for LRQ bug
-                output = output.replace(/'/g, '"');
+                //output = output.replace(/'/g, '"');
 
                 if ((response.statusCode >= 400) && (response.statusCode != 404)) {
                     reject(new Error('Request error: ' + output));
@@ -570,6 +570,44 @@ agaveIO.getAsyncQueryMetadata = function(lrq_id) {
             console.log(requestSettings);
 
             return agaveIO.sendRequest(requestSettings, null);
+        })
+        .then(function(responseObject) {
+            return Promise.resolve(responseObject.result);
+        })
+        .catch(function(errorObject) {
+            return Promise.reject(errorObject);
+        });
+};
+
+agaveIO.createPublicFilePostit = function(url, unlimited, maxUses, lifetime) {
+
+    var postData = {
+        url: url,
+        method: 'GET'
+    };
+    if (unlimited) {
+        postData["unlimited"] = true;
+    } else {
+        postData["maxUses"] = maxUses;
+        postData["lifetime"] = lifetime;
+    }
+    postData = JSON.stringify(postData);
+
+    return ServiceAccount.getToken()
+        .then(function(token) {
+            var requestSettings = {
+                host:     agaveSettings.hostname,
+                method:   'POST',
+                path:     '/postits/v2/',
+                rejectUnauthorized: false,
+                headers: {
+                    'Content-Type':   'application/json',
+                    'Content-Length': Buffer.byteLength(postData),
+                    'Authorization': 'Bearer ' + ServiceAccount.accessToken()
+                }
+            };
+
+            return agaveIO.sendRequest(requestSettings, postData);
         })
         .then(function(responseObject) {
             return Promise.resolve(responseObject.result);

@@ -37,6 +37,11 @@ module.exports = config;
 // General
 config.port = process.env.API_PORT;
 config.async_port = process.env.API_ASYNC_PORT;
+config.lrqdata_path = process.env.LRQDATA_PATH;
+
+// Host user for Corral access
+config.hostServiceAccount = process.env.HOST_SERVICE_ACCOUNT;
+config.hostServiceGroup = process.env.HOST_SERVICE_GROUP;
 
 // API customization
 config.custom_file = process.env.CUSTOM_FILE;
@@ -90,5 +95,7 @@ config.info.max_query_size = 2 * 1024 * 1024;
 
 // async API settings
 config.async = {};
-config.async.expire = 3; // 3 days
+//config.async.lifetime = 3 * 24 * 60 * 60; // 3 days in secs
+config.async.lifetime = 60 * 60; // 1 hr for testing
+config.async.max_uses = 1000; // postit attempts
 config.async.max_size = 500 * 1024 * 1024; // 500M

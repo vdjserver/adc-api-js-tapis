@@ -55,6 +55,13 @@ RUN pip3 install \
 ##################
 ##################
 
+# setup vdj user
+RUN echo "vdj:x:816290:803419:VDJServer,,,:/home/vdj:/bin/bash" >> /etc/passwd
+RUN echo "G-803419:x:803419:vdj" >> /etc/group
+RUN mkdir /home/vdj
+RUN chown vdj /home/vdj
+RUN chgrp G-803419 /home/vdj
+
 # node
 ENV NODE_VER v12.18.3
 RUN wget https://nodejs.org/dist/$NODE_VER/node-$NODE_VER-linux-x64.tar.xz
