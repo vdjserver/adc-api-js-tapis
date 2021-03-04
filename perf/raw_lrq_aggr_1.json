@@ -1,0 +1,8 @@
+{
+  "name": "myQuery",
+  "queryType": "AGGREGATION",
+  "query": [
+    {"$match": {"repertoire_id":"5499492664745333226-242ac116-0001-012"}}
+  ],
+  "notification": "https://httpbin.org/delay/2"
+}

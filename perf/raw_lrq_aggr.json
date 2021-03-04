@@ -1,0 +1,10 @@
+{
+  "name": "myQuery",
+  "queryType": "AGGREGATION",
+  "query": [
+    {"$match": {"repertoire_id": {"$in": ["5046339392520196586-242ac113-0001-012"]}}},
+    {"$skip": 10000},
+    {"$limit": 1000000000}
+  ],
+  "notification": "https://httpbin.org/delay/2"
+}
