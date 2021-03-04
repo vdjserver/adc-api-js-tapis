@@ -31,6 +31,7 @@ var util = require('util');
 // Server environment config
 var config = require('../../config/config');
 var agaveSettings = require('../../config/tapisSettings');
+var mongoSettings = require('../../config/mongoSettings');
 var airr = require('../helpers/airr-schema');
 
 var assert = require('assert');
@@ -38,6 +39,9 @@ var assert = require('assert');
 // Processing
 var agaveIO = require('../vendor/agaveIO');
 var webhookIO = require('../vendor/webhookIO');
+
+// Node Libraries
+var Q = require('q');
 
 // API customization
 var custom_file = undefined;
@@ -374,7 +378,7 @@ function getRepertoire(req, res) {
         start: Date.now()
     };
 
-    var collection = 'repertoire';
+    var collection = 'repertoire' + mongoSettings.queryCollection;
     var query = '{repertoire_id:"' + req.swagger.params['repertoire_id'].value + '"}';
 
     // Handle client HTTP request abort
@@ -434,6 +438,69 @@ function getRepertoire(req, res) {
         });
 }
 
+function performQuery(collection, query, projection, start_page, pagesize) {
+    var deferred = Q.defer();
+    var models = [];
+
+    //console.log(query);
+    var doQuery = function(page) {
+        var queryFunction = agaveIO.performQuery;
+        if (query && query.length > config.large_query_size) queryFunction = agaveIO.performLargeQuery;
+        return queryFunction(collection, query, projection, page, pagesize)
+            .then(function(records) {
+                if (config.debug) console.log('VDJ-ADC-API INFO: query returned ' + records.length + ' records.');
+                if (records.length == 0) {
+                    deferred.resolve(models);
+                } else {
+                    models = models.concat(records);
+                    if (records.length < pagesize) deferred.resolve(models);
+                    else doQuery(page+1);
+                }
+            })
+            .fail(function(errorObject) {
+                deferred.reject(errorObject);
+            });
+    };
+
+    doQuery(start_page);
+
+    return deferred.promise;
+};
+
+function performFacets(collection, query, field, start_page, pagesize) {
+    var deferred = Q.defer();
+    var models = [];
+
+    //console.log(query);
+    var doAggr = function(page) {
+        var aggrFunction = agaveIO.performAggregation;
+        if (query && query.length > config.large_query_size) {
+            if (config.debug) console.log('VDJ-ADC-API INFO: Large facets query detected.');
+            aggrFunction = agaveIO.performLargeAggregation;
+        }
+        // TAPIS BUG: with pagesize and normal aggregation so use the large one for now
+        aggrFunction = agaveIO.performLargeAggregation;
+        return aggrFunction(collection, 'facets', query, field, page, pagesize)
+            .then(function(records) {
+                if (config.debug) console.log('VDJ-ADC-API INFO: query returned ' + records.length + ' records.');
+                if (records.length == 0) {
+                    deferred.resolve(models);
+                } else {
+                    models = models.concat(records);
+                    if (records.length < pagesize) deferred.resolve(models);
+                    else doAggr(page+1);
+                }
+            })
+            .fail(function(errorObject) {
+                deferred.reject(errorObject);
+            });
+    };
+    
+    doAggr(start_page);
+
+    return deferred.promise;
+};
+
 function queryRepertoires(req, res) {
     if (config.debug) console.log('VDJ-ADC-API INFO: queryRepertoires');
 
@@ -457,6 +524,16 @@ function queryRepertoires(req, res) {
 
     // check max query size
     var bodyLength = JSON.stringify(bodyData).length;
+    if (bodyLength > config.info.max_query_size) {
+        result_message = "Query size (" + bodyLength + ") exceeds maximum size of " + config.info.max_query_size + " characters.";
+	console.error(result_message);
+        res.status(400).json({"message":result_message});
+	queryRecord['status'] = 'reject';
+	queryRecord['message'] = result_message;
+	agaveIO.recordQuery(queryRecord);
+        return;
+    }
+/*
     if (bodyData['include_fields']) {
 	var half_size = config.info.max_query_size / 2;
 	if (bodyLength > half_size) {
@@ -480,7 +557,7 @@ function queryRepertoires(req, res) {
             res.status(400).json({"message":result_message});
             return;
 	}
-    }
+    } */
 
     // AIRR fields
     var all_fields = [];
@@ -528,7 +605,7 @@ function queryRepertoires(req, res) {
     var pagesize = config.max_size;
 
     // size parameter
-    var size = config.max_size;
+    var size = 0;
     if (bodyData['size'] != undefined) {
         size = bodyData['size'];
         size = Math.floor(size);
@@ -625,25 +702,26 @@ function queryRepertoires(req, res) {
     });
 
     // perform non-facets query
-    var collection = 'repertoire';
+    var collection = 'repertoire' + mongoSettings.queryCollection;
     if (!facets) {
         //console.log(query);
-        agaveIO.performQuery(collection, query, projection, page, pagesize)
+        // we just get all of them then manually do from/size
+        performQuery(collection, query, projection, 1, pagesize)
             .then(function(records) {
                 if (abortQuery) {
                     if (config.debug) console.log('VDJ-ADC-API INFO: client aborted query.');
                     return;
                 }
-
                 if (config.debug) console.log('VDJ-ADC-API INFO: query returned ' + records.length + ' records.');
+
                 if (records.length == 0) {
                     results = [];
                 } else {
                     // loop through records, clean data
                     // and only retrieve desired from/size
                     for (var i in records) {
-                        if (i < from_skip) continue;
-                        if (i >= size_stop) break;
+                        if (i < from) continue;
+                        if ((size > 0) && (i > size)) break;
                         var record = records[i];
                         if (record['_id']) delete record['_id'];
                         if (record['_etag']) delete record['_etag'];
@@ -652,47 +730,14 @@ function queryRepertoires(req, res) {
 		        if (all_fields.length > 0) {
 			    airr.addFields(records[i], all_fields, global.airr['Repertoire']);
 		        }
-
                         results.push(record);
                     }
                 }
             })
             .then(function() {
-                if (abortQuery) {
-                    return;
-                }
-
-                if ((second_size <= 0) || (results.length < pagesize)) {
-                    // only one query so return the results 
-                    if (config.debug) console.log('VDJ-ADC-API INFO: returning ' + results.length + ' records to client.');
-                    res.json({"Info":info,"Repertoire":results});
-                } else {
-                    // we need to do a second query for the rest
-                    page += 1;
-                    agaveIO.performQuery(collection, query, projection, page, pagesize)
-                        .then(function(records) {
-                            if (config.debug) console.log('VDJ-ADC-API INFO: second query returned ' + records.length + ' records.')
-
-                            // loop through records, clean data
-                            // and only retrieve desired from/size
-                            for (var i in records) {
-                                if (i >= second_size) break;
-                                var record = records[i];
-                                if (record['_id']) delete record['_id'];
-                                if (record['_etag']) delete record['_etag'];
-
-		                // add any missing required fields
-		                if (all_fields.length > 0) {
-			            airr.addFields(records[i], all_fields, global.airr['Repertoire']);
-		                }
-
-                                results.push(record);
-                            }
-                            if (config.debug) console.log('VDJ-ADC-API INFO: returning ' + results.length + ' records to client.');
-                            queryRecord['count'] = results.length;
-                            res.json({"Info":info,"Repertoire":results});
-                        });
-                }
+                if (config.debug) console.log('VDJ-ADC-API INFO: returning ' + results.length + ' records to client.');
+                queryRecord['count'] = results.length;
+                res.json({"Info":info,"Repertoire":results});
             })
             .then(function() {
                 if (abortQuery) {
@@ -719,21 +764,63 @@ function queryRepertoires(req, res) {
         // perform facets query
         var field = '$' + facets;
         if (!query) query = '{}';
-        agaveIO.performAggregation(collection, 'facets', query, field)
+
+        //console.log(bodyData);
+        //console.log(JSON.stringify(bodyData));
+        //console.log(query);
+
+        performFacets(collection, query, field, 1, pagesize)
             .then(function(records) {
                 if (records.length == 0) {
                     results = [];
                 } else {
                     // loop through records, clean data
-                    // and only retrieve desired from/size
+                    // and collapse arrays
+                    //console.log(records);
                     for (var i in records) {
+			var new_entries = [];
                         var entry = records[i];
-                        var new_entry = {}
-                        new_entry[facets] = entry['_id'];
-                        new_entry['count'] = entry['count'];
-                        results.push(new_entry);
+			if (entry['_id'] instanceof Array) {
+			    // get unique values
+			    var values = [];
+			    for (var j in entry['_id'])
+                                if (entry['_id'][j] instanceof Array) {
+                                    // array of arrays
+                                    for (var k in entry['_id'][j]) {
+				        if (values.indexOf(entry['_id'][j][k]) < 0) values.push(entry['_id'][j][k]);
+                                    }
+                                } else {
+				    if (values.indexOf(entry['_id'][j]) < 0) values.push(entry['_id'][j]);
+                                }
+			    for (var j in values) {
+				var new_entry = {};
+				new_entry[facets] = values[j];
+				new_entry['count'] = entry['count'];
+				new_entries.push(new_entry);
+			    }
+                            //console.log(values);
+			} else {
+			    // only single value
+			    var new_entry = {};
+                            new_entry[facets] = entry['_id'];
+                            new_entry['count'] = entry['count'];
+                            new_entries.push(new_entry);
+			}
+                        //console.log(new_entries);
+			for (var j in new_entries) {
+			    var found = false;
+			    for (var k in results) {
+				if (new_entries[j][facets] == results[k][facets]) {
+				    results[k]['count'] += new_entries[j]['count'];
+				    found = true;
+				    break;
+				}
+			    }
+			    if (! found) results.push(new_entries[j]);
+			}
                     }
                 }
+                if (config.debug) console.log('VDJ-ADC-API INFO: facets repertoire query returning ' + results.length + ' results to client.');
                 queryRecord['count'] = results.length;
                 res.json({"Info":info,"Facet":results});
             })

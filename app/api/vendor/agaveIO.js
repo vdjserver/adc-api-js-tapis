@@ -65,7 +65,9 @@ agaveIO.sendRequest = function(requestSettings, postData) {
 
             var responseObject;
 
-            if (output.length == 0) {
+            if (response.statusCode >= 400) {
+                deferred.reject(new Error('Request error: ' + output));
+            } else if (output.length == 0) {
                 deferred.resolve(null);
             } else if (output && jsonApprover.isJSON(output)) {
                 responseObject = JSON.parse(output);
@@ -80,8 +82,11 @@ agaveIO.sendRequest = function(requestSettings, postData) {
     });
 
     request.on('error', function(error) {
-        console.error('VDJ-ADC-API ERROR: Agave connection error.' + JSON.stringify(error));
-        deferred.reject(new Error('Agave connection error'));
+        console.error('VDJ-ADC-API ERROR: Agave connection error, error:' + JSON.stringify(error));
+        if (error.code == 'ECONNRESET')
+            deferred.reject(new Error('Network timeout.'));
+        else
+            deferred.reject(new Error('Agave connection error'));
     });
 
     if (postData) {
@@ -239,12 +244,75 @@ agaveIO.getToken = function(auth) {
     return deferred.promise;
 };
 
-agaveIO.performQuery = function(collection, query, projection, page, pagesize) {
+agaveIO.performLargeQuery = function(collection, query, projection, page, pagesize) {
+
+    var deferred = Q.defer();
+
+    var postData = query;
+    if (! postData) deferred.reject(new Error('Empty query passed to agaveIO.performLargeQuery'));
+
+    GuestAccount.getToken()
+        .then(function(token) {
+            var mark = false;
+            var requestSettings = {
+                host:     agaveSettings.hostname,
+                method:   'POST',
+                path:     '/meta/v3/' + mongoSettings.dbname + '/' + collection + '/_filter',
+                rejectUnauthorized: false,
+                headers: {
+                    'Accept':   'application/json',
+                    'Authorization': 'Bearer ' + GuestAccount.accessToken(),
+                    'Content-Type': 'application/json',
+		    'Content-Length': Buffer.byteLength(postData)
+                }
+            };
+            if (projection != null) {
+                if (mark) requestSettings['path'] += '&';
+                else requestSettings['path'] += '?';
+                mark = true;
+                requestSettings['path'] += 'keys=' + encodeURIComponent(JSON.stringify(projection));
+            }
+            if (page != null) {
+                if (mark) requestSettings['path'] += '&';
+                else requestSettings['path'] += '?';
+                mark = true;
+                requestSettings['path'] += 'page=' + encodeURIComponent(page);
+            }
+            if (pagesize != null) {
+                if (mark) requestSettings['path'] += '&';
+                else requestSettings['path'] += '?';
+                mark = true;
+                requestSettings['path'] += 'pagesize=' + encodeURIComponent(pagesize);
+            }
+            var sort = {};
+            if (sort) {
+                if (mark) requestSettings['path'] += '&';
+                else requestSettings['path'] += '?';
+                mark = true;
+                requestSettings['path'] += 'sort=' + encodeURIComponent(JSON.stringify(sort));
+            }
+
+            //console.log(requestSettings);
+
+            return agaveIO.sendRequest(requestSettings, postData);
+        })
+        .then(function(responseObject) {
+            deferred.resolve(responseObject);
+        })
+        .fail(function(errorObject) {
+            console.error('performQuery: ' + errorObject);
+            deferred.reject(errorObject);
+        });
+
+    return deferred.promise;
+};
+
+agaveIO.performQuery = function(collection, query, projection, page, pagesize, count) {
 
     var deferred = Q.defer();
 
     GuestAccount.getToken()
-    .then(function(token) {
+        .then(function(token) {
             var mark = false;
             var requestSettings = {
                 host:     agaveSettings.hostname,
@@ -256,25 +324,28 @@ agaveIO.performQuery = function(collection, query, projection, page, pagesize) {
                     'Authorization': 'Bearer ' + GuestAccount.accessToken()
                 }
             };
-            if (query) {
+            if (count) {
+                requestSettings['path'] += '/_size';
+            }
+            if (query != null) {
                 if (mark) requestSettings['path'] += '&';
                 else requestSettings['path'] += '?';
                 mark = true;
                 requestSettings['path'] += 'filter=' + encodeURIComponent(query);
             }
-            if (projection) {
+            if (projection != null) {
                 if (mark) requestSettings['path'] += '&';
                 else requestSettings['path'] += '?';
                 mark = true;
                 requestSettings['path'] += 'keys=' + encodeURIComponent(JSON.stringify(projection));
             }
-            if (page) {
+            if (page != null) {
                 if (mark) requestSettings['path'] += '&';
                 else requestSettings['path'] += '?';
                 mark = true;
                 requestSettings['path'] += 'page=' + encodeURIComponent(page);
             }
-            if (pagesize) {
+            if (pagesize != null) {
                 if (mark) requestSettings['path'] += '&';
                 else requestSettings['path'] += '?';
                 mark = true;
@@ -292,23 +363,72 @@ agaveIO.performQuery = function(collection, query, projection, page, pagesize) {
 
             return agaveIO.sendRequest(requestSettings, null);
         })
-    .then(function(responseObject) {
+        .then(function(responseObject) {
             deferred.resolve(responseObject);
         })
-    .fail(function(errorObject) {
-        console.log(errorObject);
+        .fail(function(errorObject) {
+            console.error('performQuery: ' + errorObject);
             deferred.reject(errorObject);
         });
 
     return deferred.promise;
 };
 
-agaveIO.performAggregation = function(collection, aggregation, query, field) {
+agaveIO.performLargeAggregation = function(collection, aggregation, query, field, page, pagesize) {
+
+    var deferred = Q.defer();
+
+    var postData = '{"match":' + query + ',"field":"' + field + '"}';
+    //console.log(postData);
+
+    GuestAccount.getToken()
+        .then(function(token) {
+            var mark = false;
+            var requestSettings = {
+                host:     agaveSettings.hostname,
+                method:   'POST',
+                path:     '/meta/v3/' + mongoSettings.dbname + '/' + collection + '/_aggrs/' + aggregation,
+                rejectUnauthorized: false,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'Authorization': 'Bearer ' + GuestAccount.accessToken(),
+		    'Content-Length': Buffer.byteLength(postData)
+                }
+            };
+            if (page != null) {
+                if (mark) requestSettings['path'] += '&';
+                else requestSettings['path'] += '?';
+                mark = true;
+                requestSettings['path'] += 'page=' + encodeURIComponent(page);
+            }
+            if (pagesize != null) {
+                if (mark) requestSettings['path'] += '&';
+                else requestSettings['path'] += '?';
+                mark = true;
+                requestSettings['path'] += 'pagesize=' + encodeURIComponent(pagesize);
+            }
+
+            //console.log(requestSettings);
+
+            return agaveIO.sendRequest(requestSettings, postData);
+        })
+        .then(function(responseObject) {
+            deferred.resolve(responseObject);
+        })
+        .fail(function(errorObject) {
+            deferred.reject(errorObject);
+        });
+
+    return deferred.promise;
+};
+
+agaveIO.performAggregation = function(collection, aggregation, query, field, page, pagesize) {
 
     var deferred = Q.defer();
 
     GuestAccount.getToken()
-    .then(function(token) {
+        .then(function(token) {
             var requestSettings = {
                 host:     agaveSettings.hostname,
                 method:   'GET',
@@ -323,6 +443,20 @@ agaveIO.performAggregation = function(collection, aggregation, query, field) {
 
             requestSettings['path'] += '?avars=';
             requestSettings['path'] += encodeURIComponent('{"match":' + query + ',"field":"' + field + '"}');
+            var mark = true;
+
+            if (page != null) {
+                if (mark) requestSettings['path'] += '&';
+                else requestSettings['path'] += '?';
+                mark = true;
+                requestSettings['path'] += 'page=' + encodeURIComponent(page);
+            }
+            if (pagesize != null) {
+                if (mark) requestSettings['path'] += '&';
+                else requestSettings['path'] += '?';
+                mark = true;
+                requestSettings['path'] += 'pagesize=' + encodeURIComponent(pagesize);
+            }
 
             //console.log(requestSettings);
 
@@ -368,7 +502,7 @@ agaveIO.recordQuery = function(query) {
             deferred.resolve(responseObject);
         })
 	.fail(function(errorObject) {
-            console.log(errorObject);
+            console.error(errorObject);
             deferred.reject(errorObject);
         });
 
