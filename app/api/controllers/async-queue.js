@@ -52,37 +52,112 @@ var Queue = require('bull');
 // 6. Send notification
 
 AsyncQueue.processQueryJobs = function() {
+    var countQueue = new Queue('lrq count');
     var submitQueue = new Queue('lrq submit');
     var finishQueue = new Queue('lrq finish');
 
-    submitQueue.process(async (job) => {
-        // submit query LRQ API
-        console.log('submitting query');
+    countQueue.process(async (job) => {
+        // If we do not know the size of the result set, which we generally do not unless
+        // the query specifies a size, we first perform a count. The query controller
+        // defines count_aggr to generate the count.
+
+        var msg = null;
+        var metadata = job['data']['metadata'];
+        if (config.debug) console.log('VDJ-ADC-ASYNC-API INFO: submitting count aggregation for LRQ:', metadata['uuid']);
         console.log(job['data']);
 
-        var metadata = null;
-        var notification = agaveSettings.notifyHost + '/airr/async/v1/notify/' + job['data']['metadata']['uuid'];
-        return agaveIO.performAsyncQuery(job['data']['collection'], job['data']['query'], null, null, null, null, notification)
-            .then(function(async_query) {
-                metadata = job['data']['metadata'];
-                console.log(async_query);
-                metadata['value']['lrq_id'] = async_query['_id'];
-                metadata['value']['status'] = 'SUBMITTED';
-                return agaveIO.updateMetadata(metadata['uuid'], metadata['name'], metadata['value'], null);
-            })
-            .then(function() {
-                // create task to wait for finish notification
-                //finishQueue.add({query: 'some info'});
-
-                return Promise.resolve();
-            })
+        // submit the count aggregation query
+        var notification = agaveSettings.notifyHost + '/airr/async/v1/notify/' + metadata['uuid'];
+        var count_aggr = [];
+        for (var line in metadata['value']['count_aggr']) {
+            for (var key in metadata['value']['count_aggr'][line]) {
+                // add the $ back in
+                var new_object = {};
+                var new_key = '$' + key;
+                new_object[new_key] = metadata['value']['count_aggr'][line][key];
+                count_aggr.push(new_object);
+            }
+        }
+        console.log(count_aggr);
+        var async_query = await agaveIO.performAsyncAggregation('count_query', metadata['value']['collection'], count_aggr, notification)
             .catch(function(error) {
-                var msg = 'VDJ-ADC-ASYNC-API ERROR (submitQueue): Could not submit LRQ.\n.' + error;
-                // TODO: update metadata with ERROR
+                msg = 'VDJ-ADC-ASYNC-API ERROR (countQueue): Could not submit count query for LRQ ' + metadata['uuid'] + '.\n.' + error;
                 console.error(msg);
                 webhookIO.postToSlack(msg);
-                return Promise.reject(new Error(msg));
             });
+
+        // set to error status
+        if (! async_query) {
+            metadata["value"]["status"] = "ERROR";
+            await agaveIO.updateMetadata(metadata['uuid'], metadata['name'], metadata['value'], null);
+            return Promise.reject(new Error(msg));
+        }
+
+        if (config.debug) console.log('VDJ-ADC-ASYNC-API INFO: Count aggregation submitted with LRQ ID:', async_query['_id']);
+
+        // update metadata
+        metadata['value']['lrq_id'] = async_query['_id'];
+        metadata['value']['status'] = 'COUNTING';
+        await agaveIO.updateMetadata(metadata['uuid'], metadata['name'], metadata['value'], null)
+            .catch(function(error) {
+                msg = 'VDJ-ADC-ASYNC-API ERROR (countQueue): Could not update metadata for LRQ ' + metadata["uuid"] + '.\n' + error;
+                console.error(msg);
+                webhookIO.postToSlack(msg);
+            });
+
+        return Promise.resolve();
+    });
+
+    submitQueue.process(async (job) => {
+        // submit query LRQ API
+
+        var msg = null;
+        var metadata = job['data']['metadata'];
+        if (config.debug) console.log('VDJ-ADC-ASYNC-API INFO: submitting query for LRQ:', metadata['uuid']);
+        console.log(job['data']);
+
+        // generate the full query
+        var query_aggr = [];
+        for (var line in metadata['value']['query_aggr']) {
+            for (var key in metadata['value']['query_aggr'][line]) {
+                // add the $ back in
+                var new_object = {};
+                var new_key = '$' + key;
+                new_object[new_key] = metadata['value']['query_aggr'][line][key];
+                query_aggr.push(new_object);
+            }
+        }
+        console.log(query_aggr);
+
+        // submit the full query
+        var notification = agaveSettings.notifyHost + '/airr/async/v1/notify/' + metadata['uuid'];
+        var async_query = await agaveIO.performAsyncAggregation('full_query', metadata['value']['collection'], query_aggr, notification)
+            .catch(function(error) {
+                msg = 'VDJ-ADC-ASYNC-API ERROR (submitQueue): Could not submit full query for LRQ ' + metadata['uuid'] + '.\n.' + error;
+                console.error(msg);
+                webhookIO.postToSlack(msg);
+            });
+
+        // set to error status if failed
+        if (! async_query) {
+            metadata["value"]["status"] = "ERROR";
+            await agaveIO.updateMetadata(metadata['uuid'], metadata['name'], metadata['value'], null);
+            return Promise.reject(new Error(msg));
+        }
+
+        if (config.debug) console.log('VDJ-ADC-ASYNC-API INFO: Full query submitted with LRQ ID:', async_query['_id']);
+
+        // update metadata
+        metadata['value']['lrq_id'] = async_query['_id'];
+        metadata['value']['status'] = 'SUBMITTED';
+        await agaveIO.updateMetadata(metadata['uuid'], metadata['name'], metadata['value'], null)
+            .catch(function(error) {
+                msg = 'VDJ-ADC-ASYNC-API ERROR (submitQueue): Could not update metadata for LRQ ' + metadata["uuid"] + '.\n' + error;
+                console.error(msg);
+                webhookIO.postToSlack(msg);
+            });
+
+        return Promise.resolve();
     });
 
     finishQueue.process(async (job) => {

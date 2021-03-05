@@ -857,14 +857,6 @@ RearrangementController.queryRearrangements = function(req, res) {
         size = bodyData['size'];
         size = Math.floor(size);
     }
-    if (size > config.max_size) {
-        result_message = "Size too large (" + size + "), maximum size is " + config.max_size;
-        res.status(400).json({"message":result_message});
-        queryRecord['status'] = 'reject';
-        queryRecord['message'] = result_message;
-        agaveIO.recordQuery(queryRecord);
-        return;
-    }
     if (size < 0) {
         result_message = "Negative size (" + size + ") not allowed.";
         res.status(400).json({"message":result_message});
@@ -872,6 +864,33 @@ RearrangementController.queryRearrangements = function(req, res) {
         queryRecord['message'] = result_message;
         agaveIO.recordQuery(queryRecord);
         return;
+    }
+    if (do_async) {
+        // async queries have a different max
+        if (! bodyData['size']) {
+            // if the query does not specify a size, we need to count to see if the
+            // result set is too big. we indicate this with a null size.
+            size = null;
+        } else {
+            if (size > config.async.max_size) {
+                result_message = "Size too large (" + size + "), maximum size is " + config.async.max_size;
+                res.status(400).json({"message":result_message});
+                queryRecord['status'] = 'reject';
+                queryRecord['message'] = result_message;
+                agaveIO.recordQuery(queryRecord);
+                return;
+            }
+        }
+    } else {
+        // normal query max
+        if (size > config.max_size) {
+            result_message = "Size too large (" + size + "), maximum size is " + config.max_size;
+            res.status(400).json({"message":result_message});
+            queryRecord['status'] = 'reject';
+            queryRecord['message'] = result_message;
+            agaveIO.recordQuery(queryRecord);
+            return;
+        }
     }
 
     // from parameter
@@ -951,14 +970,42 @@ RearrangementController.queryRearrangements = function(req, res) {
     var collection = 'rearrangement' + mongoSettings.queryCollection;
     if (do_async) {
         // perform async query
+        //
+        // An async query is performed in multiple steps. If we do not know the size of the result size, which
+        // we generally do not unless the query specifies a size, then we first perform a count aggregation.
+        // If size is specified in the query, the check is above, and if it passes then we perform the query.
+        // If we need to count, we get a notification from the count aggregation, which checks that the size
+        // is okay and performs the query, or marks the query as ERROR.
+        // We setup all the necessary data here so that the queues can process everything as needed.
+        var countQueue = new Queue('lrq count');
         var submitQueue = new Queue('lrq submit');
         var parsed_query = JSON.parse(query);
 
-        return agaveIO.createAsyncQueryMetadata('rearrangement', collection, bodyData)
+        // We put the commands in with the $ so that Tapis metadata service does not try to interpret it
+
+        var count_query = null;
+        if (! size) {
+            // we do not know size, so setup count aggregation query
+            count_query = [{"match":parsed_query}];
+            if (from) count_query.push({"skip":from});
+            count_query.push({"count":"total_records"});
+        }
+        var aggr_query = [{"match":parsed_query}];
+        if (from) aggr_query.push({"skip":from});
+        if (size) aggr_query.push({"limit":size});
+
+        console.log(count_query);
+        console.log(aggr_query);
+        return agaveIO.createAsyncQueryMetadata('rearrangement', collection, bodyData, aggr_query, count_query)
             .then(function(metadata) {
                 console.log(metadata);
                 console.log('VDJ-ADC-API INFO: Created async metadata:', metadata.uuid);
-                submitQueue.add({collection: collection, query: parsed_query, metadata: metadata}, {attempts: 5, backoff: 5000});
+                if (count_query)
+                    //countQueue.add({metadata: metadata}, {attempts: 5, backoff: 5000});
+                    countQueue.add({metadata: metadata});
+                else
+                    //submitQueue.add({metadata: metadata}, {attempts: 5, backoff: 5000});
+                    submitQueue.add({metadata: metadata});
                 res.status(200).json({"message":"rearrangement lrq submitted.", "query_id": metadata.uuid});
                 return;
             })

@@ -32,13 +32,20 @@ module.exports = AsyncController;
 // App
 var app = require('../../app-async');
 var agaveIO = require('../vendor/agaveIO');
+var webhookIO = require('../vendor/webhookIO');
 var repertoireController = require('./repertoire');
 var rearrangementController = require('./rearrangement');
 
 // Server environment config
 var config = require('../../config/config');
 
+// Node packages
+const zlib = require('zlib');
+const fs = require('fs');
 var Queue = require('bull');
+
+// Bull queues
+var submitQueue = new Queue('lrq submit');
 var finishQueue = new Queue('lrq finish');
 
 // return status of asynchronous query
@@ -62,6 +69,7 @@ AsyncController.getQueryStatus = function(req, res) {
                 query_id: metadata.uuid,
                 endpoint: metadata.value.endpoint,
                 status: metadata.value.status,
+                message: metadata.value.message,
                 created: metadata.created,
                 final_file: metadata.value.final_file,
                 download_url: metadata.value.download_url
@@ -81,20 +89,31 @@ AsyncController.getQueryStatus = function(req, res) {
 AsyncController.asyncQueryRepertoire = function(req, res) {
     if (config.debug) console.log('VDJ-ADC-API INFO: asynchronous query for repertoires.');
 
+/*
+    var bodyData = req.body;
+    if (bodyData['facets']) {
+        res.status(400).json({"message":"facets not supported."});
+        return;
+    }
+
     req.params.do_async = true;
     return repertoireController.queryRepertoires(req, res);
+*/
+    res.status(500).json({"message":"Not implemented."});
 }
 
 // submit asynchronous query
 AsyncController.asyncQueryRearrangement = function(req, res) {
-try {
     if (config.debug) console.log('VDJ-ADC-API INFO: asynchronous query for rearrangements.');
+
+    var bodyData = req.body;
+    if (bodyData['facets']) {
+        res.status(400).json({"message":"facets not supported."});
+        return;
+    }
 
     req.params.do_async = true;
     return rearrangementController.queryRearrangements(req, res);
-} catch (e) {
-    console.log(e);
-}
 }
 
 // submit asynchronous query
@@ -104,50 +123,119 @@ AsyncController.asyncQueryClone = function(req, res) {
     res.status(500).json({"message":"Not implemented."});
 }
 
+// When a count aggregation is performed, the output is simple record with the number
+// This function reads and parsed the file.
+async function readCountFile(filename) {
+
+    return new Promise((resolve, reject) => {
+        const rd = fs.readFileSync(filename);
+        zlib.gunzip(rd, (err, bin) => {
+            if (err) reject(err);
+            try {
+                var obj = JSON.parse(bin);
+                resolve(obj);
+            } catch (e) {
+                reject(e);
+            }
+        })
+    })
+}
+
 // receive notification from Tapis LRQ
-AsyncController.asyncNotify = function(req, res) {
-try {
+AsyncController.asyncNotify = async function(req, res) {
     console.log('VDJ-ADC-API-ASYNC INFO: Received LRQ notification id:', req.params.notify_id, 'body:', JSON.stringify(req.body));
 
     // return a response
     res.status(200).json({"message":"notification received."});
 
     // search for metadata item based on LRQ id
+    var msg = null;
     var lrq_id = req.body['result']['_id']
     console.log(lrq_id);
-    return agaveIO.getAsyncQueryMetadata(lrq_id)
-        .then(function(metadata) {
-            console.log(metadata);
-            if (metadata.length != 1) {
-                return Promise.reject(new Error('Expected single metadata entry but got ' + metadata.length));
-            }
-            var entry = metadata[0];
-            if (entry['uuid'] != req.params.notify_id) {
-                return Promise.reject(new Error('Notification id and LRQ id do not match: ' + req.params.notify_id + ' != ' + entry['uuid']));
-            }
-
-            if (req.body['status'] == 'FINISHED') {
-                entry['value']['status'] = 'PROCESSING';
-                entry['value']['raw_file'] = req.body['result']['location'];
-            } else {
-                // TODO: what else besides FINISHED?
-                entry['value']['status'] = req.body['status'];
-            }
-
-            // update with additional info
-            return agaveIO.updateMetadata(entry['uuid'], entry['name'], entry['value'], null);
-        })
-        .then(function(metadata) {
-            // submit queue job to finish processing
-            // TODO: should we retry on error?
-            finishQueue.add({metadata: metadata});
-        })
+    var metadata = await agaveIO.getAsyncQueryMetadata(lrq_id)
         .catch(function(error) {
-            var msg = 'VDJ-ADC-ASYNC-API ERROR (asyncNotify): ' + error;
+            msg = 'VDJ-ADC-ASYNC-API ERROR (asyncNotify): Could not get metadata for LRG id: ' + lrq_id + ', error: ' + error;
             console.error(msg);
-            //webhookIO.postToSlack(msg);
+            webhookIO.postToSlack(msg);
+            return Promise.reject(new Error(msg));
         });
-} catch (e) {
-    console.log(e);
-}
+
+    // do some error checking
+    console.log(metadata);
+    if (metadata.length != 1) {
+        msg = 'VDJ-ADC-ASYNC-API ERROR (asyncNotify): Expected single metadata entry but got ' + metadata.length + ' for LRG id: ' + lrq_id;
+        console.error(msg);
+        webhookIO.postToSlack(msg);
+        return Promise.reject(new Error(msg));
+    }
+    var metadata = metadata[0];
+    if (metadata['uuid'] != req.params.notify_id) {
+        msg = 'Notification id and LRQ id do not match: ' + req.params.notify_id + ' != ' + metadata['uuid'];
+        console.error(msg);
+        webhookIO.postToSlack(msg);
+        return Promise.reject(new Error(msg));
+    }
+
+    if (metadata['value']['status'] == 'COUNTING') {
+        // if this is a count query
+        // get the count
+        var filename = config.lrqdata_path + 'lrq-' + metadata["value"]["lrq_id"] + '.gz';
+        var count_obj = await readCountFile(filename)
+            .catch(function(error) {
+                msg = 'VDJ-ADC-ASYNC-API ERROR (asyncNotify): Could not read count file (' + filename + ') for LRQ ' + metadata["uuid"] + '.\n' + error;
+                console.error(msg);
+                webhookIO.postToSlack(msg);
+                return Promise.reject(new Error(msg));
+            });
+        console.log(count_obj);
+
+        // error if the count is greater than max size
+        if (count_obj['total_records'] > config.async.max_size) {
+            metadata['value']['status'] = 'ERROR';
+            metadata['value']['message'] = 'Result size (' + count_obj['total_records'] + ') is larger than maximum size (' + config.async.max_size + ')';
+            msg = 'VDJ-ADC-ASYNC-API ERROR (asyncNotify): Query rejected: ' + metadata["uuid"] + ', ' + metadata['value']['message'];
+            console.error(msg);
+            webhookIO.postToSlack(msg);
+
+            await agaveIO.updateMetadata(metadata['uuid'], metadata['name'], metadata['value'], null)
+                .catch(function(error) {
+                    msg = 'VDJ-ADC-ASYNC-API ERROR (asyncNotify): Could not update metadata for LRQ ' + metadata["uuid"] + '.\n' + error;
+                    console.error(msg);
+                    webhookIO.postToSlack(msg);
+                    return Promise.reject(new Error(msg));
+                });
+            return Promise.resolve();
+        }
+
+        // otherwise submit the real query
+        metadata['value']['count_lrq_id'] = metadata['value']['lrq_id'];
+        submitQueue.add({metadata: metadata});
+
+        return Promise.resolve();
+
+    } else {
+        if (req.body['status'] == 'FINISHED') {
+            metadata['value']['status'] = 'PROCESSING';
+            metadata['value']['raw_file'] = req.body['result']['location'];
+        } else {
+            // TODO: what else besides FINISHED?
+            metadata['value']['status'] = req.body['status'];
+        }
+
+        // update with additional info
+        // TODO: should we retry on error?
+        var new_metadata = await agaveIO.updateMetadata(metadata['uuid'], metadata['name'], metadata['value'], null)
+            .catch(function(error) {
+                msg = 'VDJ-ADC-ASYNC-API ERROR (countQueue): Could not update metadata for LRQ ' + metadata["uuid"] + '.\n' + error;
+                console.error(msg);
+                webhookIO.postToSlack(msg);
+            });
+
+        if (new_metadata) {
+            // submit queue job to finish processing
+            finishQueue.add({metadata: new_metadata});
+        }
+    }
+
+    return Promise.resolve();
 }

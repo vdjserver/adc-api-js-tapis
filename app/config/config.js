@@ -98,4 +98,5 @@ config.async = {};
 //config.async.lifetime = 3 * 24 * 60 * 60; // 3 days in secs
 config.async.lifetime = 60 * 60; // 1 hr for testing
 config.async.max_uses = 1000; // postit attempts
-config.async.max_size = 500 * 1024 * 1024; // 500M
+//config.async.max_size = 500 * 1024 * 1024; // 500M
+config.async.max_size = 10 * 1024 * 1024; // 10M for testing

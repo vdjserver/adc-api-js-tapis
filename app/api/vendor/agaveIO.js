@@ -61,9 +61,6 @@ agaveIO.sendRequest = function(requestSettings, postData) {
 
                 var responseObject;
 
-                // BUG: hack for LRQ bug
-                //output = output.replace(/'/g, '"');
-
                 if ((response.statusCode >= 400) && (response.statusCode != 404)) {
                     reject(new Error('Request error: ' + output));
                 } else if (output.length == 0) {
@@ -288,7 +285,7 @@ agaveIO.performQuery = function(collection, query, projection, page, pagesize, c
 agaveIO.performAsyncQuery = function(collection, query, projection, page, pagesize, count, notification) {
 
     var postData = {
-        name: "myQuery",
+        name: "query",
         queryType: "SIMPLE",
         query: [ query ]
     };
@@ -414,6 +411,66 @@ agaveIO.performAggregation = function(collection, aggregation, query, field, pag
         });
 };
 
+agaveIO.performAsyncAggregation = function(name, collection, query, notification) {
+
+    var postData = {
+        name: name,
+        queryType: "AGGREGATION",
+        query: query
+    };
+    if (notification) postData['notification'] = notification;
+    postData = JSON.stringify(postData);
+
+    return ServiceAccount.getToken()
+        .then(function(token) {
+            var mark = false;
+            var requestSettings = {
+                host:     agaveSettings.hostname,
+                method:   'POST',
+                path:     '/meta/v3/' + mongoSettings.dbname + '/' + collection + '/_lrq',
+                rejectUnauthorized: false,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept':   'application/json',
+                    'Authorization': 'Bearer ' + ServiceAccount.accessToken(),
+                    'Content-Length': Buffer.byteLength(postData)
+                }
+            };
+
+            console.log(requestSettings);
+
+            return agaveIO.sendRequest(requestSettings, postData);
+        })
+        .then(function(responseObject) {
+            return Promise.resolve(responseObject);
+        })
+        .catch(function(errorObject) {
+            console.error('performAsyncQuery: ' + errorObject);
+            return Promise.reject(errorObject);
+        });
+};
+
+agaveIO.getLRQStatus = function(lrq_id) {
+
+    return ServiceAccount.getToken()
+        .then(function(token) {
+            var requestSettings = {
+                host:     agaveSettings.hostname,
+                method:   'GET',
+                path:     '/meta/v3/LRG/vdjserver.org/' + lrg_id,
+                rejectUnauthorized: false,
+                headers: {
+                    'Accept':   'application/json',
+                    'Authorization': 'Bearer ' + ServiceAccount.accessToken()
+                }
+            };
+
+            //console.log(requestSettings);
+
+            return agaveIO.sendRequest(requestSettings, null);
+        });
+};
+
 agaveIO.recordQuery = function(query) {
 
     return ServiceAccount.getToken()
@@ -505,7 +562,7 @@ agaveIO.updateMetadata = function(uuid, name, value, associationIds) {
         });
 };
 
-agaveIO.createAsyncQueryMetadata = function(endpoint, collection, body) {
+agaveIO.createAsyncQueryMetadata = function(endpoint, collection, body, query_aggr, count_aggr) {
 
     var postData = {
         name: 'async_query',
@@ -514,10 +571,14 @@ agaveIO.createAsyncQueryMetadata = function(endpoint, collection, body) {
             collection: collection,
             lrq_id: null,
             status: 'PENDING',
+            message: null,
             notification: null,
             raw_file: null,
             final_file: null,
-            body: body
+            download_url: null,
+            body: body,
+            query_aggr: query_aggr,
+            count_aggr: count_aggr
         }
     };
 
