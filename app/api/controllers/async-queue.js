@@ -66,19 +66,19 @@ AsyncQueue.processQueryJobs = function() {
         if (config.debug) console.log('VDJ-ADC-ASYNC-API INFO: submitting count aggregation for LRQ:', metadata['uuid']);
         console.log(job['data']);
 
+        var controller = null;
+        if (metadata["value"]["endpoint"] == "repertoire") controller = repertoireController;
+        if (metadata["value"]["endpoint"] == "rearrangement") controller = rearrangementController;
+        if (! controller) {
+            var msg = 'Unknown endpoint: ' + metadata["value"]["endpoint"];
+            console.error(msg);
+            return Promise.reject(new Error(msg));
+        }
+
         // submit the count aggregation query
         var notification = agaveSettings.notifyHost + '/airr/async/v1/notify/' + metadata['uuid'];
-        var count_aggr = [];
-        for (var line in metadata['value']['count_aggr']) {
-            for (var key in metadata['value']['count_aggr'][line]) {
-                // add the $ back in
-                var new_object = {};
-                var new_key = '$' + key;
-                new_object[new_key] = metadata['value']['count_aggr'][line][key];
-                count_aggr.push(new_object);
-            }
-        }
-        console.log(count_aggr);
+        var count_aggr = controller.generateAsyncCountQuery(metadata);
+        console.log(JSON.stringify(count_aggr));
         var async_query = await agaveIO.performAsyncAggregation('count_query', metadata['value']['collection'], count_aggr, notification)
             .catch(function(error) {
                 msg = 'VDJ-ADC-ASYNC-API ERROR (countQueue): Could not submit count query for LRQ ' + metadata['uuid'] + '.\n.' + error;
@@ -116,27 +116,36 @@ AsyncQueue.processQueryJobs = function() {
         if (config.debug) console.log('VDJ-ADC-ASYNC-API INFO: submitting query for LRQ:', metadata['uuid']);
         console.log(job['data']);
 
-        // generate the full query
-        var query_aggr = [];
-        for (var line in metadata['value']['query_aggr']) {
-            for (var key in metadata['value']['query_aggr'][line]) {
-                // add the $ back in
-                var new_object = {};
-                var new_key = '$' + key;
-                new_object[new_key] = metadata['value']['query_aggr'][line][key];
-                query_aggr.push(new_object);
-            }
+        var controller = null;
+        if (metadata["value"]["endpoint"] == "repertoire") controller = repertoireController;
+        if (metadata["value"]["endpoint"] == "rearrangement") controller = rearrangementController;
+        if (! controller) {
+            var msg = 'Unknown endpoint: ' + metadata["value"]["endpoint"];
+            console.error(msg);
+            return Promise.reject(new Error(msg));
         }
-        console.log(query_aggr);
 
         // submit the full query
         var notification = agaveSettings.notifyHost + '/airr/async/v1/notify/' + metadata['uuid'];
-        var async_query = await agaveIO.performAsyncAggregation('full_query', metadata['value']['collection'], query_aggr, notification)
-            .catch(function(error) {
-                msg = 'VDJ-ADC-ASYNC-API ERROR (submitQueue): Could not submit full query for LRQ ' + metadata['uuid'] + '.\n.' + error;
-                console.error(msg);
-                webhookIO.postToSlack(msg);
-            });
+        var async_query = null;
+        var query_aggr = controller.generateAsyncQuery(metadata);
+        console.log(JSON.stringify(query_aggr));
+        if (query_aggr.length == 1) {
+            // if only one entry then it is a simple query
+            async_query = await agaveIO.performAsyncQuery(metadata['value']['collection'], query_aggr[0]["$match"], null, notification)
+                .catch(function(error) {
+                    msg = 'VDJ-ADC-ASYNC-API ERROR (submitQueue): Could not submit full query for LRQ ' + metadata['uuid'] + '.\n.' + error;
+                    console.error(msg);
+                    webhookIO.postToSlack(msg);
+                });
+        } else {
+            async_query = await agaveIO.performAsyncAggregation('full_query', metadata['value']['collection'], query_aggr, notification)
+                .catch(function(error) {
+                    msg = 'VDJ-ADC-ASYNC-API ERROR (submitQueue): Could not submit full query for LRQ ' + metadata['uuid'] + '.\n.' + error;
+                    console.error(msg);
+                    webhookIO.postToSlack(msg);
+                });
+        }
 
         // set to error status if failed
         if (! async_query) {

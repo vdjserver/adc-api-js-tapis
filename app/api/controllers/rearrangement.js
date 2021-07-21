@@ -603,12 +603,12 @@ RearrangementController.processLRQfile = function(metadata_uuid) {
                 }
 
                 // Open read/write streams
-                var infile = config.lrqdata_path + 'lrq-' + metadata["value"]["lrq_id"] + '.gz';
+                var infile = config.lrqdata_path + 'lrq-' + metadata["value"]["lrq_id"] + '.json';
                 var outname;
                 if (format == 'json')
-                    outname = metadata["uuid"] + '.airr.json.gz';
+                    outname = metadata["uuid"] + '.airr.json';
                 else
-                    outname = metadata["uuid"] + '.airr.tsv.gz';
+                    outname = metadata["uuid"] + '.airr.tsv';
                 var outfile = config.lrqdata_path + outname;
                 var readable = fs.createReadStream(infile)
                     .on('error', function(e) { return reject(e); });
@@ -616,6 +616,15 @@ RearrangementController.processLRQfile = function(metadata_uuid) {
                     .on('error', function(e) { return reject(e); });
 
                 // process the stream
+                readable.pipe(transform)
+                    .on('error', function(e) { console.log('caught error'); console.log(e); return reject(e); })
+                    .pipe(writable)
+                    .on('finish', function() {
+                        console.log('end of stream');
+                        writable.end();
+                    });
+
+/*
                 readable.pipe(zlib.createGunzip())
                     .pipe(transform)
                     .on('error', function(e) { console.log('caught error'); console.log(e); return reject(e); })
@@ -625,6 +634,7 @@ RearrangementController.processLRQfile = function(metadata_uuid) {
                         console.log('end of stream');
                         writable.end();
                     });
+*/
 
                 writable.on('finish', function() {
                     console.log('finish of write stream');
@@ -746,6 +756,100 @@ function performFacets(collection, query, field, start_page, pagesize) {
     
     return doAggr(start_page);
 };
+
+RearrangementController.generateAsyncCountQuery = function(metadata) {
+    console.log('RearrangementController.generateAsyncCountQuery');
+    var bodyData = metadata['value']['body'];
+
+    // from parameter
+    var from = 0;
+    if (bodyData['from'] != undefined) {
+        from = bodyData['from'];
+        from = Math.floor(from);
+    }
+
+    // construct query
+    var filter = {};
+    var query = undefined;
+    if (bodyData['filters'] != undefined) {
+        filter = bodyData['filters'];
+        try {
+            var error = { message: '' };
+            query = constructQueryOperation(filter, error);
+            //console.log(query);
+
+            if (!query) {
+                result_message = "Could not construct valid query. Error: " + error['message'];
+                if (config.debug) console.log('VDJ-ADC-API INFO: ' + result_message);
+                return null;
+            }
+        } catch (e) {
+            result_message = "Could not construct valid query: " + e;
+            if (config.debug) console.log('VDJ-ADC-API INFO: ' + result_message);
+            return null;
+        }
+    }
+    if (!query) query = '{}';
+    var parsed_query = JSON.parse(query);
+
+    var count_query = null;
+    count_query = [{"$match":parsed_query}];
+    if (from) count_query.push({"$skip":from});
+    count_query.push({"$count":"total_records"});
+
+    console.log(JSON.stringify(count_query));
+    return count_query;
+}
+
+RearrangementController.generateAsyncQuery = function(metadata) {
+    console.log('RearrangementController.generateAsyncQuery');
+    var bodyData = metadata['value']['body'];
+
+    // size parameter
+    var size = null;
+    if (bodyData['size'] != undefined) {
+        size = bodyData['size'];
+        size = Math.floor(size);
+    }
+
+    // from parameter
+    var from = 0;
+    if (bodyData['from'] != undefined) {
+        from = bodyData['from'];
+        from = Math.floor(from);
+    }
+
+    // construct query
+    var filter = {};
+    var query = undefined;
+    if (bodyData['filters'] != undefined) {
+        filter = bodyData['filters'];
+        try {
+            var error = { message: '' };
+            query = constructQueryOperation(filter, error);
+            //console.log(query);
+
+            if (!query) {
+                result_message = "Could not construct valid query. Error: " + error['message'];
+                if (config.debug) console.log('VDJ-ADC-API INFO: ' + result_message);
+                return null;
+            }
+        } catch (e) {
+            result_message = "Could not construct valid query: " + e;
+            if (config.debug) console.log('VDJ-ADC-API INFO: ' + result_message);
+            return null;
+        }
+    }
+    if (!query) query = '{}';
+    var parsed_query = JSON.parse(query);
+
+    var aggr_query = [{"$match":parsed_query}];
+    if (from) aggr_query.push({"$skip":from});
+    if (size) aggr_query.push({"$limit":size});
+
+    console.log(JSON.stringify(aggr_query));
+    return aggr_query;
+}
 
 RearrangementController.queryRearrangements = function(req, res) {
     if (config.debug) console.log('VDJ-ADC-API INFO: queryRearrangements');
@@ -994,9 +1098,9 @@ RearrangementController.queryRearrangements = function(req, res) {
         if (from) aggr_query.push({"skip":from});
         if (size) aggr_query.push({"limit":size});
 
-        console.log(count_query);
-        console.log(aggr_query);
-        return agaveIO.createAsyncQueryMetadata('rearrangement', collection, bodyData, aggr_query, count_query)
+        console.log(JSON.stringify(count_query));
+        console.log(JSON.stringify(aggr_query));
+        return agaveIO.createAsyncQueryMetadata('rearrangement', collection, bodyData, null, null)
             .then(function(metadata) {
                 console.log(metadata);
                 console.log('VDJ-ADC-API INFO: Created async metadata:', metadata.uuid);
