@@ -282,7 +282,7 @@ agaveIO.performQuery = function(collection, query, projection, page, pagesize, c
         });
 };
 
-agaveIO.performAsyncQuery = function(collection, query, projection, page, pagesize, count, notification) {
+agaveIO.performAsyncQuery = function(collection, query, projection, notification) {
 
     var postData = {
         name: "query",
@@ -291,6 +291,7 @@ agaveIO.performAsyncQuery = function(collection, query, projection, page, pagesi
     };
     if (notification) postData['notification'] = notification;
     postData = JSON.stringify(postData);
+    console.log(postData);
 
     return ServiceAccount.getToken()
         .then(function(token) {
@@ -438,6 +439,7 @@ agaveIO.performAsyncAggregation = function(name, collection, query, notification
             };
 
             console.log(requestSettings);
+            console.log(postData);
 
             return agaveIO.sendRequest(requestSettings, postData);
         })
@@ -445,7 +447,7 @@ agaveIO.performAsyncAggregation = function(name, collection, query, notification
             return Promise.resolve(responseObject);
         })
         .catch(function(errorObject) {
-            console.error('performAsyncQuery: ' + errorObject);
+            console.error('performAsyncAggregation: ' + errorObject);
             return Promise.reject(errorObject);
         });
 };
