@@ -129,15 +129,12 @@ async function readCountFile(filename) {
 
     return new Promise((resolve, reject) => {
         const rd = fs.readFileSync(filename);
-        zlib.gunzip(rd, (err, bin) => {
-            if (err) reject(err);
-            try {
-                var obj = JSON.parse(bin);
-                resolve(obj);
-            } catch (e) {
-                reject(e);
-            }
-        })
+        try {
+            var obj = JSON.parse(rd);
+            resolve(obj);
+        } catch (e) {
+            reject(e);
+        }
     })
 }
 
@@ -179,7 +176,7 @@ AsyncController.asyncNotify = async function(req, res) {
     if (metadata['value']['status'] == 'COUNTING') {
         // if this is a count query
         // get the count
-        var filename = config.lrqdata_path + 'lrq-' + metadata["value"]["lrq_id"] + '.gz';
+        var filename = config.lrqdata_path + 'lrq-' + metadata["value"]["lrq_id"] + '.json';
         var count_obj = await readCountFile(filename)
             .catch(function(error) {
                 msg = 'VDJ-ADC-ASYNC-API ERROR (asyncNotify): Could not read count file (' + filename + ') for LRQ ' + metadata["uuid"] + '.\n' + error;
