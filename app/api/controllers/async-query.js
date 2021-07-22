@@ -204,8 +204,18 @@ AsyncController.asyncNotify = async function(req, res) {
             return Promise.resolve();
         }
 
-        // otherwise submit the real query
+        // update metadata status
         metadata['value']['count_lrq_id'] = metadata['value']['lrq_id'];
+        metadata['value']['status'] = 'COUNTED';
+        await agaveIO.updateMetadata(metadata['uuid'], metadata['name'], metadata['value'], null)
+            .catch(function(error) {
+                msg = 'VDJ-ADC-ASYNC-API ERROR (asyncNotify): Could not update metadata for LRQ ' + metadata["uuid"] + '.\n' + error;
+                console.error(msg);
+                webhookIO.postToSlack(msg);
+                return Promise.reject(new Error(msg));
+            });
+
+        // otherwise submit the real query
         submitQueue.add({metadata: metadata});
 
         return Promise.resolve();

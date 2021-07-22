@@ -253,3 +253,180 @@ AsyncQueue.processQueryJobs = function() {
         return Promise.resolve();
     });
 }
+
+// Sadly we need our own polling mechanism for LRG
+// because we cannot trust their notifications
+var pollQueue = new Queue('ADC ASYNC polling');
+AsyncQueue.triggerPolling = async function() {
+    var msg = null;
+
+    if (! config.async.enable_poll) {
+        msg = 'VDJ-ADC-ASYNC-API ERROR: Polling is not enabled in configuration, cannot trigger';
+        console.error(msg);
+        webhookIO.postToSlack(msg);
+        return Promise.reject(new Error(msg));
+    }
+
+    if (config.debug) console.log('VDJ-ADC-ASYNC-API INFO: AsyncQueue.triggerPolling');
+
+    // Check if any open COUNTING queries
+    var counts = await agaveIO.getAsyncQueryMetadataWithStatus('COUNTING')
+        .catch(function(error) {
+            msg = 'VDJ-ADC-ASYNC-API ERROR (AsyncQueue.triggerPolling): Could not get COUNTING metadata.\n' + error;
+            console.error(msg);
+            webhookIO.postToSlack(msg);
+            return Promise.reject(new Error(msg));
+        });
+
+    if (config.debug) console.log('VDJ-ADC-ASYNC-API INFO (AsyncQueue.triggerPolling): Found', counts.length, 'records with COUNTING status.');
+    //console.log(counts);
+
+    // Check if any open SUBMITTED queries
+    var submits = await agaveIO.getAsyncQueryMetadataWithStatus('SUBMITTED')
+        .catch(function(error) {
+            msg = 'VDJ-ADC-ASYNC-API ERROR (AsyncQueue.triggerPolling): Could not get SUBMITTED metadata.\n' + error;
+            console.error(msg);
+            webhookIO.postToSlack(msg);
+            return Promise.reject(new Error(msg));
+        });
+
+    if (config.debug) console.log('VDJ-ADC-ASYNC-API INFO (AsyncQueue.triggerPolling): Found', submits.length, 'records with SUBMITTED status.');
+    //console.log(submits);
+
+    // check every 120secs
+    pollQueue.add({}, { repeat: { every: 120000 }});
+}
+
+// Check for async queries where the LRQ is FINISHED
+// but we have not received the notification.
+
+pollQueue.process(async (job) => {
+    var msg = null;
+
+    if (! config.async.enable_poll) {
+        console.log('VDJ-ADC-ASYNC-API INFO (pollQueue): Polling is not enabled in configuration, exiting.');
+        return Promise.resolve();
+    }
+
+    if (config.debug) console.log('VDJ-ADC-ASYNC-API INFO (pollQueue): Checking for entries.');
+
+    // Check if any open COUNTING queries
+    var counts = await agaveIO.getAsyncQueryMetadataWithStatus('COUNTING')
+        .catch(function(error) {
+            msg = 'VDJ-ADC-ASYNC-API ERROR (pollQueue): Could not get COUNTING metadata.\n' + error;
+            console.error(msg);
+            webhookIO.postToSlack(msg);
+            return Promise.reject(new Error(msg));
+        });
+
+    if (config.debug) console.log('VDJ-ADC-ASYNC-API INFO (pollQueue): Found', counts.length, 'records with COUNTING status.');
+
+    if (counts.length > 0) {
+        for (var i in counts) {
+            var entry = counts[i];
+            //console.log(entry);
+
+            if (! entry['value']['lrq_id']) {
+                console.log('VDJ-ADC-ASYNC-API INFO (pollQueue): Entry', entry['uuid'], 'is missing lrq_id, skipping.');
+                continue;
+            }
+
+            var lrq_status = await agaveIO.getLRQStatus(entry['value']['lrq_id'])
+                .catch(function(error) {
+                    msg = 'VDJ-ADC-ASYNC-API ERROR (pollQueue): Could not get LRQ status of ' + entry['value']['lrq_id'] + ' for metadata ' + entry['uuid'] + '.\n.' + error;
+                    console.error(msg);
+                    webhookIO.postToSlack(msg);
+                });
+
+            //console.log(lrq_status);
+
+            if (lrq_status.status == 'FINISHED') {
+                if (lrq_status.notification) {
+                    // found one! manually post the notification, hack the POST data
+                    console.log('VDJ-ADC-ASYNC-API INFO (pollQueue): Manually posting notification for', entry['uuid']);
+
+                    var filename = 'lrq-' + entry["value"]["lrq_id"] + '.json';
+                    var data = {
+                        result: {
+                            location: "https://vdj-agave-api.tacc.utexas.edu/files/v2/media/system/data.vdjserver.org//irplus/data/lrqdata/" + filename,
+                            _id: entry["value"]["lrq_id"]
+                        },
+                        status: "FINISHED",
+                        message: "notification manually sent by pollQueue"
+                    };
+
+                    await agaveIO.sendNotification(lrq_status.notification, data)
+                        .catch(function(error) {
+                            msg = 'VDJ-ADC-ASYNC-API ERROR (pollQueue): Could not post notification.\n' + error;
+                            console.error(msg);
+                            webhookIO.postToSlack(msg);
+                            return Promise.reject(new Error(msg));
+                        });
+                }
+            }
+        }
+    }
+
+    // Check if any open SUBMITTED queries
+    var submits = await agaveIO.getAsyncQueryMetadataWithStatus('SUBMITTED')
+        .catch(function(error) {
+            msg = 'VDJ-ADC-ASYNC-API ERROR (pollQueue): Could not get SUBMITTED metadata.\n' + error;
+            console.error(msg);
+            webhookIO.postToSlack(msg);
+            return Promise.reject(new Error(msg));
+        });
+
+    if (config.debug) console.log('VDJ-ADC-ASYNC-API INFO (pollQueue): Found', submits.length, 'records with SUBMITTED status.');
+
+    if (submits.length > 0) {
+        for (var i in submits) {
+            var entry = submits[i];
+            console.log(entry);
+
+            if (! entry['value']['lrq_id']) {
+                console.log('VDJ-ADC-ASYNC-API INFO (pollQueue): Entry', entry['uuid'], 'is missing lrq_id, skipping.');
+                continue;
+            }
+
+            var lrq_status = await agaveIO.getLRQStatus(entry['value']['lrq_id'])
+                .catch(function(error) {
+                    msg = 'VDJ-ADC-ASYNC-API ERROR (pollQueue): Could not get LRQ status of ' + entry['value']['lrq_id'] + ' for metadata ' + entry['uuid'] + '.\n.' + error;
+                    console.error(msg);
+                    webhookIO.postToSlack(msg);
+                });
+
+            console.log(lrq_status);
+
+            if (lrq_status.status == 'FINISHED') {
+                if (lrq_status.notification) {
+                    // found one! manually post the notification, hack the POST data
+                    console.log('VDJ-ADC-ASYNC-API INFO (pollQueue): Manually posting notification for', entry['uuid']);
+
+                    var filename = 'lrq-' + entry["value"]["lrq_id"] + '.json';
+                    var data = {
+                        result: {
+                            location: "https://vdj-agave-api.tacc.utexas.edu/files/v2/media/system/data.vdjserver.org//irplus/data/lrqdata/" + filename,
+                            _id: entry["value"]["lrq_id"]
+                        },
+                        status: "FINISHED",
+                        message: "notification manually sent by pollQueue"
+                    };
+
+                    await agaveIO.sendNotification(lrq_status.notification, data)
+                        .catch(function(error) {
+                            msg = 'VDJ-ADC-ASYNC-API ERROR (pollQueue): Could not post notification.\n' + error;
+                            console.error(msg);
+                            webhookIO.postToSlack(msg);
+                            return Promise.reject(new Error(msg));
+                        });
+
+                    // only trigger one, so the processing code does not get overloaded
+                    // if there are more, they will get triggered when the poll job repeats
+                    return Promise.resolve();
+                }
+            }
+        }
+    }
+
+    return Promise.resolve();
+});

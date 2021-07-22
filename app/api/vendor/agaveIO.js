@@ -459,7 +459,7 @@ agaveIO.getLRQStatus = function(lrq_id) {
             var requestSettings = {
                 host:     agaveSettings.hostname,
                 method:   'GET',
-                path:     '/meta/v3/LRG/vdjserver.org/' + lrg_id,
+                path:     '/meta/v3/LRQ/vdjserver.org/' + lrq_id,
                 rejectUnauthorized: false,
                 headers: {
                     'Accept':   'application/json',
@@ -678,4 +678,71 @@ agaveIO.createPublicFilePostit = function(url, unlimited, maxUses, lifetime) {
         .catch(function(errorObject) {
             return Promise.reject(errorObject);
         });
+};
+
+agaveIO.getAsyncQueryMetadataWithStatus = function(status) {
+
+    return ServiceAccount.getToken()
+        .then(function(token) {
+            var requestSettings = {
+                host:     agaveSettings.hostname,
+                method:   'GET',
+                path:     '/meta/v2/data?q='
+                    + encodeURIComponent(
+                        '{"name":"async_query",'
+                            + ' "value.status":"' + status + '"}'
+                    )
+                ,
+                rejectUnauthorized: false,
+                headers: {
+                    'Authorization': 'Bearer ' + ServiceAccount.accessToken()
+                }
+            };
+
+            //console.log(requestSettings);
+
+            return agaveIO.sendRequest(requestSettings, null);
+        })
+        .then(function(responseObject) {
+            return Promise.resolve(responseObject.result);
+        })
+        .catch(function(errorObject) {
+            return Promise.reject(errorObject);
+        });
+};
+
+// send a notification
+agaveIO.sendNotification = function(notification, data) {
+
+    var method = 'GET';
+    var postData = null;
+    if (data) {
+        postData = JSON.stringify(data);
+        method = 'POST';
+    }
+
+    var fields = notification.split('://');
+    fields = fields[1].split('/');
+    var host = fields[0];
+    fields = notification.split(host);
+    var path = fields[1];
+
+    var requestSettings = {
+        host:     host,
+        method:   method,
+        path:     path,
+        rejectUnauthorized: false,
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept':   'application/json'
+        }
+    };
+
+    if (postData) {
+        requestSettings['headers']['Content-Length'] = Buffer.byteLength(postData);
+    }
+
+    console.log(requestSettings);
+
+    return agaveIO.sendRequest(requestSettings, postData);
 };

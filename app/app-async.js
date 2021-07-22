@@ -160,6 +160,12 @@ GuestAccount.getToken()
             console.log('VDJ-ADC-API-ASYNC INFO: VDJServer ADC API service listening on port ' + app.get('port'));
         });
     })
+    .then(function() {
+        if (config.async.enable_poll) {
+            console.log('VDJ-ADC-API-ASYNC INFO: Polling ENABLED for LRQ');
+            AsyncQueue.triggerPolling();
+        }
+    })
     .catch(function(error) {
         var msg = 'VDJ-ADC-API-ASYNC ERROR: Service could not be start.\n' + error;
         console.error(msg);
