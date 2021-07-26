@@ -42,6 +42,29 @@ var config = require('../../config/config');
 
 var Queue = require('bull');
 
+AsyncQueue.cleanStatus = function(metadata) {
+    var entry = {
+        query_id: metadata.uuid,
+        endpoint: metadata.value.endpoint,
+        status: metadata.value.status,
+        message: metadata.value.message,
+        created: metadata.created,
+        final_file: metadata.value.final_file,
+        download_url: metadata.value.download_url
+    };
+    return entry;
+}
+
+// check if should send notification for status
+AsyncQueue.checkNotification = function(metadata) {
+    var notify = metadata["value"]["notification"];
+    if (notify["events"]) {
+        if (notify["events"].indexOf(metadata["value"]["status"]) < 0)
+            notify = null;
+    }
+    return notify;
+}
+
 // Steps for a long-running query
 // 1. Process request parameters, construct query
 // 2. Submit query to Tapis LRQ API
@@ -81,7 +104,7 @@ AsyncQueue.processQueryJobs = function() {
         console.log(JSON.stringify(count_aggr));
         var async_query = await agaveIO.performAsyncAggregation('count_query', metadata['value']['collection'], count_aggr, notification)
             .catch(function(error) {
-                msg = 'VDJ-ADC-ASYNC-API ERROR (countQueue): Could not submit count query for LRQ ' + metadata['uuid'] + '.\n.' + error;
+                msg = 'VDJ-ADC-ASYNC-API ERROR (countQueue): Could not submit count query for LRQ ' + metadata['uuid'] + '.\n' + error;
                 console.error(msg);
                 webhookIO.postToSlack(msg);
             });
@@ -89,7 +112,22 @@ AsyncQueue.processQueryJobs = function() {
         // set to error status
         if (! async_query) {
             metadata["value"]["status"] = "ERROR";
+            metadata["value"]["message"] = msg;
             await agaveIO.updateMetadata(metadata['uuid'], metadata['name'], metadata['value'], null);
+
+            if (metadata["value"]["notification"]) {
+                var notify = AsyncQueue.checkNotification(metadata);
+                if (notify) {
+                    var data = AsyncQueue.cleanStatus(metadata);
+                    await agaveIO.sendNotification(notify, data)
+                        .catch(function(error) {
+                            var cmsg = 'VDJ-ADC-ASYNC-API ERROR (countQueue): Could not post notification.\n' + error;
+                            console.error(cmsg);
+                            webhookIO.postToSlack(cmsg);
+                        });
+                }
+            }
+
             return Promise.reject(new Error(msg));
         }
 
@@ -151,6 +189,20 @@ AsyncQueue.processQueryJobs = function() {
         if (! async_query) {
             metadata["value"]["status"] = "ERROR";
             await agaveIO.updateMetadata(metadata['uuid'], metadata['name'], metadata['value'], null);
+
+            if (metadata["value"]["notification"]) {
+                var notify = AsyncQueue.checkNotification(metadata);
+                if (notify) {
+                    var data = AsyncQueue.cleanStatus(metadata);
+                    await agaveIO.sendNotification(notify, data)
+                        .catch(function(error) {
+                            var cmsg = 'VDJ-ADC-ASYNC-API ERROR (submitQueue): Could not post notification.\n' + error;
+                            console.error(cmsg);
+                            webhookIO.postToSlack(cmsg);
+                        });
+                }
+            }
+
             return Promise.reject(new Error(msg));
         }
 
@@ -165,6 +217,19 @@ AsyncQueue.processQueryJobs = function() {
                 console.error(msg);
                 webhookIO.postToSlack(msg);
             });
+
+        if (metadata["value"]["notification"]) {
+            var notify = AsyncQueue.checkNotification(metadata);
+            if (notify) {
+                var data = AsyncQueue.cleanStatus(metadata);
+                await agaveIO.sendNotification(notify, data)
+                    .catch(function(error) {
+                        var cmsg = 'VDJ-ADC-ASYNC-API ERROR (submitQueue): Could not post notification.\n' + error;
+                        console.error(cmsg);
+                        webhookIO.postToSlack(cmsg);
+                    });
+            }
+        }
 
         return Promise.resolve();
     });
@@ -197,6 +262,20 @@ AsyncQueue.processQueryJobs = function() {
         if (! outname) {
             metadata["value"]["status"] = "ERROR";
             await agaveIO.updateMetadata(metadata['uuid'], metadata['name'], metadata['value'], null);
+
+            if (metadata["value"]["notification"]) {
+                var notify = AsyncQueue.checkNotification(metadata);
+                if (notify) {
+                    var data = AsyncQueue.cleanStatus(metadata);
+                    await agaveIO.sendNotification(notify, data)
+                        .catch(function(error) {
+                            var cmsg = 'VDJ-ADC-ASYNC-API ERROR (finishQueue): Could not post notification.\n' + error;
+                            console.error(cmsg);
+                            webhookIO.postToSlack(cmsg);
+                        });
+                }
+            }
+
             return Promise.reject(new Error(msg));
         }
 
@@ -222,6 +301,20 @@ AsyncQueue.processQueryJobs = function() {
         if (! postit) {
             metadata["value"]["status"] = "ERROR";
             await agaveIO.updateMetadata(metadata['uuid'], metadata['name'], metadata['value'], null);
+
+            if (metadata["value"]["notification"]) {
+                var notify = AsyncQueue.checkNotification(metadata);
+                if (notify) {
+                    var data = AsyncQueue.cleanStatus(metadata);
+                    await agaveIO.sendNotification(notify, data)
+                        .catch(function(error) {
+                            var cmsg = 'VDJ-ADC-ASYNC-API ERROR (finishQueue): Could not post notification.\n' + error;
+                            console.error(cmsg);
+                            webhookIO.postToSlack(cmsg);
+                        });
+                }
+            }
+
             return Promise.reject(new Error(msg));
         }
 
@@ -248,7 +341,19 @@ AsyncQueue.processQueryJobs = function() {
             });
         }
 
-        // TODO: send notification
+        // send notification
+        if (metadata["value"]["notification"]) {
+            var notify = AsyncQueue.checkNotification(metadata);
+            if (notify) {
+                var data = AsyncQueue.cleanStatus(metadata);
+                await agaveIO.sendNotification(notify, data)
+                    .catch(function(error) {
+                        var cmsg = 'VDJ-ADC-ASYNC-API ERROR (finishQueue): Could not post notification.\n' + error;
+                        console.error(cmsg);
+                        webhookIO.postToSlack(cmsg);
+                    });
+            }
+        }
 
         return Promise.resolve();
     });
@@ -355,7 +460,7 @@ pollQueue.process(async (job) => {
                         message: "notification manually sent by pollQueue"
                     };
 
-                    await agaveIO.sendNotification(lrq_status.notification, data)
+                    await agaveIO.sendNotification({url: lrq_status.notification, method: 'POST'}, data)
                         .catch(function(error) {
                             msg = 'VDJ-ADC-ASYNC-API ERROR (pollQueue): Could not post notification.\n' + error;
                             console.error(msg);
@@ -412,7 +517,7 @@ pollQueue.process(async (job) => {
                         message: "notification manually sent by pollQueue"
                     };
 
-                    await agaveIO.sendNotification(lrq_status.notification, data)
+                    await agaveIO.sendNotification({url: lrq_status.notification, method: 'POST'}, data)
                         .catch(function(error) {
                             msg = 'VDJ-ADC-ASYNC-API ERROR (pollQueue): Could not post notification.\n' + error;
                             console.error(msg);

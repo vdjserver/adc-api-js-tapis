@@ -583,6 +583,7 @@ agaveIO.createAsyncQueryMetadata = function(endpoint, collection, body, query_ag
             count_aggr: count_aggr
         }
     };
+    if (body['notification']) postData['value']['notification'] = body['notification'];
 
     postData = JSON.stringify(postData);
 
@@ -714,18 +715,37 @@ agaveIO.getAsyncQueryMetadataWithStatus = function(status) {
 // send a notification
 agaveIO.sendNotification = function(notification, data) {
 
-    var method = 'GET';
-    var postData = null;
-    if (data) {
-        postData = JSON.stringify(data);
-        method = 'POST';
-    }
-
-    var fields = notification.split('://');
+    // pull out host and path from URL
+    // TODO: handle http/https
+    var fields = notification['url'].split('://');
     fields = fields[1].split('/');
     var host = fields[0];
-    fields = notification.split(host);
+    fields = notification['url'].split(host);
     var path = fields[1];
+
+    var postData = null;
+    var method = 'GET';
+    if (data) {
+        // put data in request params
+        if (notification["method"] == 'GET') {
+            method = 'GET';
+
+            // check if URL already has some request params
+            var mark;
+            if (path.indexOf('?') >= 0) mark = '&';
+            else mark = '?';
+
+            var keys = Object.keys(data);
+            for (var p = 0; p < keys.length; ++p) {
+                path += mark;
+                path += keys[p] + '=' + encodeURIComponent(data[keys[p]]);
+                mark = '&';
+            }
+        } else {
+            method = 'POST';
+            postData = JSON.stringify(data);
+        }
+    }
 
     var requestSettings = {
         host:     host,
