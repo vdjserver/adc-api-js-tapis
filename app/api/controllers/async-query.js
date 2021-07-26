@@ -165,7 +165,7 @@ AsyncController.asyncNotify = async function(req, res) {
         webhookIO.postToSlack(msg);
         return Promise.reject(new Error(msg));
     }
-    var metadata = metadata[0];
+    metadata = metadata[0];
     if (metadata['uuid'] != req.params.notify_id) {
         msg = 'Notification id and LRQ id do not match: ' + req.params.notify_id + ' != ' + metadata['uuid'];
         console.error(msg);

@@ -93,7 +93,7 @@ AsyncQueue.processQueryJobs = function() {
         if (metadata["value"]["endpoint"] == "repertoire") controller = repertoireController;
         if (metadata["value"]["endpoint"] == "rearrangement") controller = rearrangementController;
         if (! controller) {
-            var msg = 'Unknown endpoint: ' + metadata["value"]["endpoint"];
+            msg = 'Unknown endpoint: ' + metadata["value"]["endpoint"];
             console.error(msg);
             return Promise.reject(new Error(msg));
         }
@@ -158,7 +158,7 @@ AsyncQueue.processQueryJobs = function() {
         if (metadata["value"]["endpoint"] == "repertoire") controller = repertoireController;
         if (metadata["value"]["endpoint"] == "rearrangement") controller = rearrangementController;
         if (! controller) {
-            var msg = 'Unknown endpoint: ' + metadata["value"]["endpoint"];
+            msg = 'Unknown endpoint: ' + metadata["value"]["endpoint"];
             console.error(msg);
             return Promise.reject(new Error(msg));
         }
@@ -191,9 +191,9 @@ AsyncQueue.processQueryJobs = function() {
             await agaveIO.updateMetadata(metadata['uuid'], metadata['name'], metadata['value'], null);
 
             if (metadata["value"]["notification"]) {
-                var notify = AsyncQueue.checkNotification(metadata);
+                let notify = AsyncQueue.checkNotification(metadata);
                 if (notify) {
-                    var data = AsyncQueue.cleanStatus(metadata);
+                    let data = AsyncQueue.cleanStatus(metadata);
                     await agaveIO.sendNotification(notify, data)
                         .catch(function(error) {
                             var cmsg = 'VDJ-ADC-ASYNC-API ERROR (submitQueue): Could not post notification.\n' + error;
@@ -219,9 +219,9 @@ AsyncQueue.processQueryJobs = function() {
             });
 
         if (metadata["value"]["notification"]) {
-            var notify = AsyncQueue.checkNotification(metadata);
+            let notify = AsyncQueue.checkNotification(metadata);
             if (notify) {
-                var data = AsyncQueue.cleanStatus(metadata);
+                let data = AsyncQueue.cleanStatus(metadata);
                 await agaveIO.sendNotification(notify, data)
                     .catch(function(error) {
                         var cmsg = 'VDJ-ADC-ASYNC-API ERROR (submitQueue): Could not post notification.\n' + error;
@@ -236,6 +236,7 @@ AsyncQueue.processQueryJobs = function() {
 
     finishQueue.process(async (job) => {
         // process data
+        var msg = null;
         console.log('process data');
         console.log(job['data']);
         var metadata = job['data']['metadata'];
@@ -244,13 +245,12 @@ AsyncQueue.processQueryJobs = function() {
         if (metadata["value"]["endpoint"] == "repertoire") controller = repertoireController;
         if (metadata["value"]["endpoint"] == "rearrangement") controller = rearrangementController;
         if (! controller) {
-            var msg = 'Unknown endpoint: ' + metadata["value"]["endpoint"];
+            msg = 'Unknown endpoint: ' + metadata["value"]["endpoint"];
             console.error(msg);
             return Promise.reject(new Error(msg));
         }
 
         // process data into final format
-        var msg = null;
         var outname = await controller.processLRQfile(metadata["uuid"])
             .catch(function(error) {
                 msg = 'VDJ-ADC-ASYNC-API ERROR (finishQueue): Could not finish processing LRQ ' + metadata["uuid"] + '.\n' + error;
@@ -264,9 +264,9 @@ AsyncQueue.processQueryJobs = function() {
             await agaveIO.updateMetadata(metadata['uuid'], metadata['name'], metadata['value'], null);
 
             if (metadata["value"]["notification"]) {
-                var notify = AsyncQueue.checkNotification(metadata);
+                let notify = AsyncQueue.checkNotification(metadata);
                 if (notify) {
-                    var data = AsyncQueue.cleanStatus(metadata);
+                    let data = AsyncQueue.cleanStatus(metadata);
                     await agaveIO.sendNotification(notify, data)
                         .catch(function(error) {
                             var cmsg = 'VDJ-ADC-ASYNC-API ERROR (finishQueue): Could not post notification.\n' + error;
@@ -303,12 +303,12 @@ AsyncQueue.processQueryJobs = function() {
             await agaveIO.updateMetadata(metadata['uuid'], metadata['name'], metadata['value'], null);
 
             if (metadata["value"]["notification"]) {
-                var notify = AsyncQueue.checkNotification(metadata);
+                let notify = AsyncQueue.checkNotification(metadata);
                 if (notify) {
-                    var data = AsyncQueue.cleanStatus(metadata);
+                    let data = AsyncQueue.cleanStatus(metadata);
                     await agaveIO.sendNotification(notify, data)
                         .catch(function(error) {
-                            var cmsg = 'VDJ-ADC-ASYNC-API ERROR (finishQueue): Could not post notification.\n' + error;
+                            let cmsg = 'VDJ-ADC-ASYNC-API ERROR (finishQueue): Could not post notification.\n' + error;
                             console.error(cmsg);
                             webhookIO.postToSlack(cmsg);
                         });
@@ -343,12 +343,12 @@ AsyncQueue.processQueryJobs = function() {
 
         // send notification
         if (metadata["value"]["notification"]) {
-            var notify = AsyncQueue.checkNotification(metadata);
+            let notify = AsyncQueue.checkNotification(metadata);
             if (notify) {
-                var data = AsyncQueue.cleanStatus(metadata);
+                let data = AsyncQueue.cleanStatus(metadata);
                 await agaveIO.sendNotification(notify, data)
                     .catch(function(error) {
-                        var cmsg = 'VDJ-ADC-ASYNC-API ERROR (finishQueue): Could not post notification.\n' + error;
+                        let cmsg = 'VDJ-ADC-ASYNC-API ERROR (finishQueue): Could not post notification.\n' + error;
                         console.error(cmsg);
                         webhookIO.postToSlack(cmsg);
                     });
@@ -427,8 +427,8 @@ pollQueue.process(async (job) => {
     if (config.debug) console.log('VDJ-ADC-ASYNC-API INFO (pollQueue): Found', counts.length, 'records with COUNTING status.');
 
     if (counts.length > 0) {
-        for (var i in counts) {
-            var entry = counts[i];
+        for (let i in counts) {
+            let entry = counts[i];
             //console.log(entry);
 
             if (! entry['value']['lrq_id']) {
@@ -436,7 +436,7 @@ pollQueue.process(async (job) => {
                 continue;
             }
 
-            var lrq_status = await agaveIO.getLRQStatus(entry['value']['lrq_id'])
+            let lrq_status = await agaveIO.getLRQStatus(entry['value']['lrq_id'])
                 .catch(function(error) {
                     msg = 'VDJ-ADC-ASYNC-API ERROR (pollQueue): Could not get LRQ status of ' + entry['value']['lrq_id'] + ' for metadata ' + entry['uuid'] + '.\n.' + error;
                     console.error(msg);
@@ -450,8 +450,8 @@ pollQueue.process(async (job) => {
                     // found one! manually post the notification, hack the POST data
                     console.log('VDJ-ADC-ASYNC-API INFO (pollQueue): Manually posting notification for', entry['uuid']);
 
-                    var filename = 'lrq-' + entry["value"]["lrq_id"] + '.json';
-                    var data = {
+                    let filename = 'lrq-' + entry["value"]["lrq_id"] + '.json';
+                    let data = {
                         result: {
                             location: "https://vdj-agave-api.tacc.utexas.edu/files/v2/media/system/data.vdjserver.org//irplus/data/lrqdata/" + filename,
                             _id: entry["value"]["lrq_id"]
@@ -484,8 +484,8 @@ pollQueue.process(async (job) => {
     if (config.debug) console.log('VDJ-ADC-ASYNC-API INFO (pollQueue): Found', submits.length, 'records with SUBMITTED status.');
 
     if (submits.length > 0) {
-        for (var i in submits) {
-            var entry = submits[i];
+        for (let i in submits) {
+            let entry = submits[i];
             console.log(entry);
 
             if (! entry['value']['lrq_id']) {
@@ -493,7 +493,7 @@ pollQueue.process(async (job) => {
                 continue;
             }
 
-            var lrq_status = await agaveIO.getLRQStatus(entry['value']['lrq_id'])
+            let lrq_status = await agaveIO.getLRQStatus(entry['value']['lrq_id'])
                 .catch(function(error) {
                     msg = 'VDJ-ADC-ASYNC-API ERROR (pollQueue): Could not get LRQ status of ' + entry['value']['lrq_id'] + ' for metadata ' + entry['uuid'] + '.\n.' + error;
                     console.error(msg);
@@ -507,8 +507,8 @@ pollQueue.process(async (job) => {
                     // found one! manually post the notification, hack the POST data
                     console.log('VDJ-ADC-ASYNC-API INFO (pollQueue): Manually posting notification for', entry['uuid']);
 
-                    var filename = 'lrq-' + entry["value"]["lrq_id"] + '.json';
-                    var data = {
+                    let filename = 'lrq-' + entry["value"]["lrq_id"] + '.json';
+                    let data = {
                         result: {
                             location: "https://vdj-agave-api.tacc.utexas.edu/files/v2/media/system/data.vdjserver.org//irplus/data/lrqdata/" + filename,
                             _id: entry["value"]["lrq_id"]

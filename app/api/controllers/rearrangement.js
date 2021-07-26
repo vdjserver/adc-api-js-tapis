@@ -91,15 +91,15 @@ function constructQueryOperation(filter, error) {
         var props = schema;
 
         // traverse down the object schema hierarchy to find field definition
-        var objs = content['field'].split('.');
-        for (var i = 0; i < objs.length; ++i) {
-            var p = objs[i];
+        let objs = content['field'].split('.');
+        for (let i = 0; i < objs.length; ++i) {
+            let p = objs[i];
             if (props.type == 'array') {
                 if (props.items.type == 'object') {
                     props = props.items.properties[p];
                 } else if (props.items['allOf'] != undefined) {
                     var new_props = undefined;
-                    for (var j = 0; j < props.items['allOf'].length; ++j) {
+                    for (let j = 0; j < props.items['allOf'].length; ++j) {
                         if (props.items['allOf'][j].properties != undefined)
                             if (props.items['allOf'][j].properties[p] != undefined) {
                                 new_props = props.items['allOf'][j].properties[p];
@@ -279,10 +279,8 @@ function constructQueryOperation(filter, error) {
             } else {
                 return '{"vdjserver_junction_suffixes": {"$regex": "^' + content['value'] + '"}}';
             }
-        } else {
-            error['message'] = "'contains' operator not supported for '" + content['field'] + "' field.";
-            return null;
         }
+        error['message'] = "'contains' operator not supported for '" + content['field'] + "' field.";
         return null;
 
     case 'is': // is missing
@@ -331,7 +329,7 @@ function constructQueryOperation(filter, error) {
         }
         return '{"' + content['field'] + '": { "$nin":' + content_value + '}}';
 
-    case 'and':
+    case 'and': {
         if (! (content instanceof Array)) {
             error['message'] = "content for 'and' operator is not an array";
             return null;
@@ -341,15 +339,16 @@ function constructQueryOperation(filter, error) {
             return null;
         }
 
-        var exp_list = [];
-        for (var i = 0; i < content.length; ++i) {
-            var exp = constructQueryOperation(content[i], error);
+        let exp_list = [];
+        for (let i = 0; i < content.length; ++i) {
+            let exp = constructQueryOperation(content[i], error);
             if (exp == null) return null;
             exp_list.push(exp);
         }
         return '{ "$and":[' + exp_list + ']}';
+    }
 
-    case 'or':
+    case 'or': {
         if (! (content instanceof Array)) {
             error['message'] = "content for 'or' operator is not an array";
             return null;
@@ -359,13 +358,14 @@ function constructQueryOperation(filter, error) {
             return null;
         }
 
-        var exp_list = [];
-        for (var i = 0; i < content.length; ++i) {
-            var exp = constructQueryOperation(content[i], error);
+        let exp_list = [];
+        for (let i = 0; i < content.length; ++i) {
+            let exp = constructQueryOperation(content[i], error);
             if (exp == null) return null;
             exp_list.push(exp);
         }
         return '{ "$or":[' + exp_list + ']}';
+    }
 
     default:
         error['message'] = 'unknown operator in filters: ' + filter['op'];
@@ -373,7 +373,7 @@ function constructQueryOperation(filter, error) {
     }
 
     // should not get here
-    return null;
+    //return null;
 }
 
 // Clean data record
@@ -436,8 +436,8 @@ RearrangementController.processLRQfile = function(metadata_uuid) {
 
                 var projection = {};
                 if (bodyData['fields'] != undefined) {
-                    var fields = bodyData['fields'];
-                    for (var i = 0; i < fields.length; ++i) {
+                    let fields = bodyData['fields'];
+                    for (let i = 0; i < fields.length; ++i) {
                         if (fields[i] == '_id') continue;
                         if (fields[i] == '_etag') continue;
                         projection[fields[i]] = 1;
@@ -449,11 +449,11 @@ RearrangementController.processLRQfile = function(metadata_uuid) {
                     // so below after the data has been retrieved, missing fields need to be
                     // added with null values.
                     if (all_fields.length > 0) {
-                        for (var r in all_fields) projection[all_fields[r]] = 1;
+                        for (let r in all_fields) projection[all_fields[r]] = 1;
                     }
 
                     // add to field list so will be put in response if necessary
-                    for (var i = 0; i < fields.length; ++i) {
+                    for (let i = 0; i < fields.length; ++i) {
                         if (fields[i] == '_id') continue;
                         all_fields.push(fields[i]);
                     }
@@ -473,11 +473,11 @@ RearrangementController.processLRQfile = function(metadata_uuid) {
                     } else {
                         // else only return specified fields
                         // schema fields first
-                        for (var p = 0; p < schema_fields.length; ++p) {
+                        for (let p = 0; p < schema_fields.length; ++p) {
                             if (projection[schema_fields[p]]) headers.push(schema_fields[p]);
                         }
                         // add custom fields on end
-                        for (var p in projection) {
+                        for (let p in projection) {
                             if (p == '_id') continue;
                             if (projection[p]) {
                                 if (schema_fields.indexOf(p) >= 0) continue;
@@ -509,7 +509,7 @@ RearrangementController.processLRQfile = function(metadata_uuid) {
                             var lines = data.split('\n');
                             this._lastLineData = lines.splice(lines.length-1,1)[0];
 
-                            for (var l in lines) {
+                            for (let l in lines) {
                                 var entry = cleanRecord(JSON.parse(lines[l]), projection, all_fields);
                                 //var entry = cleanRecord(JSON.parse(l), projection, all_fields);
                                 if (transform._first_record) transform._first_record = false;
@@ -560,11 +560,11 @@ RearrangementController.processLRQfile = function(metadata_uuid) {
                             var lines = data.split('\n');
                             this._lastLineData = lines.splice(lines.length-1,1)[0];
 
-                            for (var l in lines) {
+                            for (let l in lines) {
                                 var entry = cleanRecord(JSON.parse(lines[l]), projection, all_fields);
                                 var vals = [];
-                                for (var i = 0; i < headers.length; ++i) {
-                                    var p = headers[i];
+                                for (let i = 0; i < headers.length; ++i) {
+                                    let p = headers[i];
                                     if (entry[p] == undefined) vals.push('');
                                     else vals.push(entry[p]);
                                 }
@@ -583,9 +583,9 @@ RearrangementController.processLRQfile = function(metadata_uuid) {
                         try {
                             if (this._lastLineData) {
                                 var entry = cleanRecord(JSON.parse(this._lastLineData), projection, all_fields);
-                                var vals = [];
-                                for (var i = 0; i < headers.length; ++i) {
-                                    var p = headers[i];
+                                let vals = [];
+                                for (let i = 0; i < headers.length; ++i) {
+                                    let p = headers[i];
                                     if (entry[p] == undefined) vals.push('');
                                     else vals.push(entry[p]);
                                 }
@@ -755,7 +755,7 @@ function performFacets(collection, query, field, start_page, pagesize) {
     };
     
     return doAggr(start_page);
-};
+}
 
 RearrangementController.generateAsyncCountQuery = function(metadata) {
     console.log('RearrangementController.generateAsyncCountQuery');
@@ -769,6 +769,7 @@ RearrangementController.generateAsyncCountQuery = function(metadata) {
     }
 
     // construct query
+    var result_message = null;
     var filter = {};
     var query = undefined;
     if (bodyData['filters'] != undefined) {
@@ -820,6 +821,7 @@ RearrangementController.generateAsyncQuery = function(metadata) {
     }
 
     // construct query
+    var result_message = null;
     var filter = {};
     var query = undefined;
     if (bodyData['filters'] != undefined) {
@@ -915,7 +917,7 @@ RearrangementController.queryRearrangements = function(req, res) {
             agaveIO.recordQuery(queryRecord);
             return;
         }
-        for (var i = 0; i < fields.length; ++i) {
+        for (let i = 0; i < fields.length; ++i) {
             if (fields[i] == '_id') continue;
             if (fields[i] == '_etag') continue;
             projection[fields[i]] = 1;
@@ -931,7 +933,7 @@ RearrangementController.queryRearrangements = function(req, res) {
         }
 
         // add to field list so will be put in response if necessary
-        for (var i = 0; i < fields.length; ++i) {
+        for (let i = 0; i < fields.length; ++i) {
             if (fields[i] == '_id') continue;
             all_fields.push(fields[i]);
         }
@@ -1257,11 +1259,11 @@ RearrangementController.queryRearrangements = function(req, res) {
                     } else {
                         // else only return specified fields
                         // schema fields first
-                        for (var p = 0; p < schema_fields.length; ++p) {
+                        for (let p = 0; p < schema_fields.length; ++p) {
                             if (projection[schema_fields[p]]) headers.push(schema_fields[p]);
                         }
                         // add custom fields on end
-                        for (var p in projection) {
+                        for (let p in projection) {
                             if (p == '_id') continue;
                             if (projection[p]) {
                                 if (schema_fields.indexOf(p) >= 0) continue;

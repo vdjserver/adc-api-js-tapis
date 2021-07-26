@@ -83,7 +83,6 @@ airr.checkSet = function(schema, field_set, f) {
     case 'airr-schema':
         // all fields
         return true;
-        break;
     }
     return false;
 }

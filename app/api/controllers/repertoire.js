@@ -309,7 +309,7 @@ function constructQueryOperation(filter, error) {
         }
         return '{"' + content['field'] + '": { "$nin":' + content_value + '}}';
 
-    case 'and':
+    case 'and': {
         if (! (content instanceof Array)) {
             error['message'] = "content for 'and' operator is not an array";
             return null;
@@ -326,8 +326,9 @@ function constructQueryOperation(filter, error) {
             exp_list.push(exp);
         }
         return '{ "$and":[' + exp_list + ']}';
+    }
 
-    case 'or':
+    case 'or': {
         if (! (content instanceof Array)) {
             error['message'] = "content for 'or' operator is not an array";
             return null;
@@ -344,6 +345,7 @@ function constructQueryOperation(filter, error) {
             exp_list.push(exp);
         }
         return '{ "$or":[' + exp_list + ']}';
+    }
 
     default:
         error['message'] = 'unknown operator in filters: ' + filter['op'];
@@ -351,7 +353,7 @@ function constructQueryOperation(filter, error) {
     }
 
     // should not get here
-    return null;
+    //return null;
 }
 
 // Clean data record
@@ -525,7 +527,7 @@ function performQuery(collection, query, projection, start_page, pagesize) {
     };
 
     return doQuery(start_page);
-};
+}
 
 function performFacets(collection, query, field, start_page, pagesize) {
     var models = [];
@@ -556,7 +558,7 @@ function performFacets(collection, query, field, start_page, pagesize) {
     };
     
     return doAggr(start_page);
-};
+}
 
 // Generic query repertoires
 RepertoireController.queryRepertoires = function(req, res) {

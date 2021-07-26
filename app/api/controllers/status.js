@@ -31,6 +31,7 @@ module.exports = StatusController;
 
 // Server environment config
 var config = require('../../config/config');
+var webhookIO = require('../vendor/webhookIO');
 
 // service status
 StatusController.getStatus = function(req, res) {
