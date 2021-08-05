@@ -124,7 +124,7 @@ agaveIO.sendTokenRequest = function(requestSettings, postData) {
             });
         });
 
-        request.on('error', function() {
+        request.on('error', function(error) {
             console.error('VDJ-ADC-API ERROR: Agave connection error:' + JSON.stringify(error));
             reject(new Error('Agave connection error:' + JSON.stringify(error)));
         });

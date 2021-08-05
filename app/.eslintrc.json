@@ -9,5 +9,10 @@
         "sourceType": "module"
     },
     "rules": {
+        "no-unused-vars": 0,
+        "no-redeclare": 1,
+        "valid-typeof": 0,
+        "no-useless-escape": 0,
+        "no-prototype-builtins": 1
     }
 }
