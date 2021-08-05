@@ -35,6 +35,7 @@ var agaveIO = require('../vendor/agaveIO');
 var webhookIO = require('../vendor/webhookIO');
 var repertoireController = require('./repertoire');
 var rearrangementController = require('./rearrangement');
+var asyncQueue = require('./async-queue');
 
 // Server environment config
 var config = require('../../config/config');
@@ -177,19 +178,31 @@ AsyncController.asyncNotify = async function(req, res) {
         // if this is a count query
         // get the count
         var filename = config.lrqdata_path + 'lrq-' + metadata["value"]["lrq_id"] + '.json';
+        var countFail = false;
         var count_obj = await readCountFile(filename)
             .catch(function(error) {
                 msg = 'VDJ-ADC-ASYNC-API ERROR (asyncNotify): Could not read count file (' + filename + ') for LRQ ' + metadata["uuid"] + '.\n' + error;
                 console.error(msg);
                 webhookIO.postToSlack(msg);
-                return Promise.reject(new Error(msg));
+                countFail = true;
+                console.log(countFail);
+                console.log(metadata);
+                //return Promise.reject(new Error(msg));
             });
+        console.log('fall through');
+        console.log(metadata);
+        console.log(countFail);
         console.log(count_obj);
 
         // error if the count is greater than max size
-        if (count_obj['total_records'] > config.async.max_size) {
+        if (countFail || (count_obj['total_records'] > config.async.max_size)) {
+            console.log('got here');
             metadata['value']['status'] = 'ERROR';
-            metadata['value']['message'] = 'Result size (' + count_obj['total_records'] + ') is larger than maximum size (' + config.async.max_size + ')';
+            if (countFail) {
+                metadata['value']['message'] = 'Could not read count file';
+            } else {
+                metadata['value']['message'] = 'Result size (' + count_obj['total_records'] + ') is larger than maximum size (' + config.async.max_size + ')';
+            }
             msg = 'VDJ-ADC-ASYNC-API ERROR (asyncNotify): Query rejected: ' + metadata["uuid"] + ', ' + metadata['value']['message'];
             console.error(msg);
             webhookIO.postToSlack(msg);
@@ -201,6 +214,19 @@ AsyncController.asyncNotify = async function(req, res) {
                     webhookIO.postToSlack(msg);
                     return Promise.reject(new Error(msg));
                 });
+
+            if (metadata["value"]["notification"]) {
+                var notify = asyncQueue.checkNotification(metadata);
+                if (notify) {
+                    var data = asyncQueue.cleanStatus(metadata);
+                    await agaveIO.sendNotification(notify, data)
+                        .catch(function(error) {
+                            var cmsg = 'VDJ-ADC-ASYNC-API ERROR (countQueue): Could not post notification.\n' + error;
+                            console.error(cmsg);
+                            webhookIO.postToSlack(cmsg);
+                        });
+                }
+            }
             return Promise.resolve();
         }
 

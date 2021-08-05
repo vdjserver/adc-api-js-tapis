@@ -683,33 +683,46 @@ agaveIO.createPublicFilePostit = function(url, unlimited, maxUses, lifetime) {
 
 agaveIO.getAsyncQueryMetadataWithStatus = function(status) {
 
-    return ServiceAccount.getToken()
-        .then(function(token) {
-            var requestSettings = {
-                host:     agaveSettings.hostname,
-                method:   'GET',
-                path:     '/meta/v2/data?q='
-                    + encodeURIComponent(
-                        '{"name":"async_query",'
-                            + ' "value.status":"' + status + '"}'
-                    )
-                ,
-                rejectUnauthorized: false,
-                headers: {
-                    'Authorization': 'Bearer ' + ServiceAccount.accessToken()
+    var models = [];
+
+    var doFetch = function(offset) {
+        return ServiceAccount.getToken()
+            .then(function(token) {
+                var requestSettings = {
+                    host:     agaveSettings.hostname,
+                    method:   'GET',
+                    path:     '/meta/v2/data?q='
+                        + encodeURIComponent(
+                            '{"name":"async_query",'
+                                + ' "value.status":"' + status
+                                + '"}')
+                        + '&limit=50&offset=' + offset,
+                    rejectUnauthorized: false,
+                    headers: {
+                        'Authorization': 'Bearer ' + ServiceAccount.accessToken()
+                    }
+                };
+
+                return agaveIO.sendRequest(requestSettings, null);
+            })
+            .then(function(responseObject) {
+                var result = responseObject.result;
+                if (result.length > 0) {
+                    // maybe more data
+                    models = models.concat(result);
+                    var newOffset = offset + result.length;
+                    return doFetch(newOffset);
+                } else {
+                    // no more data
+                    return Promise.resolve(models);
                 }
-            };
+            })
+            .catch(function(errorObject) {
+                return Promise.reject(errorObject);
+            });
+    }
 
-            //console.log(requestSettings);
-
-            return agaveIO.sendRequest(requestSettings, null);
-        })
-        .then(function(responseObject) {
-            return Promise.resolve(responseObject.result);
-        })
-        .catch(function(errorObject) {
-            return Promise.reject(errorObject);
-        });
+    return doFetch(0);
 };
 
 // send a notification

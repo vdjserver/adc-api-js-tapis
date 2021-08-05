@@ -40,6 +40,10 @@ var rearrangementController = require('./rearrangement');
 var agaveSettings = require('../../config/tapisSettings');
 var config = require('../../config/config');
 
+// Node packages
+const fs = require('fs');
+const fsPromises = require('fs').promises;
+
 var Queue = require('bull');
 
 AsyncQueue.cleanStatus = function(metadata) {
@@ -359,7 +363,7 @@ AsyncQueue.processQueryJobs = function() {
     });
 }
 
-// Sadly we need our own polling mechanism for LRG
+// Sadly we need our own polling mechanism for LRQ
 // because we cannot trust their notifications
 var pollQueue = new Queue('ADC ASYNC polling');
 AsyncQueue.triggerPolling = async function() {
@@ -398,8 +402,11 @@ AsyncQueue.triggerPolling = async function() {
     if (config.debug) console.log('VDJ-ADC-ASYNC-API INFO (AsyncQueue.triggerPolling): Found', submits.length, 'records with SUBMITTED status.');
     //console.log(submits);
 
-    // check every 120secs
-    pollQueue.add({}, { repeat: { every: 120000 }});
+    // check every 600secs/10mins
+    pollQueue.add({}, { repeat: { every: 600000 }});
+
+    // testing, every 60 secs
+    //pollQueue.add({}, { repeat: { every: 60000 }});
 }
 
 // Check for async queries where the LRQ is FINISHED
@@ -532,6 +539,146 @@ pollQueue.process(async (job) => {
             }
         }
     }
+
+    return Promise.resolve();
+});
+
+// check if any queries need to be expired
+var expireQueue = new Queue('ADC ASYNC expire');
+AsyncQueue.triggerExpiration = async function() {
+    var msg = null;
+
+    if (! config.async.enable_expire) {
+        msg = 'VDJ-ADC-ASYNC-API ERROR: Expiration is not enabled in configuration, cannot trigger';
+        console.error(msg);
+        return Promise.resolve();
+    }
+
+    if (config.debug) console.log('VDJ-ADC-ASYNC-API INFO: AsyncQueue.triggerExpiration');
+
+    // submit to check every 3600secs/1hour
+    expireQueue.add({}, { repeat: { every: 3600000 }});
+
+    // testing, every 2 mins
+    //expireQueue.add({}, { repeat: { every: 120000 }});
+}
+
+// Check for async queries where the postit lifetime
+// has expired, thus data can no longer be downloaded
+
+expireQueue.process(async (job) => {
+    var msg = null;
+
+    if (! config.async.enable_expire) {
+        msg = 'VDJ-ADC-ASYNC-API ERROR: Expiration is not enabled in configuration, cannot trigger';
+        console.error(msg);
+        return Promise.resolve();
+    }
+
+    if (config.debug) console.log('VDJ-ADC-ASYNC-API INFO (expireQueue): Checking for entries.');
+
+    // Get all FINISHED queries
+    var finish = await agaveIO.getAsyncQueryMetadataWithStatus('FINISHED')
+        .catch(function(error) {
+            msg = 'VDJ-ADC-ASYNC-API ERROR (expireQueue): Could not get FINISHED metadata.\n' + error;
+            console.error(msg);
+            webhookIO.postToSlack(msg);
+            return Promise.reject(new Error(msg));
+        });
+
+    if (config.debug) console.log('VDJ-ADC-ASYNC-API INFO (expireQueue): Found', finish.length, 'records with FINISHED status.');
+
+    if (finish.length > 0) {
+        for (var i in finish) {
+            msg = null;
+            var shouldExpire = false;
+            var metadata = finish[i];
+            //console.log(metadata);
+
+            // if missing postit for some reason, expire it
+            if (! metadata['value']['postit_id']) {
+                console.log('VDJ-ADC-ASYNC-API INFO (entryQueue): Entry', metadata['uuid'], 'is missing postit_id, expiring.');
+                shouldExpire = true;
+            } else {
+                // get postit
+                // TODO: we should check if postit is expired, but cannot get, Tapis bug
+                // TODO: instead compare against lifetime
+                var create_date = new Date(metadata['created']);
+                var now = Date.now();
+                var diff = now - create_date;
+                //console.log(create_date, now, diff);
+
+                // check if it has expired
+                if (diff > (config.async.lifetime * 1000)) shouldExpire = true;
+            }
+
+            if (shouldExpire) {
+                console.log('VDJ-ADC-ASYNC-API INFO (entryQueue): Expiring entry:', metadata['uuid']);
+
+                // delete LRQ count file
+                if (metadata['value']['count_lrq_id']) {
+                    var thefile = config.lrqdata_path + 'lrq-' + metadata["value"]["count_lrq_id"] + '.json';
+                    try {
+                        await fsPromises.unlink(thefile);
+                    } catch (e) {
+                        // ignore if file does not exist
+                        if (e.code != 'ENOENT') {
+                            msg = 'VDJ-ADC-ASYNC-API ERROR (expireQueue): Unknown error deleting ' + thefile + ', error: ' + e;
+                            console.error(msg);
+                            webhookIO.postToSlack(msg);
+                        }
+                    }
+                }
+
+                // delete LRQ data file
+                if (metadata['value']['lrq_id']) {
+                    var thefile = config.lrqdata_path + 'lrq-' + metadata["value"]["lrq_id"] + '.json';
+                    try {
+                        await fsPromises.unlink(thefile);
+                    } catch (e) {
+                        // ignore if file does not exist
+                        if (e.code != 'ENOENT') {
+                            msg = 'VDJ-ADC-ASYNC-API ERROR (expireQueue): Unknown error deleting ' + thefile + ', error: ' + e;
+                            console.error(msg);
+                            webhookIO.postToSlack(msg);
+                        }
+                    }
+                }
+
+                // delete final file
+                if (metadata['value']['final_file']) {
+                    var thefile = config.lrqdata_path + metadata["value"]["final_file"];
+                    try {
+                        await fsPromises.unlink(thefile);
+                    } catch (e) {
+                        if (e.code != 'ENOENT') {
+                            msg = 'VDJ-ADC-ASYNC-API ERROR (expireQueue): Unknown error deleting ' + thefile + ', error: ' + e;
+                            console.error(msg);
+                            webhookIO.postToSlack(msg);
+                        }
+                    }
+                }
+
+                // update metadata if no errors
+                if (!msg) {
+                    metadata['value']['status'] = 'EXPIRED';
+                    await agaveIO.updateMetadata(metadata['uuid'], metadata['name'], metadata['value'], null)
+                        .catch(function(error) {
+                            msg = 'VDJ-ADC-ASYNC-API ERROR (expireQueue): Could not update metadata for LRQ ' + metadata["uuid"] + '.\n' + error;
+                            console.error(msg);
+                            webhookIO.postToSlack(msg);
+                        });
+                }
+
+                // send notification
+
+                // testing
+                //break;
+            }
+        }
+    }
+
+    if (config.debug) console.log('VDJ-ADC-ASYNC-API INFO (expireQueue): Done with expiration queue.');
 
     return Promise.resolve();
 });

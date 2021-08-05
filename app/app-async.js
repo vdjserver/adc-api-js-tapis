@@ -156,14 +156,22 @@ GuestAccount.getToken()
             }
         });
 
-        app.listen(app.get('port'), function() {
-            console.log('VDJ-ADC-API-ASYNC INFO: VDJServer ADC API service listening on port ' + app.get('port'));
+        // Start listening on port
+        return new Promise(function(resolve, reject) {
+            app.listen(app.get('port'), function() {
+                console.log('VDJ-ADC-API-ASYNC INFO: VDJServer ADC API service listening on port ' + app.get('port'));
+                resolve();
+            });
         });
     })
     .then(function() {
         if (config.async.enable_poll) {
             console.log('VDJ-ADC-API-ASYNC INFO: Polling ENABLED for LRQ');
             AsyncQueue.triggerPolling();
+        }
+        if (config.async.enable_expire) {
+            console.log('VDJ-ADC-API-ASYNC INFO: Expiration ENABLED for async queries');
+            AsyncQueue.triggerExpiration();
         }
     })
     .catch(function(error) {
