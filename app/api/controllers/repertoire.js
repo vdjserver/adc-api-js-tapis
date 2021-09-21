@@ -544,12 +544,15 @@ function performFacets(collection, query, field, start_page, pagesize) {
         return aggrFunction(collection, 'facets', query, field, page, pagesize)
             .then(function(records) {
                 if (config.debug) console.log('VDJ-ADC-API INFO: query returned ' + records.length + ' records.');
+                //console.log(JSON.stringify(records));
                 if (records.length == 0) {
                     return Promise.resolve(models);
                 } else {
-                    models = models.concat(records);
-                    if (records.length < pagesize) return Promise.resolve(models);
-                    else return doAggr(page+1);
+                    // the new facets aggregation returns a single record with all the data
+                    return Promise.resolve(records[0]['facets']);
+                    //models = models.concat(records);
+                    //if (records.length < pagesize) return Promise.resolve(models);
+                    //else return doAggr(page+1);
                 }
             })
             .catch(function(errorObject) {
