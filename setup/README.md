@@ -19,14 +19,18 @@ the Tapis Meta/V3 API. Given the docker image is setup with authentication, here
 a simple way to get a token.
 
 ```
-docker run -v $PWD:/work -it vdjserver/api-js-tapis:latest python3 /work/get_token.py
+docker run -v $PWD:/work -v $PWD/.env:/api-js-tapis/.env -it vdjserver/api-js-tapis:latest python3 /work/get_token.py
 ```
 
-Then a curl PUT command where `TOKEN` and `DBNAME` are replaced with the appropriate values.
+Then a curl PUT command where `TOKEN` and `DBNAME` are replaced with
+the appropriate values. We create two sets of collections, one for
+loading and the other for query.
 
 ```
-curl -X PUT -H 'Content-Type: application/json' -H 'Authorization: Bearer TOKEN' https://vdj-agave-api.tacc.utexas.edu/meta/v3/DBNAME/repertoire
-curl -X PUT -H 'Content-Type: application/json' -H 'Authorization: Bearer TOKEN' https://vdj-agave-api.tacc.utexas.edu/meta/v3/DBNAME/rearrangement
+curl -X PUT -H 'Content-Type: application/json' -H 'Authorization: Bearer TOKEN' https://vdj-agave-api.tacc.utexas.edu/meta/v3/DBNAME/repertoire_0
+curl -X PUT -H 'Content-Type: application/json' -H 'Authorization: Bearer TOKEN' https://vdj-agave-api.tacc.utexas.edu/meta/v3/DBNAME/rearrangement_0
+curl -X PUT -H 'Content-Type: application/json' -H 'Authorization: Bearer TOKEN' https://vdj-agave-api.tacc.utexas.edu/meta/v3/DBNAME/repertoire_1
+curl -X PUT -H 'Content-Type: application/json' -H 'Authorization: Bearer TOKEN' https://vdj-agave-api.tacc.utexas.edu/meta/v3/DBNAME/rearrangement_1
 curl -X PUT -H 'Content-Type: application/json' -H 'Authorization: Bearer TOKEN' https://vdj-agave-api.tacc.utexas.edu/meta/v3/DBNAME/query
 ```
 
@@ -148,15 +152,6 @@ Locus search.
 docker run -v $PWD:/work -it vdjserver/api-js-tapis:latest python3 /work/create_index.py rearrangement_change locus /work/locus.json
 ```
 
-* junction_substrings
-
-VDJServer optimization for doing substring searches on junction_aa. We create a field vdjserver_junction_substrings which contains all substrings
-of length 4 or greater and put them in a list. We then convert substring searches (contains op) into exact searches on the list.
-
-```
-docker run -v $PWD:/work -it vdjserver/api-js-tapis:latest python3 /work/create_index.py rearrangement_change junction_substrings /work/junction_substrings.json
-```
-
 * junction_aa_length, rep_juction_aa_length
 
 ```
@@ -164,15 +159,29 @@ docker run -v $PWD:/work -it vdjserver/api-js-tapis:latest python3 /work/create_
 docker run -v $PWD:/work -it vdjserver/api-js-tapis:latest python3 /work/create_index.py rearrangement_change rep_junction_aa_length /work/repertoire_id_and_junction_aa_length.json
 ```
 
-* productive (keep???)
+* productive
 
 ```
 docker run -v $PWD:/work -it vdjserver/api-js-tapis:latest python3 /work/create_index.py rearrangement_change productive /work/repertoire_id_and_productive.json
 ```
 
+* rep_v_gene, rep_v_subgroup, rep_d_gene, rep_d_subgroup, rep_j_gene, rep_j_subgroup
+
+Compound indexes for the custom gene annotation fields.
+
+```
+docker run -v $PWD:/work -it vdjserver/api-js-tapis:latest python3 /work/create_index.py rearrangement_change rep_v_gene /work/repertoire_id_and_v_gene.json
+docker run -v $PWD:/work -it vdjserver/api-js-tapis:latest python3 /work/create_index.py rearrangement_change rep_v_subgroup /work/repertoire_id_and_v_subgroup.json
+docker run -v $PWD:/work -it vdjserver/api-js-tapis:latest python3 /work/create_index.py rearrangement_change rep_d_gene /work/repertoire_id_and_d_gene.json
+docker run -v $PWD:/work -it vdjserver/api-js-tapis:latest python3 /work/create_index.py rearrangement_change rep_d_subgroup /work/repertoire_id_and_d_subgroup.json
+docker run -v $PWD:/work -it vdjserver/api-js-tapis:latest python3 /work/create_index.py rearrangement_change rep_j_gene /work/repertoire_id_and_j_gene.json
+docker run -v $PWD:/work -it vdjserver/api-js-tapis:latest python3 /work/create_index.py rearrangement_change rep_j_subgroup /work/repertoire_id_and_j_subgroup.json
+```
+
 * v_gene, v_subgroup, d_gene, d_subgroup, j_gene, j_subgroup
 
-These fields are not yet defined by AIRR but are useful for querying gene annotations without doing an inaccurate and expensive substring search.
+These fields are not yet defined by AIRR but are useful for querying gene annotations without doing an inaccurate and expensive substring search. These indexes
+might not be needed by the iReceptor gateway, so maybe optional.
 
 ```
 docker run -v $PWD:/work -it vdjserver/api-js-tapis:latest python3 /work/create_index.py rearrangement_change v_gene /work/v_gene.json
@@ -183,14 +192,21 @@ docker run -v $PWD:/work -it vdjserver/api-js-tapis:latest python3 /work/create_
 docker run -v $PWD:/work -it vdjserver/api-js-tapis:latest python3 /work/create_index.py rearrangement_change j_subgroup /work/j_subgroup.json
 ```
 
-* rep_v_gene, rep_v_subgroup, rep_d_gene, rep_d_subgroup, rep_j_gene
+* junction_suffixes
 
-Compound indexes for the custom gene annotation fields.
+VDJServer optimization for doing substring searches on junction_aa. We create a field vdjserver_junction_substrings which contains all substrings
+of length 4 or greater and put them in a list. We then convert substring searches (contains op) into exact searches on the list.
 
 ```
-docker run -v $PWD:/work -it vdjserver/api-js-tapis:latest python3 /work/create_index.py rearrangement_change rep_v_gene /work/repertoire_id_and_v_gene.json
-docker run -v $PWD:/work -it vdjserver/api-js-tapis:latest python3 /work/create_index.py rearrangement_change rep_v_subgroup /work/repertoire_id_and_v_subgroup.json
-docker run -v $PWD:/work -it vdjserver/api-js-tapis:latest python3 /work/create_index.py rearrangement_change rep_d_gene /work/repertoire_id_and_d_gene.json
-docker run -v $PWD:/work -it vdjserver/api-js-tapis:latest python3 /work/create_index.py rearrangement_change rep_d_subgroup /work/repertoire_id_and_d_subgroup.json
-docker run -v $PWD:/work -it vdjserver/api-js-tapis:latest python3 /work/create_index.py rearrangement_change rep_j_gene /work/repertoire_id_and_j_gene.json
+docker run -v $PWD:/work -it vdjserver/api-js-tapis:latest python3 /work/create_index.py rearrangement_change junction_suffixes /work/junction_suffixes.json
 ```
+
+* junction_substrings (DEPRECATED)
+
+VDJServer optimization for doing substring searches on junction_aa. We create a field vdjserver_junction_substrings which contains all substrings
+of length 4 or greater and put them in a list. We then convert substring searches (contains op) into exact searches on the list.
+
+```
+docker run -v $PWD:/work -it vdjserver/api-js-tapis:latest python3 /work/create_index.py rearrangement_change junction_substrings /work/junction_substrings.json
+```
+
