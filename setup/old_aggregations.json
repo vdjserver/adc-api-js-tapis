@@ -5,7 +5,7 @@
     "stages": [
       { "$match": { "$var":"match" } },
       { "$group": { "_id": { "$var":"field" }, "count": { "$sum": 1}}},
-      { "$group": { "_id": null, "facets": { "$push": { "_id": "$_id", "count": "$count" }}}}
+      { "$sort": { "_id": 1 }}
     ]
   }
 ]}
