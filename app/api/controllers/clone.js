@@ -1,8 +1,8 @@
 'use strict';
 
 //
-// guestAccount.js
-// guest account for performing queries
+// clone.js
+// Clone end points
 //
 // VDJServer Community Data Portal
 // ADC API for VDJServer
@@ -26,35 +26,18 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 //
 
-var agaveSettings = require('../../config/tapisSettings');
-var AgaveToken = require('./agaveToken');
+var CloneController = {};
+module.exports = CloneController;
 
-var GuestAccount = {
-    username: agaveSettings.guestAccountKey,
-    password: agaveSettings.guestAccountSecret,
-    agaveToken: null
-};
+// Server environment config
+var config = require('../../config/config');
 
-module.exports = GuestAccount;
-
-// Processing
-var agaveIO = require('../vendor/agaveIO');
-
-GuestAccount.getToken = function() {
-
-    var that = this;
-
-    return agaveIO.getToken(this)
-    .then(function(responseObject) {
-        that.agaveToken = new AgaveToken(responseObject);
-        return Promise.resolve(that.agaveToken);
-    })
-    .catch(function(errorObject) {
-        console.log('VDJServer ADC API ERROR: Unable to login with guest account. ' + errorObject);
-        return Promise.reject(errorObject);
-    });
+// service status
+CloneController.getClone = function(req, res) {
+    res.status(500).json({"message":"Not implemented."});
 }
 
-GuestAccount.accessToken = function() {
-    return this.agaveToken.access_token;
+// service info
+CloneController.queryClones = function(req, res) {
+    res.status(500).json({"message":"Not implemented."});
 }

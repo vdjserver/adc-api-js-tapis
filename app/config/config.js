@@ -34,8 +34,21 @@ var config = {};
 
 module.exports = config;
 
+function parseBoolean(value)
+{
+    if (value == 'true') return true;
+    else if (value == 1) return true;
+    else return false;
+}
+
 // General
 config.port = process.env.API_PORT;
+config.async_port = process.env.API_ASYNC_PORT;
+config.lrqdata_path = process.env.LRQDATA_PATH;
+
+// Host user for Corral access
+config.hostServiceAccount = process.env.HOST_SERVICE_ACCOUNT;
+config.hostServiceGroup = process.env.HOST_SERVICE_GROUP;
 
 // API customization
 config.custom_file = process.env.CUSTOM_FILE;
@@ -45,6 +58,7 @@ config.debug = process.env.DEBUG_CONSOLE;
 if (config.debug == 'true') config.debug = true;
 else if (config.debug == 1) config.debug = true;
 else config.debug = false;
+if (config.debug) console.log('VDJ-ADC-API INFO: Debug console messages enabled.');
 
 // post error messages to a slack channel
 config.slackURL = process.env.SLACK_WEBHOOK_URL;
@@ -85,3 +99,14 @@ config.large_query_size = 2 * 1024;
 //config.info.max_query_size = 6 * 1024;
 config.max_query_size = 2 * 1024 * 1024;
 config.info.max_query_size = 2 * 1024 * 1024;
+
+// async API settings
+config.async = {};
+config.async.enable_expire = true;
+config.async.lifetime = 5 * 24 * 60 * 60; // 5 days in secs
+//config.async.lifetime = 60 * 60; // 1 hr for testing
+config.async.max_uses = 1000; // postit attempts
+config.async.max_size = 500 * 1024 * 1024; // 500M
+//config.async.max_size = 30 * 1024 * 1024; // 30M for testing
+
+config.async.enable_poll = parseBoolean(process.env.API_ASYNC_ENABLE_POLL);

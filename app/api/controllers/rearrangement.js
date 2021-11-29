@@ -26,49 +26,42 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 //
 
-var util = require('util');
+var RearrangementController = {};
+module.exports = RearrangementController;
 
 // Server environment config
 var config = require('../../config/config');
-var agaveSettings = require('../../config/tapisSettings');
+//var agaveSettings = require('../../config/tapisSettings');
 var mongoSettings = require('../../config/mongoSettings');
 var airr = require('../helpers/airr-schema');
-
-var assert = require('assert');
 
 // Processing
 var agaveIO = require('../vendor/agaveIO');
 var webhookIO = require('../vendor/webhookIO');
 
 // Node Libraries
-var Q = require('q');
-
-// API customization
-var custom_file = undefined;
-if (config.custom_file) {
-    custom_file = require('../../config/' + config.custom_file);
-}
+var Queue = require('bull');
+var fs = require('fs');
+const zlib = require('zlib');
+var stream = require('stream');
 
 // escape strings for regex, double \\ for restheart
-var escapeString = function(text) {
-    var encoded = text.replace(/\*/g, '\\\\\*');
-    encoded = encoded.replace(/\+/g, '\\\\\+');
-    return encoded;
+
+//var escapeString = function(text) {
+//    var encoded = text.replace(/\*/g, '\\\\\*');
+//    encoded = encoded.replace(/\+/g, '\\\\\+');
+//    return encoded;
+//}
+
+function getInfoObject() {
+    var info = { };
+    var schema = global.airr['Info'];
+    info['title'] = config.info.description;
+    info['description'] = 'VDJServer ADC API response for rearrangement query'
+    info['version'] = schema.version;
+    info['contact'] = config.info.contact;
+    return info;
 }
-
-/*
-  Once you 'require' a module you can reference the things that it exports.  These are defined in module.exports.
-
-  For a controller in a127 (which this is) you should export the functions referenced in your Swagger document by name.
-
-  Either:
-  - The HTTP Verb of the corresponding operation (get, put, post, delete, etc)
-  - Or the operationId associated with the operation in your Swagger document
-*/
-module.exports = {
-    getRearrangement: getRearrangement,
-    queryRearrangements: queryRearrangements
-};
 
 /*
   Construct mongodb query based upon the filters parameters. The
@@ -98,15 +91,15 @@ function constructQueryOperation(filter, error) {
         var props = schema;
 
         // traverse down the object schema hierarchy to find field definition
-        var objs = content['field'].split('.');
-        for (var i = 0; i < objs.length; ++i) {
-            var p = objs[i];
+        let objs = content['field'].split('.');
+        for (let i = 0; i < objs.length; ++i) {
+            let p = objs[i];
             if (props.type == 'array') {
                 if (props.items.type == 'object') {
                     props = props.items.properties[p];
                 } else if (props.items['allOf'] != undefined) {
                     var new_props = undefined;
-                    for (var j = 0; j < props.items['allOf'].length; ++j) {
+                    for (let j = 0; j < props.items['allOf'].length; ++j) {
                         if (props.items['allOf'][j].properties != undefined)
                             if (props.items['allOf'][j].properties[p] != undefined) {
                                 new_props = props.items['allOf'][j].properties[p];
@@ -277,20 +270,18 @@ function constructQueryOperation(filter, error) {
             error['message'] = "missing value for 'contains' operator";
             return null;
         }
-	// VDJServer optimization for substring searches on junction_aa
-	if (content['field'] == 'junction_aa') {
-	    if (content['value'].length < 4) {
-		error['message'] = "value for 'contains' operator on 'junction_aa' field is too small, length is ("
-		    + content['value'].length + ") characters, minimum is 4.";
-		return null;
-	    } else {
-		return '{"vdjserver_junction_suffixes": {"$regex": "^' + content['value'] + '"}}';
-	    }
-	} else {
-	    error['message'] = "'contains' operator not supported for '" + content['field'] + "' field.";
-	    return null;
-	}
-	return null;
+        // VDJServer optimization for substring searches on junction_aa
+        if (content['field'] == 'junction_aa') {
+            if (content['value'].length < 4) {
+                error['message'] = "value for 'contains' operator on 'junction_aa' field is too small, length is ("
+                    + content['value'].length + ") characters, minimum is 4.";
+                return null;
+            } else {
+                return '{"vdjserver_junction_suffixes": {"$regex": "^' + content['value'] + '"}}';
+            }
+        }
+        error['message'] = "'contains' operator not supported for '" + content['field'] + "' field.";
+        return null;
 
     case 'is': // is missing
     case 'is missing':
@@ -338,7 +329,7 @@ function constructQueryOperation(filter, error) {
         }
         return '{"' + content['field'] + '": { "$nin":' + content_value + '}}';
 
-    case 'and':
+    case 'and': {
         if (! (content instanceof Array)) {
             error['message'] = "content for 'and' operator is not an array";
             return null;
@@ -348,15 +339,16 @@ function constructQueryOperation(filter, error) {
             return null;
         }
 
-        var exp_list = [];
-        for (var i = 0; i < content.length; ++i) {
-            var exp = constructQueryOperation(content[i], error);
+        let exp_list = [];
+        for (let i = 0; i < content.length; ++i) {
+            let exp = constructQueryOperation(content[i], error);
             if (exp == null) return null;
             exp_list.push(exp);
         }
         return '{ "$and":[' + exp_list + ']}';
+    }
 
-    case 'or':
+    case 'or': {
         if (! (content instanceof Array)) {
             error['message'] = "content for 'or' operator is not an array";
             return null;
@@ -366,13 +358,14 @@ function constructQueryOperation(filter, error) {
             return null;
         }
 
-        var exp_list = [];
-        for (var i = 0; i < content.length; ++i) {
-            var exp = constructQueryOperation(content[i], error);
+        let exp_list = [];
+        for (let i = 0; i < content.length; ++i) {
+            let exp = constructQueryOperation(content[i], error);
             if (exp == null) return null;
             exp_list.push(exp);
         }
         return '{ "$or":[' + exp_list + ']}';
+    }
 
     default:
         error['message'] = 'unknown operator in filters: ' + filter['op'];
@@ -380,34 +373,298 @@ function constructQueryOperation(filter, error) {
     }
 
     // should not get here
-    return null;
+    //return null;
 }
 
-/*
-  Functions in a127 controllers used for operations should take two parameters:
+// Clean data record
+// Remove any internal fields
+function cleanRecord(record, projection, all_fields) {
+    if (!record['sequence_id']) {
+        if (record['_id']['$oid']) record['sequence_id'] = record['_id']['$oid'];
+        else record['sequence_id'] = record['_id'];
+    }
 
-  Param 1: a handle to the request object
-  Param 2: a handle to the response object
+    // gene calls, join back to string
+    if ((typeof record['v_call']) == "object") record['v_call'] = record['v_call'].join(',');
+    if ((typeof record['d_call']) == "object") record['d_call'] = record['d_call'].join(',');
+    if ((typeof record['j_call']) == "object") record['j_call'] = record['j_call'].join(',');
+
+    // TODO: general this a bit in case we add more
+    if (record['_id']) delete record['_id'];
+    if (record['_etag']) delete record['_etag'];
+    if (record['vdjserver_junction_suffixes'])
+        if (projection['vdjserver_junction_suffixes'] == undefined)
+            delete record['vdjserver_junction_suffixes'];
+
+    // add any missing required fields
+    if (all_fields.length > 0) {
+        airr.addFields(record, all_fields, global.airr['Rearrangement']);
+    }
+    // apply projection
+    var keys = Object.keys(record);
+    if (Object.keys(projection).length > 0) {
+        for (var p = 0; p < keys.length; ++p)
+            if (projection[keys[p]] == undefined)
+                delete record[keys[p]];
+    } 
+    return record;
+}
+
+// process LRQ file
+RearrangementController.processLRQfile = function(metadata_uuid) {
+    return agaveIO.getMetadata(metadata_uuid)
+        .then(function(metadata) {
+            console.log(metadata);
+
+            return new Promise(function(resolve, reject) {
+                if (metadata['value']['endpoint'] != 'rearrangement') {
+                    return reject(new Error('wrong endpoint: rearrangement != ' + metadata['value']['endpoint']));
+                }
+
+                var bodyData = metadata['value']['body'];
+
+                // AIRR fields
+                var all_fields = [];
+                if (bodyData['include_fields']) {
+                    airr.collectFields(global.airr['Rearrangement'], bodyData['include_fields'], all_fields, null);
+                    //if (config.debug) console.log(all_fields);
+                }
+
+                // collect all AIRR schema fields
+                var schema_fields = [];
+                airr.collectFields(global.airr['Rearrangement'], 'airr-schema', schema_fields, null);
+
+                var projection = {};
+                if (bodyData['fields'] != undefined) {
+                    let fields = bodyData['fields'];
+                    for (let i = 0; i < fields.length; ++i) {
+                        if (fields[i] == '_id') continue;
+                        if (fields[i] == '_etag') continue;
+                        projection[fields[i]] = 1;
+                    }
+                    projection['_id'] = 1;
+
+                    // add AIRR required fields to projection
+                    // NOTE: projection will not add a field if it is not already in the document
+                    // so below after the data has been retrieved, missing fields need to be
+                    // added with null values.
+                    if (all_fields.length > 0) {
+                        for (let r in all_fields) projection[all_fields[r]] = 1;
+                    }
+
+                    // add to field list so will be put in response if necessary
+                    for (let i = 0; i < fields.length; ++i) {
+                        if (fields[i] == '_id') continue;
+                        all_fields.push(fields[i]);
+                    }
+                }
+
+                var format = 'json';
+                if (metadata["value"]["body"]["format"] != undefined)
+                    format = metadata["value"]["body"]["format"];
+
+                // determine TSV headers
+                var headers = [];
+                if (format == 'tsv') {
+                    // if no projection
+                    if (Object.keys(projection).length == 0) {
+                        // then return all schema fields
+                        headers = schema_fields;
+                    } else {
+                        // else only return specified fields
+                        // schema fields first
+                        for (let p = 0; p < schema_fields.length; ++p) {
+                            if (projection[schema_fields[p]]) headers.push(schema_fields[p]);
+                        }
+                        // add custom fields on end
+                        for (let p in projection) {
+                            if (p == '_id') continue;
+                            if (projection[p]) {
+                                if (schema_fields.indexOf(p) >= 0) continue;
+                                else headers.push(p);
+                            }
+                        }
+                    }
+                }
+
+                // tranform stream
+                var transform = new stream.Transform();
+                var first = true;
+                transform._first_record = true;
+                if (format == 'json') {
+                    transform._transform = function (chunk, encoding, done) {
+                        if (first) {
+                            // header
+                            var info = getInfoObject();
+                            this.push('{"Info":');
+                            this.push(JSON.stringify(info));
+                            this.push(',"Rearrangement":[\n');
+                            first = false;
+                        }
+
+                        // transform the record
+                        try {
+                            var data = chunk.toString();
+                            if (this._lastLineData) data = this._lastLineData + data;
+                            var lines = data.split('\n');
+                            this._lastLineData = lines.splice(lines.length-1,1)[0];
+
+                            for (let l in lines) {
+                                var entry = cleanRecord(JSON.parse(lines[l]), projection, all_fields);
+                                //var entry = cleanRecord(JSON.parse(l), projection, all_fields);
+                                if (transform._first_record) transform._first_record = false;
+                                else this.push(",\n");
+                                this.push(JSON.stringify(entry));
+                            }
+                            done();
+                        } catch (e) {
+                            console.error('VDJ-ADC-API ERROR (processLRQFile, JSON transform): Parse error on chunk: ' + data);
+                            console.error(e);
+                            done(e);
+                        }
+                    }
+
+                    transform._flush = function (done) {
+                        console.log('flush');
+                        console.log(this._lastLineData);
+                        try {
+                            if (this._lastLineData) {
+                                var entry = cleanRecord(JSON.parse(this._lastLineData), projection, all_fields);
+                                if (transform._first_record) transform._first_record = false;
+                                else this.push(",\n");
+                                this.push(JSON.stringify(entry));
+                            }
+                            this._lastLineData = null;
+                            this.push('\n]}\n');
+                            done();
+                        } catch (e) {
+                            console.error('VDJ-ADC-API ERROR (processLRQFile, JSON flush): Parse error on chunk: ' + this._lastLineData);
+                            console.error(e);
+                            done(e);
+                        }
+                    }
+                } else {
+                    // TSV format
+                    transform._transform = function (chunk, encoding, done) {
+                        if (first) {
+                            // write headers
+                            this.push(headers.join('\t'));
+                            this.push('\n');
+                            first = false;
+                        }
+
+                        // transform the record
+                        try {
+                            var data = chunk.toString();
+                            if (this._lastLineData) data = this._lastLineData + data;
+                            var lines = data.split('\n');
+                            this._lastLineData = lines.splice(lines.length-1,1)[0];
+
+                            for (let l in lines) {
+                                var entry = cleanRecord(JSON.parse(lines[l]), projection, all_fields);
+                                var vals = [];
+                                for (let i = 0; i < headers.length; ++i) {
+                                    let p = headers[i];
+                                    if (entry[p] == undefined) vals.push('');
+                                    else vals.push(entry[p]);
+                                }
+                                this.push(vals.join('\t'));
+                                this.push('\n');
+                            }
+                            done();
+                        } catch (e) {
+                            console.error('VDJ-ADC-API ERROR (processLRQFile, TSV transform): Parse error on chunk: ' + data);
+                            console.error(e);
+                            done(e);
+                        }
+                    }
+
+                    transform._flush = function (done) {
+                        try {
+                            if (this._lastLineData) {
+                                var entry = cleanRecord(JSON.parse(this._lastLineData), projection, all_fields);
+                                let vals = [];
+                                for (let i = 0; i < headers.length; ++i) {
+                                    let p = headers[i];
+                                    if (entry[p] == undefined) vals.push('');
+                                    else vals.push(entry[p]);
+                                }
+                                this.push(vals.join('\t'));
+                                this.push('\n');
+                            }
+                            this._lastLineData = null;
+                            done();
+                        } catch (e) {
+                            console.error('VDJ-ADC-API ERROR (processLRQFile, TSV flush): Parse error on chunk: ' + this._lastLineData);
+                            console.error(e);
+                            done(e);
+                        }
+                    }
+                }
+
+                // Open read/write streams
+                var infile = config.lrqdata_path + 'lrq-' + metadata["value"]["lrq_id"] + '.json';
+                var outname;
+                if (format == 'json')
+                    outname = metadata["uuid"] + '.airr.json';
+                else
+                    outname = metadata["uuid"] + '.airr.tsv';
+                var outfile = config.lrqdata_path + outname;
+                var readable = fs.createReadStream(infile)
+                    .on('error', function(e) { return reject(e); });
+                var writable = fs.createWriteStream(outfile)
+                    .on('error', function(e) { return reject(e); });
+
+                // process the stream
+                readable.pipe(transform)
+                    .on('error', function(e) { console.log('caught error'); console.log(e); return reject(e); })
+                    .pipe(writable)
+                    .on('finish', function() {
+                        console.log('end of stream');
+                        writable.end();
+                    });
+
+/*
+                readable.pipe(zlib.createGunzip())
+                    .pipe(transform)
+                    .on('error', function(e) { console.log('caught error'); console.log(e); return reject(e); })
+                    .pipe(zlib.createGzip())
+                    .pipe(writable)
+                    .on('finish', function() {
+                        console.log('end of stream');
+                        writable.end();
+                    });
 */
-function getRearrangement(req, res) {
-    if (config.debug) console.log('VDJ-ADC-API INFO: getRearrangement: ' + req.swagger.params['sequence_id'].value);
+
+                writable.on('finish', function() {
+                    console.log('finish of write stream');
+                    return resolve(outname);
+                });
+            });
+        });
+}
+
+// get a single rearrangement
+RearrangementController.getRearrangement = function(req, res) {
+    var get_sequence_id = req.params.sequence_id;
+    if (config.debug) console.log('VDJ-ADC-API INFO: getRearrangement: ' + get_sequence_id);
 
     var result = {};
     var result_message = "Server error";
     var results = [];
 
     var queryRecord = {
-	endpoint: 'rearrangement',
-	method: 'GET',
-	query: req.swagger.params['sequence_id'].value,
-	ip: req.ip,
-	status: 'unknown',
-	message: null,
+        endpoint: 'rearrangement',
+        method: 'GET',
+        query: get_sequence_id,
+        ip: req.ip,
+        status: 'unknown',
+        message: null,
         count: null,
         start: Date.now()
     };
 
-    var collection = 'rearrangement' + mongoSettings.queryCollection + '/' + req.swagger.params['sequence_id'].value;
+    var collection = 'rearrangement' + mongoSettings.queryCollection + '/' + get_sequence_id;
 
     // Handle client HTTP request abort
     var abortQuery = false;
@@ -428,7 +685,7 @@ function getRearrangement(req, res) {
     info['version'] = schema.version;
     info['contact'] = config.info.contact;
 
-    agaveIO.performQuery(collection, null, null, null, null)
+    return agaveIO.performQuery(collection, null, null, null, null)
         .then(function(record) {
             if (record['http status code'] == 404) {
                 res.json({"Info":info,"Rearrangement":[]});
@@ -440,37 +697,36 @@ function getRearrangement(req, res) {
                 }
                 if (record['_id']) delete record['_id'];
                 if (record['_etag']) delete record['_etag'];
-		airr.addFields(record, all_fields, global.airr['Rearrangement']);
+                airr.addFields(record, all_fields, global.airr['Rearrangement']);
                 res.json({"Info":info,"Rearrangement":[record]});
                 queryRecord['count'] = 1;
             }
         })
         .then(function() {
             if (abortQuery) {
-	        queryRecord['status'] = 'abort';
+                queryRecord['status'] = 'abort';
                 queryRecord['end'] = Date.now();
-	        agaveIO.recordQuery(queryRecord);
+                agaveIO.recordQuery(queryRecord);
             } else {
-	        queryRecord['status'] = 'success';
+                queryRecord['status'] = 'success';
                 queryRecord['end'] = Date.now();
-	        agaveIO.recordQuery(queryRecord);
+                agaveIO.recordQuery(queryRecord);
             }
         })
-        .fail(function(error) {
+        .catch(function(error) {
             var msg = 'VDJ-ADC-API ERROR (getRearrangment): ' + error;
             res.status(500).json({"message":result_message});
             console.error(msg);
             webhookIO.postToSlack(msg);
-	    queryRecord['status'] = 'error';
-	    queryRecord['message'] = msg;
+            queryRecord['status'] = 'error';
+            queryRecord['message'] = msg;
             queryRecord['end'] = Date.now();
-	    agaveIO.recordQuery(queryRecord);
+            agaveIO.recordQuery(queryRecord);
             return;
         });
 }
 
 function performFacets(collection, query, field, start_page, pagesize) {
-    var deferred = Q.defer();
     var models = [];
 
     //console.log(query);
@@ -485,27 +741,123 @@ function performFacets(collection, query, field, start_page, pagesize) {
         return aggrFunction(collection, 'facets', query, field, null, null)
             .then(function(records) {
                 if (config.debug) console.log('VDJ-ADC-API INFO: query returned ' + records.length + ' records.');
+                //console.log(JSON.stringify(records));
                 if (records.length == 0) {
-                    deferred.resolve(models);
+                    return Promise.resolve(models);
                 } else {
-                    deferred.resolve(records[0]['facets']);
-                    //models = models.concat(records);
-                    //if (records.length < pagesize) deferred.resolve(models);
-                    //else doAggr(page+1);
+                    // the new facets aggregation returns a single record with all the data
+                    return Promise.resolve(records[0]['facets']);
                 }
             })
-            .fail(function(errorObject) {
-                deferred.reject(errorObject);
+            .catch(function(errorObject) {
+                return Promise.reject(errorObject);
             });
     };
     
-    doAggr(start_page);
+    return doAggr(start_page);
+}
 
-    return deferred.promise;
-};
+RearrangementController.generateAsyncCountQuery = function(metadata) {
+    console.log('RearrangementController.generateAsyncCountQuery');
+    var bodyData = metadata['value']['body'];
 
-function queryRearrangements(req, res) {
+    // from parameter
+    var from = 0;
+    if (bodyData['from'] != undefined) {
+        from = bodyData['from'];
+        from = Math.floor(from);
+    }
+
+    // construct query
+    var result_message = null;
+    var filter = {};
+    var query = undefined;
+    if (bodyData['filters'] != undefined) {
+        filter = bodyData['filters'];
+        try {
+            var error = { message: '' };
+            query = constructQueryOperation(filter, error);
+            //console.log(query);
+
+            if (!query) {
+                result_message = "Could not construct valid query. Error: " + error['message'];
+                if (config.debug) console.log('VDJ-ADC-API INFO: ' + result_message);
+                return null;
+            }
+        } catch (e) {
+            result_message = "Could not construct valid query: " + e;
+            if (config.debug) console.log('VDJ-ADC-API INFO: ' + result_message);
+            return null;
+        }
+    }
+    if (!query) query = '{}';
+    var parsed_query = JSON.parse(query);
+
+    var count_query = null;
+    count_query = [{"$match":parsed_query}];
+    if (from) count_query.push({"$skip":from});
+    count_query.push({"$count":"total_records"});
+
+    console.log(JSON.stringify(count_query));
+    return count_query;
+}
+
+RearrangementController.generateAsyncQuery = function(metadata) {
+    console.log('RearrangementController.generateAsyncQuery');
+    var bodyData = metadata['value']['body'];
+
+    // size parameter
+    var size = null;
+    if (bodyData['size'] != undefined) {
+        size = bodyData['size'];
+        size = Math.floor(size);
+    }
+
+    // from parameter
+    var from = 0;
+    if (bodyData['from'] != undefined) {
+        from = bodyData['from'];
+        from = Math.floor(from);
+    }
+
+    // construct query
+    var result_message = null;
+    var filter = {};
+    var query = undefined;
+    if (bodyData['filters'] != undefined) {
+        filter = bodyData['filters'];
+        try {
+            var error = { message: '' };
+            query = constructQueryOperation(filter, error);
+            //console.log(query);
+
+            if (!query) {
+                result_message = "Could not construct valid query. Error: " + error['message'];
+                if (config.debug) console.log('VDJ-ADC-API INFO: ' + result_message);
+                return null;
+            }
+        } catch (e) {
+            result_message = "Could not construct valid query: " + e;
+            if (config.debug) console.log('VDJ-ADC-API INFO: ' + result_message);
+            return null;
+        }
+    }
+    if (!query) query = '{}';
+    var parsed_query = JSON.parse(query);
+
+    var aggr_query = [{"$match":parsed_query}];
+    if (from) aggr_query.push({"$skip":from});
+    if (size) aggr_query.push({"$limit":size});
+
+    console.log(JSON.stringify(aggr_query));
+    return aggr_query;
+}
+
+RearrangementController.queryRearrangements = function(req, res) {
     if (config.debug) console.log('VDJ-ADC-API INFO: queryRearrangements');
+
+    var do_async = false;
+    if (req.params.do_async) do_async = true;
 
     var results = [];
     var result = {};
@@ -516,15 +868,15 @@ function queryRearrangements(req, res) {
     res.connection.setTimeout(4 * 60 * 1000);
     //console.log(res.connection);
 
-    var bodyData = req.swagger.params['data'].value;
+    var bodyData = req.body;
 
     var queryRecord = {
-	endpoint: 'rearrangement',
-	method: 'POST',
-	query: bodyData,
-	ip: req.ip,
-	status: 'unknown',
-	message: null,
+        endpoint: 'rearrangement',
+        method: 'POST',
+        query: bodyData,
+        ip: req.ip,
+        status: 'unknown',
+        message: null,
         count: null,
         start: Date.now()
     };
@@ -533,18 +885,18 @@ function queryRearrangements(req, res) {
     var bodyLength = JSON.stringify(bodyData).length;
     if (bodyLength > config.info.max_query_size) {
         result_message = "Query size (" + bodyLength + ") exceeds maximum size of " + config.info.max_query_size + " characters.";
-	console.error(result_message);
+        console.error(result_message);
         res.status(400).json({"message":result_message});
-	queryRecord['status'] = 'reject';
-	queryRecord['message'] = result_message;
-	agaveIO.recordQuery(queryRecord);
+        queryRecord['status'] = 'reject';
+        queryRecord['message'] = result_message;
+        agaveIO.recordQuery(queryRecord);
         return;
     }
 
     // AIRR fields
     var all_fields = [];
     if (bodyData['include_fields']) {
-	airr.collectFields(global.airr['Rearrangement'], bodyData['include_fields'], all_fields, null);
+        airr.collectFields(global.airr['Rearrangement'], bodyData['include_fields'], all_fields, null);
         //if (config.debug) console.log(all_fields);
     }
     // collect all AIRR schema fields
@@ -560,29 +912,29 @@ function queryRearrangements(req, res) {
         if (! (fields instanceof Array)) {
             result_message = "fields parameter is not an array.";
             res.status(400).json({"message":result_message});
-	    queryRecord['status'] = 'reject';
-	    queryRecord['message'] = result_message;
-	    agaveIO.recordQuery(queryRecord);
+            queryRecord['status'] = 'reject';
+            queryRecord['message'] = result_message;
+            agaveIO.recordQuery(queryRecord);
             return;
         }
-        for (var i = 0; i < fields.length; ++i) {
+        for (let i = 0; i < fields.length; ++i) {
             if (fields[i] == '_id') continue;
             if (fields[i] == '_etag') continue;
             projection[fields[i]] = 1;
         }
         projection['_id'] = 1;
 
-	// add AIRR required fields to projection
-	// NOTE: projection will not add a field if it is not already in the document
-	// so below after the data has been retrieved, missing fields need to be
-	// added with null values.
-	if (all_fields.length > 0) {
-	    for (var r in all_fields) projection[all_fields[r]] = 1;
-	}
+        // add AIRR required fields to projection
+        // NOTE: projection will not add a field if it is not already in the document
+        // so below after the data has been retrieved, missing fields need to be
+        // added with null values.
+        if (all_fields.length > 0) {
+            for (var r in all_fields) projection[all_fields[r]] = 1;
+        }
 
         // add to field list so will be put in response if necessary
-	for (var i = 0; i < fields.length; ++i) {
-	    if (fields[i] == '_id') continue;
+        for (let i = 0; i < fields.length; ++i) {
+            if (fields[i] == '_id') continue;
             all_fields.push(fields[i]);
         }
     }
@@ -595,9 +947,9 @@ function queryRearrangements(req, res) {
     if ((format != 'json') && (format != 'tsv')) {
         result_message = "Unsupported format (" + format + ").";
         res.status(400).json({"message":result_message});
-	queryRecord['status'] = 'reject';
-	queryRecord['message'] = result_message;
-	agaveIO.recordQuery(queryRecord);
+        queryRecord['status'] = 'reject';
+        queryRecord['message'] = result_message;
+        agaveIO.recordQuery(queryRecord);
         return;
     }
 
@@ -611,21 +963,40 @@ function queryRearrangements(req, res) {
         size = bodyData['size'];
         size = Math.floor(size);
     }
-    if (size > config.max_size) {
-        result_message = "Size too large (" + size + "), maximum size is " + config.max_size;
-        res.status(400).json({"message":result_message});
-	queryRecord['status'] = 'reject';
-	queryRecord['message'] = result_message;
-	agaveIO.recordQuery(queryRecord);
-        return;
-    }
     if (size < 0) {
         result_message = "Negative size (" + size + ") not allowed.";
         res.status(400).json({"message":result_message});
-	queryRecord['status'] = 'reject';
-	queryRecord['message'] = result_message;
-	agaveIO.recordQuery(queryRecord);
+        queryRecord['status'] = 'reject';
+        queryRecord['message'] = result_message;
+        agaveIO.recordQuery(queryRecord);
         return;
+    }
+    if (do_async) {
+        // async queries have a different max
+        if (! bodyData['size']) {
+            // if the query does not specify a size, we need to count to see if the
+            // result set is too big. we indicate this with a null size.
+            size = null;
+        } else {
+            if (size > config.async.max_size) {
+                result_message = "Size too large (" + size + "), maximum size is " + config.async.max_size;
+                res.status(400).json({"message":result_message});
+                queryRecord['status'] = 'reject';
+                queryRecord['message'] = result_message;
+                agaveIO.recordQuery(queryRecord);
+                return;
+            }
+        }
+    } else {
+        // normal query max
+        if (size > config.max_size) {
+            result_message = "Size too large (" + size + "), maximum size is " + config.max_size;
+            res.status(400).json({"message":result_message});
+            queryRecord['status'] = 'reject';
+            queryRecord['message'] = result_message;
+            agaveIO.recordQuery(queryRecord);
+            return;
+        }
     }
 
     // from parameter
@@ -640,9 +1011,9 @@ function queryRearrangements(req, res) {
     if (from < 0) {
         result_message = "Negative from (" + from + ") not allowed.";
         res.status(400).json({"message":result_message});
-	queryRecord['status'] = 'reject';
-	queryRecord['message'] = result_message;
-	agaveIO.recordQuery(queryRecord);
+        queryRecord['status'] = 'reject';
+        queryRecord['message'] = result_message;
+        agaveIO.recordQuery(queryRecord);
         return;
     } else {
         page = Math.trunc(from / pagesize) + 1;
@@ -670,18 +1041,18 @@ function queryRearrangements(req, res) {
                 result_message = "Could not construct valid query. Error: " + error['message'];
                 if (config.debug) console.log('VDJ-ADC-API INFO: ' + result_message);
                 res.status(400).json({"message":result_message});
-	        queryRecord['status'] = 'reject';
-	        queryRecord['message'] = result_message;
-	        agaveIO.recordQuery(queryRecord);
+                queryRecord['status'] = 'reject';
+                queryRecord['message'] = result_message;
+                agaveIO.recordQuery(queryRecord);
                 return;
             }
         } catch (e) {
             result_message = "Could not construct valid query: " + e;
             if (config.debug) console.log('VDJ-ADC-API INFO: ' + result_message);
             res.status(400).json({"message":result_message});
-	    queryRecord['status'] = 'reject';
-	    queryRecord['message'] = result_message;
-	    agaveIO.recordQuery(queryRecord);
+            queryRecord['status'] = 'reject';
+            queryRecord['message'] = result_message;
+            agaveIO.recordQuery(queryRecord);
             return;
         }
     }
@@ -702,9 +1073,60 @@ function queryRearrangements(req, res) {
         abortQuery = true;
     });
 
-    // perform non-facets query
     var collection = 'rearrangement' + mongoSettings.queryCollection;
-    if (!facets) {
+    if (do_async) {
+        // perform async query
+        //
+        // An async query is performed in multiple steps. If we do not know the size of the result size, which
+        // we generally do not unless the query specifies a size, then we first perform a count aggregation.
+        // If size is specified in the query, the check is above, and if it passes then we perform the query.
+        // If we need to count, we get a notification from the count aggregation, which checks that the size
+        // is okay and performs the query, or marks the query as ERROR.
+        // We setup all the necessary data here so that the queues can process everything as needed.
+        var countQueue = new Queue('lrq count');
+        var submitQueue = new Queue('lrq submit');
+        var parsed_query = JSON.parse(query);
+
+        // We put the commands in with the $ so that Tapis metadata service does not try to interpret it
+
+        var count_query = null;
+        if (! size) {
+            // we do not know size, so setup count aggregation query
+            count_query = [{"match":parsed_query}];
+            if (from) count_query.push({"skip":from});
+            count_query.push({"count":"total_records"});
+        }
+        var aggr_query = [{"match":parsed_query}];
+        if (from) aggr_query.push({"skip":from});
+        if (size) aggr_query.push({"limit":size});
+
+        console.log(JSON.stringify(count_query));
+        console.log(JSON.stringify(aggr_query));
+        return agaveIO.createAsyncQueryMetadata('rearrangement', collection, bodyData, null, null)
+            .then(function(metadata) {
+                console.log(metadata);
+                console.log('VDJ-ADC-API INFO: Created async metadata:', metadata.uuid);
+                if (count_query)
+                    //countQueue.add({metadata: metadata}, {attempts: 5, backoff: 5000});
+                    countQueue.add({metadata: metadata});
+                else
+                    //submitQueue.add({metadata: metadata}, {attempts: 5, backoff: 5000});
+                    submitQueue.add({metadata: metadata});
+                res.status(200).json({"message":"rearrangement lrq submitted.", "query_id": metadata.uuid});
+                return;
+            })
+            .catch(function(error) {
+                var msg = "VDJ-ADC-API ERROR (queryRearrangements): " + error;
+                res.status(500).json({"message":result_message});
+                console.error(msg);
+                webhookIO.postToSlack(msg);
+                queryRecord['status'] = 'error';
+                queryRecord['message'] = msg;
+                queryRecord['end'] = Date.now();
+                agaveIO.recordQuery(queryRecord);
+            });
+    } else if (!facets) {
+        // perform non-facets query
         var queryFunction = agaveIO.performQuery;
         if (query && query.length > config.large_query_size) {
             if (config.debug) console.log('VDJ-ADC-API INFO: Large query detected.');
@@ -712,7 +1134,7 @@ function queryRearrangements(req, res) {
         }
         //if (config.debug) console.log(query);
 
-        queryFunction(collection, query, null, page, pagesize)
+        return queryFunction(collection, query, null, page, pagesize)
             .then(function(records) {
                 if (abortQuery) {
                     return;
@@ -738,17 +1160,17 @@ function queryRearrangements(req, res) {
                         if ((typeof record['d_call']) == "object") record['d_call'] = record['d_call'].join(',');
                         if ((typeof record['j_call']) == "object") record['j_call'] = record['j_call'].join(',');
 
-			// TODO: general this a bit in case we add more
+                        // TODO: general this a bit in case we add more
                         if (record['_id']) delete record['_id'];
                         if (record['_etag']) delete record['_etag'];
-			if (record['vdjserver_junction_suffixes'])
-			    if (projection['vdjserver_junction_suffixes'] == undefined)
-				delete record['vdjserver_junction_suffixes'];
+                        if (record['vdjserver_junction_suffixes'])
+                            if (projection['vdjserver_junction_suffixes'] == undefined)
+                                delete record['vdjserver_junction_suffixes'];
 
-		        // add any missing required fields
-		        if (all_fields.length > 0) {
-			    airr.addFields(record, all_fields, global.airr['Rearrangement']);
-		        }
+                        // add any missing required fields
+                        if (all_fields.length > 0) {
+                            airr.addFields(record, all_fields, global.airr['Rearrangement']);
+                        }
                         // apply projection
                         var keys = Object.keys(record);
                         if (Object.keys(projection).length > 0) {
@@ -771,7 +1193,7 @@ function queryRearrangements(req, res) {
                 } else {
                     // we need to do a second query for the rest
                     page += 1;
-                    queryFunction(collection, query, null, page, pagesize)
+                    return queryFunction(collection, query, null, page, pagesize)
                         .then(function(records) {
                             if (config.debug) console.log('VDJ-ADC-API INFO: second query returned ' + records.length + ' records.')
 
@@ -790,17 +1212,17 @@ function queryRearrangements(req, res) {
                                 if ((typeof record['d_call']) == "object") record['d_call'] = record['d_call'].join(',');
                                 if ((typeof record['j_call']) == "object") record['j_call'] = record['j_call'].join(',');
 
-			        // TODO: general this a bit in case we add more
+                                // TODO: general this a bit in case we add more
                                 if (record['_id']) delete record['_id'];
                                 if (record['_etag']) delete record['_etag'];
-			        if (record['vdjserver_junction_suffixes'])
-			            if (projection['vdjserver_junction_suffixes'] == undefined)
-				        delete record['vdjserver_junction_suffixes'];
+                                if (record['vdjserver_junction_suffixes'])
+                                    if (projection['vdjserver_junction_suffixes'] == undefined)
+                                        delete record['vdjserver_junction_suffixes'];
 
-		                // add any missing required fields
-		                if (all_fields.length > 0) {
-			            airr.addFields(record, all_fields, global.airr['Rearrangement']);
-		                }
+                                // add any missing required fields
+                                if (all_fields.length > 0) {
+                                    airr.addFields(record, all_fields, global.airr['Rearrangement']);
+                                }
                                 // apply projection
                                 var keys = Object.keys(record);
                                 if (Object.keys(projection).length > 0) {
@@ -837,11 +1259,11 @@ function queryRearrangements(req, res) {
                     } else {
                         // else only return specified fields
                         // schema fields first
-                        for (var p = 0; p < schema_fields.length; ++p) {
+                        for (let p = 0; p < schema_fields.length; ++p) {
                             if (projection[schema_fields[p]]) headers.push(schema_fields[p]);
                         }
                         // add custom fields on end
-                        for (var p in projection) {
+                        for (let p in projection) {
                             if (p == '_id') continue;
                             if (projection[p]) {
                                 if (schema_fields.indexOf(p) >= 0) continue;
@@ -877,24 +1299,24 @@ function queryRearrangements(req, res) {
             })
             .then(function() {
                 if (abortQuery) {
-	            queryRecord['status'] = 'abort';
+                    queryRecord['status'] = 'abort';
                     queryRecord['end'] = Date.now();
-	            agaveIO.recordQuery(queryRecord);
+                    agaveIO.recordQuery(queryRecord);
                 } else {
-	            queryRecord['status'] = 'success';
+                    queryRecord['status'] = 'success';
                     queryRecord['end'] = Date.now();
-	            agaveIO.recordQuery(queryRecord);
+                    agaveIO.recordQuery(queryRecord);
                 }
             })
-            .fail(function(error) {
+            .catch(function(error) {
                 var msg = "VDJ-ADC-API ERROR (queryRearrangements): " + error;
                 res.status(500).json({"message":result_message});
                 console.error(msg);
                 webhookIO.postToSlack(msg);
-	        queryRecord['status'] = 'error';
-	        queryRecord['message'] = msg;
+                queryRecord['status'] = 'error';
+                queryRecord['message'] = msg;
                 queryRecord['end'] = Date.now();
-	        agaveIO.recordQuery(queryRecord);
+                agaveIO.recordQuery(queryRecord);
             });
     } else {
         // perform facets query
@@ -923,7 +1345,7 @@ function queryRearrangements(req, res) {
             //console.log('single repertoire facet');
             //console.log(query);
 
-            agaveIO.performQuery(collection, query, null, null, null, true)
+            return agaveIO.performQuery(collection, query, null, null, null, true)
                 .then(function(record) {
                     //console.log(record);
                     var results = [];
@@ -939,30 +1361,30 @@ function queryRearrangements(req, res) {
                 })
                 .then(function() {
                     if (abortQuery) {
-	                queryRecord['status'] = 'abort';
+                        queryRecord['status'] = 'abort';
                         queryRecord['end'] = Date.now();
-	                agaveIO.recordQuery(queryRecord);
+                        agaveIO.recordQuery(queryRecord);
                     } else {
-	                queryRecord['status'] = 'success';
+                        queryRecord['status'] = 'success';
                         queryRecord['end'] = Date.now();
-	                agaveIO.recordQuery(queryRecord);
+                        agaveIO.recordQuery(queryRecord);
                     }
                 })
-                .fail(function(error) {
+                .catch(function(error) {
                     var msg = "VDJ-ADC-API ERROR (queryRearrangements, facets): " + error
                         + '\nWhile performing query: ' + query;
                     res.status(500).json({"message":result_message});
                     console.error(msg);
                     webhookIO.postToSlack(msg);
-	            queryRecord['status'] = 'error';
-	            queryRecord['message'] = msg;
+                    queryRecord['status'] = 'error';
+                    queryRecord['message'] = msg;
                     queryRecord['end'] = Date.now();
-	            agaveIO.recordQuery(queryRecord);
+                    agaveIO.recordQuery(queryRecord);
                 });
 
         } else {
 
-            performFacets(collection, query, field, 1, pagesize)
+            return performFacets(collection, query, field, 1, pagesize)
                 .then(function(records) {
                     //console.log(records);
                     if (records.length == 0) {
@@ -984,16 +1406,16 @@ function queryRearrangements(req, res) {
                 })
                 .then(function() {
                     if (abortQuery) {
-	                queryRecord['status'] = 'abort';
+                        queryRecord['status'] = 'abort';
                         queryRecord['end'] = Date.now();
-	                agaveIO.recordQuery(queryRecord);
+                        agaveIO.recordQuery(queryRecord);
                     } else {
-	                queryRecord['status'] = 'success';
+                        queryRecord['status'] = 'success';
                         queryRecord['end'] = Date.now();
-	                agaveIO.recordQuery(queryRecord);
+                        agaveIO.recordQuery(queryRecord);
                     }
                 })
-                .fail(function(error) {
+                .catch(function(error) {
                     var msg = "VDJ-ADC-API ERROR (queryRearrangements, facets): " + error
                         + '\nWhile performing query: ';                
                     if (query && query.length > config.large_query_size)
@@ -1003,10 +1425,10 @@ function queryRearrangements(req, res) {
                     res.status(500).json({"message":result_message});
                     console.error(msg);
                     webhookIO.postToSlack(msg);
-	            queryRecord['status'] = 'error';
-	            queryRecord['message'] = msg;
+                    queryRecord['status'] = 'error';
+                    queryRecord['message'] = msg;
                     queryRecord['end'] = Date.now();
-	            agaveIO.recordQuery(queryRecord);
+                    agaveIO.recordQuery(queryRecord);
                 });
         }
     }

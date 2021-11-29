@@ -22,7 +22,9 @@ RUN export DEBIAN_FRONTEND=noninteractive && apt-get update && apt-get install -
     python3-scipy \
     libyaml-dev \
     wget \
-    supervisor
+    supervisor \
+    redis-server \
+    redis-tools
 
 RUN pip3 install \
     pandas \
@@ -32,14 +34,10 @@ RUN pip3 install \
 ##################
 ##################
 
-# not currently using redis and supervisor
-
 # old stuff
 #    nodejs \
 #    nodejs-legacy \
 #    npm \
-#    redis-server \
-#    redis-tools \
 #    sendmail-bin \
 #    supervisor \
 
@@ -57,22 +55,27 @@ RUN pip3 install \
 ##################
 ##################
 
+# setup vdj user
+RUN echo "vdj:x:816290:803419:VDJServer,,,:/home/vdj:/bin/bash" >> /etc/passwd
+RUN echo "G-803419:x:803419:vdj" >> /etc/group
+RUN mkdir /home/vdj
+RUN chown vdj /home/vdj
+RUN chgrp G-803419 /home/vdj
+
 # node
-RUN wget https://nodejs.org/dist/v8.10.0/node-v8.10.0-linux-x64.tar.xz
-RUN tar xf node-v8.10.0-linux-x64.tar.xz
-RUN cp -rf /node-v8.10.0-linux-x64/bin/* /usr/local/bin
-RUN cp -rf /node-v8.10.0-linux-x64/lib/* /usr/local/lib
-RUN cp -rf /node-v8.10.0-linux-x64/include/* /usr/local/include
-RUN cp -rf /node-v8.10.0-linux-x64/share/* /usr/local/share
+ENV NODE_VER v12.18.3
+RUN wget https://nodejs.org/dist/$NODE_VER/node-$NODE_VER-linux-x64.tar.xz
+RUN tar xf node-$NODE_VER-linux-x64.tar.xz
+RUN cp -rf /node-$NODE_VER-linux-x64/bin/* /usr/bin
+RUN cp -rf /node-$NODE_VER-linux-x64/lib/* /usr/lib
+RUN cp -rf /node-$NODE_VER-linux-x64/include/* /usr/include
+RUN cp -rf /node-$NODE_VER-linux-x64/share/* /usr/share
 
 # PROXY: More UTSW proxy settings
 #RUN npm config set proxy http://proxy.swmed.edu:3128
 #RUN npm config set https-proxy http://proxy.swmed.edu:3128
 #RUN git config --global http.proxy http://proxy.swmed.edu:3128
 #RUN git config --global https.proxy https://proxy.swmed.edu:3128
-
-
-RUN npm install -g swagger
 
 RUN mkdir /api-js-tapis
 RUN mkdir /api-js-tapis/app
@@ -81,11 +84,8 @@ RUN mkdir /api-js-tapis/app
 COPY app/package.json /api-js-tapis/app
 RUN cd /api-js-tapis/app && npm install
 
-# pull in sway bug fix for array parameters
-RUN cd /api-js-tapis/app && npm install https://github.com/apigee-127/sway.git#94ba34f --save
-
 # Setup redis
-#COPY docker/redis/redis.conf /etc/redis/redis.conf
+COPY docker/redis/redis.conf /etc/redis/redis.conf
 
 # Setup supervisor
 COPY docker/supervisor/supervisor.conf /etc/supervisor/conf.d/
@@ -93,12 +93,15 @@ COPY docker/supervisor/supervisor.conf /etc/supervisor/conf.d/
 # Copy project source
 COPY . /api-js-tapis
 
+# ESLint
+RUN cd /api-js-tapis/app && npm run eslint app.js app-async.js api
+
 # Install the local airr-standards
 RUN cd /api-js-tapis/airr-standards/lang/python && python3 setup.py install
 
 # Copy AIRR spec
-RUN cp /api-js-tapis/airr-standards/specs/adc-api.yaml /api-js-tapis/app/api/swagger/adc-api.yaml
-RUN cp /api-js-tapis/airr-standards/specs/airr-schema.yaml /api-js-tapis/app/config/airr-schema.yaml
+RUN cp /api-js-tapis/airr-standards/specs/adc-api-openapi3.yaml /api-js-tapis/app/api/swagger/adc-api.yaml
+RUN cp /api-js-tapis/airr-standards/specs/adc-api-async.yaml /api-js-tapis/app/api/swagger/adc-api-async.yaml
+RUN cp /api-js-tapis/airr-standards/specs/airr-schema-openapi3.yaml /api-js-tapis/app/config/airr-schema.yaml
 
-#CMD ["node", "/api-js-tapis/app/app.js"]
 CMD ["bash", "/api-js-tapis/docker/scripts/vdjserver-adc-api.sh"]
