@@ -597,23 +597,35 @@ expireQueue.process(async (job) => {
 
             // if missing postit for some reason, expire it
             if (! metadata['value']['postit_id']) {
-                console.log('VDJ-ADC-ASYNC-API INFO (entryQueue): Entry', metadata['uuid'], 'is missing postit_id, expiring.');
+                console.log('VDJ-ADC-ASYNC-API INFO (expireQueue): Entry', metadata['uuid'], 'is missing postit_id, expiring.');
                 shouldExpire = true;
             } else {
                 // get postit
+                var postit = await agaveIO.getPostit(metadata['value']['postit_id'])
+                    .catch(function(error) {
+                        msg = 'VDJ-ADC-ASYNC-API ERROR (expireQueue): Could not get postit: ' + metadata['value']['postit_id'] + '.\n' + error;
+                        console.error(msg);
+                        webhookIO.postToSlack(msg);
+                        return Promise.reject(new Error(msg));
+                    });
+                console.log(postit);
+
+                // check if it has expired
+                if (postit['status'] == 'EXPIRED') shouldExpire = true;
+
                 // TODO: we should check if postit is expired, but cannot get, Tapis bug
                 // TODO: instead compare against lifetime
-                var create_date = new Date(metadata['created']);
-                var now = Date.now();
-                var diff = now - create_date;
+                //var create_date = new Date(metadata['created']);
+                //var now = Date.now();
+                //var diff = now - create_date;
                 //console.log(create_date, now, diff);
 
                 // check if it has expired
-                if (diff > (config.async.lifetime * 1000)) shouldExpire = true;
+                //if (diff > (config.async.lifetime * 1000)) shouldExpire = true;
             }
 
             if (shouldExpire) {
-                console.log('VDJ-ADC-ASYNC-API INFO (entryQueue): Expiring entry:', metadata['uuid']);
+                console.log('VDJ-ADC-ASYNC-API INFO (expireQueue): Expiring entry:', metadata['uuid']);
 
                 // delete LRQ count file
                 if (metadata['value']['count_lrq_id']) {
@@ -671,9 +683,18 @@ expireQueue.process(async (job) => {
                 }
 
                 // send notification
-
-                // testing
-                //break;
+                if (metadata["value"]["notification"]) {
+                    let notify = AsyncQueue.checkNotification(metadata);
+                    if (notify) {
+                        let data = AsyncQueue.cleanStatus(metadata);
+                        await agaveIO.sendNotification(notify, data)
+                            .catch(function(error) {
+                                let cmsg = 'VDJ-ADC-ASYNC-API ERROR (expireQueue): Could not post notification.\n' + error;
+                                console.error(cmsg);
+                                webhookIO.postToSlack(cmsg);
+                            });
+                    }
+                }
             }
         }
     }

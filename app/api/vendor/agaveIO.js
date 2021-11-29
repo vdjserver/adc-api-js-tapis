@@ -681,6 +681,31 @@ agaveIO.createPublicFilePostit = function(url, unlimited, maxUses, lifetime) {
         });
 };
 
+agaveIO.getPostit = function(uuid) {
+
+    return ServiceAccount.getToken()
+        .then(function(token) {
+            var requestSettings = {
+                host:     agaveSettings.hostname,
+                method:   'GET',
+                path:     '/postits/v2/listing/' + uuid,
+                rejectUnauthorized: false,
+                headers: {
+                    'Content-Type':   'application/json',
+                    'Authorization': 'Bearer ' + ServiceAccount.accessToken()
+                }
+            };
+
+            return agaveIO.sendRequest(requestSettings, null);
+        })
+        .then(function(responseObject) {
+            return Promise.resolve(responseObject.result);
+        })
+        .catch(function(errorObject) {
+            return Promise.reject(errorObject);
+        });
+};
+
 agaveIO.getAsyncQueryMetadataWithStatus = function(status) {
 
     var models = [];
