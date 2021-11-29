@@ -72,6 +72,7 @@ AsyncController.getQueryStatus = function(req, res) {
                 status: metadata.value.status,
                 message: metadata.value.message,
                 created: metadata.created,
+                estimated_count: metadata.value.estimated_count,
                 final_file: metadata.value.final_file,
                 download_url: metadata.value.download_url
             };
@@ -201,6 +202,7 @@ AsyncController.asyncNotify = async function(req, res) {
             if (countFail) {
                 metadata['value']['message'] = 'Could not read count file';
             } else {
+                metadata['value']['estimated_count'] = count_obj['total_records'];
                 metadata['value']['message'] = 'Result size (' + count_obj['total_records'] + ') is larger than maximum size (' + config.async.max_size + ')';
             }
             msg = 'VDJ-ADC-ASYNC-API ERROR (asyncNotify): Query rejected: ' + metadata["uuid"] + ', ' + metadata['value']['message'];
@@ -231,6 +233,7 @@ AsyncController.asyncNotify = async function(req, res) {
         }
 
         // update metadata status
+        metadata['value']['estimated_count'] = count_obj['total_records'];
         metadata['value']['count_lrq_id'] = metadata['value']['lrq_id'];
         metadata['value']['status'] = 'COUNTED';
         await agaveIO.updateMetadata(metadata['uuid'], metadata['name'], metadata['value'], null)
