@@ -1,0 +1,4273 @@
+{
+  "Info": {
+    "title": "Repertoire metadata",
+    "description": "Repertoire metadata written by AIRR Standards Python Library",
+    "version": 1.3,
+    "contact": {
+      "name": "AIRR Community",
+      "url": "https://github.com/airr-community"
+    },
+    "license": {
+      "name": "Creative Commons Attribution 4.0 International",
+      "url": "https://creativecommons.org/licenses/by/4.0/"
+    }
+  },
+  "Repertoire": [
+    {
+      "repertoire_id": null,
+      "study": {
+        "study_id": "PRJNA248475",
+        "study_title": "B cells populating the multiple sclerosis brain mature in the draining cervical lymph nodes",
+        "study_type": {
+          "id": "NCIT:C16084",
+          "label": "Observational Study"
+        },
+        "study_description": "Multiple sclerosis (MS) is an inflammatory disease of the central nervous system (CNS) characterized by autoimmune- mediated demyelination and neurodegeneration. The CNS of patients with MS harbors expanded clones of antigen- experienced B cells that reside in distinct compartments including the meninges, cerebrospinal fluid (CSF), and parenchyma. It is not understood whether this immune infiltrate initiates its development in the CNS or in pe- ripheral tissues. B cells in the CSF can exchange with those in peripheral blood, implying that CNS B cells may have access to lymphoid tissue that may be the specific compartment(s) in which CNS-resident B cells encounter antigen and experience affinity maturation. Paired tissues were used to determine whether the B cells that populate the CNS mature in the draining cervical lymph nodes (CLNs). High-throughput sequencing of the antibody repertoire demonstrated that clonally expanded B cells were present in both compartments. Founding members of clones were more often found in the draining CLNs. More mature clonal members derived from these founders were observed in the draining CLNs and also in the CNS, including lesions. These data provide new evidence that B cells traffic freely across the tissue barrier, with the majority of B cell maturation occurring outside of the CNS in the secondary lymphoid tissue. Our study may aid in further defining the mechanisms of immunomodulatory thera- pies that either deplete circulating B cells or affect the intrathecal B cell compartment by inhibiting lymphocyte transmigration into the CNS.",
+        "inclusion_exclusion_criteria": "",
+        "lab_name": "Steven H. Kleinstein",
+        "lab_address": "Yale University",
+        "submitted_by": "Scott Christley <scott.christley@utsouthwestern.edu>",
+        "collected_by": "",
+        "grants": "",
+        "pub_ids": "PMID: 25100741",
+        "keywords_study": [
+          "contains_ig"
+        ],
+        "vdjserver_uuid": "54655627105407466-242ac113-0001-012"
+      },
+      "subject": {
+        "subject_id": "M2",
+        "synthetic": false,
+        "species": {
+          "id": "NCBITaxon:9606",
+          "label": "Homo sapiens"
+        },
+        "sex": "female",
+        "age_min": 53,
+        "age_max": 53,
+        "age_unit": {
+          "id": "UO:0000036",
+          "label": "year"
+        },
+        "age_event": "sampling",
+        "ancestry_population": null,
+        "ethnicity": null,
+        "race": null,
+        "strain_name": null,
+        "linked_subjects": null,
+        "link_type": null,
+        "diagnosis": [
+          {
+            "study_group_description": "",
+            "disease_diagnosis": {
+              "id": "DOID:0050783",
+              "label": "secondary progressive multiple sclerosis"
+            },
+            "disease_length": "",
+            "disease_stage": "",
+            "prior_therapies": "",
+            "immunogen": "",
+            "intervention": "",
+            "medical_history": ""
+          }
+        ]
+      },
+      "sample": [
+        {
+          "sample_processing_id": "",
+          "sample_id": "M2 CLN section 1",
+          "sample_type": "Tissue sample",
+          "tissue": {
+            "id": "UBERON:0002429",
+            "label": "cervical lymph node"
+          },
+          "anatomic_site": null,
+          "disease_state_sample": "Secondary progressive",
+          "collection_time_point_relative": null,
+          "collection_time_point_reference": null,
+          "biomaterial_provider": null,
+          "tissue_processing": null,
+          "cell_subset": null,
+          "cell_phenotype": null,
+          "single_cell": false,
+          "cell_number": null,
+          "cells_per_reaction": null,
+          "cell_storage": false,
+          "cell_quality": null,
+          "cell_isolation": null,
+          "cell_processing_protocol": null,
+          "template_class": "RNA",
+          "template_quality": null,
+          "template_amount": null,
+          "library_generation_method": "RT(specific+UMI)+PCR",
+          "library_generation_protocol": null,
+          "library_generation_kit_version": null,
+          "pcr_target": [
+            {
+              "pcr_target_locus": "IGH",
+              "forward_pcr_primer_target_location": null,
+              "reverse_pcr_primer_target_location": null
+            }
+          ],
+          "complete_sequences": "partial",
+          "physical_linkage": "none",
+          "sequencing_run_id": "SRX552898",
+          "total_reads_passing_qc_filter": null,
+          "sequencing_platform": "Illumina MiSeq",
+          "sequencing_facility": null,
+          "sequencing_run_date": null,
+          "sequencing_kit": null,
+          "sequencing_files": {
+            "file_type": "fastq",
+            "filename": "SRR1383472_2.fastq",
+            "read_direction": "forward",
+            "paired_filename": "SRR1383472_1.fastq",
+            "paired_read_direction": "reverse",
+            "read_length": 250,
+            "paired_read_length": 250
+          }
+        }
+      ],
+      "data_processing": [
+        {
+          "data_processing_id": "72775635-b44e-41ac-8acc-a6d92dac052c-007",
+          "primary_annotation": true,
+          "software_versions": "",
+          "paired_reads_assembly": "",
+          "quality_thresholds": "",
+          "primer_match_cutoffs": "",
+          "collapsing_method": "",
+          "data_processing_protocols": "",
+          "germline_database": "",
+          "analysis_provenance_id": "",
+          "data_processing_files": [
+            "SRR1383472_2_assemble-pass_collapse-unique.igblast.airr.tsv.gz"
+          ]
+        }
+      ]
+    },
+    {
+      "repertoire_id": null,
+      "study": {
+        "study_id": "PRJNA248475",
+        "study_title": "B cells populating the multiple sclerosis brain mature in the draining cervical lymph nodes",
+        "study_type": {
+          "id": "NCIT:C16084",
+          "label": "Observational Study"
+        },
+        "study_description": "Multiple sclerosis (MS) is an inflammatory disease of the central nervous system (CNS) characterized by autoimmune- mediated demyelination and neurodegeneration. The CNS of patients with MS harbors expanded clones of antigen- experienced B cells that reside in distinct compartments including the meninges, cerebrospinal fluid (CSF), and parenchyma. It is not understood whether this immune infiltrate initiates its development in the CNS or in pe- ripheral tissues. B cells in the CSF can exchange with those in peripheral blood, implying that CNS B cells may have access to lymphoid tissue that may be the specific compartment(s) in which CNS-resident B cells encounter antigen and experience affinity maturation. Paired tissues were used to determine whether the B cells that populate the CNS mature in the draining cervical lymph nodes (CLNs). High-throughput sequencing of the antibody repertoire demonstrated that clonally expanded B cells were present in both compartments. Founding members of clones were more often found in the draining CLNs. More mature clonal members derived from these founders were observed in the draining CLNs and also in the CNS, including lesions. These data provide new evidence that B cells traffic freely across the tissue barrier, with the majority of B cell maturation occurring outside of the CNS in the secondary lymphoid tissue. Our study may aid in further defining the mechanisms of immunomodulatory thera- pies that either deplete circulating B cells or affect the intrathecal B cell compartment by inhibiting lymphocyte transmigration into the CNS.",
+        "inclusion_exclusion_criteria": "",
+        "lab_name": "Steven H. Kleinstein",
+        "lab_address": "Yale University",
+        "submitted_by": "Scott Christley <scott.christley@utsouthwestern.edu>",
+        "collected_by": "",
+        "grants": "",
+        "pub_ids": "PMID: 25100741",
+        "keywords_study": [
+          "contains_ig"
+        ],
+        "vdjserver_uuid": "54655627105407466-242ac113-0001-012"
+      },
+      "subject": {
+        "subject_id": "M2",
+        "synthetic": false,
+        "species": {
+          "id": "NCBITaxon:9606",
+          "label": "Homo sapiens"
+        },
+        "sex": "female",
+        "age_min": 53,
+        "age_max": 53,
+        "age_unit": {
+          "id": "UO:0000036",
+          "label": "year"
+        },
+        "age_event": "sampling",
+        "ancestry_population": null,
+        "ethnicity": null,
+        "race": null,
+        "strain_name": null,
+        "linked_subjects": null,
+        "link_type": null,
+        "diagnosis": [
+          {
+            "study_group_description": "",
+            "disease_diagnosis": {
+              "id": "DOID:0050783",
+              "label": "secondary progressive multiple sclerosis"
+            },
+            "disease_length": "",
+            "disease_stage": "",
+            "prior_therapies": "",
+            "immunogen": "",
+            "intervention": "",
+            "medical_history": ""
+          }
+        ]
+      },
+      "sample": [
+        {
+          "sample_processing_id": "",
+          "sample_id": "M2 CLN section 2",
+          "sample_type": "Tissue sample",
+          "tissue": {
+            "id": "UBERON:0002429",
+            "label": "cervical lymph node"
+          },
+          "anatomic_site": null,
+          "disease_state_sample": "Secondary progressive",
+          "collection_time_point_relative": null,
+          "collection_time_point_reference": null,
+          "biomaterial_provider": null,
+          "tissue_processing": null,
+          "cell_subset": null,
+          "cell_phenotype": null,
+          "single_cell": false,
+          "cell_number": null,
+          "cells_per_reaction": null,
+          "cell_storage": false,
+          "cell_quality": null,
+          "cell_isolation": null,
+          "cell_processing_protocol": null,
+          "template_class": "RNA",
+          "template_quality": null,
+          "template_amount": null,
+          "library_generation_method": "RT(specific+UMI)+PCR",
+          "library_generation_protocol": null,
+          "library_generation_kit_version": null,
+          "pcr_target": [
+            {
+              "pcr_target_locus": "IGH",
+              "forward_pcr_primer_target_location": null,
+              "reverse_pcr_primer_target_location": null
+            }
+          ],
+          "complete_sequences": "partial",
+          "physical_linkage": "none",
+          "sequencing_run_id": "SRX552899",
+          "total_reads_passing_qc_filter": null,
+          "sequencing_platform": "Illumina MiSeq",
+          "sequencing_facility": null,
+          "sequencing_run_date": null,
+          "sequencing_kit": null,
+          "sequencing_files": {
+            "file_type": "fastq",
+            "filename": "SRR1383473_2.fastq",
+            "read_direction": "forward",
+            "paired_filename": "SRR1383473_1.fastq",
+            "paired_read_direction": "reverse",
+            "read_length": 250,
+            "paired_read_length": 250
+          }
+        }
+      ],
+      "data_processing": [
+        {
+          "data_processing_id": "72775635-b44e-41ac-8acc-a6d92dac052c-007",
+          "primary_annotation": true,
+          "software_versions": "",
+          "paired_reads_assembly": "",
+          "quality_thresholds": "",
+          "primer_match_cutoffs": "",
+          "collapsing_method": "",
+          "data_processing_protocols": "",
+          "germline_database": "",
+          "analysis_provenance_id": "",
+          "data_processing_files": [
+            "SRR1383473_2_assemble-pass_collapse-unique.igblast.airr.tsv.gz"
+          ]
+        }
+      ]
+    },
+    {
+      "repertoire_id": null,
+      "study": {
+        "study_id": "PRJNA248475",
+        "study_title": "B cells populating the multiple sclerosis brain mature in the draining cervical lymph nodes",
+        "study_type": {
+          "id": "NCIT:C16084",
+          "label": "Observational Study"
+        },
+        "study_description": "Multiple sclerosis (MS) is an inflammatory disease of the central nervous system (CNS) characterized by autoimmune- mediated demyelination and neurodegeneration. The CNS of patients with MS harbors expanded clones of antigen- experienced B cells that reside in distinct compartments including the meninges, cerebrospinal fluid (CSF), and parenchyma. It is not understood whether this immune infiltrate initiates its development in the CNS or in pe- ripheral tissues. B cells in the CSF can exchange with those in peripheral blood, implying that CNS B cells may have access to lymphoid tissue that may be the specific compartment(s) in which CNS-resident B cells encounter antigen and experience affinity maturation. Paired tissues were used to determine whether the B cells that populate the CNS mature in the draining cervical lymph nodes (CLNs). High-throughput sequencing of the antibody repertoire demonstrated that clonally expanded B cells were present in both compartments. Founding members of clones were more often found in the draining CLNs. More mature clonal members derived from these founders were observed in the draining CLNs and also in the CNS, including lesions. These data provide new evidence that B cells traffic freely across the tissue barrier, with the majority of B cell maturation occurring outside of the CNS in the secondary lymphoid tissue. Our study may aid in further defining the mechanisms of immunomodulatory thera- pies that either deplete circulating B cells or affect the intrathecal B cell compartment by inhibiting lymphocyte transmigration into the CNS.",
+        "inclusion_exclusion_criteria": "",
+        "lab_name": "Steven H. Kleinstein",
+        "lab_address": "Yale University",
+        "submitted_by": "Scott Christley <scott.christley@utsouthwestern.edu>",
+        "collected_by": "",
+        "grants": "",
+        "pub_ids": "PMID: 25100741",
+        "keywords_study": [
+          "contains_ig"
+        ],
+        "vdjserver_uuid": "54655627105407466-242ac113-0001-012"
+      },
+      "subject": {
+        "subject_id": "M2",
+        "synthetic": false,
+        "species": {
+          "id": "NCBITaxon:9606",
+          "label": "Homo sapiens"
+        },
+        "sex": "female",
+        "age_min": 53,
+        "age_max": 53,
+        "age_unit": {
+          "id": "UO:0000036",
+          "label": "year"
+        },
+        "age_event": "sampling",
+        "ancestry_population": null,
+        "ethnicity": null,
+        "race": null,
+        "strain_name": null,
+        "linked_subjects": null,
+        "link_type": null,
+        "diagnosis": [
+          {
+            "study_group_description": "",
+            "disease_diagnosis": {
+              "id": "DOID:0050783",
+              "label": "secondary progressive multiple sclerosis"
+            },
+            "disease_length": "",
+            "disease_stage": "",
+            "prior_therapies": "",
+            "immunogen": "",
+            "intervention": "",
+            "medical_history": ""
+          }
+        ]
+      },
+      "sample": [
+        {
+          "sample_processing_id": "",
+          "sample_id": "M2 CLN section 3",
+          "sample_type": "Tissue sample",
+          "tissue": {
+            "id": "UBERON:0002429",
+            "label": "cervical lymph node"
+          },
+          "anatomic_site": null,
+          "disease_state_sample": "Secondary progressive",
+          "collection_time_point_relative": null,
+          "collection_time_point_reference": null,
+          "biomaterial_provider": null,
+          "tissue_processing": null,
+          "cell_subset": null,
+          "cell_phenotype": null,
+          "single_cell": false,
+          "cell_number": null,
+          "cells_per_reaction": null,
+          "cell_storage": false,
+          "cell_quality": null,
+          "cell_isolation": null,
+          "cell_processing_protocol": null,
+          "template_class": "RNA",
+          "template_quality": null,
+          "template_amount": null,
+          "library_generation_method": "RT(specific+UMI)+PCR",
+          "library_generation_protocol": null,
+          "library_generation_kit_version": null,
+          "pcr_target": [
+            {
+              "pcr_target_locus": "IGH",
+              "forward_pcr_primer_target_location": null,
+              "reverse_pcr_primer_target_location": null
+            }
+          ],
+          "complete_sequences": "partial",
+          "physical_linkage": "none",
+          "sequencing_run_id": "SRX552900",
+          "total_reads_passing_qc_filter": null,
+          "sequencing_platform": "Illumina MiSeq",
+          "sequencing_facility": null,
+          "sequencing_run_date": null,
+          "sequencing_kit": null,
+          "sequencing_files": {
+            "file_type": "fastq",
+            "filename": "SRR1383474_2.fastq",
+            "read_direction": "forward",
+            "paired_filename": "SRR1383474_1.fastq",
+            "paired_read_direction": "reverse",
+            "read_length": 250,
+            "paired_read_length": 250
+          }
+        }
+      ],
+      "data_processing": [
+        {
+          "data_processing_id": "72775635-b44e-41ac-8acc-a6d92dac052c-007",
+          "primary_annotation": true,
+          "software_versions": "",
+          "paired_reads_assembly": "",
+          "quality_thresholds": "",
+          "primer_match_cutoffs": "",
+          "collapsing_method": "",
+          "data_processing_protocols": "",
+          "germline_database": "",
+          "analysis_provenance_id": "",
+          "data_processing_files": [
+            "SRR1383474_2_assemble-pass_collapse-unique.igblast.airr.tsv.gz"
+          ]
+        }
+      ]
+    },
+    {
+      "repertoire_id": null,
+      "study": {
+        "study_id": "PRJNA248475",
+        "study_title": "B cells populating the multiple sclerosis brain mature in the draining cervical lymph nodes",
+        "study_type": {
+          "id": "NCIT:C16084",
+          "label": "Observational Study"
+        },
+        "study_description": "Multiple sclerosis (MS) is an inflammatory disease of the central nervous system (CNS) characterized by autoimmune- mediated demyelination and neurodegeneration. The CNS of patients with MS harbors expanded clones of antigen- experienced B cells that reside in distinct compartments including the meninges, cerebrospinal fluid (CSF), and parenchyma. It is not understood whether this immune infiltrate initiates its development in the CNS or in pe- ripheral tissues. B cells in the CSF can exchange with those in peripheral blood, implying that CNS B cells may have access to lymphoid tissue that may be the specific compartment(s) in which CNS-resident B cells encounter antigen and experience affinity maturation. Paired tissues were used to determine whether the B cells that populate the CNS mature in the draining cervical lymph nodes (CLNs). High-throughput sequencing of the antibody repertoire demonstrated that clonally expanded B cells were present in both compartments. Founding members of clones were more often found in the draining CLNs. More mature clonal members derived from these founders were observed in the draining CLNs and also in the CNS, including lesions. These data provide new evidence that B cells traffic freely across the tissue barrier, with the majority of B cell maturation occurring outside of the CNS in the secondary lymphoid tissue. Our study may aid in further defining the mechanisms of immunomodulatory thera- pies that either deplete circulating B cells or affect the intrathecal B cell compartment by inhibiting lymphocyte transmigration into the CNS.",
+        "inclusion_exclusion_criteria": "",
+        "lab_name": "Steven H. Kleinstein",
+        "lab_address": "Yale University",
+        "submitted_by": "Scott Christley <scott.christley@utsouthwestern.edu>",
+        "collected_by": "",
+        "grants": "",
+        "pub_ids": "PMID: 25100741",
+        "keywords_study": [
+          "contains_ig"
+        ],
+        "vdjserver_uuid": "54655627105407466-242ac113-0001-012"
+      },
+      "subject": {
+        "subject_id": "M2",
+        "synthetic": false,
+        "species": {
+          "id": "NCBITaxon:9606",
+          "label": "Homo sapiens"
+        },
+        "sex": "female",
+        "age_min": 53,
+        "age_max": 53,
+        "age_unit": {
+          "id": "UO:0000036",
+          "label": "year"
+        },
+        "age_event": "sampling",
+        "ancestry_population": null,
+        "ethnicity": null,
+        "race": null,
+        "strain_name": null,
+        "linked_subjects": null,
+        "link_type": null,
+        "diagnosis": [
+          {
+            "study_group_description": "",
+            "disease_diagnosis": {
+              "id": "DOID:0050783",
+              "label": "secondary progressive multiple sclerosis"
+            },
+            "disease_length": "",
+            "disease_stage": "",
+            "prior_therapies": "",
+            "immunogen": "",
+            "intervention": "",
+            "medical_history": ""
+          }
+        ]
+      },
+      "sample": [
+        {
+          "sample_processing_id": "",
+          "sample_id": "M2 Lesion section 1",
+          "sample_type": "Lesion sample",
+          "tissue": {
+            "id": "UBERON:0003544",
+            "label": "brain white matter"
+          },
+          "anatomic_site": null,
+          "disease_state_sample": "Secondary progressive",
+          "collection_time_point_relative": null,
+          "collection_time_point_reference": null,
+          "biomaterial_provider": null,
+          "tissue_processing": null,
+          "cell_subset": null,
+          "cell_phenotype": null,
+          "single_cell": false,
+          "cell_number": null,
+          "cells_per_reaction": null,
+          "cell_storage": false,
+          "cell_quality": null,
+          "cell_isolation": null,
+          "cell_processing_protocol": null,
+          "template_class": "RNA",
+          "template_quality": null,
+          "template_amount": null,
+          "library_generation_method": "RT(specific+UMI)+PCR",
+          "library_generation_protocol": null,
+          "library_generation_kit_version": null,
+          "pcr_target": [
+            {
+              "pcr_target_locus": "IGH",
+              "forward_pcr_primer_target_location": null,
+              "reverse_pcr_primer_target_location": null
+            }
+          ],
+          "complete_sequences": "partial",
+          "physical_linkage": "none",
+          "sequencing_run_id": "SRX552912",
+          "total_reads_passing_qc_filter": null,
+          "sequencing_platform": "Illumina MiSeq",
+          "sequencing_facility": null,
+          "sequencing_run_date": null,
+          "sequencing_kit": null,
+          "sequencing_files": {
+            "file_type": "fastq",
+            "filename": "SRR1383475_2.fastq",
+            "read_direction": "forward",
+            "paired_filename": "SRR1383475_1.fastq",
+            "paired_read_direction": "reverse",
+            "read_length": 250,
+            "paired_read_length": 250
+          }
+        }
+      ],
+      "data_processing": [
+        {
+          "data_processing_id": "72775635-b44e-41ac-8acc-a6d92dac052c-007",
+          "primary_annotation": true,
+          "software_versions": "",
+          "paired_reads_assembly": "",
+          "quality_thresholds": "",
+          "primer_match_cutoffs": "",
+          "collapsing_method": "",
+          "data_processing_protocols": "",
+          "germline_database": "",
+          "analysis_provenance_id": "",
+          "data_processing_files": [
+            "SRR1383475_2_assemble-pass_collapse-unique.igblast.airr.tsv.gz"
+          ]
+        }
+      ]
+    },
+    {
+      "repertoire_id": null,
+      "study": {
+        "study_id": "PRJNA248475",
+        "study_title": "B cells populating the multiple sclerosis brain mature in the draining cervical lymph nodes",
+        "study_type": {
+          "id": "NCIT:C16084",
+          "label": "Observational Study"
+        },
+        "study_description": "Multiple sclerosis (MS) is an inflammatory disease of the central nervous system (CNS) characterized by autoimmune- mediated demyelination and neurodegeneration. The CNS of patients with MS harbors expanded clones of antigen- experienced B cells that reside in distinct compartments including the meninges, cerebrospinal fluid (CSF), and parenchyma. It is not understood whether this immune infiltrate initiates its development in the CNS or in pe- ripheral tissues. B cells in the CSF can exchange with those in peripheral blood, implying that CNS B cells may have access to lymphoid tissue that may be the specific compartment(s) in which CNS-resident B cells encounter antigen and experience affinity maturation. Paired tissues were used to determine whether the B cells that populate the CNS mature in the draining cervical lymph nodes (CLNs). High-throughput sequencing of the antibody repertoire demonstrated that clonally expanded B cells were present in both compartments. Founding members of clones were more often found in the draining CLNs. More mature clonal members derived from these founders were observed in the draining CLNs and also in the CNS, including lesions. These data provide new evidence that B cells traffic freely across the tissue barrier, with the majority of B cell maturation occurring outside of the CNS in the secondary lymphoid tissue. Our study may aid in further defining the mechanisms of immunomodulatory thera- pies that either deplete circulating B cells or affect the intrathecal B cell compartment by inhibiting lymphocyte transmigration into the CNS.",
+        "inclusion_exclusion_criteria": "",
+        "lab_name": "Steven H. Kleinstein",
+        "lab_address": "Yale University",
+        "submitted_by": "Scott Christley <scott.christley@utsouthwestern.edu>",
+        "collected_by": "",
+        "grants": "",
+        "pub_ids": "PMID: 25100741",
+        "keywords_study": [
+          "contains_ig"
+        ],
+        "vdjserver_uuid": "54655627105407466-242ac113-0001-012"
+      },
+      "subject": {
+        "subject_id": "M2",
+        "synthetic": false,
+        "species": {
+          "id": "NCBITaxon:9606",
+          "label": "Homo sapiens"
+        },
+        "sex": "female",
+        "age_min": 53,
+        "age_max": 53,
+        "age_unit": {
+          "id": "UO:0000036",
+          "label": "year"
+        },
+        "age_event": "sampling",
+        "ancestry_population": null,
+        "ethnicity": null,
+        "race": null,
+        "strain_name": null,
+        "linked_subjects": null,
+        "link_type": null,
+        "diagnosis": [
+          {
+            "study_group_description": "",
+            "disease_diagnosis": {
+              "id": "DOID:0050783",
+              "label": "secondary progressive multiple sclerosis"
+            },
+            "disease_length": "",
+            "disease_stage": "",
+            "prior_therapies": "",
+            "immunogen": "",
+            "intervention": "",
+            "medical_history": ""
+          }
+        ]
+      },
+      "sample": [
+        {
+          "sample_processing_id": "",
+          "sample_id": "M2 Lesion section 2",
+          "sample_type": "Lesion sample",
+          "tissue": {
+            "id": "UBERON:0003544",
+            "label": "brain white matter"
+          },
+          "anatomic_site": null,
+          "disease_state_sample": "Secondary progressive",
+          "collection_time_point_relative": null,
+          "collection_time_point_reference": null,
+          "biomaterial_provider": null,
+          "tissue_processing": null,
+          "cell_subset": null,
+          "cell_phenotype": null,
+          "single_cell": false,
+          "cell_number": null,
+          "cells_per_reaction": null,
+          "cell_storage": false,
+          "cell_quality": null,
+          "cell_isolation": null,
+          "cell_processing_protocol": null,
+          "template_class": "RNA",
+          "template_quality": null,
+          "template_amount": null,
+          "library_generation_method": "RT(specific+UMI)+PCR",
+          "library_generation_protocol": null,
+          "library_generation_kit_version": null,
+          "pcr_target": [
+            {
+              "pcr_target_locus": "IGH",
+              "forward_pcr_primer_target_location": null,
+              "reverse_pcr_primer_target_location": null
+            }
+          ],
+          "complete_sequences": "partial",
+          "physical_linkage": "none",
+          "sequencing_run_id": "SRX552913",
+          "total_reads_passing_qc_filter": null,
+          "sequencing_platform": "Illumina MiSeq",
+          "sequencing_facility": null,
+          "sequencing_run_date": null,
+          "sequencing_kit": null,
+          "sequencing_files": {
+            "file_type": "fastq",
+            "filename": "SRR1383476_2.fastq",
+            "read_direction": "forward",
+            "paired_filename": "SRR1383476_1.fastq",
+            "paired_read_direction": "reverse",
+            "read_length": 250,
+            "paired_read_length": 250
+          }
+        }
+      ],
+      "data_processing": [
+        {
+          "data_processing_id": "72775635-b44e-41ac-8acc-a6d92dac052c-007",
+          "primary_annotation": true,
+          "software_versions": "",
+          "paired_reads_assembly": "",
+          "quality_thresholds": "",
+          "primer_match_cutoffs": "",
+          "collapsing_method": "",
+          "data_processing_protocols": "",
+          "germline_database": "",
+          "analysis_provenance_id": "",
+          "data_processing_files": [
+            "SRR1383476_2_assemble-pass_collapse-unique.igblast.airr.tsv.gz"
+          ]
+        }
+      ]
+    },
+    {
+      "repertoire_id": null,
+      "study": {
+        "study_id": "PRJNA248475",
+        "study_title": "B cells populating the multiple sclerosis brain mature in the draining cervical lymph nodes",
+        "study_type": {
+          "id": "NCIT:C16084",
+          "label": "Observational Study"
+        },
+        "study_description": "Multiple sclerosis (MS) is an inflammatory disease of the central nervous system (CNS) characterized by autoimmune- mediated demyelination and neurodegeneration. The CNS of patients with MS harbors expanded clones of antigen- experienced B cells that reside in distinct compartments including the meninges, cerebrospinal fluid (CSF), and parenchyma. It is not understood whether this immune infiltrate initiates its development in the CNS or in pe- ripheral tissues. B cells in the CSF can exchange with those in peripheral blood, implying that CNS B cells may have access to lymphoid tissue that may be the specific compartment(s) in which CNS-resident B cells encounter antigen and experience affinity maturation. Paired tissues were used to determine whether the B cells that populate the CNS mature in the draining cervical lymph nodes (CLNs). High-throughput sequencing of the antibody repertoire demonstrated that clonally expanded B cells were present in both compartments. Founding members of clones were more often found in the draining CLNs. More mature clonal members derived from these founders were observed in the draining CLNs and also in the CNS, including lesions. These data provide new evidence that B cells traffic freely across the tissue barrier, with the majority of B cell maturation occurring outside of the CNS in the secondary lymphoid tissue. Our study may aid in further defining the mechanisms of immunomodulatory thera- pies that either deplete circulating B cells or affect the intrathecal B cell compartment by inhibiting lymphocyte transmigration into the CNS.",
+        "inclusion_exclusion_criteria": "",
+        "lab_name": "Steven H. Kleinstein",
+        "lab_address": "Yale University",
+        "submitted_by": "Scott Christley <scott.christley@utsouthwestern.edu>",
+        "collected_by": "",
+        "grants": "",
+        "pub_ids": "PMID: 25100741",
+        "keywords_study": [
+          "contains_ig"
+        ],
+        "vdjserver_uuid": "54655627105407466-242ac113-0001-012"
+      },
+      "subject": {
+        "subject_id": "M2",
+        "synthetic": false,
+        "species": {
+          "id": "NCBITaxon:9606",
+          "label": "Homo sapiens"
+        },
+        "sex": "female",
+        "age_min": 53,
+        "age_max": 53,
+        "age_unit": {
+          "id": "UO:0000036",
+          "label": "year"
+        },
+        "age_event": "sampling",
+        "ancestry_population": null,
+        "ethnicity": null,
+        "race": null,
+        "strain_name": null,
+        "linked_subjects": null,
+        "link_type": null,
+        "diagnosis": [
+          {
+            "study_group_description": "",
+            "disease_diagnosis": {
+              "id": "DOID:0050783",
+              "label": "secondary progressive multiple sclerosis"
+            },
+            "disease_length": "",
+            "disease_stage": "",
+            "prior_therapies": "",
+            "immunogen": "",
+            "intervention": "",
+            "medical_history": ""
+          }
+        ]
+      },
+      "sample": [
+        {
+          "sample_processing_id": "",
+          "sample_id": "M2 Lesion section 3",
+          "sample_type": "Lesion sample",
+          "tissue": {
+            "id": "UBERON:0003544",
+            "label": "brain white matter"
+          },
+          "anatomic_site": null,
+          "disease_state_sample": "Secondary progressive",
+          "collection_time_point_relative": null,
+          "collection_time_point_reference": null,
+          "biomaterial_provider": null,
+          "tissue_processing": null,
+          "cell_subset": null,
+          "cell_phenotype": null,
+          "single_cell": false,
+          "cell_number": null,
+          "cells_per_reaction": null,
+          "cell_storage": false,
+          "cell_quality": null,
+          "cell_isolation": null,
+          "cell_processing_protocol": null,
+          "template_class": "RNA",
+          "template_quality": null,
+          "template_amount": null,
+          "library_generation_method": "RT(specific+UMI)+PCR",
+          "library_generation_protocol": null,
+          "library_generation_kit_version": null,
+          "pcr_target": [
+            {
+              "pcr_target_locus": "IGH",
+              "forward_pcr_primer_target_location": null,
+              "reverse_pcr_primer_target_location": null
+            }
+          ],
+          "complete_sequences": "partial",
+          "physical_linkage": "none",
+          "sequencing_run_id": "SRX553539",
+          "total_reads_passing_qc_filter": null,
+          "sequencing_platform": "Illumina MiSeq",
+          "sequencing_facility": null,
+          "sequencing_run_date": null,
+          "sequencing_kit": null,
+          "sequencing_files": {
+            "file_type": "fastq",
+            "filename": "SRR1383477_2.fastq",
+            "read_direction": "forward",
+            "paired_filename": "SRR1383477_1.fastq",
+            "paired_read_direction": "reverse",
+            "read_length": 250,
+            "paired_read_length": 250
+          }
+        }
+      ],
+      "data_processing": [
+        {
+          "data_processing_id": "72775635-b44e-41ac-8acc-a6d92dac052c-007",
+          "primary_annotation": true,
+          "software_versions": "",
+          "paired_reads_assembly": "",
+          "quality_thresholds": "",
+          "primer_match_cutoffs": "",
+          "collapsing_method": "",
+          "data_processing_protocols": "",
+          "germline_database": "",
+          "analysis_provenance_id": "",
+          "data_processing_files": [
+            "SRR1383477_2_assemble-pass_collapse-unique.igblast.airr.tsv.gz"
+          ]
+        }
+      ]
+    },
+    {
+      "repertoire_id": null,
+      "study": {
+        "study_id": "PRJNA248475",
+        "study_title": "B cells populating the multiple sclerosis brain mature in the draining cervical lymph nodes",
+        "study_type": {
+          "id": "NCIT:C16084",
+          "label": "Observational Study"
+        },
+        "study_description": "Multiple sclerosis (MS) is an inflammatory disease of the central nervous system (CNS) characterized by autoimmune- mediated demyelination and neurodegeneration. The CNS of patients with MS harbors expanded clones of antigen- experienced B cells that reside in distinct compartments including the meninges, cerebrospinal fluid (CSF), and parenchyma. It is not understood whether this immune infiltrate initiates its development in the CNS or in pe- ripheral tissues. B cells in the CSF can exchange with those in peripheral blood, implying that CNS B cells may have access to lymphoid tissue that may be the specific compartment(s) in which CNS-resident B cells encounter antigen and experience affinity maturation. Paired tissues were used to determine whether the B cells that populate the CNS mature in the draining cervical lymph nodes (CLNs). High-throughput sequencing of the antibody repertoire demonstrated that clonally expanded B cells were present in both compartments. Founding members of clones were more often found in the draining CLNs. More mature clonal members derived from these founders were observed in the draining CLNs and also in the CNS, including lesions. These data provide new evidence that B cells traffic freely across the tissue barrier, with the majority of B cell maturation occurring outside of the CNS in the secondary lymphoid tissue. Our study may aid in further defining the mechanisms of immunomodulatory thera- pies that either deplete circulating B cells or affect the intrathecal B cell compartment by inhibiting lymphocyte transmigration into the CNS.",
+        "inclusion_exclusion_criteria": "",
+        "lab_name": "Steven H. Kleinstein",
+        "lab_address": "Yale University",
+        "submitted_by": "Scott Christley <scott.christley@utsouthwestern.edu>",
+        "collected_by": "",
+        "grants": "",
+        "pub_ids": "PMID: 25100741",
+        "keywords_study": [
+          "contains_ig"
+        ],
+        "vdjserver_uuid": "54655627105407466-242ac113-0001-012"
+      },
+      "subject": {
+        "subject_id": "M3",
+        "synthetic": false,
+        "species": {
+          "id": "NCBITaxon:9606",
+          "label": "Homo sapiens"
+        },
+        "sex": "female",
+        "age_min": 74,
+        "age_max": 74,
+        "age_unit": {
+          "id": "UO:0000036",
+          "label": "year"
+        },
+        "age_event": "sampling",
+        "ancestry_population": null,
+        "ethnicity": null,
+        "race": null,
+        "strain_name": null,
+        "linked_subjects": null,
+        "link_type": null,
+        "diagnosis": [
+          {
+            "study_group_description": "",
+            "disease_diagnosis": {
+              "id": "DOID:0050784",
+              "label": "primary progressive multiple sclerosis"
+            },
+            "disease_length": "",
+            "disease_stage": "",
+            "prior_therapies": "",
+            "immunogen": "",
+            "intervention": "",
+            "medical_history": ""
+          }
+        ]
+      },
+      "sample": [
+        {
+          "sample_processing_id": "",
+          "sample_id": "M3 CLN section 1",
+          "sample_type": "Tissue sample",
+          "tissue": {
+            "id": "UBERON:0002429",
+            "label": "cervical lymph node"
+          },
+          "anatomic_site": null,
+          "disease_state_sample": "Primary progressive",
+          "collection_time_point_relative": null,
+          "collection_time_point_reference": null,
+          "biomaterial_provider": null,
+          "tissue_processing": null,
+          "cell_subset": null,
+          "cell_phenotype": null,
+          "single_cell": false,
+          "cell_number": null,
+          "cells_per_reaction": null,
+          "cell_storage": false,
+          "cell_quality": null,
+          "cell_isolation": null,
+          "cell_processing_protocol": null,
+          "template_class": "RNA",
+          "template_quality": null,
+          "template_amount": null,
+          "library_generation_method": "RT(specific+UMI)+PCR",
+          "library_generation_protocol": null,
+          "library_generation_kit_version": null,
+          "pcr_target": [
+            {
+              "pcr_target_locus": "IGH",
+              "forward_pcr_primer_target_location": null,
+              "reverse_pcr_primer_target_location": null
+            }
+          ],
+          "complete_sequences": "partial",
+          "physical_linkage": "none",
+          "sequencing_run_id": "SRX552914",
+          "total_reads_passing_qc_filter": null,
+          "sequencing_platform": "Illumina MiSeq",
+          "sequencing_facility": null,
+          "sequencing_run_date": null,
+          "sequencing_kit": null,
+          "sequencing_files": {
+            "file_type": "fastq",
+            "filename": "SRR1383326_2.fastq",
+            "read_direction": "forward",
+            "paired_filename": "SRR1383326_1.fastq",
+            "paired_read_direction": "reverse",
+            "read_length": 250,
+            "paired_read_length": 250
+          }
+        }
+      ],
+      "data_processing": [
+        {
+          "data_processing_id": "72775635-b44e-41ac-8acc-a6d92dac052c-007",
+          "primary_annotation": true,
+          "software_versions": "",
+          "paired_reads_assembly": "",
+          "quality_thresholds": "",
+          "primer_match_cutoffs": "",
+          "collapsing_method": "",
+          "data_processing_protocols": "",
+          "germline_database": "",
+          "analysis_provenance_id": "",
+          "data_processing_files": [
+            "SRR1383326_2_assemble-pass_collapse-unique.igblast.airr.tsv.gz"
+          ]
+        }
+      ]
+    },
+    {
+      "repertoire_id": null,
+      "study": {
+        "study_id": "PRJNA248475",
+        "study_title": "B cells populating the multiple sclerosis brain mature in the draining cervical lymph nodes",
+        "study_type": {
+          "id": "NCIT:C16084",
+          "label": "Observational Study"
+        },
+        "study_description": "Multiple sclerosis (MS) is an inflammatory disease of the central nervous system (CNS) characterized by autoimmune- mediated demyelination and neurodegeneration. The CNS of patients with MS harbors expanded clones of antigen- experienced B cells that reside in distinct compartments including the meninges, cerebrospinal fluid (CSF), and parenchyma. It is not understood whether this immune infiltrate initiates its development in the CNS or in pe- ripheral tissues. B cells in the CSF can exchange with those in peripheral blood, implying that CNS B cells may have access to lymphoid tissue that may be the specific compartment(s) in which CNS-resident B cells encounter antigen and experience affinity maturation. Paired tissues were used to determine whether the B cells that populate the CNS mature in the draining cervical lymph nodes (CLNs). High-throughput sequencing of the antibody repertoire demonstrated that clonally expanded B cells were present in both compartments. Founding members of clones were more often found in the draining CLNs. More mature clonal members derived from these founders were observed in the draining CLNs and also in the CNS, including lesions. These data provide new evidence that B cells traffic freely across the tissue barrier, with the majority of B cell maturation occurring outside of the CNS in the secondary lymphoid tissue. Our study may aid in further defining the mechanisms of immunomodulatory thera- pies that either deplete circulating B cells or affect the intrathecal B cell compartment by inhibiting lymphocyte transmigration into the CNS.",
+        "inclusion_exclusion_criteria": "",
+        "lab_name": "Steven H. Kleinstein",
+        "lab_address": "Yale University",
+        "submitted_by": "Scott Christley <scott.christley@utsouthwestern.edu>",
+        "collected_by": "",
+        "grants": "",
+        "pub_ids": "PMID: 25100741",
+        "keywords_study": [
+          "contains_ig"
+        ],
+        "vdjserver_uuid": "54655627105407466-242ac113-0001-012"
+      },
+      "subject": {
+        "subject_id": "M3",
+        "synthetic": false,
+        "species": {
+          "id": "NCBITaxon:9606",
+          "label": "Homo sapiens"
+        },
+        "sex": "female",
+        "age_min": 74,
+        "age_max": 74,
+        "age_unit": {
+          "id": "UO:0000036",
+          "label": "year"
+        },
+        "age_event": "sampling",
+        "ancestry_population": null,
+        "ethnicity": null,
+        "race": null,
+        "strain_name": null,
+        "linked_subjects": null,
+        "link_type": null,
+        "diagnosis": [
+          {
+            "study_group_description": "",
+            "disease_diagnosis": {
+              "id": "DOID:0050784",
+              "label": "primary progressive multiple sclerosis"
+            },
+            "disease_length": "",
+            "disease_stage": "",
+            "prior_therapies": "",
+            "immunogen": "",
+            "intervention": "",
+            "medical_history": ""
+          }
+        ]
+      },
+      "sample": [
+        {
+          "sample_processing_id": "",
+          "sample_id": "M3 CLN section 2",
+          "sample_type": "Tissue sample",
+          "tissue": {
+            "id": "UBERON:0002429",
+            "label": "cervical lymph node"
+          },
+          "anatomic_site": null,
+          "disease_state_sample": "Primary progressive",
+          "collection_time_point_relative": null,
+          "collection_time_point_reference": null,
+          "biomaterial_provider": null,
+          "tissue_processing": null,
+          "cell_subset": null,
+          "cell_phenotype": null,
+          "single_cell": false,
+          "cell_number": null,
+          "cells_per_reaction": null,
+          "cell_storage": false,
+          "cell_quality": null,
+          "cell_isolation": null,
+          "cell_processing_protocol": null,
+          "template_class": "RNA",
+          "template_quality": null,
+          "template_amount": null,
+          "library_generation_method": "RT(specific+UMI)+PCR",
+          "library_generation_protocol": null,
+          "library_generation_kit_version": null,
+          "pcr_target": [
+            {
+              "pcr_target_locus": "IGH",
+              "forward_pcr_primer_target_location": null,
+              "reverse_pcr_primer_target_location": null
+            }
+          ],
+          "complete_sequences": "partial",
+          "physical_linkage": "none",
+          "sequencing_run_id": "SRX552915",
+          "total_reads_passing_qc_filter": null,
+          "sequencing_platform": "Illumina MiSeq",
+          "sequencing_facility": null,
+          "sequencing_run_date": null,
+          "sequencing_kit": null,
+          "sequencing_files": {
+            "file_type": "fastq",
+            "filename": "SRR1383447_2.fastq",
+            "read_direction": "forward",
+            "paired_filename": "SRR1383447_1.fastq",
+            "paired_read_direction": "reverse",
+            "read_length": 250,
+            "paired_read_length": 250
+          }
+        }
+      ],
+      "data_processing": [
+        {
+          "data_processing_id": "72775635-b44e-41ac-8acc-a6d92dac052c-007",
+          "primary_annotation": true,
+          "software_versions": "",
+          "paired_reads_assembly": "",
+          "quality_thresholds": "",
+          "primer_match_cutoffs": "",
+          "collapsing_method": "",
+          "data_processing_protocols": "",
+          "germline_database": "",
+          "analysis_provenance_id": "",
+          "data_processing_files": [
+            "SRR1383447_2_assemble-pass_collapse-unique.igblast.airr.tsv.gz"
+          ]
+        }
+      ]
+    },
+    {
+      "repertoire_id": null,
+      "study": {
+        "study_id": "PRJNA248475",
+        "study_title": "B cells populating the multiple sclerosis brain mature in the draining cervical lymph nodes",
+        "study_type": {
+          "id": "NCIT:C16084",
+          "label": "Observational Study"
+        },
+        "study_description": "Multiple sclerosis (MS) is an inflammatory disease of the central nervous system (CNS) characterized by autoimmune- mediated demyelination and neurodegeneration. The CNS of patients with MS harbors expanded clones of antigen- experienced B cells that reside in distinct compartments including the meninges, cerebrospinal fluid (CSF), and parenchyma. It is not understood whether this immune infiltrate initiates its development in the CNS or in pe- ripheral tissues. B cells in the CSF can exchange with those in peripheral blood, implying that CNS B cells may have access to lymphoid tissue that may be the specific compartment(s) in which CNS-resident B cells encounter antigen and experience affinity maturation. Paired tissues were used to determine whether the B cells that populate the CNS mature in the draining cervical lymph nodes (CLNs). High-throughput sequencing of the antibody repertoire demonstrated that clonally expanded B cells were present in both compartments. Founding members of clones were more often found in the draining CLNs. More mature clonal members derived from these founders were observed in the draining CLNs and also in the CNS, including lesions. These data provide new evidence that B cells traffic freely across the tissue barrier, with the majority of B cell maturation occurring outside of the CNS in the secondary lymphoid tissue. Our study may aid in further defining the mechanisms of immunomodulatory thera- pies that either deplete circulating B cells or affect the intrathecal B cell compartment by inhibiting lymphocyte transmigration into the CNS.",
+        "inclusion_exclusion_criteria": "",
+        "lab_name": "Steven H. Kleinstein",
+        "lab_address": "Yale University",
+        "submitted_by": "Scott Christley <scott.christley@utsouthwestern.edu>",
+        "collected_by": "",
+        "grants": "",
+        "pub_ids": "PMID: 25100741",
+        "keywords_study": [
+          "contains_ig"
+        ],
+        "vdjserver_uuid": "54655627105407466-242ac113-0001-012"
+      },
+      "subject": {
+        "subject_id": "M3",
+        "synthetic": false,
+        "species": {
+          "id": "NCBITaxon:9606",
+          "label": "Homo sapiens"
+        },
+        "sex": "female",
+        "age_min": 74,
+        "age_max": 74,
+        "age_unit": {
+          "id": "UO:0000036",
+          "label": "year"
+        },
+        "age_event": "sampling",
+        "ancestry_population": null,
+        "ethnicity": null,
+        "race": null,
+        "strain_name": null,
+        "linked_subjects": null,
+        "link_type": null,
+        "diagnosis": [
+          {
+            "study_group_description": "",
+            "disease_diagnosis": {
+              "id": "DOID:0050784",
+              "label": "primary progressive multiple sclerosis"
+            },
+            "disease_length": "",
+            "disease_stage": "",
+            "prior_therapies": "",
+            "immunogen": "",
+            "intervention": "",
+            "medical_history": ""
+          }
+        ]
+      },
+      "sample": [
+        {
+          "sample_processing_id": "",
+          "sample_id": "M3 CLN section 3",
+          "sample_type": "Tissue sample",
+          "tissue": {
+            "id": "UBERON:0002429",
+            "label": "cervical lymph node"
+          },
+          "anatomic_site": null,
+          "disease_state_sample": "Primary progressive",
+          "collection_time_point_relative": null,
+          "collection_time_point_reference": null,
+          "biomaterial_provider": null,
+          "tissue_processing": null,
+          "cell_subset": null,
+          "cell_phenotype": null,
+          "single_cell": false,
+          "cell_number": null,
+          "cells_per_reaction": null,
+          "cell_storage": false,
+          "cell_quality": null,
+          "cell_isolation": null,
+          "cell_processing_protocol": null,
+          "template_class": "RNA",
+          "template_quality": null,
+          "template_amount": null,
+          "library_generation_method": "RT(specific+UMI)+PCR",
+          "library_generation_protocol": null,
+          "library_generation_kit_version": null,
+          "pcr_target": [
+            {
+              "pcr_target_locus": "IGH",
+              "forward_pcr_primer_target_location": null,
+              "reverse_pcr_primer_target_location": null
+            }
+          ],
+          "complete_sequences": "partial",
+          "physical_linkage": "none",
+          "sequencing_run_id": "SRX552916",
+          "total_reads_passing_qc_filter": null,
+          "sequencing_platform": "Illumina MiSeq",
+          "sequencing_facility": null,
+          "sequencing_run_date": null,
+          "sequencing_kit": null,
+          "sequencing_files": {
+            "file_type": "fastq",
+            "filename": "SRR1383448_2.fastq",
+            "read_direction": "forward",
+            "paired_filename": "SRR1383448_1.fastq",
+            "paired_read_direction": "reverse",
+            "read_length": 250,
+            "paired_read_length": 250
+          }
+        }
+      ],
+      "data_processing": [
+        {
+          "data_processing_id": "72775635-b44e-41ac-8acc-a6d92dac052c-007",
+          "primary_annotation": true,
+          "software_versions": "",
+          "paired_reads_assembly": "",
+          "quality_thresholds": "",
+          "primer_match_cutoffs": "",
+          "collapsing_method": "",
+          "data_processing_protocols": "",
+          "germline_database": "",
+          "analysis_provenance_id": "",
+          "data_processing_files": [
+            "SRR1383448_2_assemble-pass_collapse-unique.igblast.airr.tsv.gz"
+          ]
+        }
+      ]
+    },
+    {
+      "repertoire_id": null,
+      "study": {
+        "study_id": "PRJNA248475",
+        "study_title": "B cells populating the multiple sclerosis brain mature in the draining cervical lymph nodes",
+        "study_type": {
+          "id": "NCIT:C16084",
+          "label": "Observational Study"
+        },
+        "study_description": "Multiple sclerosis (MS) is an inflammatory disease of the central nervous system (CNS) characterized by autoimmune- mediated demyelination and neurodegeneration. The CNS of patients with MS harbors expanded clones of antigen- experienced B cells that reside in distinct compartments including the meninges, cerebrospinal fluid (CSF), and parenchyma. It is not understood whether this immune infiltrate initiates its development in the CNS or in pe- ripheral tissues. B cells in the CSF can exchange with those in peripheral blood, implying that CNS B cells may have access to lymphoid tissue that may be the specific compartment(s) in which CNS-resident B cells encounter antigen and experience affinity maturation. Paired tissues were used to determine whether the B cells that populate the CNS mature in the draining cervical lymph nodes (CLNs). High-throughput sequencing of the antibody repertoire demonstrated that clonally expanded B cells were present in both compartments. Founding members of clones were more often found in the draining CLNs. More mature clonal members derived from these founders were observed in the draining CLNs and also in the CNS, including lesions. These data provide new evidence that B cells traffic freely across the tissue barrier, with the majority of B cell maturation occurring outside of the CNS in the secondary lymphoid tissue. Our study may aid in further defining the mechanisms of immunomodulatory thera- pies that either deplete circulating B cells or affect the intrathecal B cell compartment by inhibiting lymphocyte transmigration into the CNS.",
+        "inclusion_exclusion_criteria": "",
+        "lab_name": "Steven H. Kleinstein",
+        "lab_address": "Yale University",
+        "submitted_by": "Scott Christley <scott.christley@utsouthwestern.edu>",
+        "collected_by": "",
+        "grants": "",
+        "pub_ids": "PMID: 25100741",
+        "keywords_study": [
+          "contains_ig"
+        ],
+        "vdjserver_uuid": "54655627105407466-242ac113-0001-012"
+      },
+      "subject": {
+        "subject_id": "M3",
+        "synthetic": false,
+        "species": {
+          "id": "NCBITaxon:9606",
+          "label": "Homo sapiens"
+        },
+        "sex": "female",
+        "age_min": 74,
+        "age_max": 74,
+        "age_unit": {
+          "id": "UO:0000036",
+          "label": "year"
+        },
+        "age_event": "sampling",
+        "ancestry_population": null,
+        "ethnicity": null,
+        "race": null,
+        "strain_name": null,
+        "linked_subjects": null,
+        "link_type": null,
+        "diagnosis": [
+          {
+            "study_group_description": "",
+            "disease_diagnosis": {
+              "id": "DOID:0050784",
+              "label": "primary progressive multiple sclerosis"
+            },
+            "disease_length": "",
+            "disease_stage": "",
+            "prior_therapies": "",
+            "immunogen": "",
+            "intervention": "",
+            "medical_history": ""
+          }
+        ]
+      },
+      "sample": [
+        {
+          "sample_processing_id": "",
+          "sample_id": "M3 Lesion section 1",
+          "sample_type": "Lesion sample",
+          "tissue": {
+            "id": "UBERON:0003544",
+            "label": "brain white matter"
+          },
+          "anatomic_site": null,
+          "disease_state_sample": "Primary progressive",
+          "collection_time_point_relative": null,
+          "collection_time_point_reference": null,
+          "biomaterial_provider": null,
+          "tissue_processing": null,
+          "cell_subset": null,
+          "cell_phenotype": null,
+          "single_cell": false,
+          "cell_number": null,
+          "cells_per_reaction": null,
+          "cell_storage": false,
+          "cell_quality": null,
+          "cell_isolation": null,
+          "cell_processing_protocol": null,
+          "template_class": "RNA",
+          "template_quality": null,
+          "template_amount": null,
+          "library_generation_method": "RT(specific+UMI)+PCR",
+          "library_generation_protocol": null,
+          "library_generation_kit_version": null,
+          "pcr_target": [
+            {
+              "pcr_target_locus": "IGH",
+              "forward_pcr_primer_target_location": null,
+              "reverse_pcr_primer_target_location": null
+            }
+          ],
+          "complete_sequences": "partial",
+          "physical_linkage": "none",
+          "sequencing_run_id": "SRX552918",
+          "total_reads_passing_qc_filter": null,
+          "sequencing_platform": "Illumina MiSeq",
+          "sequencing_facility": null,
+          "sequencing_run_date": null,
+          "sequencing_kit": null,
+          "sequencing_files": {
+            "file_type": "fastq",
+            "filename": "SRR1383449_2.fastq",
+            "read_direction": "forward",
+            "paired_filename": "SRR1383449_1.fastq",
+            "paired_read_direction": "reverse",
+            "read_length": 250,
+            "paired_read_length": 250
+          }
+        }
+      ],
+      "data_processing": [
+        {
+          "data_processing_id": "72775635-b44e-41ac-8acc-a6d92dac052c-007",
+          "primary_annotation": true,
+          "software_versions": "",
+          "paired_reads_assembly": "",
+          "quality_thresholds": "",
+          "primer_match_cutoffs": "",
+          "collapsing_method": "",
+          "data_processing_protocols": "",
+          "germline_database": "",
+          "analysis_provenance_id": "",
+          "data_processing_files": [
+            "SRR1383449_2_assemble-pass_collapse-unique.igblast.airr.tsv.gz"
+          ]
+        }
+      ]
+    },
+    {
+      "repertoire_id": null,
+      "study": {
+        "study_id": "PRJNA248475",
+        "study_title": "B cells populating the multiple sclerosis brain mature in the draining cervical lymph nodes",
+        "study_type": {
+          "id": "NCIT:C16084",
+          "label": "Observational Study"
+        },
+        "study_description": "Multiple sclerosis (MS) is an inflammatory disease of the central nervous system (CNS) characterized by autoimmune- mediated demyelination and neurodegeneration. The CNS of patients with MS harbors expanded clones of antigen- experienced B cells that reside in distinct compartments including the meninges, cerebrospinal fluid (CSF), and parenchyma. It is not understood whether this immune infiltrate initiates its development in the CNS or in pe- ripheral tissues. B cells in the CSF can exchange with those in peripheral blood, implying that CNS B cells may have access to lymphoid tissue that may be the specific compartment(s) in which CNS-resident B cells encounter antigen and experience affinity maturation. Paired tissues were used to determine whether the B cells that populate the CNS mature in the draining cervical lymph nodes (CLNs). High-throughput sequencing of the antibody repertoire demonstrated that clonally expanded B cells were present in both compartments. Founding members of clones were more often found in the draining CLNs. More mature clonal members derived from these founders were observed in the draining CLNs and also in the CNS, including lesions. These data provide new evidence that B cells traffic freely across the tissue barrier, with the majority of B cell maturation occurring outside of the CNS in the secondary lymphoid tissue. Our study may aid in further defining the mechanisms of immunomodulatory thera- pies that either deplete circulating B cells or affect the intrathecal B cell compartment by inhibiting lymphocyte transmigration into the CNS.",
+        "inclusion_exclusion_criteria": "",
+        "lab_name": "Steven H. Kleinstein",
+        "lab_address": "Yale University",
+        "submitted_by": "Scott Christley <scott.christley@utsouthwestern.edu>",
+        "collected_by": "",
+        "grants": "",
+        "pub_ids": "PMID: 25100741",
+        "keywords_study": [
+          "contains_ig"
+        ],
+        "vdjserver_uuid": "54655627105407466-242ac113-0001-012"
+      },
+      "subject": {
+        "subject_id": "M3",
+        "synthetic": false,
+        "species": {
+          "id": "NCBITaxon:9606",
+          "label": "Homo sapiens"
+        },
+        "sex": "female",
+        "age_min": 74,
+        "age_max": 74,
+        "age_unit": {
+          "id": "UO:0000036",
+          "label": "year"
+        },
+        "age_event": "sampling",
+        "ancestry_population": null,
+        "ethnicity": null,
+        "race": null,
+        "strain_name": null,
+        "linked_subjects": null,
+        "link_type": null,
+        "diagnosis": [
+          {
+            "study_group_description": "",
+            "disease_diagnosis": {
+              "id": "DOID:0050784",
+              "label": "primary progressive multiple sclerosis"
+            },
+            "disease_length": "",
+            "disease_stage": "",
+            "prior_therapies": "",
+            "immunogen": "",
+            "intervention": "",
+            "medical_history": ""
+          }
+        ]
+      },
+      "sample": [
+        {
+          "sample_processing_id": "",
+          "sample_id": "M3 Lesion section 2",
+          "sample_type": "Lesion sample",
+          "tissue": {
+            "id": "UBERON:0003544",
+            "label": "brain white matter"
+          },
+          "anatomic_site": null,
+          "disease_state_sample": "Primary progressive",
+          "collection_time_point_relative": null,
+          "collection_time_point_reference": null,
+          "biomaterial_provider": null,
+          "tissue_processing": null,
+          "cell_subset": null,
+          "cell_phenotype": null,
+          "single_cell": false,
+          "cell_number": null,
+          "cells_per_reaction": null,
+          "cell_storage": false,
+          "cell_quality": null,
+          "cell_isolation": null,
+          "cell_processing_protocol": null,
+          "template_class": "RNA",
+          "template_quality": null,
+          "template_amount": null,
+          "library_generation_method": "RT(specific+UMI)+PCR",
+          "library_generation_protocol": null,
+          "library_generation_kit_version": null,
+          "pcr_target": [
+            {
+              "pcr_target_locus": "IGH",
+              "forward_pcr_primer_target_location": null,
+              "reverse_pcr_primer_target_location": null
+            }
+          ],
+          "complete_sequences": "partial",
+          "physical_linkage": "none",
+          "sequencing_run_id": "SRX552920",
+          "total_reads_passing_qc_filter": null,
+          "sequencing_platform": "Illumina MiSeq",
+          "sequencing_facility": null,
+          "sequencing_run_date": null,
+          "sequencing_kit": null,
+          "sequencing_files": {
+            "file_type": "fastq",
+            "filename": "SRR1383450_2.fastq",
+            "read_direction": "forward",
+            "paired_filename": "SRR1383450_1.fastq",
+            "paired_read_direction": "reverse",
+            "read_length": 250,
+            "paired_read_length": 250
+          }
+        }
+      ],
+      "data_processing": [
+        {
+          "data_processing_id": "72775635-b44e-41ac-8acc-a6d92dac052c-007",
+          "primary_annotation": true,
+          "software_versions": "",
+          "paired_reads_assembly": "",
+          "quality_thresholds": "",
+          "primer_match_cutoffs": "",
+          "collapsing_method": "",
+          "data_processing_protocols": "",
+          "germline_database": "",
+          "analysis_provenance_id": "",
+          "data_processing_files": [
+            "SRR1383450_2_assemble-pass_collapse-unique.igblast.airr.tsv.gz"
+          ]
+        }
+      ]
+    },
+    {
+      "repertoire_id": null,
+      "study": {
+        "study_id": "PRJNA248475",
+        "study_title": "B cells populating the multiple sclerosis brain mature in the draining cervical lymph nodes",
+        "study_type": {
+          "id": "NCIT:C16084",
+          "label": "Observational Study"
+        },
+        "study_description": "Multiple sclerosis (MS) is an inflammatory disease of the central nervous system (CNS) characterized by autoimmune- mediated demyelination and neurodegeneration. The CNS of patients with MS harbors expanded clones of antigen- experienced B cells that reside in distinct compartments including the meninges, cerebrospinal fluid (CSF), and parenchyma. It is not understood whether this immune infiltrate initiates its development in the CNS or in pe- ripheral tissues. B cells in the CSF can exchange with those in peripheral blood, implying that CNS B cells may have access to lymphoid tissue that may be the specific compartment(s) in which CNS-resident B cells encounter antigen and experience affinity maturation. Paired tissues were used to determine whether the B cells that populate the CNS mature in the draining cervical lymph nodes (CLNs). High-throughput sequencing of the antibody repertoire demonstrated that clonally expanded B cells were present in both compartments. Founding members of clones were more often found in the draining CLNs. More mature clonal members derived from these founders were observed in the draining CLNs and also in the CNS, including lesions. These data provide new evidence that B cells traffic freely across the tissue barrier, with the majority of B cell maturation occurring outside of the CNS in the secondary lymphoid tissue. Our study may aid in further defining the mechanisms of immunomodulatory thera- pies that either deplete circulating B cells or affect the intrathecal B cell compartment by inhibiting lymphocyte transmigration into the CNS.",
+        "inclusion_exclusion_criteria": "",
+        "lab_name": "Steven H. Kleinstein",
+        "lab_address": "Yale University",
+        "submitted_by": "Scott Christley <scott.christley@utsouthwestern.edu>",
+        "collected_by": "",
+        "grants": "",
+        "pub_ids": "PMID: 25100741",
+        "keywords_study": [
+          "contains_ig"
+        ],
+        "vdjserver_uuid": "54655627105407466-242ac113-0001-012"
+      },
+      "subject": {
+        "subject_id": "M4",
+        "synthetic": false,
+        "species": {
+          "id": "NCBITaxon:9606",
+          "label": "Homo sapiens"
+        },
+        "sex": "male",
+        "age_min": 80,
+        "age_max": 80,
+        "age_unit": {
+          "id": "UO:0000036",
+          "label": "year"
+        },
+        "age_event": "sampling",
+        "ancestry_population": null,
+        "ethnicity": null,
+        "race": null,
+        "strain_name": null,
+        "linked_subjects": null,
+        "link_type": null,
+        "diagnosis": [
+          {
+            "study_group_description": "",
+            "disease_diagnosis": {
+              "id": "DOID:2377",
+              "label": "multiple sclerosis"
+            },
+            "disease_length": "",
+            "disease_stage": "chronic progressive",
+            "prior_therapies": "",
+            "immunogen": "",
+            "intervention": "",
+            "medical_history": ""
+          }
+        ]
+      },
+      "sample": [
+        {
+          "sample_processing_id": "",
+          "sample_id": "M4 CLN section 1",
+          "sample_type": "Tissue sample",
+          "tissue": {
+            "id": "UBERON:0002429",
+            "label": "cervical lymph node"
+          },
+          "anatomic_site": null,
+          "disease_state_sample": "Chronic progressive",
+          "collection_time_point_relative": null,
+          "collection_time_point_reference": null,
+          "biomaterial_provider": null,
+          "tissue_processing": null,
+          "cell_subset": null,
+          "cell_phenotype": null,
+          "single_cell": false,
+          "cell_number": null,
+          "cells_per_reaction": null,
+          "cell_storage": false,
+          "cell_quality": null,
+          "cell_isolation": null,
+          "cell_processing_protocol": null,
+          "template_class": "RNA",
+          "template_quality": null,
+          "template_amount": null,
+          "library_generation_method": "RT(specific+UMI)+PCR",
+          "library_generation_protocol": null,
+          "library_generation_kit_version": null,
+          "pcr_target": [
+            {
+              "pcr_target_locus": "IGH",
+              "forward_pcr_primer_target_location": null,
+              "reverse_pcr_primer_target_location": null
+            }
+          ],
+          "complete_sequences": "partial",
+          "physical_linkage": "none",
+          "sequencing_run_id": "SRX552921",
+          "total_reads_passing_qc_filter": null,
+          "sequencing_platform": "Illumina MiSeq",
+          "sequencing_facility": null,
+          "sequencing_run_date": null,
+          "sequencing_kit": null,
+          "sequencing_files": {
+            "file_type": "fastq",
+            "filename": "SRR1383451_2.fastq",
+            "read_direction": "forward",
+            "paired_filename": "SRR1383451_1.fastq",
+            "paired_read_direction": "reverse",
+            "read_length": 250,
+            "paired_read_length": 250
+          }
+        }
+      ],
+      "data_processing": [
+        {
+          "data_processing_id": "72775635-b44e-41ac-8acc-a6d92dac052c-007",
+          "primary_annotation": true,
+          "software_versions": "",
+          "paired_reads_assembly": "",
+          "quality_thresholds": "",
+          "primer_match_cutoffs": "",
+          "collapsing_method": "",
+          "data_processing_protocols": "",
+          "germline_database": "",
+          "analysis_provenance_id": "",
+          "data_processing_files": [
+            "SRR1383451_2_assemble-pass_collapse-unique.igblast.airr.tsv.gz"
+          ]
+        }
+      ]
+    },
+    {
+      "repertoire_id": null,
+      "study": {
+        "study_id": "PRJNA248475",
+        "study_title": "B cells populating the multiple sclerosis brain mature in the draining cervical lymph nodes",
+        "study_type": {
+          "id": "NCIT:C16084",
+          "label": "Observational Study"
+        },
+        "study_description": "Multiple sclerosis (MS) is an inflammatory disease of the central nervous system (CNS) characterized by autoimmune- mediated demyelination and neurodegeneration. The CNS of patients with MS harbors expanded clones of antigen- experienced B cells that reside in distinct compartments including the meninges, cerebrospinal fluid (CSF), and parenchyma. It is not understood whether this immune infiltrate initiates its development in the CNS or in pe- ripheral tissues. B cells in the CSF can exchange with those in peripheral blood, implying that CNS B cells may have access to lymphoid tissue that may be the specific compartment(s) in which CNS-resident B cells encounter antigen and experience affinity maturation. Paired tissues were used to determine whether the B cells that populate the CNS mature in the draining cervical lymph nodes (CLNs). High-throughput sequencing of the antibody repertoire demonstrated that clonally expanded B cells were present in both compartments. Founding members of clones were more often found in the draining CLNs. More mature clonal members derived from these founders were observed in the draining CLNs and also in the CNS, including lesions. These data provide new evidence that B cells traffic freely across the tissue barrier, with the majority of B cell maturation occurring outside of the CNS in the secondary lymphoid tissue. Our study may aid in further defining the mechanisms of immunomodulatory thera- pies that either deplete circulating B cells or affect the intrathecal B cell compartment by inhibiting lymphocyte transmigration into the CNS.",
+        "inclusion_exclusion_criteria": "",
+        "lab_name": "Steven H. Kleinstein",
+        "lab_address": "Yale University",
+        "submitted_by": "Scott Christley <scott.christley@utsouthwestern.edu>",
+        "collected_by": "",
+        "grants": "",
+        "pub_ids": "PMID: 25100741",
+        "keywords_study": [
+          "contains_ig"
+        ],
+        "vdjserver_uuid": "54655627105407466-242ac113-0001-012"
+      },
+      "subject": {
+        "subject_id": "M4",
+        "synthetic": false,
+        "species": {
+          "id": "NCBITaxon:9606",
+          "label": "Homo sapiens"
+        },
+        "sex": "male",
+        "age_min": 80,
+        "age_max": 80,
+        "age_unit": {
+          "id": "UO:0000036",
+          "label": "year"
+        },
+        "age_event": "sampling",
+        "ancestry_population": null,
+        "ethnicity": null,
+        "race": null,
+        "strain_name": null,
+        "linked_subjects": null,
+        "link_type": null,
+        "diagnosis": [
+          {
+            "study_group_description": "",
+            "disease_diagnosis": {
+              "id": "DOID:2377",
+              "label": "multiple sclerosis"
+            },
+            "disease_length": "",
+            "disease_stage": "chronic progressive",
+            "prior_therapies": "",
+            "immunogen": "",
+            "intervention": "",
+            "medical_history": ""
+          }
+        ]
+      },
+      "sample": [
+        {
+          "sample_processing_id": "",
+          "sample_id": "M4 CLN section 2",
+          "sample_type": "Tissue sample",
+          "tissue": {
+            "id": "UBERON:0002429",
+            "label": "cervical lymph node"
+          },
+          "anatomic_site": null,
+          "disease_state_sample": "Chronic progressive",
+          "collection_time_point_relative": null,
+          "collection_time_point_reference": null,
+          "biomaterial_provider": null,
+          "tissue_processing": null,
+          "cell_subset": null,
+          "cell_phenotype": null,
+          "single_cell": false,
+          "cell_number": null,
+          "cells_per_reaction": null,
+          "cell_storage": false,
+          "cell_quality": null,
+          "cell_isolation": null,
+          "cell_processing_protocol": null,
+          "template_class": "RNA",
+          "template_quality": null,
+          "template_amount": null,
+          "library_generation_method": "RT(specific+UMI)+PCR",
+          "library_generation_protocol": null,
+          "library_generation_kit_version": null,
+          "pcr_target": [
+            {
+              "pcr_target_locus": "IGH",
+              "forward_pcr_primer_target_location": null,
+              "reverse_pcr_primer_target_location": null
+            }
+          ],
+          "complete_sequences": "partial",
+          "physical_linkage": "none",
+          "sequencing_run_id": "SRX552922",
+          "total_reads_passing_qc_filter": null,
+          "sequencing_platform": "Illumina MiSeq",
+          "sequencing_facility": null,
+          "sequencing_run_date": null,
+          "sequencing_kit": null,
+          "sequencing_files": {
+            "file_type": "fastq",
+            "filename": "SRR1383452_2.fastq",
+            "read_direction": "forward",
+            "paired_filename": "SRR1383452_1.fastq",
+            "paired_read_direction": "reverse",
+            "read_length": 250,
+            "paired_read_length": 250
+          }
+        }
+      ],
+      "data_processing": [
+        {
+          "data_processing_id": "72775635-b44e-41ac-8acc-a6d92dac052c-007",
+          "primary_annotation": true,
+          "software_versions": "",
+          "paired_reads_assembly": "",
+          "quality_thresholds": "",
+          "primer_match_cutoffs": "",
+          "collapsing_method": "",
+          "data_processing_protocols": "",
+          "germline_database": "",
+          "analysis_provenance_id": "",
+          "data_processing_files": [
+            "SRR1383452_2_assemble-pass_collapse-unique.igblast.airr.tsv.gz"
+          ]
+        }
+      ]
+    },
+    {
+      "repertoire_id": null,
+      "study": {
+        "study_id": "PRJNA248475",
+        "study_title": "B cells populating the multiple sclerosis brain mature in the draining cervical lymph nodes",
+        "study_type": {
+          "id": "NCIT:C16084",
+          "label": "Observational Study"
+        },
+        "study_description": "Multiple sclerosis (MS) is an inflammatory disease of the central nervous system (CNS) characterized by autoimmune- mediated demyelination and neurodegeneration. The CNS of patients with MS harbors expanded clones of antigen- experienced B cells that reside in distinct compartments including the meninges, cerebrospinal fluid (CSF), and parenchyma. It is not understood whether this immune infiltrate initiates its development in the CNS or in pe- ripheral tissues. B cells in the CSF can exchange with those in peripheral blood, implying that CNS B cells may have access to lymphoid tissue that may be the specific compartment(s) in which CNS-resident B cells encounter antigen and experience affinity maturation. Paired tissues were used to determine whether the B cells that populate the CNS mature in the draining cervical lymph nodes (CLNs). High-throughput sequencing of the antibody repertoire demonstrated that clonally expanded B cells were present in both compartments. Founding members of clones were more often found in the draining CLNs. More mature clonal members derived from these founders were observed in the draining CLNs and also in the CNS, including lesions. These data provide new evidence that B cells traffic freely across the tissue barrier, with the majority of B cell maturation occurring outside of the CNS in the secondary lymphoid tissue. Our study may aid in further defining the mechanisms of immunomodulatory thera- pies that either deplete circulating B cells or affect the intrathecal B cell compartment by inhibiting lymphocyte transmigration into the CNS.",
+        "inclusion_exclusion_criteria": "",
+        "lab_name": "Steven H. Kleinstein",
+        "lab_address": "Yale University",
+        "submitted_by": "Scott Christley <scott.christley@utsouthwestern.edu>",
+        "collected_by": "",
+        "grants": "",
+        "pub_ids": "PMID: 25100741",
+        "keywords_study": [
+          "contains_ig"
+        ],
+        "vdjserver_uuid": "54655627105407466-242ac113-0001-012"
+      },
+      "subject": {
+        "subject_id": "M4",
+        "synthetic": false,
+        "species": {
+          "id": "NCBITaxon:9606",
+          "label": "Homo sapiens"
+        },
+        "sex": "male",
+        "age_min": 80,
+        "age_max": 80,
+        "age_unit": {
+          "id": "UO:0000036",
+          "label": "year"
+        },
+        "age_event": "sampling",
+        "ancestry_population": null,
+        "ethnicity": null,
+        "race": null,
+        "strain_name": null,
+        "linked_subjects": null,
+        "link_type": null,
+        "diagnosis": [
+          {
+            "study_group_description": "",
+            "disease_diagnosis": {
+              "id": "DOID:2377",
+              "label": "multiple sclerosis"
+            },
+            "disease_length": "",
+            "disease_stage": "chronic progressive",
+            "prior_therapies": "",
+            "immunogen": "",
+            "intervention": "",
+            "medical_history": ""
+          }
+        ]
+      },
+      "sample": [
+        {
+          "sample_processing_id": "",
+          "sample_id": "M4 CLN section 3",
+          "sample_type": "Tissue sample",
+          "tissue": {
+            "id": "UBERON:0002429",
+            "label": "cervical lymph node"
+          },
+          "anatomic_site": null,
+          "disease_state_sample": "Chronic progressive",
+          "collection_time_point_relative": null,
+          "collection_time_point_reference": null,
+          "biomaterial_provider": null,
+          "tissue_processing": null,
+          "cell_subset": null,
+          "cell_phenotype": null,
+          "single_cell": false,
+          "cell_number": null,
+          "cells_per_reaction": null,
+          "cell_storage": false,
+          "cell_quality": null,
+          "cell_isolation": null,
+          "cell_processing_protocol": null,
+          "template_class": "RNA",
+          "template_quality": null,
+          "template_amount": null,
+          "library_generation_method": "RT(specific+UMI)+PCR",
+          "library_generation_protocol": null,
+          "library_generation_kit_version": null,
+          "pcr_target": [
+            {
+              "pcr_target_locus": "IGH",
+              "forward_pcr_primer_target_location": null,
+              "reverse_pcr_primer_target_location": null
+            }
+          ],
+          "complete_sequences": "partial",
+          "physical_linkage": "none",
+          "sequencing_run_id": "SRX552923",
+          "total_reads_passing_qc_filter": null,
+          "sequencing_platform": "Illumina MiSeq",
+          "sequencing_facility": null,
+          "sequencing_run_date": null,
+          "sequencing_kit": null,
+          "sequencing_files": {
+            "file_type": "fastq",
+            "filename": "SRR1383453_2.fastq",
+            "read_direction": "forward",
+            "paired_filename": "SRR1383453_1.fastq",
+            "paired_read_direction": "reverse",
+            "read_length": 250,
+            "paired_read_length": 250
+          }
+        }
+      ],
+      "data_processing": [
+        {
+          "data_processing_id": "72775635-b44e-41ac-8acc-a6d92dac052c-007",
+          "primary_annotation": true,
+          "software_versions": "",
+          "paired_reads_assembly": "",
+          "quality_thresholds": "",
+          "primer_match_cutoffs": "",
+          "collapsing_method": "",
+          "data_processing_protocols": "",
+          "germline_database": "",
+          "analysis_provenance_id": "",
+          "data_processing_files": [
+            "SRR1383453_2_assemble-pass_collapse-unique.igblast.airr.tsv.gz"
+          ]
+        }
+      ]
+    },
+    {
+      "repertoire_id": null,
+      "study": {
+        "study_id": "PRJNA248475",
+        "study_title": "B cells populating the multiple sclerosis brain mature in the draining cervical lymph nodes",
+        "study_type": {
+          "id": "NCIT:C16084",
+          "label": "Observational Study"
+        },
+        "study_description": "Multiple sclerosis (MS) is an inflammatory disease of the central nervous system (CNS) characterized by autoimmune- mediated demyelination and neurodegeneration. The CNS of patients with MS harbors expanded clones of antigen- experienced B cells that reside in distinct compartments including the meninges, cerebrospinal fluid (CSF), and parenchyma. It is not understood whether this immune infiltrate initiates its development in the CNS or in pe- ripheral tissues. B cells in the CSF can exchange with those in peripheral blood, implying that CNS B cells may have access to lymphoid tissue that may be the specific compartment(s) in which CNS-resident B cells encounter antigen and experience affinity maturation. Paired tissues were used to determine whether the B cells that populate the CNS mature in the draining cervical lymph nodes (CLNs). High-throughput sequencing of the antibody repertoire demonstrated that clonally expanded B cells were present in both compartments. Founding members of clones were more often found in the draining CLNs. More mature clonal members derived from these founders were observed in the draining CLNs and also in the CNS, including lesions. These data provide new evidence that B cells traffic freely across the tissue barrier, with the majority of B cell maturation occurring outside of the CNS in the secondary lymphoid tissue. Our study may aid in further defining the mechanisms of immunomodulatory thera- pies that either deplete circulating B cells or affect the intrathecal B cell compartment by inhibiting lymphocyte transmigration into the CNS.",
+        "inclusion_exclusion_criteria": "",
+        "lab_name": "Steven H. Kleinstein",
+        "lab_address": "Yale University",
+        "submitted_by": "Scott Christley <scott.christley@utsouthwestern.edu>",
+        "collected_by": "",
+        "grants": "",
+        "pub_ids": "PMID: 25100741",
+        "keywords_study": [
+          "contains_ig"
+        ],
+        "vdjserver_uuid": "54655627105407466-242ac113-0001-012"
+      },
+      "subject": {
+        "subject_id": "M4",
+        "synthetic": false,
+        "species": {
+          "id": "NCBITaxon:9606",
+          "label": "Homo sapiens"
+        },
+        "sex": "male",
+        "age_min": 80,
+        "age_max": 80,
+        "age_unit": {
+          "id": "UO:0000036",
+          "label": "year"
+        },
+        "age_event": "sampling",
+        "ancestry_population": null,
+        "ethnicity": null,
+        "race": null,
+        "strain_name": null,
+        "linked_subjects": null,
+        "link_type": null,
+        "diagnosis": [
+          {
+            "study_group_description": "",
+            "disease_diagnosis": {
+              "id": "DOID:2377",
+              "label": "multiple sclerosis"
+            },
+            "disease_length": "",
+            "disease_stage": "chronic progressive",
+            "prior_therapies": "",
+            "immunogen": "",
+            "intervention": "",
+            "medical_history": ""
+          }
+        ]
+      },
+      "sample": [
+        {
+          "sample_processing_id": "",
+          "sample_id": "M4 Lesion section 1",
+          "sample_type": "Lesion sample",
+          "tissue": {
+            "id": "UBERON:0003544",
+            "label": "brain white matter"
+          },
+          "anatomic_site": null,
+          "disease_state_sample": "Chronic progressive",
+          "collection_time_point_relative": null,
+          "collection_time_point_reference": null,
+          "biomaterial_provider": null,
+          "tissue_processing": null,
+          "cell_subset": null,
+          "cell_phenotype": null,
+          "single_cell": false,
+          "cell_number": null,
+          "cells_per_reaction": null,
+          "cell_storage": false,
+          "cell_quality": null,
+          "cell_isolation": null,
+          "cell_processing_protocol": null,
+          "template_class": "RNA",
+          "template_quality": null,
+          "template_amount": null,
+          "library_generation_method": "RT(specific+UMI)+PCR",
+          "library_generation_protocol": null,
+          "library_generation_kit_version": null,
+          "pcr_target": [
+            {
+              "pcr_target_locus": "IGH",
+              "forward_pcr_primer_target_location": null,
+              "reverse_pcr_primer_target_location": null
+            }
+          ],
+          "complete_sequences": "partial",
+          "physical_linkage": "none",
+          "sequencing_run_id": "SRX552924",
+          "total_reads_passing_qc_filter": null,
+          "sequencing_platform": "Illumina MiSeq",
+          "sequencing_facility": null,
+          "sequencing_run_date": null,
+          "sequencing_kit": null,
+          "sequencing_files": {
+            "file_type": "fastq",
+            "filename": "SRR1383454_2.fastq",
+            "read_direction": "forward",
+            "paired_filename": "SRR1383454_1.fastq",
+            "paired_read_direction": "reverse",
+            "read_length": 250,
+            "paired_read_length": 250
+          }
+        }
+      ],
+      "data_processing": [
+        {
+          "data_processing_id": "72775635-b44e-41ac-8acc-a6d92dac052c-007",
+          "primary_annotation": true,
+          "software_versions": "",
+          "paired_reads_assembly": "",
+          "quality_thresholds": "",
+          "primer_match_cutoffs": "",
+          "collapsing_method": "",
+          "data_processing_protocols": "",
+          "germline_database": "",
+          "analysis_provenance_id": "",
+          "data_processing_files": [
+            "SRR1383454_2_assemble-pass_collapse-unique.igblast.airr.tsv.gz"
+          ]
+        }
+      ]
+    },
+    {
+      "repertoire_id": null,
+      "study": {
+        "study_id": "PRJNA248475",
+        "study_title": "B cells populating the multiple sclerosis brain mature in the draining cervical lymph nodes",
+        "study_type": {
+          "id": "NCIT:C16084",
+          "label": "Observational Study"
+        },
+        "study_description": "Multiple sclerosis (MS) is an inflammatory disease of the central nervous system (CNS) characterized by autoimmune- mediated demyelination and neurodegeneration. The CNS of patients with MS harbors expanded clones of antigen- experienced B cells that reside in distinct compartments including the meninges, cerebrospinal fluid (CSF), and parenchyma. It is not understood whether this immune infiltrate initiates its development in the CNS or in pe- ripheral tissues. B cells in the CSF can exchange with those in peripheral blood, implying that CNS B cells may have access to lymphoid tissue that may be the specific compartment(s) in which CNS-resident B cells encounter antigen and experience affinity maturation. Paired tissues were used to determine whether the B cells that populate the CNS mature in the draining cervical lymph nodes (CLNs). High-throughput sequencing of the antibody repertoire demonstrated that clonally expanded B cells were present in both compartments. Founding members of clones were more often found in the draining CLNs. More mature clonal members derived from these founders were observed in the draining CLNs and also in the CNS, including lesions. These data provide new evidence that B cells traffic freely across the tissue barrier, with the majority of B cell maturation occurring outside of the CNS in the secondary lymphoid tissue. Our study may aid in further defining the mechanisms of immunomodulatory thera- pies that either deplete circulating B cells or affect the intrathecal B cell compartment by inhibiting lymphocyte transmigration into the CNS.",
+        "inclusion_exclusion_criteria": "",
+        "lab_name": "Steven H. Kleinstein",
+        "lab_address": "Yale University",
+        "submitted_by": "Scott Christley <scott.christley@utsouthwestern.edu>",
+        "collected_by": "",
+        "grants": "",
+        "pub_ids": "PMID: 25100741",
+        "keywords_study": [
+          "contains_ig"
+        ],
+        "vdjserver_uuid": "54655627105407466-242ac113-0001-012"
+      },
+      "subject": {
+        "subject_id": "M4",
+        "synthetic": false,
+        "species": {
+          "id": "NCBITaxon:9606",
+          "label": "Homo sapiens"
+        },
+        "sex": "male",
+        "age_min": 80,
+        "age_max": 80,
+        "age_unit": {
+          "id": "UO:0000036",
+          "label": "year"
+        },
+        "age_event": "sampling",
+        "ancestry_population": null,
+        "ethnicity": null,
+        "race": null,
+        "strain_name": null,
+        "linked_subjects": null,
+        "link_type": null,
+        "diagnosis": [
+          {
+            "study_group_description": "",
+            "disease_diagnosis": {
+              "id": "DOID:2377",
+              "label": "multiple sclerosis"
+            },
+            "disease_length": "",
+            "disease_stage": "chronic progressive",
+            "prior_therapies": "",
+            "immunogen": "",
+            "intervention": "",
+            "medical_history": ""
+          }
+        ]
+      },
+      "sample": [
+        {
+          "sample_processing_id": "",
+          "sample_id": "M4 Lesion section 2",
+          "sample_type": "Lesion sample",
+          "tissue": {
+            "id": "UBERON:0003544",
+            "label": "brain white matter"
+          },
+          "anatomic_site": null,
+          "disease_state_sample": "Chronic progressive",
+          "collection_time_point_relative": null,
+          "collection_time_point_reference": null,
+          "biomaterial_provider": null,
+          "tissue_processing": null,
+          "cell_subset": null,
+          "cell_phenotype": null,
+          "single_cell": false,
+          "cell_number": null,
+          "cells_per_reaction": null,
+          "cell_storage": false,
+          "cell_quality": null,
+          "cell_isolation": null,
+          "cell_processing_protocol": null,
+          "template_class": "RNA",
+          "template_quality": null,
+          "template_amount": null,
+          "library_generation_method": "RT(specific+UMI)+PCR",
+          "library_generation_protocol": null,
+          "library_generation_kit_version": null,
+          "pcr_target": [
+            {
+              "pcr_target_locus": "IGH",
+              "forward_pcr_primer_target_location": null,
+              "reverse_pcr_primer_target_location": null
+            }
+          ],
+          "complete_sequences": "partial",
+          "physical_linkage": "none",
+          "sequencing_run_id": "SRX552925",
+          "total_reads_passing_qc_filter": null,
+          "sequencing_platform": "Illumina MiSeq",
+          "sequencing_facility": null,
+          "sequencing_run_date": null,
+          "sequencing_kit": null,
+          "sequencing_files": {
+            "file_type": "fastq",
+            "filename": "SRR1383455_2.fastq",
+            "read_direction": "forward",
+            "paired_filename": "SRR1383455_1.fastq",
+            "paired_read_direction": "reverse",
+            "read_length": 250,
+            "paired_read_length": 250
+          }
+        }
+      ],
+      "data_processing": [
+        {
+          "data_processing_id": "72775635-b44e-41ac-8acc-a6d92dac052c-007",
+          "primary_annotation": true,
+          "software_versions": "",
+          "paired_reads_assembly": "",
+          "quality_thresholds": "",
+          "primer_match_cutoffs": "",
+          "collapsing_method": "",
+          "data_processing_protocols": "",
+          "germline_database": "",
+          "analysis_provenance_id": "",
+          "data_processing_files": [
+            "SRR1383455_2_assemble-pass_collapse-unique.igblast.airr.tsv.gz"
+          ]
+        }
+      ]
+    },
+    {
+      "repertoire_id": null,
+      "study": {
+        "study_id": "PRJNA248475",
+        "study_title": "B cells populating the multiple sclerosis brain mature in the draining cervical lymph nodes",
+        "study_type": {
+          "id": "NCIT:C16084",
+          "label": "Observational Study"
+        },
+        "study_description": "Multiple sclerosis (MS) is an inflammatory disease of the central nervous system (CNS) characterized by autoimmune- mediated demyelination and neurodegeneration. The CNS of patients with MS harbors expanded clones of antigen- experienced B cells that reside in distinct compartments including the meninges, cerebrospinal fluid (CSF), and parenchyma. It is not understood whether this immune infiltrate initiates its development in the CNS or in pe- ripheral tissues. B cells in the CSF can exchange with those in peripheral blood, implying that CNS B cells may have access to lymphoid tissue that may be the specific compartment(s) in which CNS-resident B cells encounter antigen and experience affinity maturation. Paired tissues were used to determine whether the B cells that populate the CNS mature in the draining cervical lymph nodes (CLNs). High-throughput sequencing of the antibody repertoire demonstrated that clonally expanded B cells were present in both compartments. Founding members of clones were more often found in the draining CLNs. More mature clonal members derived from these founders were observed in the draining CLNs and also in the CNS, including lesions. These data provide new evidence that B cells traffic freely across the tissue barrier, with the majority of B cell maturation occurring outside of the CNS in the secondary lymphoid tissue. Our study may aid in further defining the mechanisms of immunomodulatory thera- pies that either deplete circulating B cells or affect the intrathecal B cell compartment by inhibiting lymphocyte transmigration into the CNS.",
+        "inclusion_exclusion_criteria": "",
+        "lab_name": "Steven H. Kleinstein",
+        "lab_address": "Yale University",
+        "submitted_by": "Scott Christley <scott.christley@utsouthwestern.edu>",
+        "collected_by": "",
+        "grants": "",
+        "pub_ids": "PMID: 25100741",
+        "keywords_study": [
+          "contains_ig"
+        ],
+        "vdjserver_uuid": "54655627105407466-242ac113-0001-012"
+      },
+      "subject": {
+        "subject_id": "M4",
+        "synthetic": false,
+        "species": {
+          "id": "NCBITaxon:9606",
+          "label": "Homo sapiens"
+        },
+        "sex": "male",
+        "age_min": 80,
+        "age_max": 80,
+        "age_unit": {
+          "id": "UO:0000036",
+          "label": "year"
+        },
+        "age_event": "sampling",
+        "ancestry_population": null,
+        "ethnicity": null,
+        "race": null,
+        "strain_name": null,
+        "linked_subjects": null,
+        "link_type": null,
+        "diagnosis": [
+          {
+            "study_group_description": "",
+            "disease_diagnosis": {
+              "id": "DOID:2377",
+              "label": "multiple sclerosis"
+            },
+            "disease_length": "",
+            "disease_stage": "chronic progressive",
+            "prior_therapies": "",
+            "immunogen": "",
+            "intervention": "",
+            "medical_history": ""
+          }
+        ]
+      },
+      "sample": [
+        {
+          "sample_processing_id": "",
+          "sample_id": "M4 Lesion section 3",
+          "sample_type": "Lesion sample",
+          "tissue": {
+            "id": "UBERON:0003544",
+            "label": "brain white matter"
+          },
+          "anatomic_site": null,
+          "disease_state_sample": "Chronic progressive",
+          "collection_time_point_relative": null,
+          "collection_time_point_reference": null,
+          "biomaterial_provider": null,
+          "tissue_processing": null,
+          "cell_subset": null,
+          "cell_phenotype": null,
+          "single_cell": false,
+          "cell_number": null,
+          "cells_per_reaction": null,
+          "cell_storage": false,
+          "cell_quality": null,
+          "cell_isolation": null,
+          "cell_processing_protocol": null,
+          "template_class": "RNA",
+          "template_quality": null,
+          "template_amount": null,
+          "library_generation_method": "RT(specific+UMI)+PCR",
+          "library_generation_protocol": null,
+          "library_generation_kit_version": null,
+          "pcr_target": [
+            {
+              "pcr_target_locus": "IGH",
+              "forward_pcr_primer_target_location": null,
+              "reverse_pcr_primer_target_location": null
+            }
+          ],
+          "complete_sequences": "partial",
+          "physical_linkage": "none",
+          "sequencing_run_id": "SRX553094",
+          "total_reads_passing_qc_filter": null,
+          "sequencing_platform": "Illumina MiSeq",
+          "sequencing_facility": null,
+          "sequencing_run_date": null,
+          "sequencing_kit": null,
+          "sequencing_files": {
+            "file_type": "fastq",
+            "filename": "SRR1383456_2.fastq",
+            "read_direction": "forward",
+            "paired_filename": "SRR1383456_1.fastq",
+            "paired_read_direction": "reverse",
+            "read_length": 250,
+            "paired_read_length": 250
+          }
+        }
+      ],
+      "data_processing": [
+        {
+          "data_processing_id": "72775635-b44e-41ac-8acc-a6d92dac052c-007",
+          "primary_annotation": true,
+          "software_versions": "",
+          "paired_reads_assembly": "",
+          "quality_thresholds": "",
+          "primer_match_cutoffs": "",
+          "collapsing_method": "",
+          "data_processing_protocols": "",
+          "germline_database": "",
+          "analysis_provenance_id": "",
+          "data_processing_files": [
+            "SRR1383456_2_assemble-pass_collapse-unique.igblast.airr.tsv.gz"
+          ]
+        }
+      ]
+    },
+    {
+      "repertoire_id": null,
+      "study": {
+        "study_id": "PRJNA248475",
+        "study_title": "B cells populating the multiple sclerosis brain mature in the draining cervical lymph nodes",
+        "study_type": {
+          "id": "NCIT:C16084",
+          "label": "Observational Study"
+        },
+        "study_description": "Multiple sclerosis (MS) is an inflammatory disease of the central nervous system (CNS) characterized by autoimmune- mediated demyelination and neurodegeneration. The CNS of patients with MS harbors expanded clones of antigen- experienced B cells that reside in distinct compartments including the meninges, cerebrospinal fluid (CSF), and parenchyma. It is not understood whether this immune infiltrate initiates its development in the CNS or in pe- ripheral tissues. B cells in the CSF can exchange with those in peripheral blood, implying that CNS B cells may have access to lymphoid tissue that may be the specific compartment(s) in which CNS-resident B cells encounter antigen and experience affinity maturation. Paired tissues were used to determine whether the B cells that populate the CNS mature in the draining cervical lymph nodes (CLNs). High-throughput sequencing of the antibody repertoire demonstrated that clonally expanded B cells were present in both compartments. Founding members of clones were more often found in the draining CLNs. More mature clonal members derived from these founders were observed in the draining CLNs and also in the CNS, including lesions. These data provide new evidence that B cells traffic freely across the tissue barrier, with the majority of B cell maturation occurring outside of the CNS in the secondary lymphoid tissue. Our study may aid in further defining the mechanisms of immunomodulatory thera- pies that either deplete circulating B cells or affect the intrathecal B cell compartment by inhibiting lymphocyte transmigration into the CNS.",
+        "inclusion_exclusion_criteria": "",
+        "lab_name": "Steven H. Kleinstein",
+        "lab_address": "Yale University",
+        "submitted_by": "Scott Christley <scott.christley@utsouthwestern.edu>",
+        "collected_by": "",
+        "grants": "",
+        "pub_ids": "PMID: 25100741",
+        "keywords_study": [
+          "contains_ig"
+        ],
+        "vdjserver_uuid": "54655627105407466-242ac113-0001-012"
+      },
+      "subject": {
+        "subject_id": "M5",
+        "synthetic": false,
+        "species": {
+          "id": "NCBITaxon:9606",
+          "label": "Homo sapiens"
+        },
+        "sex": "female",
+        "age_min": 63,
+        "age_max": 63,
+        "age_unit": {
+          "id": "UO:0000036",
+          "label": "year"
+        },
+        "age_event": "sampling",
+        "ancestry_population": null,
+        "ethnicity": null,
+        "race": null,
+        "strain_name": null,
+        "linked_subjects": null,
+        "link_type": null,
+        "diagnosis": [
+          {
+            "study_group_description": "",
+            "disease_diagnosis": {
+              "id": "DOID:2377",
+              "label": "multiple sclerosis"
+            },
+            "disease_length": "",
+            "disease_stage": "chronic",
+            "prior_therapies": "",
+            "immunogen": "",
+            "intervention": "",
+            "medical_history": ""
+          }
+        ]
+      },
+      "sample": [
+        {
+          "sample_processing_id": "",
+          "sample_id": "M5 Pia section 1",
+          "sample_type": "Tissue sample",
+          "tissue": {
+            "id": "UBERON:0002361",
+            "label": "pia mater"
+          },
+          "anatomic_site": null,
+          "disease_state_sample": "Chronic",
+          "collection_time_point_relative": null,
+          "collection_time_point_reference": null,
+          "biomaterial_provider": null,
+          "tissue_processing": null,
+          "cell_subset": null,
+          "cell_phenotype": null,
+          "single_cell": false,
+          "cell_number": null,
+          "cells_per_reaction": null,
+          "cell_storage": false,
+          "cell_quality": null,
+          "cell_isolation": null,
+          "cell_processing_protocol": null,
+          "template_class": "RNA",
+          "template_quality": null,
+          "template_amount": null,
+          "library_generation_method": "RT(specific+UMI)+PCR",
+          "library_generation_protocol": null,
+          "library_generation_kit_version": null,
+          "pcr_target": [
+            {
+              "pcr_target_locus": "IGH",
+              "forward_pcr_primer_target_location": null,
+              "reverse_pcr_primer_target_location": null
+            }
+          ],
+          "complete_sequences": "partial",
+          "physical_linkage": "none",
+          "sequencing_run_id": "SRX553095",
+          "total_reads_passing_qc_filter": null,
+          "sequencing_platform": "Illumina MiSeq",
+          "sequencing_facility": null,
+          "sequencing_run_date": null,
+          "sequencing_kit": null,
+          "sequencing_files": {
+            "file_type": "fastq",
+            "filename": "SRR1383457_2.fastq",
+            "read_direction": "forward",
+            "paired_filename": "SRR1383457_1.fastq",
+            "paired_read_direction": "reverse",
+            "read_length": 250,
+            "paired_read_length": 250
+          }
+        }
+      ],
+      "data_processing": [
+        {
+          "data_processing_id": "72775635-b44e-41ac-8acc-a6d92dac052c-007",
+          "primary_annotation": true,
+          "software_versions": "",
+          "paired_reads_assembly": "",
+          "quality_thresholds": "",
+          "primer_match_cutoffs": "",
+          "collapsing_method": "",
+          "data_processing_protocols": "",
+          "germline_database": "",
+          "analysis_provenance_id": "",
+          "data_processing_files": [
+            "SRR1383457_2_assemble-pass_collapse-unique.igblast.airr.tsv.gz"
+          ]
+        }
+      ]
+    },
+    {
+      "repertoire_id": null,
+      "study": {
+        "study_id": "PRJNA248475",
+        "study_title": "B cells populating the multiple sclerosis brain mature in the draining cervical lymph nodes",
+        "study_type": {
+          "id": "NCIT:C16084",
+          "label": "Observational Study"
+        },
+        "study_description": "Multiple sclerosis (MS) is an inflammatory disease of the central nervous system (CNS) characterized by autoimmune- mediated demyelination and neurodegeneration. The CNS of patients with MS harbors expanded clones of antigen- experienced B cells that reside in distinct compartments including the meninges, cerebrospinal fluid (CSF), and parenchyma. It is not understood whether this immune infiltrate initiates its development in the CNS or in pe- ripheral tissues. B cells in the CSF can exchange with those in peripheral blood, implying that CNS B cells may have access to lymphoid tissue that may be the specific compartment(s) in which CNS-resident B cells encounter antigen and experience affinity maturation. Paired tissues were used to determine whether the B cells that populate the CNS mature in the draining cervical lymph nodes (CLNs). High-throughput sequencing of the antibody repertoire demonstrated that clonally expanded B cells were present in both compartments. Founding members of clones were more often found in the draining CLNs. More mature clonal members derived from these founders were observed in the draining CLNs and also in the CNS, including lesions. These data provide new evidence that B cells traffic freely across the tissue barrier, with the majority of B cell maturation occurring outside of the CNS in the secondary lymphoid tissue. Our study may aid in further defining the mechanisms of immunomodulatory thera- pies that either deplete circulating B cells or affect the intrathecal B cell compartment by inhibiting lymphocyte transmigration into the CNS.",
+        "inclusion_exclusion_criteria": "",
+        "lab_name": "Steven H. Kleinstein",
+        "lab_address": "Yale University",
+        "submitted_by": "Scott Christley <scott.christley@utsouthwestern.edu>",
+        "collected_by": "",
+        "grants": "",
+        "pub_ids": "PMID: 25100741",
+        "keywords_study": [
+          "contains_ig"
+        ],
+        "vdjserver_uuid": "54655627105407466-242ac113-0001-012"
+      },
+      "subject": {
+        "subject_id": "M5",
+        "synthetic": false,
+        "species": {
+          "id": "NCBITaxon:9606",
+          "label": "Homo sapiens"
+        },
+        "sex": "female",
+        "age_min": 63,
+        "age_max": 63,
+        "age_unit": {
+          "id": "UO:0000036",
+          "label": "year"
+        },
+        "age_event": "sampling",
+        "ancestry_population": null,
+        "ethnicity": null,
+        "race": null,
+        "strain_name": null,
+        "linked_subjects": null,
+        "link_type": null,
+        "diagnosis": [
+          {
+            "study_group_description": "",
+            "disease_diagnosis": {
+              "id": "DOID:2377",
+              "label": "multiple sclerosis"
+            },
+            "disease_length": "",
+            "disease_stage": "chronic",
+            "prior_therapies": "",
+            "immunogen": "",
+            "intervention": "",
+            "medical_history": ""
+          }
+        ]
+      },
+      "sample": [
+        {
+          "sample_processing_id": "",
+          "sample_id": "M5 Pia section 2",
+          "sample_type": "Tissue sample",
+          "tissue": {
+            "id": "UBERON:0002361",
+            "label": "pia mater"
+          },
+          "anatomic_site": null,
+          "disease_state_sample": "Chronic",
+          "collection_time_point_relative": null,
+          "collection_time_point_reference": null,
+          "biomaterial_provider": null,
+          "tissue_processing": null,
+          "cell_subset": null,
+          "cell_phenotype": null,
+          "single_cell": false,
+          "cell_number": null,
+          "cells_per_reaction": null,
+          "cell_storage": false,
+          "cell_quality": null,
+          "cell_isolation": null,
+          "cell_processing_protocol": null,
+          "template_class": "RNA",
+          "template_quality": null,
+          "template_amount": null,
+          "library_generation_method": "RT(specific+UMI)+PCR",
+          "library_generation_protocol": null,
+          "library_generation_kit_version": null,
+          "pcr_target": [
+            {
+              "pcr_target_locus": "IGH",
+              "forward_pcr_primer_target_location": null,
+              "reverse_pcr_primer_target_location": null
+            }
+          ],
+          "complete_sequences": "partial",
+          "physical_linkage": "none",
+          "sequencing_run_id": "SRX553096",
+          "total_reads_passing_qc_filter": null,
+          "sequencing_platform": "Illumina MiSeq",
+          "sequencing_facility": null,
+          "sequencing_run_date": null,
+          "sequencing_kit": null,
+          "sequencing_files": {
+            "file_type": "fastq",
+            "filename": "SRR1383458_2.fastq",
+            "read_direction": "forward",
+            "paired_filename": "SRR1383458_1.fastq",
+            "paired_read_direction": "reverse",
+            "read_length": 250,
+            "paired_read_length": 250
+          }
+        }
+      ],
+      "data_processing": [
+        {
+          "data_processing_id": "72775635-b44e-41ac-8acc-a6d92dac052c-007",
+          "primary_annotation": true,
+          "software_versions": "",
+          "paired_reads_assembly": "",
+          "quality_thresholds": "",
+          "primer_match_cutoffs": "",
+          "collapsing_method": "",
+          "data_processing_protocols": "",
+          "germline_database": "",
+          "analysis_provenance_id": "",
+          "data_processing_files": [
+            "SRR1383458_2_assemble-pass_collapse-unique.igblast.airr.tsv.gz"
+          ]
+        }
+      ]
+    },
+    {
+      "repertoire_id": null,
+      "study": {
+        "study_id": "PRJNA248475",
+        "study_title": "B cells populating the multiple sclerosis brain mature in the draining cervical lymph nodes",
+        "study_type": {
+          "id": "NCIT:C16084",
+          "label": "Observational Study"
+        },
+        "study_description": "Multiple sclerosis (MS) is an inflammatory disease of the central nervous system (CNS) characterized by autoimmune- mediated demyelination and neurodegeneration. The CNS of patients with MS harbors expanded clones of antigen- experienced B cells that reside in distinct compartments including the meninges, cerebrospinal fluid (CSF), and parenchyma. It is not understood whether this immune infiltrate initiates its development in the CNS or in pe- ripheral tissues. B cells in the CSF can exchange with those in peripheral blood, implying that CNS B cells may have access to lymphoid tissue that may be the specific compartment(s) in which CNS-resident B cells encounter antigen and experience affinity maturation. Paired tissues were used to determine whether the B cells that populate the CNS mature in the draining cervical lymph nodes (CLNs). High-throughput sequencing of the antibody repertoire demonstrated that clonally expanded B cells were present in both compartments. Founding members of clones were more often found in the draining CLNs. More mature clonal members derived from these founders were observed in the draining CLNs and also in the CNS, including lesions. These data provide new evidence that B cells traffic freely across the tissue barrier, with the majority of B cell maturation occurring outside of the CNS in the secondary lymphoid tissue. Our study may aid in further defining the mechanisms of immunomodulatory thera- pies that either deplete circulating B cells or affect the intrathecal B cell compartment by inhibiting lymphocyte transmigration into the CNS.",
+        "inclusion_exclusion_criteria": "",
+        "lab_name": "Steven H. Kleinstein",
+        "lab_address": "Yale University",
+        "submitted_by": "Scott Christley <scott.christley@utsouthwestern.edu>",
+        "collected_by": "",
+        "grants": "",
+        "pub_ids": "PMID: 25100741",
+        "keywords_study": [
+          "contains_ig"
+        ],
+        "vdjserver_uuid": "54655627105407466-242ac113-0001-012"
+      },
+      "subject": {
+        "subject_id": "M5",
+        "synthetic": false,
+        "species": {
+          "id": "NCBITaxon:9606",
+          "label": "Homo sapiens"
+        },
+        "sex": "female",
+        "age_min": 63,
+        "age_max": 63,
+        "age_unit": {
+          "id": "UO:0000036",
+          "label": "year"
+        },
+        "age_event": "sampling",
+        "ancestry_population": null,
+        "ethnicity": null,
+        "race": null,
+        "strain_name": null,
+        "linked_subjects": null,
+        "link_type": null,
+        "diagnosis": [
+          {
+            "study_group_description": "",
+            "disease_diagnosis": {
+              "id": "DOID:2377",
+              "label": "multiple sclerosis"
+            },
+            "disease_length": "",
+            "disease_stage": "chronic",
+            "prior_therapies": "",
+            "immunogen": "",
+            "intervention": "",
+            "medical_history": ""
+          }
+        ]
+      },
+      "sample": [
+        {
+          "sample_processing_id": "",
+          "sample_id": "M5 Pia section 3",
+          "sample_type": "Tissue sample",
+          "tissue": {
+            "id": "UBERON:0002361",
+            "label": "pia mater"
+          },
+          "anatomic_site": null,
+          "disease_state_sample": "Chronic",
+          "collection_time_point_relative": null,
+          "collection_time_point_reference": null,
+          "biomaterial_provider": null,
+          "tissue_processing": null,
+          "cell_subset": null,
+          "cell_phenotype": null,
+          "single_cell": false,
+          "cell_number": null,
+          "cells_per_reaction": null,
+          "cell_storage": false,
+          "cell_quality": null,
+          "cell_isolation": null,
+          "cell_processing_protocol": null,
+          "template_class": "RNA",
+          "template_quality": null,
+          "template_amount": null,
+          "library_generation_method": "RT(specific+UMI)+PCR",
+          "library_generation_protocol": null,
+          "library_generation_kit_version": null,
+          "pcr_target": [
+            {
+              "pcr_target_locus": "IGH",
+              "forward_pcr_primer_target_location": null,
+              "reverse_pcr_primer_target_location": null
+            }
+          ],
+          "complete_sequences": "partial",
+          "physical_linkage": "none",
+          "sequencing_run_id": "SRX553097",
+          "total_reads_passing_qc_filter": null,
+          "sequencing_platform": "Illumina MiSeq",
+          "sequencing_facility": null,
+          "sequencing_run_date": null,
+          "sequencing_kit": null,
+          "sequencing_files": {
+            "file_type": "fastq",
+            "filename": "SRR1383459_2.fastq",
+            "read_direction": "forward",
+            "paired_filename": "SRR1383459_1.fastq",
+            "paired_read_direction": "reverse",
+            "read_length": 250,
+            "paired_read_length": 250
+          }
+        }
+      ],
+      "data_processing": [
+        {
+          "data_processing_id": "72775635-b44e-41ac-8acc-a6d92dac052c-007",
+          "primary_annotation": true,
+          "software_versions": "",
+          "paired_reads_assembly": "",
+          "quality_thresholds": "",
+          "primer_match_cutoffs": "",
+          "collapsing_method": "",
+          "data_processing_protocols": "",
+          "germline_database": "",
+          "analysis_provenance_id": "",
+          "data_processing_files": [
+            "SRR1383459_2_assemble-pass_collapse-unique.igblast.airr.tsv.gz"
+          ]
+        }
+      ]
+    },
+    {
+      "repertoire_id": null,
+      "study": {
+        "study_id": "PRJNA248475",
+        "study_title": "B cells populating the multiple sclerosis brain mature in the draining cervical lymph nodes",
+        "study_type": {
+          "id": "NCIT:C16084",
+          "label": "Observational Study"
+        },
+        "study_description": "Multiple sclerosis (MS) is an inflammatory disease of the central nervous system (CNS) characterized by autoimmune- mediated demyelination and neurodegeneration. The CNS of patients with MS harbors expanded clones of antigen- experienced B cells that reside in distinct compartments including the meninges, cerebrospinal fluid (CSF), and parenchyma. It is not understood whether this immune infiltrate initiates its development in the CNS or in pe- ripheral tissues. B cells in the CSF can exchange with those in peripheral blood, implying that CNS B cells may have access to lymphoid tissue that may be the specific compartment(s) in which CNS-resident B cells encounter antigen and experience affinity maturation. Paired tissues were used to determine whether the B cells that populate the CNS mature in the draining cervical lymph nodes (CLNs). High-throughput sequencing of the antibody repertoire demonstrated that clonally expanded B cells were present in both compartments. Founding members of clones were more often found in the draining CLNs. More mature clonal members derived from these founders were observed in the draining CLNs and also in the CNS, including lesions. These data provide new evidence that B cells traffic freely across the tissue barrier, with the majority of B cell maturation occurring outside of the CNS in the secondary lymphoid tissue. Our study may aid in further defining the mechanisms of immunomodulatory thera- pies that either deplete circulating B cells or affect the intrathecal B cell compartment by inhibiting lymphocyte transmigration into the CNS.",
+        "inclusion_exclusion_criteria": "",
+        "lab_name": "Steven H. Kleinstein",
+        "lab_address": "Yale University",
+        "submitted_by": "Scott Christley <scott.christley@utsouthwestern.edu>",
+        "collected_by": "",
+        "grants": "",
+        "pub_ids": "PMID: 25100741",
+        "keywords_study": [
+          "contains_ig"
+        ],
+        "vdjserver_uuid": "54655627105407466-242ac113-0001-012"
+      },
+      "subject": {
+        "subject_id": "M5",
+        "synthetic": false,
+        "species": {
+          "id": "NCBITaxon:9606",
+          "label": "Homo sapiens"
+        },
+        "sex": "female",
+        "age_min": 63,
+        "age_max": 63,
+        "age_unit": {
+          "id": "UO:0000036",
+          "label": "year"
+        },
+        "age_event": "sampling",
+        "ancestry_population": null,
+        "ethnicity": null,
+        "race": null,
+        "strain_name": null,
+        "linked_subjects": null,
+        "link_type": null,
+        "diagnosis": [
+          {
+            "study_group_description": "",
+            "disease_diagnosis": {
+              "id": "DOID:2377",
+              "label": "multiple sclerosis"
+            },
+            "disease_length": "",
+            "disease_stage": "chronic",
+            "prior_therapies": "",
+            "immunogen": "",
+            "intervention": "",
+            "medical_history": ""
+          }
+        ]
+      },
+      "sample": [
+        {
+          "sample_processing_id": "",
+          "sample_id": "M5 CLN-B section 1",
+          "sample_type": "Tissue sample",
+          "tissue": {
+            "id": "UBERON:0002429",
+            "label": "cervical lymph node"
+          },
+          "anatomic_site": null,
+          "disease_state_sample": "Chronic",
+          "collection_time_point_relative": null,
+          "collection_time_point_reference": null,
+          "biomaterial_provider": null,
+          "tissue_processing": null,
+          "cell_subset": null,
+          "cell_phenotype": null,
+          "single_cell": false,
+          "cell_number": null,
+          "cells_per_reaction": null,
+          "cell_storage": false,
+          "cell_quality": null,
+          "cell_isolation": null,
+          "cell_processing_protocol": null,
+          "template_class": "RNA",
+          "template_quality": null,
+          "template_amount": null,
+          "library_generation_method": "RT(specific+UMI)+PCR",
+          "library_generation_protocol": null,
+          "library_generation_kit_version": null,
+          "pcr_target": [
+            {
+              "pcr_target_locus": "IGH",
+              "forward_pcr_primer_target_location": null,
+              "reverse_pcr_primer_target_location": null
+            }
+          ],
+          "complete_sequences": "partial",
+          "physical_linkage": "none",
+          "sequencing_run_id": "SRX553098",
+          "total_reads_passing_qc_filter": null,
+          "sequencing_platform": "Illumina MiSeq",
+          "sequencing_facility": null,
+          "sequencing_run_date": null,
+          "sequencing_kit": null,
+          "sequencing_files": {
+            "file_type": "fastq",
+            "filename": "SRR1383460_2.fastq",
+            "read_direction": "forward",
+            "paired_filename": "SRR1383460_1.fastq",
+            "paired_read_direction": "reverse",
+            "read_length": 250,
+            "paired_read_length": 250
+          }
+        }
+      ],
+      "data_processing": [
+        {
+          "data_processing_id": "72775635-b44e-41ac-8acc-a6d92dac052c-007",
+          "primary_annotation": true,
+          "software_versions": "",
+          "paired_reads_assembly": "",
+          "quality_thresholds": "",
+          "primer_match_cutoffs": "",
+          "collapsing_method": "",
+          "data_processing_protocols": "",
+          "germline_database": "",
+          "analysis_provenance_id": "",
+          "data_processing_files": [
+            "SRR1383460_2_assemble-pass_collapse-unique.igblast.airr.tsv.gz"
+          ]
+        }
+      ]
+    },
+    {
+      "repertoire_id": null,
+      "study": {
+        "study_id": "PRJNA248475",
+        "study_title": "B cells populating the multiple sclerosis brain mature in the draining cervical lymph nodes",
+        "study_type": {
+          "id": "NCIT:C16084",
+          "label": "Observational Study"
+        },
+        "study_description": "Multiple sclerosis (MS) is an inflammatory disease of the central nervous system (CNS) characterized by autoimmune- mediated demyelination and neurodegeneration. The CNS of patients with MS harbors expanded clones of antigen- experienced B cells that reside in distinct compartments including the meninges, cerebrospinal fluid (CSF), and parenchyma. It is not understood whether this immune infiltrate initiates its development in the CNS or in pe- ripheral tissues. B cells in the CSF can exchange with those in peripheral blood, implying that CNS B cells may have access to lymphoid tissue that may be the specific compartment(s) in which CNS-resident B cells encounter antigen and experience affinity maturation. Paired tissues were used to determine whether the B cells that populate the CNS mature in the draining cervical lymph nodes (CLNs). High-throughput sequencing of the antibody repertoire demonstrated that clonally expanded B cells were present in both compartments. Founding members of clones were more often found in the draining CLNs. More mature clonal members derived from these founders were observed in the draining CLNs and also in the CNS, including lesions. These data provide new evidence that B cells traffic freely across the tissue barrier, with the majority of B cell maturation occurring outside of the CNS in the secondary lymphoid tissue. Our study may aid in further defining the mechanisms of immunomodulatory thera- pies that either deplete circulating B cells or affect the intrathecal B cell compartment by inhibiting lymphocyte transmigration into the CNS.",
+        "inclusion_exclusion_criteria": "",
+        "lab_name": "Steven H. Kleinstein",
+        "lab_address": "Yale University",
+        "submitted_by": "Scott Christley <scott.christley@utsouthwestern.edu>",
+        "collected_by": "",
+        "grants": "",
+        "pub_ids": "PMID: 25100741",
+        "keywords_study": [
+          "contains_ig"
+        ],
+        "vdjserver_uuid": "54655627105407466-242ac113-0001-012"
+      },
+      "subject": {
+        "subject_id": "M5",
+        "synthetic": false,
+        "species": {
+          "id": "NCBITaxon:9606",
+          "label": "Homo sapiens"
+        },
+        "sex": "female",
+        "age_min": 63,
+        "age_max": 63,
+        "age_unit": {
+          "id": "UO:0000036",
+          "label": "year"
+        },
+        "age_event": "sampling",
+        "ancestry_population": null,
+        "ethnicity": null,
+        "race": null,
+        "strain_name": null,
+        "linked_subjects": null,
+        "link_type": null,
+        "diagnosis": [
+          {
+            "study_group_description": "",
+            "disease_diagnosis": {
+              "id": "DOID:2377",
+              "label": "multiple sclerosis"
+            },
+            "disease_length": "",
+            "disease_stage": "chronic",
+            "prior_therapies": "",
+            "immunogen": "",
+            "intervention": "",
+            "medical_history": ""
+          }
+        ]
+      },
+      "sample": [
+        {
+          "sample_processing_id": "",
+          "sample_id": "M5 CLN-B section 2",
+          "sample_type": "Tissue sample",
+          "tissue": {
+            "id": "UBERON:0002429",
+            "label": "cervical lymph node"
+          },
+          "anatomic_site": null,
+          "disease_state_sample": "Chronic",
+          "collection_time_point_relative": null,
+          "collection_time_point_reference": null,
+          "biomaterial_provider": null,
+          "tissue_processing": null,
+          "cell_subset": null,
+          "cell_phenotype": null,
+          "single_cell": false,
+          "cell_number": null,
+          "cells_per_reaction": null,
+          "cell_storage": false,
+          "cell_quality": null,
+          "cell_isolation": null,
+          "cell_processing_protocol": null,
+          "template_class": "RNA",
+          "template_quality": null,
+          "template_amount": null,
+          "library_generation_method": "RT(specific+UMI)+PCR",
+          "library_generation_protocol": null,
+          "library_generation_kit_version": null,
+          "pcr_target": [
+            {
+              "pcr_target_locus": "IGH",
+              "forward_pcr_primer_target_location": null,
+              "reverse_pcr_primer_target_location": null
+            }
+          ],
+          "complete_sequences": "partial",
+          "physical_linkage": "none",
+          "sequencing_run_id": "SRX553099",
+          "total_reads_passing_qc_filter": null,
+          "sequencing_platform": "Illumina MiSeq",
+          "sequencing_facility": null,
+          "sequencing_run_date": null,
+          "sequencing_kit": null,
+          "sequencing_files": {
+            "file_type": "fastq",
+            "filename": "SRR1383461_2.fastq",
+            "read_direction": "forward",
+            "paired_filename": "SRR1383461_1.fastq",
+            "paired_read_direction": "reverse",
+            "read_length": 250,
+            "paired_read_length": 250
+          }
+        }
+      ],
+      "data_processing": [
+        {
+          "data_processing_id": "72775635-b44e-41ac-8acc-a6d92dac052c-007",
+          "primary_annotation": true,
+          "software_versions": "",
+          "paired_reads_assembly": "",
+          "quality_thresholds": "",
+          "primer_match_cutoffs": "",
+          "collapsing_method": "",
+          "data_processing_protocols": "",
+          "germline_database": "",
+          "analysis_provenance_id": "",
+          "data_processing_files": [
+            "SRR1383461_2_assemble-pass_collapse-unique.igblast.airr.tsv.gz"
+          ]
+        }
+      ]
+    },
+    {
+      "repertoire_id": null,
+      "study": {
+        "study_id": "PRJNA248475",
+        "study_title": "B cells populating the multiple sclerosis brain mature in the draining cervical lymph nodes",
+        "study_type": {
+          "id": "NCIT:C16084",
+          "label": "Observational Study"
+        },
+        "study_description": "Multiple sclerosis (MS) is an inflammatory disease of the central nervous system (CNS) characterized by autoimmune- mediated demyelination and neurodegeneration. The CNS of patients with MS harbors expanded clones of antigen- experienced B cells that reside in distinct compartments including the meninges, cerebrospinal fluid (CSF), and parenchyma. It is not understood whether this immune infiltrate initiates its development in the CNS or in pe- ripheral tissues. B cells in the CSF can exchange with those in peripheral blood, implying that CNS B cells may have access to lymphoid tissue that may be the specific compartment(s) in which CNS-resident B cells encounter antigen and experience affinity maturation. Paired tissues were used to determine whether the B cells that populate the CNS mature in the draining cervical lymph nodes (CLNs). High-throughput sequencing of the antibody repertoire demonstrated that clonally expanded B cells were present in both compartments. Founding members of clones were more often found in the draining CLNs. More mature clonal members derived from these founders were observed in the draining CLNs and also in the CNS, including lesions. These data provide new evidence that B cells traffic freely across the tissue barrier, with the majority of B cell maturation occurring outside of the CNS in the secondary lymphoid tissue. Our study may aid in further defining the mechanisms of immunomodulatory thera- pies that either deplete circulating B cells or affect the intrathecal B cell compartment by inhibiting lymphocyte transmigration into the CNS.",
+        "inclusion_exclusion_criteria": "",
+        "lab_name": "Steven H. Kleinstein",
+        "lab_address": "Yale University",
+        "submitted_by": "Scott Christley <scott.christley@utsouthwestern.edu>",
+        "collected_by": "",
+        "grants": "",
+        "pub_ids": "PMID: 25100741",
+        "keywords_study": [
+          "contains_ig"
+        ],
+        "vdjserver_uuid": "54655627105407466-242ac113-0001-012"
+      },
+      "subject": {
+        "subject_id": "M5",
+        "synthetic": false,
+        "species": {
+          "id": "NCBITaxon:9606",
+          "label": "Homo sapiens"
+        },
+        "sex": "female",
+        "age_min": 63,
+        "age_max": 63,
+        "age_unit": {
+          "id": "UO:0000036",
+          "label": "year"
+        },
+        "age_event": "sampling",
+        "ancestry_population": null,
+        "ethnicity": null,
+        "race": null,
+        "strain_name": null,
+        "linked_subjects": null,
+        "link_type": null,
+        "diagnosis": [
+          {
+            "study_group_description": "",
+            "disease_diagnosis": {
+              "id": "DOID:2377",
+              "label": "multiple sclerosis"
+            },
+            "disease_length": "",
+            "disease_stage": "chronic",
+            "prior_therapies": "",
+            "immunogen": "",
+            "intervention": "",
+            "medical_history": ""
+          }
+        ]
+      },
+      "sample": [
+        {
+          "sample_processing_id": "",
+          "sample_id": "M5 CLN-B section 3",
+          "sample_type": "Tissue sample",
+          "tissue": {
+            "id": "UBERON:0002429",
+            "label": "cervical lymph node"
+          },
+          "anatomic_site": null,
+          "disease_state_sample": "Chronic",
+          "collection_time_point_relative": null,
+          "collection_time_point_reference": null,
+          "biomaterial_provider": null,
+          "tissue_processing": null,
+          "cell_subset": null,
+          "cell_phenotype": null,
+          "single_cell": false,
+          "cell_number": null,
+          "cells_per_reaction": null,
+          "cell_storage": false,
+          "cell_quality": null,
+          "cell_isolation": null,
+          "cell_processing_protocol": null,
+          "template_class": "RNA",
+          "template_quality": null,
+          "template_amount": null,
+          "library_generation_method": "RT(specific+UMI)+PCR",
+          "library_generation_protocol": null,
+          "library_generation_kit_version": null,
+          "pcr_target": [
+            {
+              "pcr_target_locus": "IGH",
+              "forward_pcr_primer_target_location": null,
+              "reverse_pcr_primer_target_location": null
+            }
+          ],
+          "complete_sequences": "partial",
+          "physical_linkage": "none",
+          "sequencing_run_id": "SRX553100",
+          "total_reads_passing_qc_filter": null,
+          "sequencing_platform": "Illumina MiSeq",
+          "sequencing_facility": null,
+          "sequencing_run_date": null,
+          "sequencing_kit": null,
+          "sequencing_files": {
+            "file_type": "fastq",
+            "filename": "SRR1383462_2.fastq",
+            "read_direction": "forward",
+            "paired_filename": "SRR1383462_1.fastq",
+            "paired_read_direction": "reverse",
+            "read_length": 250,
+            "paired_read_length": 250
+          }
+        }
+      ],
+      "data_processing": [
+        {
+          "data_processing_id": "72775635-b44e-41ac-8acc-a6d92dac052c-007",
+          "primary_annotation": true,
+          "software_versions": "",
+          "paired_reads_assembly": "",
+          "quality_thresholds": "",
+          "primer_match_cutoffs": "",
+          "collapsing_method": "",
+          "data_processing_protocols": "",
+          "germline_database": "",
+          "analysis_provenance_id": "",
+          "data_processing_files": [
+            "SRR1383462_2_assemble-pass_collapse-unique.igblast.airr.tsv.gz"
+          ]
+        }
+      ]
+    },
+    {
+      "repertoire_id": null,
+      "study": {
+        "study_id": "PRJNA248475",
+        "study_title": "B cells populating the multiple sclerosis brain mature in the draining cervical lymph nodes",
+        "study_type": {
+          "id": "NCIT:C16084",
+          "label": "Observational Study"
+        },
+        "study_description": "Multiple sclerosis (MS) is an inflammatory disease of the central nervous system (CNS) characterized by autoimmune- mediated demyelination and neurodegeneration. The CNS of patients with MS harbors expanded clones of antigen- experienced B cells that reside in distinct compartments including the meninges, cerebrospinal fluid (CSF), and parenchyma. It is not understood whether this immune infiltrate initiates its development in the CNS or in pe- ripheral tissues. B cells in the CSF can exchange with those in peripheral blood, implying that CNS B cells may have access to lymphoid tissue that may be the specific compartment(s) in which CNS-resident B cells encounter antigen and experience affinity maturation. Paired tissues were used to determine whether the B cells that populate the CNS mature in the draining cervical lymph nodes (CLNs). High-throughput sequencing of the antibody repertoire demonstrated that clonally expanded B cells were present in both compartments. Founding members of clones were more often found in the draining CLNs. More mature clonal members derived from these founders were observed in the draining CLNs and also in the CNS, including lesions. These data provide new evidence that B cells traffic freely across the tissue barrier, with the majority of B cell maturation occurring outside of the CNS in the secondary lymphoid tissue. Our study may aid in further defining the mechanisms of immunomodulatory thera- pies that either deplete circulating B cells or affect the intrathecal B cell compartment by inhibiting lymphocyte transmigration into the CNS.",
+        "inclusion_exclusion_criteria": "",
+        "lab_name": "Steven H. Kleinstein",
+        "lab_address": "Yale University",
+        "submitted_by": "Scott Christley <scott.christley@utsouthwestern.edu>",
+        "collected_by": "",
+        "grants": "",
+        "pub_ids": "PMID: 25100741",
+        "keywords_study": [
+          "contains_ig"
+        ],
+        "vdjserver_uuid": "54655627105407466-242ac113-0001-012"
+      },
+      "subject": {
+        "subject_id": "M5",
+        "synthetic": false,
+        "species": {
+          "id": "NCBITaxon:9606",
+          "label": "Homo sapiens"
+        },
+        "sex": "female",
+        "age_min": 63,
+        "age_max": 63,
+        "age_unit": {
+          "id": "UO:0000036",
+          "label": "year"
+        },
+        "age_event": "sampling",
+        "ancestry_population": null,
+        "ethnicity": null,
+        "race": null,
+        "strain_name": null,
+        "linked_subjects": null,
+        "link_type": null,
+        "diagnosis": [
+          {
+            "study_group_description": "",
+            "disease_diagnosis": {
+              "id": "DOID:2377",
+              "label": "multiple sclerosis"
+            },
+            "disease_length": "",
+            "disease_stage": "chronic",
+            "prior_therapies": "",
+            "immunogen": "",
+            "intervention": "",
+            "medical_history": ""
+          }
+        ]
+      },
+      "sample": [
+        {
+          "sample_processing_id": "",
+          "sample_id": "M5 CLN-A section 1",
+          "sample_type": "Tissue sample",
+          "tissue": {
+            "id": "UBERON:0002429",
+            "label": "cervical lymph node"
+          },
+          "anatomic_site": null,
+          "disease_state_sample": "Chronic",
+          "collection_time_point_relative": null,
+          "collection_time_point_reference": null,
+          "biomaterial_provider": null,
+          "tissue_processing": null,
+          "cell_subset": null,
+          "cell_phenotype": null,
+          "single_cell": false,
+          "cell_number": null,
+          "cells_per_reaction": null,
+          "cell_storage": false,
+          "cell_quality": null,
+          "cell_isolation": null,
+          "cell_processing_protocol": null,
+          "template_class": "RNA",
+          "template_quality": null,
+          "template_amount": null,
+          "library_generation_method": "RT(specific+UMI)+PCR",
+          "library_generation_protocol": null,
+          "library_generation_kit_version": null,
+          "pcr_target": [
+            {
+              "pcr_target_locus": "IGH",
+              "forward_pcr_primer_target_location": null,
+              "reverse_pcr_primer_target_location": null
+            }
+          ],
+          "complete_sequences": "partial",
+          "physical_linkage": "none",
+          "sequencing_run_id": "SRX553101",
+          "total_reads_passing_qc_filter": null,
+          "sequencing_platform": "Illumina MiSeq",
+          "sequencing_facility": null,
+          "sequencing_run_date": null,
+          "sequencing_kit": null,
+          "sequencing_files": {
+            "file_type": "fastq",
+            "filename": "SRR1383463_2.fastq",
+            "read_direction": "forward",
+            "paired_filename": "SRR1383463_1.fastq",
+            "paired_read_direction": "reverse",
+            "read_length": 250,
+            "paired_read_length": 250
+          }
+        }
+      ],
+      "data_processing": [
+        {
+          "data_processing_id": "72775635-b44e-41ac-8acc-a6d92dac052c-007",
+          "primary_annotation": true,
+          "software_versions": "",
+          "paired_reads_assembly": "",
+          "quality_thresholds": "",
+          "primer_match_cutoffs": "",
+          "collapsing_method": "",
+          "data_processing_protocols": "",
+          "germline_database": "",
+          "analysis_provenance_id": "",
+          "data_processing_files": [
+            "SRR1383463_2_assemble-pass_collapse-unique.igblast.airr.tsv.gz"
+          ]
+        }
+      ]
+    },
+    {
+      "repertoire_id": null,
+      "study": {
+        "study_id": "PRJNA248475",
+        "study_title": "B cells populating the multiple sclerosis brain mature in the draining cervical lymph nodes",
+        "study_type": {
+          "id": "NCIT:C16084",
+          "label": "Observational Study"
+        },
+        "study_description": "Multiple sclerosis (MS) is an inflammatory disease of the central nervous system (CNS) characterized by autoimmune- mediated demyelination and neurodegeneration. The CNS of patients with MS harbors expanded clones of antigen- experienced B cells that reside in distinct compartments including the meninges, cerebrospinal fluid (CSF), and parenchyma. It is not understood whether this immune infiltrate initiates its development in the CNS or in pe- ripheral tissues. B cells in the CSF can exchange with those in peripheral blood, implying that CNS B cells may have access to lymphoid tissue that may be the specific compartment(s) in which CNS-resident B cells encounter antigen and experience affinity maturation. Paired tissues were used to determine whether the B cells that populate the CNS mature in the draining cervical lymph nodes (CLNs). High-throughput sequencing of the antibody repertoire demonstrated that clonally expanded B cells were present in both compartments. Founding members of clones were more often found in the draining CLNs. More mature clonal members derived from these founders were observed in the draining CLNs and also in the CNS, including lesions. These data provide new evidence that B cells traffic freely across the tissue barrier, with the majority of B cell maturation occurring outside of the CNS in the secondary lymphoid tissue. Our study may aid in further defining the mechanisms of immunomodulatory thera- pies that either deplete circulating B cells or affect the intrathecal B cell compartment by inhibiting lymphocyte transmigration into the CNS.",
+        "inclusion_exclusion_criteria": "",
+        "lab_name": "Steven H. Kleinstein",
+        "lab_address": "Yale University",
+        "submitted_by": "Scott Christley <scott.christley@utsouthwestern.edu>",
+        "collected_by": "",
+        "grants": "",
+        "pub_ids": "PMID: 25100741",
+        "keywords_study": [
+          "contains_ig"
+        ],
+        "vdjserver_uuid": "54655627105407466-242ac113-0001-012"
+      },
+      "subject": {
+        "subject_id": "M5",
+        "synthetic": false,
+        "species": {
+          "id": "NCBITaxon:9606",
+          "label": "Homo sapiens"
+        },
+        "sex": "female",
+        "age_min": 63,
+        "age_max": 63,
+        "age_unit": {
+          "id": "UO:0000036",
+          "label": "year"
+        },
+        "age_event": "sampling",
+        "ancestry_population": null,
+        "ethnicity": null,
+        "race": null,
+        "strain_name": null,
+        "linked_subjects": null,
+        "link_type": null,
+        "diagnosis": [
+          {
+            "study_group_description": "",
+            "disease_diagnosis": {
+              "id": "DOID:2377",
+              "label": "multiple sclerosis"
+            },
+            "disease_length": "",
+            "disease_stage": "chronic",
+            "prior_therapies": "",
+            "immunogen": "",
+            "intervention": "",
+            "medical_history": ""
+          }
+        ]
+      },
+      "sample": [
+        {
+          "sample_processing_id": "",
+          "sample_id": "M5 CLN-A section 2",
+          "sample_type": "Tissue sample",
+          "tissue": {
+            "id": "UBERON:0002429",
+            "label": "cervical lymph node"
+          },
+          "anatomic_site": null,
+          "disease_state_sample": "Chronic",
+          "collection_time_point_relative": null,
+          "collection_time_point_reference": null,
+          "biomaterial_provider": null,
+          "tissue_processing": null,
+          "cell_subset": null,
+          "cell_phenotype": null,
+          "single_cell": false,
+          "cell_number": null,
+          "cells_per_reaction": null,
+          "cell_storage": false,
+          "cell_quality": null,
+          "cell_isolation": null,
+          "cell_processing_protocol": null,
+          "template_class": "RNA",
+          "template_quality": null,
+          "template_amount": null,
+          "library_generation_method": "RT(specific+UMI)+PCR",
+          "library_generation_protocol": null,
+          "library_generation_kit_version": null,
+          "pcr_target": [
+            {
+              "pcr_target_locus": "IGH",
+              "forward_pcr_primer_target_location": null,
+              "reverse_pcr_primer_target_location": null
+            }
+          ],
+          "complete_sequences": "partial",
+          "physical_linkage": "none",
+          "sequencing_run_id": "SRX553102",
+          "total_reads_passing_qc_filter": null,
+          "sequencing_platform": "Illumina MiSeq",
+          "sequencing_facility": null,
+          "sequencing_run_date": null,
+          "sequencing_kit": null,
+          "sequencing_files": {
+            "file_type": "fastq",
+            "filename": "SRR1383464_2.fastq",
+            "read_direction": "forward",
+            "paired_filename": "SRR1383464_1.fastq",
+            "paired_read_direction": "reverse",
+            "read_length": 250,
+            "paired_read_length": 250
+          }
+        }
+      ],
+      "data_processing": [
+        {
+          "data_processing_id": "72775635-b44e-41ac-8acc-a6d92dac052c-007",
+          "primary_annotation": true,
+          "software_versions": "",
+          "paired_reads_assembly": "",
+          "quality_thresholds": "",
+          "primer_match_cutoffs": "",
+          "collapsing_method": "",
+          "data_processing_protocols": "",
+          "germline_database": "",
+          "analysis_provenance_id": "",
+          "data_processing_files": [
+            "SRR1383464_2_assemble-pass_collapse-unique.igblast.airr.tsv.gz"
+          ]
+        }
+      ]
+    },
+    {
+      "repertoire_id": null,
+      "study": {
+        "study_id": "PRJNA248475",
+        "study_title": "B cells populating the multiple sclerosis brain mature in the draining cervical lymph nodes",
+        "study_type": {
+          "id": "NCIT:C16084",
+          "label": "Observational Study"
+        },
+        "study_description": "Multiple sclerosis (MS) is an inflammatory disease of the central nervous system (CNS) characterized by autoimmune- mediated demyelination and neurodegeneration. The CNS of patients with MS harbors expanded clones of antigen- experienced B cells that reside in distinct compartments including the meninges, cerebrospinal fluid (CSF), and parenchyma. It is not understood whether this immune infiltrate initiates its development in the CNS or in pe- ripheral tissues. B cells in the CSF can exchange with those in peripheral blood, implying that CNS B cells may have access to lymphoid tissue that may be the specific compartment(s) in which CNS-resident B cells encounter antigen and experience affinity maturation. Paired tissues were used to determine whether the B cells that populate the CNS mature in the draining cervical lymph nodes (CLNs). High-throughput sequencing of the antibody repertoire demonstrated that clonally expanded B cells were present in both compartments. Founding members of clones were more often found in the draining CLNs. More mature clonal members derived from these founders were observed in the draining CLNs and also in the CNS, including lesions. These data provide new evidence that B cells traffic freely across the tissue barrier, with the majority of B cell maturation occurring outside of the CNS in the secondary lymphoid tissue. Our study may aid in further defining the mechanisms of immunomodulatory thera- pies that either deplete circulating B cells or affect the intrathecal B cell compartment by inhibiting lymphocyte transmigration into the CNS.",
+        "inclusion_exclusion_criteria": "",
+        "lab_name": "Steven H. Kleinstein",
+        "lab_address": "Yale University",
+        "submitted_by": "Scott Christley <scott.christley@utsouthwestern.edu>",
+        "collected_by": "",
+        "grants": "",
+        "pub_ids": "PMID: 25100741",
+        "keywords_study": [
+          "contains_ig"
+        ],
+        "vdjserver_uuid": "54655627105407466-242ac113-0001-012"
+      },
+      "subject": {
+        "subject_id": "M5",
+        "synthetic": false,
+        "species": {
+          "id": "NCBITaxon:9606",
+          "label": "Homo sapiens"
+        },
+        "sex": "female",
+        "age_min": 63,
+        "age_max": 63,
+        "age_unit": {
+          "id": "UO:0000036",
+          "label": "year"
+        },
+        "age_event": "sampling",
+        "ancestry_population": null,
+        "ethnicity": null,
+        "race": null,
+        "strain_name": null,
+        "linked_subjects": null,
+        "link_type": null,
+        "diagnosis": [
+          {
+            "study_group_description": "",
+            "disease_diagnosis": {
+              "id": "DOID:2377",
+              "label": "multiple sclerosis"
+            },
+            "disease_length": "",
+            "disease_stage": "chronic",
+            "prior_therapies": "",
+            "immunogen": "",
+            "intervention": "",
+            "medical_history": ""
+          }
+        ]
+      },
+      "sample": [
+        {
+          "sample_processing_id": "",
+          "sample_id": "M5 CLN-A section 3",
+          "sample_type": "Tissue sample",
+          "tissue": {
+            "id": "UBERON:0002429",
+            "label": "cervical lymph node"
+          },
+          "anatomic_site": null,
+          "disease_state_sample": "Chronic",
+          "collection_time_point_relative": null,
+          "collection_time_point_reference": null,
+          "biomaterial_provider": null,
+          "tissue_processing": null,
+          "cell_subset": null,
+          "cell_phenotype": null,
+          "single_cell": false,
+          "cell_number": null,
+          "cells_per_reaction": null,
+          "cell_storage": false,
+          "cell_quality": null,
+          "cell_isolation": null,
+          "cell_processing_protocol": null,
+          "template_class": "RNA",
+          "template_quality": null,
+          "template_amount": null,
+          "library_generation_method": "RT(specific+UMI)+PCR",
+          "library_generation_protocol": null,
+          "library_generation_kit_version": null,
+          "pcr_target": [
+            {
+              "pcr_target_locus": "IGH",
+              "forward_pcr_primer_target_location": null,
+              "reverse_pcr_primer_target_location": null
+            }
+          ],
+          "complete_sequences": "partial",
+          "physical_linkage": "none",
+          "sequencing_run_id": "SRX553103",
+          "total_reads_passing_qc_filter": null,
+          "sequencing_platform": "Illumina MiSeq",
+          "sequencing_facility": null,
+          "sequencing_run_date": null,
+          "sequencing_kit": null,
+          "sequencing_files": {
+            "file_type": "fastq",
+            "filename": "SRR1383465_2.fastq",
+            "read_direction": "forward",
+            "paired_filename": "SRR1383465_1.fastq",
+            "paired_read_direction": "reverse",
+            "read_length": 250,
+            "paired_read_length": 250
+          }
+        }
+      ],
+      "data_processing": [
+        {
+          "data_processing_id": "72775635-b44e-41ac-8acc-a6d92dac052c-007",
+          "primary_annotation": true,
+          "software_versions": "",
+          "paired_reads_assembly": "",
+          "quality_thresholds": "",
+          "primer_match_cutoffs": "",
+          "collapsing_method": "",
+          "data_processing_protocols": "",
+          "germline_database": "",
+          "analysis_provenance_id": "",
+          "data_processing_files": [
+            "SRR1383465_2_assemble-pass_collapse-unique.igblast.airr.tsv.gz"
+          ]
+        }
+      ]
+    },
+    {
+      "repertoire_id": null,
+      "study": {
+        "study_id": "PRJNA248475",
+        "study_title": "B cells populating the multiple sclerosis brain mature in the draining cervical lymph nodes",
+        "study_type": {
+          "id": "NCIT:C16084",
+          "label": "Observational Study"
+        },
+        "study_description": "Multiple sclerosis (MS) is an inflammatory disease of the central nervous system (CNS) characterized by autoimmune- mediated demyelination and neurodegeneration. The CNS of patients with MS harbors expanded clones of antigen- experienced B cells that reside in distinct compartments including the meninges, cerebrospinal fluid (CSF), and parenchyma. It is not understood whether this immune infiltrate initiates its development in the CNS or in pe- ripheral tissues. B cells in the CSF can exchange with those in peripheral blood, implying that CNS B cells may have access to lymphoid tissue that may be the specific compartment(s) in which CNS-resident B cells encounter antigen and experience affinity maturation. Paired tissues were used to determine whether the B cells that populate the CNS mature in the draining cervical lymph nodes (CLNs). High-throughput sequencing of the antibody repertoire demonstrated that clonally expanded B cells were present in both compartments. Founding members of clones were more often found in the draining CLNs. More mature clonal members derived from these founders were observed in the draining CLNs and also in the CNS, including lesions. These data provide new evidence that B cells traffic freely across the tissue barrier, with the majority of B cell maturation occurring outside of the CNS in the secondary lymphoid tissue. Our study may aid in further defining the mechanisms of immunomodulatory thera- pies that either deplete circulating B cells or affect the intrathecal B cell compartment by inhibiting lymphocyte transmigration into the CNS.",
+        "inclusion_exclusion_criteria": "",
+        "lab_name": "Steven H. Kleinstein",
+        "lab_address": "Yale University",
+        "submitted_by": "Scott Christley <scott.christley@utsouthwestern.edu>",
+        "collected_by": "",
+        "grants": "",
+        "pub_ids": "PMID: 25100741",
+        "keywords_study": [
+          "contains_ig"
+        ],
+        "vdjserver_uuid": "54655627105407466-242ac113-0001-012"
+      },
+      "subject": {
+        "subject_id": "M5",
+        "synthetic": false,
+        "species": {
+          "id": "NCBITaxon:9606",
+          "label": "Homo sapiens"
+        },
+        "sex": "female",
+        "age_min": 63,
+        "age_max": 63,
+        "age_unit": {
+          "id": "UO:0000036",
+          "label": "year"
+        },
+        "age_event": "sampling",
+        "ancestry_population": null,
+        "ethnicity": null,
+        "race": null,
+        "strain_name": null,
+        "linked_subjects": null,
+        "link_type": null,
+        "diagnosis": [
+          {
+            "study_group_description": "",
+            "disease_diagnosis": {
+              "id": "DOID:2377",
+              "label": "multiple sclerosis"
+            },
+            "disease_length": "",
+            "disease_stage": "chronic",
+            "prior_therapies": "",
+            "immunogen": "",
+            "intervention": "",
+            "medical_history": ""
+          }
+        ]
+      },
+      "sample": [
+        {
+          "sample_processing_id": "",
+          "sample_id": "M5 Lesion section 1",
+          "sample_type": "Lesion sample",
+          "tissue": {
+            "id": "UBERON:0003544",
+            "label": "brain white matter"
+          },
+          "anatomic_site": null,
+          "disease_state_sample": "Chronic",
+          "collection_time_point_relative": null,
+          "collection_time_point_reference": null,
+          "biomaterial_provider": null,
+          "tissue_processing": null,
+          "cell_subset": null,
+          "cell_phenotype": null,
+          "single_cell": false,
+          "cell_number": null,
+          "cells_per_reaction": null,
+          "cell_storage": false,
+          "cell_quality": null,
+          "cell_isolation": null,
+          "cell_processing_protocol": null,
+          "template_class": "RNA",
+          "template_quality": null,
+          "template_amount": null,
+          "library_generation_method": "RT(specific+UMI)+PCR",
+          "library_generation_protocol": null,
+          "library_generation_kit_version": null,
+          "pcr_target": [
+            {
+              "pcr_target_locus": "IGH",
+              "forward_pcr_primer_target_location": null,
+              "reverse_pcr_primer_target_location": null
+            }
+          ],
+          "complete_sequences": "partial",
+          "physical_linkage": "none",
+          "sequencing_run_id": "SRX553104",
+          "total_reads_passing_qc_filter": null,
+          "sequencing_platform": "Illumina MiSeq",
+          "sequencing_facility": null,
+          "sequencing_run_date": null,
+          "sequencing_kit": null,
+          "sequencing_files": {
+            "file_type": "fastq",
+            "filename": "SRR1383466_2.fastq",
+            "read_direction": "forward",
+            "paired_filename": "SRR1383466_1.fastq",
+            "paired_read_direction": "reverse",
+            "read_length": 250,
+            "paired_read_length": 250
+          }
+        }
+      ],
+      "data_processing": [
+        {
+          "data_processing_id": "72775635-b44e-41ac-8acc-a6d92dac052c-007",
+          "primary_annotation": true,
+          "software_versions": "",
+          "paired_reads_assembly": "",
+          "quality_thresholds": "",
+          "primer_match_cutoffs": "",
+          "collapsing_method": "",
+          "data_processing_protocols": "",
+          "germline_database": "",
+          "analysis_provenance_id": "",
+          "data_processing_files": [
+            "SRR1383466_2_assemble-pass_collapse-unique.igblast.airr.tsv.gz"
+          ]
+        }
+      ]
+    },
+    {
+      "repertoire_id": null,
+      "study": {
+        "study_id": "PRJNA248475",
+        "study_title": "B cells populating the multiple sclerosis brain mature in the draining cervical lymph nodes",
+        "study_type": {
+          "id": "NCIT:C16084",
+          "label": "Observational Study"
+        },
+        "study_description": "Multiple sclerosis (MS) is an inflammatory disease of the central nervous system (CNS) characterized by autoimmune- mediated demyelination and neurodegeneration. The CNS of patients with MS harbors expanded clones of antigen- experienced B cells that reside in distinct compartments including the meninges, cerebrospinal fluid (CSF), and parenchyma. It is not understood whether this immune infiltrate initiates its development in the CNS or in pe- ripheral tissues. B cells in the CSF can exchange with those in peripheral blood, implying that CNS B cells may have access to lymphoid tissue that may be the specific compartment(s) in which CNS-resident B cells encounter antigen and experience affinity maturation. Paired tissues were used to determine whether the B cells that populate the CNS mature in the draining cervical lymph nodes (CLNs). High-throughput sequencing of the antibody repertoire demonstrated that clonally expanded B cells were present in both compartments. Founding members of clones were more often found in the draining CLNs. More mature clonal members derived from these founders were observed in the draining CLNs and also in the CNS, including lesions. These data provide new evidence that B cells traffic freely across the tissue barrier, with the majority of B cell maturation occurring outside of the CNS in the secondary lymphoid tissue. Our study may aid in further defining the mechanisms of immunomodulatory thera- pies that either deplete circulating B cells or affect the intrathecal B cell compartment by inhibiting lymphocyte transmigration into the CNS.",
+        "inclusion_exclusion_criteria": "",
+        "lab_name": "Steven H. Kleinstein",
+        "lab_address": "Yale University",
+        "submitted_by": "Scott Christley <scott.christley@utsouthwestern.edu>",
+        "collected_by": "",
+        "grants": "",
+        "pub_ids": "PMID: 25100741",
+        "keywords_study": [
+          "contains_ig"
+        ],
+        "vdjserver_uuid": "54655627105407466-242ac113-0001-012"
+      },
+      "subject": {
+        "subject_id": "M5",
+        "synthetic": false,
+        "species": {
+          "id": "NCBITaxon:9606",
+          "label": "Homo sapiens"
+        },
+        "sex": "female",
+        "age_min": 63,
+        "age_max": 63,
+        "age_unit": {
+          "id": "UO:0000036",
+          "label": "year"
+        },
+        "age_event": "sampling",
+        "ancestry_population": null,
+        "ethnicity": null,
+        "race": null,
+        "strain_name": null,
+        "linked_subjects": null,
+        "link_type": null,
+        "diagnosis": [
+          {
+            "study_group_description": "",
+            "disease_diagnosis": {
+              "id": "DOID:2377",
+              "label": "multiple sclerosis"
+            },
+            "disease_length": "",
+            "disease_stage": "chronic",
+            "prior_therapies": "",
+            "immunogen": "",
+            "intervention": "",
+            "medical_history": ""
+          }
+        ]
+      },
+      "sample": [
+        {
+          "sample_processing_id": "",
+          "sample_id": "M5 Lesion section 2",
+          "sample_type": "Lesion sample",
+          "tissue": {
+            "id": "UBERON:0003544",
+            "label": "brain white matter"
+          },
+          "anatomic_site": null,
+          "disease_state_sample": "Chronic",
+          "collection_time_point_relative": null,
+          "collection_time_point_reference": null,
+          "biomaterial_provider": null,
+          "tissue_processing": null,
+          "cell_subset": null,
+          "cell_phenotype": null,
+          "single_cell": false,
+          "cell_number": null,
+          "cells_per_reaction": null,
+          "cell_storage": false,
+          "cell_quality": null,
+          "cell_isolation": null,
+          "cell_processing_protocol": null,
+          "template_class": "RNA",
+          "template_quality": null,
+          "template_amount": null,
+          "library_generation_method": "RT(specific+UMI)+PCR",
+          "library_generation_protocol": null,
+          "library_generation_kit_version": null,
+          "pcr_target": [
+            {
+              "pcr_target_locus": "IGH",
+              "forward_pcr_primer_target_location": null,
+              "reverse_pcr_primer_target_location": null
+            }
+          ],
+          "complete_sequences": "partial",
+          "physical_linkage": "none",
+          "sequencing_run_id": "SRX553105",
+          "total_reads_passing_qc_filter": null,
+          "sequencing_platform": "Illumina MiSeq",
+          "sequencing_facility": null,
+          "sequencing_run_date": null,
+          "sequencing_kit": null,
+          "sequencing_files": {
+            "file_type": "fastq",
+            "filename": "SRR1383467_2.fastq",
+            "read_direction": "forward",
+            "paired_filename": "SRR1383467_1.fastq",
+            "paired_read_direction": "reverse",
+            "read_length": 250,
+            "paired_read_length": 250
+          }
+        }
+      ],
+      "data_processing": [
+        {
+          "data_processing_id": "72775635-b44e-41ac-8acc-a6d92dac052c-007",
+          "primary_annotation": true,
+          "software_versions": "",
+          "paired_reads_assembly": "",
+          "quality_thresholds": "",
+          "primer_match_cutoffs": "",
+          "collapsing_method": "",
+          "data_processing_protocols": "",
+          "germline_database": "",
+          "analysis_provenance_id": "",
+          "data_processing_files": [
+            "SRR1383467_2_assemble-pass_collapse-unique.igblast.airr.tsv.gz"
+          ]
+        }
+      ]
+    },
+    {
+      "repertoire_id": null,
+      "study": {
+        "study_id": "PRJNA248475",
+        "study_title": "B cells populating the multiple sclerosis brain mature in the draining cervical lymph nodes",
+        "study_type": {
+          "id": "NCIT:C16084",
+          "label": "Observational Study"
+        },
+        "study_description": "Multiple sclerosis (MS) is an inflammatory disease of the central nervous system (CNS) characterized by autoimmune- mediated demyelination and neurodegeneration. The CNS of patients with MS harbors expanded clones of antigen- experienced B cells that reside in distinct compartments including the meninges, cerebrospinal fluid (CSF), and parenchyma. It is not understood whether this immune infiltrate initiates its development in the CNS or in pe- ripheral tissues. B cells in the CSF can exchange with those in peripheral blood, implying that CNS B cells may have access to lymphoid tissue that may be the specific compartment(s) in which CNS-resident B cells encounter antigen and experience affinity maturation. Paired tissues were used to determine whether the B cells that populate the CNS mature in the draining cervical lymph nodes (CLNs). High-throughput sequencing of the antibody repertoire demonstrated that clonally expanded B cells were present in both compartments. Founding members of clones were more often found in the draining CLNs. More mature clonal members derived from these founders were observed in the draining CLNs and also in the CNS, including lesions. These data provide new evidence that B cells traffic freely across the tissue barrier, with the majority of B cell maturation occurring outside of the CNS in the secondary lymphoid tissue. Our study may aid in further defining the mechanisms of immunomodulatory thera- pies that either deplete circulating B cells or affect the intrathecal B cell compartment by inhibiting lymphocyte transmigration into the CNS.",
+        "inclusion_exclusion_criteria": "",
+        "lab_name": "Steven H. Kleinstein",
+        "lab_address": "Yale University",
+        "submitted_by": "Scott Christley <scott.christley@utsouthwestern.edu>",
+        "collected_by": "",
+        "grants": "",
+        "pub_ids": "PMID: 25100741",
+        "keywords_study": [
+          "contains_ig"
+        ],
+        "vdjserver_uuid": "54655627105407466-242ac113-0001-012"
+      },
+      "subject": {
+        "subject_id": "M5",
+        "synthetic": false,
+        "species": {
+          "id": "NCBITaxon:9606",
+          "label": "Homo sapiens"
+        },
+        "sex": "female",
+        "age_min": 63,
+        "age_max": 63,
+        "age_unit": {
+          "id": "UO:0000036",
+          "label": "year"
+        },
+        "age_event": "sampling",
+        "ancestry_population": null,
+        "ethnicity": null,
+        "race": null,
+        "strain_name": null,
+        "linked_subjects": null,
+        "link_type": null,
+        "diagnosis": [
+          {
+            "study_group_description": "",
+            "disease_diagnosis": {
+              "id": "DOID:2377",
+              "label": "multiple sclerosis"
+            },
+            "disease_length": "",
+            "disease_stage": "chronic",
+            "prior_therapies": "",
+            "immunogen": "",
+            "intervention": "",
+            "medical_history": ""
+          }
+        ]
+      },
+      "sample": [
+        {
+          "sample_processing_id": "",
+          "sample_id": "M5 Lesion section 3",
+          "sample_type": "Lesion sample",
+          "tissue": {
+            "id": "UBERON:0003544",
+            "label": "brain white matter"
+          },
+          "anatomic_site": null,
+          "disease_state_sample": "Chronic",
+          "collection_time_point_relative": null,
+          "collection_time_point_reference": null,
+          "biomaterial_provider": null,
+          "tissue_processing": null,
+          "cell_subset": null,
+          "cell_phenotype": null,
+          "single_cell": false,
+          "cell_number": null,
+          "cells_per_reaction": null,
+          "cell_storage": false,
+          "cell_quality": null,
+          "cell_isolation": null,
+          "cell_processing_protocol": null,
+          "template_class": "RNA",
+          "template_quality": null,
+          "template_amount": null,
+          "library_generation_method": "RT(specific+UMI)+PCR",
+          "library_generation_protocol": null,
+          "library_generation_kit_version": null,
+          "pcr_target": [
+            {
+              "pcr_target_locus": "IGH",
+              "forward_pcr_primer_target_location": null,
+              "reverse_pcr_primer_target_location": null
+            }
+          ],
+          "complete_sequences": "partial",
+          "physical_linkage": "none",
+          "sequencing_run_id": "SRX553106",
+          "total_reads_passing_qc_filter": null,
+          "sequencing_platform": "Illumina MiSeq",
+          "sequencing_facility": null,
+          "sequencing_run_date": null,
+          "sequencing_kit": null,
+          "sequencing_files": {
+            "file_type": "fastq",
+            "filename": "SRR1383468_2.fastq",
+            "read_direction": "forward",
+            "paired_filename": "SRR1383468_1.fastq",
+            "paired_read_direction": "reverse",
+            "read_length": 250,
+            "paired_read_length": 250
+          }
+        }
+      ],
+      "data_processing": [
+        {
+          "data_processing_id": "72775635-b44e-41ac-8acc-a6d92dac052c-007",
+          "primary_annotation": true,
+          "software_versions": "",
+          "paired_reads_assembly": "",
+          "quality_thresholds": "",
+          "primer_match_cutoffs": "",
+          "collapsing_method": "",
+          "data_processing_protocols": "",
+          "germline_database": "",
+          "analysis_provenance_id": "",
+          "data_processing_files": [
+            "SRR1383468_2_assemble-pass_collapse-unique.igblast.airr.tsv.gz"
+          ]
+        }
+      ]
+    },
+    {
+      "repertoire_id": null,
+      "study": {
+        "study_id": "PRJNA248475",
+        "study_title": "B cells populating the multiple sclerosis brain mature in the draining cervical lymph nodes",
+        "study_type": {
+          "id": "NCIT:C16084",
+          "label": "Observational Study"
+        },
+        "study_description": "Multiple sclerosis (MS) is an inflammatory disease of the central nervous system (CNS) characterized by autoimmune- mediated demyelination and neurodegeneration. The CNS of patients with MS harbors expanded clones of antigen- experienced B cells that reside in distinct compartments including the meninges, cerebrospinal fluid (CSF), and parenchyma. It is not understood whether this immune infiltrate initiates its development in the CNS or in pe- ripheral tissues. B cells in the CSF can exchange with those in peripheral blood, implying that CNS B cells may have access to lymphoid tissue that may be the specific compartment(s) in which CNS-resident B cells encounter antigen and experience affinity maturation. Paired tissues were used to determine whether the B cells that populate the CNS mature in the draining cervical lymph nodes (CLNs). High-throughput sequencing of the antibody repertoire demonstrated that clonally expanded B cells were present in both compartments. Founding members of clones were more often found in the draining CLNs. More mature clonal members derived from these founders were observed in the draining CLNs and also in the CNS, including lesions. These data provide new evidence that B cells traffic freely across the tissue barrier, with the majority of B cell maturation occurring outside of the CNS in the secondary lymphoid tissue. Our study may aid in further defining the mechanisms of immunomodulatory thera- pies that either deplete circulating B cells or affect the intrathecal B cell compartment by inhibiting lymphocyte transmigration into the CNS.",
+        "inclusion_exclusion_criteria": "",
+        "lab_name": "Steven H. Kleinstein",
+        "lab_address": "Yale University",
+        "submitted_by": "Scott Christley <scott.christley@utsouthwestern.edu>",
+        "collected_by": "",
+        "grants": "",
+        "pub_ids": "PMID: 25100741",
+        "keywords_study": [
+          "contains_ig"
+        ],
+        "vdjserver_uuid": "54655627105407466-242ac113-0001-012"
+      },
+      "subject": {
+        "subject_id": "M5",
+        "synthetic": false,
+        "species": {
+          "id": "NCBITaxon:9606",
+          "label": "Homo sapiens"
+        },
+        "sex": "female",
+        "age_min": 63,
+        "age_max": 63,
+        "age_unit": {
+          "id": "UO:0000036",
+          "label": "year"
+        },
+        "age_event": "sampling",
+        "ancestry_population": null,
+        "ethnicity": null,
+        "race": null,
+        "strain_name": null,
+        "linked_subjects": null,
+        "link_type": null,
+        "diagnosis": [
+          {
+            "study_group_description": "",
+            "disease_diagnosis": {
+              "id": "DOID:2377",
+              "label": "multiple sclerosis"
+            },
+            "disease_length": "",
+            "disease_stage": "chronic",
+            "prior_therapies": "",
+            "immunogen": "",
+            "intervention": "",
+            "medical_history": ""
+          }
+        ]
+      },
+      "sample": [
+        {
+          "sample_processing_id": "",
+          "sample_id": "M5 Choroid section 1",
+          "sample_type": "Tissue sample",
+          "tissue": {
+            "id": "UBERON:0001886",
+            "label": "choroid plexus"
+          },
+          "anatomic_site": null,
+          "disease_state_sample": "Chronic",
+          "collection_time_point_relative": null,
+          "collection_time_point_reference": null,
+          "biomaterial_provider": null,
+          "tissue_processing": null,
+          "cell_subset": null,
+          "cell_phenotype": null,
+          "single_cell": false,
+          "cell_number": null,
+          "cells_per_reaction": null,
+          "cell_storage": false,
+          "cell_quality": null,
+          "cell_isolation": null,
+          "cell_processing_protocol": null,
+          "template_class": "RNA",
+          "template_quality": null,
+          "template_amount": null,
+          "library_generation_method": "RT(specific+UMI)+PCR",
+          "library_generation_protocol": null,
+          "library_generation_kit_version": null,
+          "pcr_target": [
+            {
+              "pcr_target_locus": "IGH",
+              "forward_pcr_primer_target_location": null,
+              "reverse_pcr_primer_target_location": null
+            }
+          ],
+          "complete_sequences": "partial",
+          "physical_linkage": "none",
+          "sequencing_run_id": "SRX553107",
+          "total_reads_passing_qc_filter": null,
+          "sequencing_platform": "Illumina MiSeq",
+          "sequencing_facility": null,
+          "sequencing_run_date": null,
+          "sequencing_kit": null,
+          "sequencing_files": {
+            "file_type": "fastq",
+            "filename": "SRR1383469_2.fastq",
+            "read_direction": "forward",
+            "paired_filename": "SRR1383469_1.fastq",
+            "paired_read_direction": "reverse",
+            "read_length": 250,
+            "paired_read_length": 250
+          }
+        }
+      ],
+      "data_processing": [
+        {
+          "data_processing_id": "72775635-b44e-41ac-8acc-a6d92dac052c-007",
+          "primary_annotation": true,
+          "software_versions": "",
+          "paired_reads_assembly": "",
+          "quality_thresholds": "",
+          "primer_match_cutoffs": "",
+          "collapsing_method": "",
+          "data_processing_protocols": "",
+          "germline_database": "",
+          "analysis_provenance_id": "",
+          "data_processing_files": [
+            "SRR1383469_2_assemble-pass_collapse-unique.igblast.airr.tsv.gz"
+          ]
+        }
+      ]
+    },
+    {
+      "repertoire_id": null,
+      "study": {
+        "study_id": "PRJNA248475",
+        "study_title": "B cells populating the multiple sclerosis brain mature in the draining cervical lymph nodes",
+        "study_type": {
+          "id": "NCIT:C16084",
+          "label": "Observational Study"
+        },
+        "study_description": "Multiple sclerosis (MS) is an inflammatory disease of the central nervous system (CNS) characterized by autoimmune- mediated demyelination and neurodegeneration. The CNS of patients with MS harbors expanded clones of antigen- experienced B cells that reside in distinct compartments including the meninges, cerebrospinal fluid (CSF), and parenchyma. It is not understood whether this immune infiltrate initiates its development in the CNS or in pe- ripheral tissues. B cells in the CSF can exchange with those in peripheral blood, implying that CNS B cells may have access to lymphoid tissue that may be the specific compartment(s) in which CNS-resident B cells encounter antigen and experience affinity maturation. Paired tissues were used to determine whether the B cells that populate the CNS mature in the draining cervical lymph nodes (CLNs). High-throughput sequencing of the antibody repertoire demonstrated that clonally expanded B cells were present in both compartments. Founding members of clones were more often found in the draining CLNs. More mature clonal members derived from these founders were observed in the draining CLNs and also in the CNS, including lesions. These data provide new evidence that B cells traffic freely across the tissue barrier, with the majority of B cell maturation occurring outside of the CNS in the secondary lymphoid tissue. Our study may aid in further defining the mechanisms of immunomodulatory thera- pies that either deplete circulating B cells or affect the intrathecal B cell compartment by inhibiting lymphocyte transmigration into the CNS.",
+        "inclusion_exclusion_criteria": "",
+        "lab_name": "Steven H. Kleinstein",
+        "lab_address": "Yale University",
+        "submitted_by": "Scott Christley <scott.christley@utsouthwestern.edu>",
+        "collected_by": "",
+        "grants": "",
+        "pub_ids": "PMID: 25100741",
+        "keywords_study": [
+          "contains_ig"
+        ],
+        "vdjserver_uuid": "54655627105407466-242ac113-0001-012"
+      },
+      "subject": {
+        "subject_id": "M5",
+        "synthetic": false,
+        "species": {
+          "id": "NCBITaxon:9606",
+          "label": "Homo sapiens"
+        },
+        "sex": "female",
+        "age_min": 63,
+        "age_max": 63,
+        "age_unit": {
+          "id": "UO:0000036",
+          "label": "year"
+        },
+        "age_event": "sampling",
+        "ancestry_population": null,
+        "ethnicity": null,
+        "race": null,
+        "strain_name": null,
+        "linked_subjects": null,
+        "link_type": null,
+        "diagnosis": [
+          {
+            "study_group_description": "",
+            "disease_diagnosis": {
+              "id": "DOID:2377",
+              "label": "multiple sclerosis"
+            },
+            "disease_length": "",
+            "disease_stage": "chronic",
+            "prior_therapies": "",
+            "immunogen": "",
+            "intervention": "",
+            "medical_history": ""
+          }
+        ]
+      },
+      "sample": [
+        {
+          "sample_processing_id": "",
+          "sample_id": "M5 Choroid section 2",
+          "sample_type": "Tissue sample",
+          "tissue": {
+            "id": "UBERON:0001886",
+            "label": "choroid plexus"
+          },
+          "anatomic_site": null,
+          "disease_state_sample": "Chronic",
+          "collection_time_point_relative": null,
+          "collection_time_point_reference": null,
+          "biomaterial_provider": null,
+          "tissue_processing": null,
+          "cell_subset": null,
+          "cell_phenotype": null,
+          "single_cell": false,
+          "cell_number": null,
+          "cells_per_reaction": null,
+          "cell_storage": false,
+          "cell_quality": null,
+          "cell_isolation": null,
+          "cell_processing_protocol": null,
+          "template_class": "RNA",
+          "template_quality": null,
+          "template_amount": null,
+          "library_generation_method": "RT(specific+UMI)+PCR",
+          "library_generation_protocol": null,
+          "library_generation_kit_version": null,
+          "pcr_target": [
+            {
+              "pcr_target_locus": "IGH",
+              "forward_pcr_primer_target_location": null,
+              "reverse_pcr_primer_target_location": null
+            }
+          ],
+          "complete_sequences": "partial",
+          "physical_linkage": "none",
+          "sequencing_run_id": "SRX553108",
+          "total_reads_passing_qc_filter": null,
+          "sequencing_platform": "Illumina MiSeq",
+          "sequencing_facility": null,
+          "sequencing_run_date": null,
+          "sequencing_kit": null,
+          "sequencing_files": {
+            "file_type": "fastq",
+            "filename": "SRR1383470_2.fastq",
+            "read_direction": "forward",
+            "paired_filename": "SRR1383470_1.fastq",
+            "paired_read_direction": "reverse",
+            "read_length": 250,
+            "paired_read_length": 250
+          }
+        }
+      ],
+      "data_processing": [
+        {
+          "data_processing_id": "72775635-b44e-41ac-8acc-a6d92dac052c-007",
+          "primary_annotation": true,
+          "software_versions": "",
+          "paired_reads_assembly": "",
+          "quality_thresholds": "",
+          "primer_match_cutoffs": "",
+          "collapsing_method": "",
+          "data_processing_protocols": "",
+          "germline_database": "",
+          "analysis_provenance_id": "",
+          "data_processing_files": [
+            "SRR1383470_2_assemble-pass_collapse-unique.igblast.airr.tsv.gz"
+          ]
+        }
+      ]
+    },
+    {
+      "repertoire_id": null,
+      "study": {
+        "study_id": "PRJNA248475",
+        "study_title": "B cells populating the multiple sclerosis brain mature in the draining cervical lymph nodes",
+        "study_type": {
+          "id": "NCIT:C16084",
+          "label": "Observational Study"
+        },
+        "study_description": "Multiple sclerosis (MS) is an inflammatory disease of the central nervous system (CNS) characterized by autoimmune- mediated demyelination and neurodegeneration. The CNS of patients with MS harbors expanded clones of antigen- experienced B cells that reside in distinct compartments including the meninges, cerebrospinal fluid (CSF), and parenchyma. It is not understood whether this immune infiltrate initiates its development in the CNS or in pe- ripheral tissues. B cells in the CSF can exchange with those in peripheral blood, implying that CNS B cells may have access to lymphoid tissue that may be the specific compartment(s) in which CNS-resident B cells encounter antigen and experience affinity maturation. Paired tissues were used to determine whether the B cells that populate the CNS mature in the draining cervical lymph nodes (CLNs). High-throughput sequencing of the antibody repertoire demonstrated that clonally expanded B cells were present in both compartments. Founding members of clones were more often found in the draining CLNs. More mature clonal members derived from these founders were observed in the draining CLNs and also in the CNS, including lesions. These data provide new evidence that B cells traffic freely across the tissue barrier, with the majority of B cell maturation occurring outside of the CNS in the secondary lymphoid tissue. Our study may aid in further defining the mechanisms of immunomodulatory thera- pies that either deplete circulating B cells or affect the intrathecal B cell compartment by inhibiting lymphocyte transmigration into the CNS.",
+        "inclusion_exclusion_criteria": "",
+        "lab_name": "Steven H. Kleinstein",
+        "lab_address": "Yale University",
+        "submitted_by": "Scott Christley <scott.christley@utsouthwestern.edu>",
+        "collected_by": "",
+        "grants": "",
+        "pub_ids": "PMID: 25100741",
+        "keywords_study": [
+          "contains_ig"
+        ],
+        "vdjserver_uuid": "54655627105407466-242ac113-0001-012"
+      },
+      "subject": {
+        "subject_id": "M5",
+        "synthetic": false,
+        "species": {
+          "id": "NCBITaxon:9606",
+          "label": "Homo sapiens"
+        },
+        "sex": "female",
+        "age_min": 63,
+        "age_max": 63,
+        "age_unit": {
+          "id": "UO:0000036",
+          "label": "year"
+        },
+        "age_event": "sampling",
+        "ancestry_population": null,
+        "ethnicity": null,
+        "race": null,
+        "strain_name": null,
+        "linked_subjects": null,
+        "link_type": null,
+        "diagnosis": [
+          {
+            "study_group_description": "",
+            "disease_diagnosis": {
+              "id": "DOID:2377",
+              "label": "multiple sclerosis"
+            },
+            "disease_length": "",
+            "disease_stage": "chronic",
+            "prior_therapies": "",
+            "immunogen": "",
+            "intervention": "",
+            "medical_history": ""
+          }
+        ]
+      },
+      "sample": [
+        {
+          "sample_processing_id": "",
+          "sample_id": "M5 Choroid section 3",
+          "sample_type": "Tissue sample",
+          "tissue": {
+            "id": "UBERON:0001886",
+            "label": "choroid plexus"
+          },
+          "anatomic_site": null,
+          "disease_state_sample": "Chronic",
+          "collection_time_point_relative": null,
+          "collection_time_point_reference": null,
+          "biomaterial_provider": null,
+          "tissue_processing": null,
+          "cell_subset": null,
+          "cell_phenotype": null,
+          "single_cell": false,
+          "cell_number": null,
+          "cells_per_reaction": null,
+          "cell_storage": false,
+          "cell_quality": null,
+          "cell_isolation": null,
+          "cell_processing_protocol": null,
+          "template_class": "RNA",
+          "template_quality": null,
+          "template_amount": null,
+          "library_generation_method": "RT(specific+UMI)+PCR",
+          "library_generation_protocol": null,
+          "library_generation_kit_version": null,
+          "pcr_target": [
+            {
+              "pcr_target_locus": "IGH",
+              "forward_pcr_primer_target_location": null,
+              "reverse_pcr_primer_target_location": null
+            }
+          ],
+          "complete_sequences": "partial",
+          "physical_linkage": "none",
+          "sequencing_run_id": "SRX552891",
+          "total_reads_passing_qc_filter": null,
+          "sequencing_platform": "Illumina MiSeq",
+          "sequencing_facility": null,
+          "sequencing_run_date": null,
+          "sequencing_kit": null,
+          "sequencing_files": {
+            "file_type": "fastq",
+            "filename": "SRR1383471_2.fastq",
+            "read_direction": "forward",
+            "paired_filename": "SRR1383471_1.fastq",
+            "paired_read_direction": "reverse",
+            "read_length": 250,
+            "paired_read_length": 250
+          }
+        }
+      ],
+      "data_processing": [
+        {
+          "data_processing_id": "72775635-b44e-41ac-8acc-a6d92dac052c-007",
+          "primary_annotation": true,
+          "software_versions": "",
+          "paired_reads_assembly": "",
+          "quality_thresholds": "",
+          "primer_match_cutoffs": "",
+          "collapsing_method": "",
+          "data_processing_protocols": "",
+          "germline_database": "",
+          "analysis_provenance_id": "",
+          "data_processing_files": [
+            "SRR1383471_2_assemble-pass_collapse-unique.igblast.airr.tsv.gz"
+          ]
+        }
+      ]
+    }
+  ]
+}

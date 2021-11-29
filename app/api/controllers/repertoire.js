@@ -541,7 +541,7 @@ function performFacets(collection, query, field, start_page, pagesize) {
         }
         // TAPIS BUG: with pagesize and normal aggregation so use the large one for now
         aggrFunction = agaveIO.performLargeAggregation;
-        return aggrFunction(collection, 'facets', query, field, page, pagesize)
+        return aggrFunction(collection, 'facets', query, field, null, null)
             .then(function(records) {
                 if (config.debug) console.log('VDJ-ADC-API INFO: query returned ' + records.length + ' records.');
                 //console.log(JSON.stringify(records));
@@ -550,9 +550,6 @@ function performFacets(collection, query, field, start_page, pagesize) {
                 } else {
                     // the new facets aggregation returns a single record with all the data
                     return Promise.resolve(records[0]['facets']);
-                    //models = models.concat(records);
-                    //if (records.length < pagesize) return Promise.resolve(models);
-                    //else return doAggr(page+1);
                 }
             })
             .catch(function(errorObject) {

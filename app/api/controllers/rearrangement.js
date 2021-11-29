@@ -747,9 +747,6 @@ function performFacets(collection, query, field, start_page, pagesize) {
                 } else {
                     // the new facets aggregation returns a single record with all the data
                     return Promise.resolve(records[0]['facets']);
-                    //models = models.concat(records);
-                    //if (records.length < pagesize) return Promise.resolve(models);
-                    //else return doAggr(page+1);
                 }
             })
             .catch(function(errorObject) {

@@ -1,0 +1,7 @@
+{
+  "result":{"location":"https://vdj-agave-api.tacc.utexas.edu/files/v2/media/system/data.vdjserver.org//irplus/data/lrqdata//lrq-60198db2a04f0a07448149e9.gz",
+            "_id":"60198db2a04f0a07448149e9"},
+  "status":"FINISHED",
+  "message":"LRQ results complete",
+  "version":"0.0.6"
+}
