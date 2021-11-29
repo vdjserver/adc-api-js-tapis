@@ -16,6 +16,7 @@ import airr
 import yaml
 import requests
 import argparse
+import time
 
 # Setup
 def getConfig():
@@ -61,14 +62,14 @@ def insertAggregation(token, config, collection, aggregations):
     }
 
     # put the aggregation
-    url = 'https://' + config['api_server'] + '/meta/v3/' + config['dbname'] + '/' + collection
+    url = 'https://' + config['api_server'] + '/meta/v3/' + config['dbname'] + '/' + collection + '/_aggrs'
     resp = requests.put(url, json=aggregations, headers=headers)
     if resp.status_code != 200:
         print('Got unexpected status code: ' + str(resp.status_code))
     else:
         print('Successful PUT of aggregation for ' + collection)
 
-def showCollections(token, config):
+def showCollection(token, config, collection):
     headers = {
         "Content-Type":"application/json",
         "Accept": "application/json",
@@ -76,7 +77,7 @@ def showCollections(token, config):
     }
 
     # show collection info
-    url = 'https://' + config['api_server'] + '/meta/v3/' + config['dbname'] + '/'
+    url = 'https://' + config['api_server'] + '/meta/v3/' + config['dbname'] + '/' + collection + '/_meta'
     resp = requests.get(url, headers=headers)
     print(json.dumps(resp.json(), indent=2))
 
@@ -91,7 +92,17 @@ if (__name__=="__main__"):
         token = getToken(config)
 
         aggs = json.load(open(args.aggr_script,'r'))
-        insertAggregation(token, config, 'repertoire', aggs)
-        insertAggregation(token, config, 'rearrangement', aggs)
-        insertAggregation(token, config, 'rearrangement_1', aggs)
-        showCollections(token, config)
+        insertAggregation(token, config, 'repertoire_0', aggs)
+        insertAggregation(token, config, 'rearrangement_0', aggs)
+        #insertAggregation(token, config, 'repertoire_1', aggs)
+        #insertAggregation(token, config, 'rearrangement_1', aggs)
+        #insertAggregation(token, config, 'repertoire_small', aggs)
+        #insertAggregation(token, config, 'rearrangement_small', aggs)
+        # should wait a moment
+        time.sleep(10)
+        showCollection(token, config, 'repertoire_0')
+        showCollection(token, config, 'rearrangement_0')
+        showCollection(token, config, 'repertoire_1')
+        showCollection(token, config, 'rearrangement_1')
+        #showCollection(token, config, 'repertoire_small')
+        #showCollection(token, config, 'rearrangement_small')
