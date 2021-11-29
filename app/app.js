@@ -131,7 +131,10 @@ GuestAccount.getToken()
                 console.log('Got an error!');
                 console.log(JSON.stringify(err));
                 console.trace("Here I am!");
-                res.status(500).json(err.errors);
+                if (err["status"] == 400)
+                    res.status(400).json(err.errors);
+                else
+                    res.status(500).json(err.errors);
             },
             consumesMiddleware: {
                 'application/json': bodyParser.json({limit: config.max_query_size})
