@@ -91,7 +91,7 @@ AsyncQueue.processQueryJobs = function() {
         var msg = null;
         var metadata = job['data']['metadata'];
         if (config.debug) console.log('VDJ-ADC-ASYNC-API INFO: submitting count aggregation for LRQ:', metadata['uuid']);
-        console.log(job['data']);
+        //console.log(job['data']);
 
         var controller = null;
         if (metadata["value"]["endpoint"] == "repertoire") controller = repertoireController;
@@ -105,7 +105,7 @@ AsyncQueue.processQueryJobs = function() {
         // submit the count aggregation query
         var notification = agaveSettings.notifyHost + '/airr/async/v1/notify/' + metadata['uuid'];
         var count_aggr = controller.generateAsyncCountQuery(metadata);
-        console.log(JSON.stringify(count_aggr));
+        //console.log(JSON.stringify(count_aggr));
         var async_query = await agaveIO.performAsyncAggregation('count_query', metadata['value']['collection'], count_aggr, notification)
             .catch(function(error) {
                 msg = 'VDJ-ADC-ASYNC-API ERROR (countQueue): Could not submit count query for LRQ ' + metadata['uuid'] + '.\n' + error;
@@ -156,7 +156,7 @@ AsyncQueue.processQueryJobs = function() {
         var msg = null;
         var metadata = job['data']['metadata'];
         if (config.debug) console.log('VDJ-ADC-ASYNC-API INFO: submitting query for LRQ:', metadata['uuid']);
-        console.log(job['data']);
+        //console.log(job['data']);
 
         var controller = null;
         if (metadata["value"]["endpoint"] == "repertoire") controller = repertoireController;
@@ -171,7 +171,7 @@ AsyncQueue.processQueryJobs = function() {
         var notification = agaveSettings.notifyHost + '/airr/async/v1/notify/' + metadata['uuid'];
         var async_query = null;
         var query_aggr = controller.generateAsyncQuery(metadata);
-        console.log(JSON.stringify(query_aggr));
+        //console.log(JSON.stringify(query_aggr));
         if (query_aggr.length == 1) {
             // if only one entry then it is a simple query
             async_query = await agaveIO.performAsyncQuery(metadata['value']['collection'], query_aggr[0]["$match"], null, notification)
