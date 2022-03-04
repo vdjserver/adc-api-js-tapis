@@ -798,7 +798,7 @@ RearrangementController.generateAsyncCountQuery = function(metadata) {
     if (from) count_query.push({"$skip":from});
     count_query.push({"$count":"total_records"});
 
-    console.log(JSON.stringify(count_query));
+    //console.log(JSON.stringify(count_query));
     return count_query;
 }
 
@@ -824,6 +824,7 @@ RearrangementController.generateAsyncQuery = function(metadata) {
     var result_message = null;
     var filter = {};
     var query = undefined;
+    var large_size = false;
     if (bodyData['filters'] != undefined) {
         filter = bodyData['filters'];
         try {
@@ -836,6 +837,13 @@ RearrangementController.generateAsyncQuery = function(metadata) {
                 if (config.debug) console.log('VDJ-ADC-API INFO: ' + result_message);
                 return null;
             }
+
+            var bodyLength = JSON.stringify(bodyData).length;
+            console.log(bodyLength);
+            if (bodyLength > config.large_lrq_query_size) {
+                large_size = true;
+                if (config.debug) console.log('VDJ-ADC-API INFO: large async query detected: ' + bodyLength);
+            }
         } catch (e) {
             result_message = "Could not construct valid query: " + e;
             if (config.debug) console.log('VDJ-ADC-API INFO: ' + result_message);
@@ -847,9 +855,14 @@ RearrangementController.generateAsyncQuery = function(metadata) {
 
     var aggr_query = [{"$match":parsed_query}];
     if (from) aggr_query.push({"$skip":from});
+    else {
+        // if the query is large, this will force aggregation
+        // by preventing the simple query optimization
+        if (large_size) aggr_query.push({"$skip":0});
+    }
     if (size) aggr_query.push({"$limit":size});
 
-    console.log(JSON.stringify(aggr_query));
+    //console.log(JSON.stringify(aggr_query));
     return aggr_query;
 }
 

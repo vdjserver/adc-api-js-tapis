@@ -95,6 +95,7 @@ config.info.max_size = 1000;
 
 // TODO: limited at the moment
 config.large_query_size = 2 * 1024;
+config.large_lrq_query_size = 50 * 1024;
 //config.max_query_size = 6 * 1024;
 //config.info.max_query_size = 6 * 1024;
 config.max_query_size = 2 * 1024 * 1024;
