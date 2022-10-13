@@ -48,6 +48,9 @@ var statusController = require('./api/controllers/status');
 var repertoireController = require('./api/controllers/repertoire');
 var rearrangementController = require('./api/controllers/rearrangement');
 var cloneController = require('./api/controllers/clone');
+var cellController = require('./api/controllers/cell');
+var expressionController = require('./api/controllers/expression');
+var receptorController = require('./api/controllers/receptor');
 
 // CORS
 var allowCrossDomain = function(request, response, next) {
@@ -155,7 +158,19 @@ GuestAccount.getToken()
 
                 // clones
                 get_clone: cloneController.getClone,
-                query_clones: cloneController.queryClones
+                query_clones: cloneController.queryClones,
+
+                // cells
+                get_cell: cellController.getCell,
+                query_cell: cellController.queryCells,
+
+                // expression
+                get_expression: expressionController.getExpression,
+                query_expression: expressionController.queryExpressions,
+
+                // receptor
+                get_receptor: receptorController.getReceptor,
+                query_receptor: receptorController.queryReceptors
             }
         });
 

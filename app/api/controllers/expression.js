@@ -1,8 +1,8 @@
 'use strict';
 
 //
-// clone.js
-// Clone end points
+// expression.js
+// Expression end points
 //
 // VDJServer Community Data Portal
 // ADC API for VDJServer
@@ -26,8 +26,8 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 //
 
-var CloneController = {};
-module.exports = CloneController;
+var ExpressionController = {};
+module.exports = ExpressionController;
 
 // Server environment config
 var config = require('../../config/config');
@@ -36,24 +36,22 @@ function getInfoObject() {
     var info = { };
     var schema = global.airr['Info'];
     info['title'] = config.info.description;
-    info['description'] = 'VDJServer ADC API response for clone query'
+    info['description'] = 'VDJServer ADC API response for expression query'
     info['version'] = schema.version;
     info['contact'] = config.info.contact;
     return info;
 }
 
-// service status
-CloneController.getClone = function(req, res) {
+ExpressionController.getExpression = function(req, res) {
     var info = getInfoObject();
-    res.json({"Info":info,"Clone":[]});
+    res.json({"Info":info,"CellExpression":[]});
 }
 
-// service info
-CloneController.queryClones = function(req, res) {
+ExpressionController.queryExpressions = function(req, res) {
     var bodyData = req.body;
     var facets = bodyData['facets'];
     var info = getInfoObject();
 
     if (facets) res.json({"Info":info,"Facet":[]});
-    else res.json({"Info":info,"Clone":[]});
+    else res.json({"Info":info,"CellExpression":[]});
 }
