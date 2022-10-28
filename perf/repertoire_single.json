@@ -3,8 +3,8 @@
     "op": "=",
     "content": {
       "field": "repertoire_id",
-      "value": "7997882631039226346-242ac113-0001-012"
+      "value": "2564613624180576746-242ac113-0001-012"
     }
   },
-  "facets":"repertoire_id"
+  "format":"tsv"
 }

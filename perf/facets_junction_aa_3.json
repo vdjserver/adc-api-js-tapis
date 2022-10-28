@@ -1,0 +1,10 @@
+{
+  "filters": {
+    "op": "contains",
+    "content": {
+      "field": "junction_aa",
+      "value": "CAYRSPRDGALLTSGSRLTF"
+    }
+  },
+  "facets":"junction_aa"
+}

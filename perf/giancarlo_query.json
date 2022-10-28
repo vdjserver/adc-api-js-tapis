@@ -1,0 +1,22 @@
+{
+    "filters": {
+        "op": "and",
+        "content": [
+            {
+                "op": "=",
+                "content": {
+                    "field": "v_subgroup",
+                    "value": "TRBV6"
+                }
+            },
+            {
+                "op": "=",
+                "content": {
+                    "field": "j_subgroup",
+                    "value": "TRBJ2"
+                }
+            }
+        ]
+    },
+    "format":"tsv"
+}

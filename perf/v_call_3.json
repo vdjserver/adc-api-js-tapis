@@ -1,0 +1,11 @@
+{
+  "filters": {
+    "op": "contains",
+    "content": {
+      "field": "v_call",
+      "value": "IGHV3-23"
+    }
+  },
+  "from":0,
+  "size":10
+}

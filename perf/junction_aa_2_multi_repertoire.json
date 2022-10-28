@@ -1,0 +1,24 @@
+{
+    "filters": {
+        "op": "and",
+        "content": [
+            {
+                "op": "in",
+                "content": {
+                    "field": "repertoire_id",
+                    "value": [
+                        "9135128879355662826-242ac113-0001-012",
+                        "9152222849193742826-242ac113-0001-012"
+                    ]
+                }
+            },
+            {
+                "op": "contains",
+                "content": {
+                    "field": "junction_aa",
+                    "value": "ARGFDY"
+                }
+            }
+        ]
+    }
+}

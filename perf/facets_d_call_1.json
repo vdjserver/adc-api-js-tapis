@@ -2,8 +2,8 @@
   "filters": {
     "op": "=",
     "content": {
-      "field": "repertoire_id",
-      "value": "7997882631039226346-242ac113-0001-012"
+      "field": "d_call",
+      "value": "TRBD2*01"
     }
   },
   "facets":"repertoire_id"

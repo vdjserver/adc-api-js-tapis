@@ -1,0 +1,10 @@
+{
+    "filters": {
+                "op": "=",
+                "content": {
+                    "field": "v_subgroup",
+                    "value": "TRBV6"
+                }
+    },
+    "format":"tsv"
+}

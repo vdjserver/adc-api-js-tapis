@@ -1,0 +1,10 @@
+{
+    "filters": {
+                "op": "contains",
+                "content": {
+                    "field": "junction_aa",
+                    "value": "ARGFDY"
+                }
+    },
+    "facets": "repertoire_id"
+}
