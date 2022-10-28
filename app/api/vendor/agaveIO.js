@@ -41,183 +41,107 @@ var GuestAccount = require('../models/guestAccount');
 //var webhookIO = require('../vendor/webhookIO');
 
 // Node Libraries
-var Q = require('q');
-//var _ = require('underscore');
 var jsonApprover = require('json-approver');
-//var FormData = require('form-data');
 
 //
 // Generic send request
 //
 agaveIO.sendRequest = function(requestSettings, postData) {
 
-    var deferred = Q.defer();
-
-    var request = require('https').request(requestSettings, function(response) {
-
-        var output = '';
-
-        response.on('data', function(chunk) {
-            output += chunk;
-        });
-
-        response.on('end', function() {
-
-            var responseObject;
-
-            if (response.statusCode >= 400) {
-                deferred.reject(new Error('Request error: ' + output));
-            } else if (output.length == 0) {
-                deferred.resolve(null);
-            } else if (output && jsonApprover.isJSON(output)) {
-                responseObject = JSON.parse(output);
-                //console.log(responseObject);
-                deferred.resolve(responseObject);
-            } else {
-                console.error('VDJ-ADC-API ERROR: Agave response is not json: ' + output);
-                deferred.reject(new Error('Agave response is not json: ' + output));
-            }
-
-        });
-    });
-
-    request.on('error', function(error) {
-        console.error('VDJ-ADC-API ERROR: Agave connection error, error:' + JSON.stringify(error));
-        if (error.code == 'ECONNRESET')
-            deferred.reject(new Error('Network timeout.'));
-        else
-            deferred.reject(new Error('Agave connection error'));
-    });
-
-    if (postData) {
-        // Request body parameters
-        request.write(postData);
-    }
-
-    request.end();
-
-    return deferred.promise;
-};
-
-//
-// This is specific to sending multi-part form post data, i.e. uploading files
-//
-agaveIO.sendFormRequest = function(requestSettings, formData) {
-
-    var deferred = Q.defer();
-
-    var request = formData.submit(requestSettings, function(error, response) {
+    return new Promise(function(resolve, reject) {
+        var request = require('https').request(requestSettings, function(response) {
 
             var output = '';
 
             response.on('data', function(chunk) {
-                    output += chunk;
-                });
+                output += chunk;
+            });
 
             response.on('end', function() {
 
-                    var responseObject;
+                var responseObject;
 
-                    if (output && jsonApprover.isJSON(output)) {
-                        responseObject = JSON.parse(output);
-                    }
-                    else {
-
-                        console.error('VDJ-ADC-API ERROR: Agave response is not json.');
-
-                        deferred.reject(new Error('Agave response is not json'));
-                    }
-
-                    if (responseObject && responseObject.status && responseObject.status.toLowerCase() === 'success') {
-                        deferred.resolve(responseObject);
-                    }
-                    else {
-
-                            console.error('VDJ-ADC-API ERROR: Agave returned an error. it is: ' + JSON.stringify(responseObject));
-                            console.error('VDJ-ADC0API ERROR: Agave returned an error. it is: ' + responseObject);
-
-                        deferred.reject(new Error('Agave response returned an error: ' + JSON.stringify(responseObject)));
-                    }
-
-                });
+                if ((response.statusCode >= 400) && (response.statusCode != 404)) {
+                    reject(new Error('Request error: ' + output));
+                } else if (output.length == 0) {
+                    resolve(null);
+                } else if (output && jsonApprover.isJSON(output)) {
+                    responseObject = JSON.parse(output);
+                    resolve(responseObject);
+                } else {
+                    console.error('VDJ-ADC-API ERROR: Agave response is not json: ' + output);
+                    reject(new Error('Agave response is not json: ' + output));
+                }
+            });
         });
 
-    request.on('error', function(error) {
-                console.error('VDJ-ADC-API ERROR: Agave connection error.' + JSON.stringify(error));
-
-            deferred.reject(new Error('Agave connection error. ' + JSON.stringify(error)));
+        request.on('error', function(error) {
+            console.error('VDJ-ADC-API ERROR: Agave connection error:' + JSON.stringify(error));
+            reject(new Error('Agave connection error:' + JSON.stringify(error)));
         });
 
-    return deferred.promise;
+        if (postData) {
+            // Request body parameters
+            request.write(postData);
+        }
+
+        request.end();
+    });
 };
 
 agaveIO.sendTokenRequest = function(requestSettings, postData) {
 
-    var deferred = Q.defer();
-
-    var request = require('https').request(requestSettings, function(response) {
+    return new Promise(function(resolve, reject) {
+        var request = require('https').request(requestSettings, function(response) {
 
             var output = '';
 
             response.on('data', function(chunk) {
-                    output += chunk;
-                });
+                output += chunk;
+            });
 
             response.on('end', function() {
 
-                    var responseObject;
+                var responseObject;
 
-                    if (output && jsonApprover.isJSON(output)) {
-                        responseObject = JSON.parse(output);
-                    }
-                    else {
+                if (output && jsonApprover.isJSON(output)) {
+                    responseObject = JSON.parse(output);
+                } else {
+                    console.error('VDJ-ADC-API ERROR: Agave response is not json: ' + output);
+                    reject(new Error('Agave response is not json: ' + output));
+                }
 
-                            console.error('VDJ-ADC-API ERROR: Agave token response is not json.');
-
-                        deferred.reject(new Error('Agave response is not json'));
-                    }
-
-                    if (
-                        responseObject
-                        && responseObject.access_token
-                        && responseObject.refresh_token
-                        && responseObject.token_type
-                        && responseObject.expires_in
-                        ) {
-                        deferred.resolve(responseObject);
-                    }
-                    else {
-
-                            console.error('VDJ-ADC-API ERROR: Agave returned a token error. it is: ' + JSON.stringify(responseObject));
-                            console.error('VDJ-ADC-API ERROR: Agave returned a token error. it is: ' + responseObject);
-
-                        deferred.reject(new Error('Agave response returned an error: ' + JSON.stringify(responseObject)));
-                    }
-
-                });
+                if (responseObject
+                    && responseObject.access_token
+                    && responseObject.refresh_token
+                    && responseObject.token_type
+                    && responseObject.expires_in)
+                {
+                    resolve(responseObject);
+                } else {
+                    reject(new Error('Agave response returned an error: ' + output));
+                }
+            });
         });
 
-    request.on('error', function(error) {
-                console.error('VDJ-ADC-API ERROR: Agave connection error.' + JSON.stringify(error));
-
-            deferred.reject(new Error('Agave connection error. ' + JSON.stringify(error)));
+        request.on('error', function(error) {
+            console.error('VDJ-ADC-API ERROR: Agave connection error:' + JSON.stringify(error));
+            reject(new Error('Agave connection error:' + JSON.stringify(error)));
         });
 
-    if (postData) {
-        // Request body parameters
-        request.write(postData);
-    }
+        if (postData) {
+            // Request body parameters
+            request.write(postData);
+        }
 
-    request.end();
-
-    return deferred.promise;
+        request.end();
+    });
 };
+
 
 // Fetches a user token based on the supplied auth object
 // and returns the auth object with token data on success
 agaveIO.getToken = function(auth) {
-
-    var deferred = Q.defer();
 
     var postData = 'grant_type=password&scope=PRODUCTION&username=' + auth.username + '&password=' + auth.password;
 
@@ -233,25 +157,15 @@ agaveIO.getToken = function(auth) {
         }
     };
 
-    agaveIO.sendTokenRequest(requestSettings, postData)
-    .then(function(responseObject) {
-            deferred.resolve(responseObject);
-        })
-    .fail(function(errorObject) {
-            deferred.reject(errorObject);
-        });
-
-    return deferred.promise;
+    return agaveIO.sendTokenRequest(requestSettings, postData);
 };
 
 agaveIO.performLargeQuery = function(collection, query, projection, page, pagesize) {
 
-    var deferred = Q.defer();
-
     var postData = query;
-    if (! postData) deferred.reject(new Error('Empty query passed to agaveIO.performLargeQuery'));
+    if (! postData) return Promise.reject(new Error('Empty query passed to agaveIO.performLargeQuery'));
 
-    GuestAccount.getToken()
+    return GuestAccount.getToken()
         .then(function(token) {
             var mark = false;
             var requestSettings = {
@@ -263,7 +177,7 @@ agaveIO.performLargeQuery = function(collection, query, projection, page, pagesi
                     'Accept':   'application/json',
                     'Authorization': 'Bearer ' + GuestAccount.accessToken(),
                     'Content-Type': 'application/json',
-		    'Content-Length': Buffer.byteLength(postData)
+                    'Content-Length': Buffer.byteLength(postData)
                 }
             };
             if (projection != null) {
@@ -297,21 +211,17 @@ agaveIO.performLargeQuery = function(collection, query, projection, page, pagesi
             return agaveIO.sendRequest(requestSettings, postData);
         })
         .then(function(responseObject) {
-            deferred.resolve(responseObject);
+            return Promise.resolve(responseObject);
         })
-        .fail(function(errorObject) {
+        .catch(function(errorObject) {
             console.error('performQuery: ' + errorObject);
-            deferred.reject(errorObject);
+            return Promise.reject(errorObject);
         });
-
-    return deferred.promise;
 };
 
 agaveIO.performQuery = function(collection, query, projection, page, pagesize, count) {
 
-    var deferred = Q.defer();
-
-    GuestAccount.getToken()
+    return GuestAccount.getToken()
         .then(function(token) {
             var mark = false;
             var requestSettings = {
@@ -362,26 +272,62 @@ agaveIO.performQuery = function(collection, query, projection, page, pagesize, c
             //console.log(requestSettings);
 
             return agaveIO.sendRequest(requestSettings, null);
+//        })
+//        .then(function(responseObject) {
+//            return Promise.resolve(responseObject);
+//        })
+//        .catch(function(errorObject) {
+//            console.error('performQuery: ' + errorObject);
+//            return Promise.reject(errorObject);
+        });
+};
+
+agaveIO.performAsyncQuery = function(collection, query, projection, notification) {
+
+    var postData = {
+        name: "query",
+        queryType: "SIMPLE",
+        query: [ query ]
+    };
+    if (notification) postData['notification'] = notification;
+    postData = JSON.stringify(postData);
+    console.log(postData);
+
+    return ServiceAccount.getToken()
+        .then(function(token) {
+            var mark = false;
+            var requestSettings = {
+                host:     agaveSettings.hostname,
+                method:   'POST',
+                path:     '/meta/v3/' + mongoSettings.dbname + '/' + collection + '/_lrq',
+                rejectUnauthorized: false,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept':   'application/json',
+                    'Authorization': 'Bearer ' + ServiceAccount.accessToken(),
+                    'Content-Length': Buffer.byteLength(postData)
+                }
+            };
+
+            console.log(requestSettings);
+
+            return agaveIO.sendRequest(requestSettings, postData);
         })
         .then(function(responseObject) {
-            deferred.resolve(responseObject);
+            return Promise.resolve(responseObject);
         })
-        .fail(function(errorObject) {
-            console.error('performQuery: ' + errorObject);
-            deferred.reject(errorObject);
+        .catch(function(errorObject) {
+            console.error('performAsyncQuery: ' + errorObject);
+            return Promise.reject(errorObject);
         });
-
-    return deferred.promise;
 };
 
 agaveIO.performLargeAggregation = function(collection, aggregation, query, field, page, pagesize) {
 
-    var deferred = Q.defer();
-
     var postData = '{"match":' + query + ',"field":"' + field + '"}';
     //console.log(postData);
 
-    GuestAccount.getToken()
+    return GuestAccount.getToken()
         .then(function(token) {
             var mark = false;
             var requestSettings = {
@@ -393,7 +339,7 @@ agaveIO.performLargeAggregation = function(collection, aggregation, query, field
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
                     'Authorization': 'Bearer ' + GuestAccount.accessToken(),
-		    'Content-Length': Buffer.byteLength(postData)
+                    'Content-Length': Buffer.byteLength(postData)
                 }
             };
             if (page != null) {
@@ -414,20 +360,16 @@ agaveIO.performLargeAggregation = function(collection, aggregation, query, field
             return agaveIO.sendRequest(requestSettings, postData);
         })
         .then(function(responseObject) {
-            deferred.resolve(responseObject);
+            return Promise.resolve(responseObject);
         })
-        .fail(function(errorObject) {
-            deferred.reject(errorObject);
+        .catch(function(errorObject) {
+            return Promise.reject(errorObject);
         });
-
-    return deferred.promise;
 };
 
 agaveIO.performAggregation = function(collection, aggregation, query, field, page, pagesize) {
 
-    var deferred = Q.defer();
-
-    GuestAccount.getToken()
+    return GuestAccount.getToken()
         .then(function(token) {
             var requestSettings = {
                 host:     agaveSettings.hostname,
@@ -462,49 +404,403 @@ agaveIO.performAggregation = function(collection, aggregation, query, field, pag
 
             return agaveIO.sendRequest(requestSettings, null);
         })
-    .then(function(responseObject) {
-            deferred.resolve(responseObject);
+        .then(function(responseObject) {
+            return Promise.resolve(responseObject);
         })
-    .fail(function(errorObject) {
-            deferred.reject(errorObject);
+        .catch(function(errorObject) {
+            return Promise.reject(errorObject);
         });
+};
 
-    return deferred.promise;
+agaveIO.performAsyncAggregation = function(name, collection, query, notification) {
+
+    var postData = {
+        name: name,
+        queryType: "AGGREGATION",
+        query: query
+    };
+    if (notification) postData['notification'] = notification;
+    postData = JSON.stringify(postData);
+
+    return ServiceAccount.getToken()
+        .then(function(token) {
+            var mark = false;
+            var requestSettings = {
+                host:     agaveSettings.hostname,
+                method:   'POST',
+                path:     '/meta/v3/' + mongoSettings.dbname + '/' + collection + '/_lrq',
+                rejectUnauthorized: false,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept':   'application/json',
+                    'Authorization': 'Bearer ' + ServiceAccount.accessToken(),
+                    'Content-Length': Buffer.byteLength(postData)
+                }
+            };
+
+            console.log(requestSettings);
+            console.log(postData);
+
+            return agaveIO.sendRequest(requestSettings, postData);
+        })
+        .then(function(responseObject) {
+            return Promise.resolve(responseObject);
+        })
+        .catch(function(errorObject) {
+            console.error('performAsyncAggregation: ' + errorObject);
+            return Promise.reject(errorObject);
+        });
+};
+
+agaveIO.getLRQStatus = function(lrq_id) {
+
+    return ServiceAccount.getToken()
+        .then(function(token) {
+            var requestSettings = {
+                host:     agaveSettings.hostname,
+                method:   'GET',
+                path:     '/meta/v3/LRQ/vdjserver.org/' + lrq_id,
+                rejectUnauthorized: false,
+                headers: {
+                    'Accept':   'application/json',
+                    'Authorization': 'Bearer ' + ServiceAccount.accessToken()
+                }
+            };
+
+            //console.log(requestSettings);
+
+            return agaveIO.sendRequest(requestSettings, null);
+        });
 };
 
 agaveIO.recordQuery = function(query) {
 
-    var deferred = Q.defer();
+    return ServiceAccount.getToken()
+        .then(function(token) {
 
-    ServiceAccount.getToken()
-	.then(function(token) {
-
-	    var postData = JSON.stringify(query);
+            var postData = JSON.stringify(query);
 
             var requestSettings = {
-		host:     agaveSettings.hostname,
-		method:   'POST',
-		path:     '/meta/v3/' + mongoSettings.dbname + '/query',
-		rejectUnauthorized: false,
-		headers: {
+                host:     agaveSettings.hostname,
+                method:   'POST',
+                path:     '/meta/v3/' + mongoSettings.dbname + '/query',
+                rejectUnauthorized: false,
+                headers: {
                     'Accept':   'application/json',
                     'Authorization': 'Bearer ' + ServiceAccount.accessToken(),
                     'Content-Type': 'application/json',
-		    'Content-Length': Buffer.byteLength(postData)
-		}
+                    'Content-Length': Buffer.byteLength(postData)
+                }
             };
 
             //console.log(requestSettings);
 
             return agaveIO.sendRequest(requestSettings, postData);
-	})
-	.then(function(responseObject) {
-            deferred.resolve(responseObject);
         })
-	.fail(function(errorObject) {
+        .then(function(responseObject) {
+            return Promise.resolve(responseObject);
+        })
+        .catch(function(errorObject) {
             console.error(errorObject);
-            deferred.reject(errorObject);
+            return Promise.reject(errorObject);
         });
+};
 
-    return deferred.promise;
+agaveIO.getMetadata = function(uuid) {
+
+    return ServiceAccount.getToken()
+        .then(function(token) {
+            var requestSettings = {
+                host:     agaveSettings.hostname,
+                method:   'GET',
+                path:     '/meta/v2/data/' + uuid,
+                rejectUnauthorized: false,
+                headers: {
+                    'Authorization': 'Bearer ' + ServiceAccount.accessToken()
+                }
+            };
+
+            return agaveIO.sendRequest(requestSettings, null);
+        })
+        .then(function(responseObject) {
+            return Promise.resolve(responseObject.result);
+        })
+        .catch(function(errorObject) {
+            return Promise.reject(errorObject);
+        });
+};
+
+agaveIO.updateMetadata = function(uuid, name, value, associationIds) {
+
+    var postData = {
+        name: name,
+        value: value
+    };
+    if (associationIds) postData.associationIds = associationIds;
+
+    postData = JSON.stringify(postData);
+
+    return ServiceAccount.getToken()
+        .then(function(token) {
+            var requestSettings = {
+                host:     agaveSettings.hostname,
+                method:   'POST',
+                path:     '/meta/v2/data/' + uuid,
+                rejectUnauthorized: false,
+                headers: {
+                    'Content-Type':   'application/json',
+                    'Content-Length': Buffer.byteLength(postData),
+                    'Authorization': 'Bearer ' + ServiceAccount.accessToken()
+                }
+            };
+            return agaveIO.sendRequest(requestSettings, postData);
+        })
+        .then(function(responseObject) {
+            return Promise.resolve(responseObject.result);
+        })
+        .catch(function(errorObject) {
+            console.log('agaveIO.updateMetadata error: ' + errorObject);
+            return Promise.reject(errorObject);
+        });
+};
+
+agaveIO.createAsyncQueryMetadata = function(endpoint, collection, body, query_aggr, count_aggr) {
+
+    var postData = {
+        name: 'async_query',
+        value: {
+            endpoint: endpoint,
+            collection: collection,
+            lrq_id: null,
+            status: 'PENDING',
+            message: null,
+            notification: null,
+            raw_file: null,
+            final_file: null,
+            download_url: null,
+            body: body,
+            query_aggr: query_aggr,
+            count_aggr: count_aggr
+        }
+    };
+    if (body['notification']) postData['value']['notification'] = body['notification'];
+
+    postData = JSON.stringify(postData);
+
+    return ServiceAccount.getToken()
+        .then(function(token) {
+            var requestSettings = {
+                host:     agaveSettings.hostname,
+                method:   'POST',
+                path:     '/meta/v2/data',
+                rejectUnauthorized: false,
+                headers: {
+                    'Content-Type':   'application/json',
+                    'Content-Length': Buffer.byteLength(postData),
+                    'Authorization': 'Bearer ' + ServiceAccount.accessToken()
+                }
+            };
+
+            return agaveIO.sendRequest(requestSettings, postData);
+        })
+        .then(function(responseObject) {
+            return Promise.resolve(responseObject.result);
+        })
+        .catch(function(errorObject) {
+            return Promise.reject(errorObject);
+        });
+};
+
+agaveIO.getAsyncQueryMetadata = function(lrq_id) {
+
+    return ServiceAccount.getToken()
+        .then(function(token) {
+            var requestSettings = {
+                host:     agaveSettings.hostname,
+                method:   'GET',
+                path:     '/meta/v2/data?q='
+                    + encodeURIComponent(
+                        '{"name":"async_query",'
+                            + ' "value.lrq_id":"' + lrq_id + '"}'
+                    )
+                    + '&limit=1'
+                ,
+                rejectUnauthorized: false,
+                headers: {
+                    'Authorization': 'Bearer ' + ServiceAccount.accessToken()
+                }
+            };
+
+            console.log(requestSettings);
+
+            return agaveIO.sendRequest(requestSettings, null);
+        })
+        .then(function(responseObject) {
+            return Promise.resolve(responseObject.result);
+        })
+        .catch(function(errorObject) {
+            return Promise.reject(errorObject);
+        });
+};
+
+agaveIO.createPublicFilePostit = function(url, unlimited, maxUses, lifetime) {
+
+    var postData = {
+        url: url,
+        method: 'GET'
+    };
+    if (unlimited) {
+        postData["unlimited"] = true;
+    } else {
+        postData["maxUses"] = maxUses;
+        postData["lifetime"] = lifetime;
+    }
+    postData = JSON.stringify(postData);
+
+    return ServiceAccount.getToken()
+        .then(function(token) {
+            var requestSettings = {
+                host:     agaveSettings.hostname,
+                method:   'POST',
+                path:     '/postits/v2/',
+                rejectUnauthorized: false,
+                headers: {
+                    'Content-Type':   'application/json',
+                    'Content-Length': Buffer.byteLength(postData),
+                    'Authorization': 'Bearer ' + ServiceAccount.accessToken()
+                }
+            };
+
+            return agaveIO.sendRequest(requestSettings, postData);
+        })
+        .then(function(responseObject) {
+            return Promise.resolve(responseObject.result);
+        })
+        .catch(function(errorObject) {
+            return Promise.reject(errorObject);
+        });
+};
+
+agaveIO.getPostit = function(uuid) {
+
+    return ServiceAccount.getToken()
+        .then(function(token) {
+            var requestSettings = {
+                host:     agaveSettings.hostname,
+                method:   'GET',
+                path:     '/postits/v2/listing/' + uuid,
+                rejectUnauthorized: false,
+                headers: {
+                    'Content-Type':   'application/json',
+                    'Authorization': 'Bearer ' + ServiceAccount.accessToken()
+                }
+            };
+
+            return agaveIO.sendRequest(requestSettings, null);
+        })
+        .then(function(responseObject) {
+            return Promise.resolve(responseObject.result);
+        })
+        .catch(function(errorObject) {
+            return Promise.reject(errorObject);
+        });
+};
+
+agaveIO.getAsyncQueryMetadataWithStatus = function(status) {
+
+    var models = [];
+
+    var doFetch = function(offset) {
+        return ServiceAccount.getToken()
+            .then(function(token) {
+                var requestSettings = {
+                    host:     agaveSettings.hostname,
+                    method:   'GET',
+                    path:     '/meta/v2/data?q='
+                        + encodeURIComponent(
+                            '{"name":"async_query",'
+                                + ' "value.status":"' + status
+                                + '"}')
+                        + '&limit=50&offset=' + offset,
+                    rejectUnauthorized: false,
+                    headers: {
+                        'Authorization': 'Bearer ' + ServiceAccount.accessToken()
+                    }
+                };
+
+                return agaveIO.sendRequest(requestSettings, null);
+            })
+            .then(function(responseObject) {
+                var result = responseObject.result;
+                if (result.length > 0) {
+                    // maybe more data
+                    models = models.concat(result);
+                    var newOffset = offset + result.length;
+                    return doFetch(newOffset);
+                } else {
+                    // no more data
+                    return Promise.resolve(models);
+                }
+            })
+            .catch(function(errorObject) {
+                return Promise.reject(errorObject);
+            });
+    }
+
+    return doFetch(0);
+};
+
+// send a notification
+agaveIO.sendNotification = function(notification, data) {
+
+    // pull out host and path from URL
+    // TODO: handle http/https
+    var fields = notification['url'].split('://');
+    fields = fields[1].split('/');
+    var host = fields[0];
+    fields = notification['url'].split(host);
+    var path = fields[1];
+
+    var postData = null;
+    var method = 'GET';
+    if (data) {
+        // put data in request params
+        if (notification["method"] == 'GET') {
+            method = 'GET';
+
+            // check if URL already has some request params
+            var mark;
+            if (path.indexOf('?') >= 0) mark = '&';
+            else mark = '?';
+
+            var keys = Object.keys(data);
+            for (var p = 0; p < keys.length; ++p) {
+                path += mark;
+                path += keys[p] + '=' + encodeURIComponent(data[keys[p]]);
+                mark = '&';
+            }
+        } else {
+            method = 'POST';
+            postData = JSON.stringify(data);
+        }
+    }
+
+    var requestSettings = {
+        host:     host,
+        method:   method,
+        path:     path,
+        rejectUnauthorized: false,
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept':   'application/json'
+        }
+    };
+
+    if (postData) {
+        requestSettings['headers']['Content-Length'] = Buffer.byteLength(postData);
+    }
+
+    console.log(requestSettings);
+
+    return agaveIO.sendRequest(requestSettings, postData);
 };

@@ -1,0 +1,9 @@
+{
+    "filters": {
+                "op": "contains",
+                "content": {
+                    "field": "sample.collection_time_point_relative",
+                    "value": "0"
+                }
+    }
+}

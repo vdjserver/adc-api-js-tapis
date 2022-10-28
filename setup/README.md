@@ -14,12 +14,14 @@ These are the collections to create:
 
 * query
 
+* statistics
+
 Get a token for the admin account with the `vdj_airr` client, which has access to
-the Tapis Meta/V3 API. Given the docker image is setup with authentication, here is
-a simple way to get a token.
+the Tapis Meta/V3 API. Given a docker image, here is a simple way to get a token.
+It relies upon the .env file for authentication.
 
 ```
-docker run -v $PWD:/work -v $PWD/.env:/api-js-tapis/.env -it vdjserver/api-js-tapis:latest python3 /work/get_token.py
+docker run -v $PWD:/work -v $PWD/../../.env:/api-js-tapis/.env -it vdjserver/api-js-tapis:latest python3 /work/get_token.py
 ```
 
 Then a curl PUT command where `TOKEN` and `DBNAME` are replaced with
@@ -32,6 +34,8 @@ curl -X PUT -H 'Content-Type: application/json' -H 'Authorization: Bearer TOKEN'
 curl -X PUT -H 'Content-Type: application/json' -H 'Authorization: Bearer TOKEN' https://vdj-agave-api.tacc.utexas.edu/meta/v3/DBNAME/repertoire_1
 curl -X PUT -H 'Content-Type: application/json' -H 'Authorization: Bearer TOKEN' https://vdj-agave-api.tacc.utexas.edu/meta/v3/DBNAME/rearrangement_1
 curl -X PUT -H 'Content-Type: application/json' -H 'Authorization: Bearer TOKEN' https://vdj-agave-api.tacc.utexas.edu/meta/v3/DBNAME/query
+curl -X PUT -H 'Content-Type: application/json' -H 'Authorization: Bearer TOKEN' https://vdj-agave-api.tacc.utexas.edu/meta/v3/DBNAME/statistics_0
+curl -X PUT -H 'Content-Type: application/json' -H 'Authorization: Bearer TOKEN' https://vdj-agave-api.tacc.utexas.edu/meta/v3/DBNAME/statistics_1
 ```
 
 A curl GET command will verify all the collections in the database.

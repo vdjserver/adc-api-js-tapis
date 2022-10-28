@@ -1,8 +1,8 @@
 'use strict';
 
 //
-// guestAccount.js
-// guest account for performing queries
+// expression.js
+// Expression end points
 //
 // VDJServer Community Data Portal
 // ADC API for VDJServer
@@ -26,35 +26,32 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 //
 
-var agaveSettings = require('../../config/tapisSettings');
-var AgaveToken = require('./agaveToken');
+var ExpressionController = {};
+module.exports = ExpressionController;
 
-var GuestAccount = {
-    username: agaveSettings.guestAccountKey,
-    password: agaveSettings.guestAccountSecret,
-    agaveToken: null
-};
+// Server environment config
+var config = require('../../config/config');
 
-module.exports = GuestAccount;
-
-// Processing
-var agaveIO = require('../vendor/agaveIO');
-
-GuestAccount.getToken = function() {
-
-    var that = this;
-
-    return agaveIO.getToken(this)
-    .then(function(responseObject) {
-        that.agaveToken = new AgaveToken(responseObject);
-        return Promise.resolve(that.agaveToken);
-    })
-    .catch(function(errorObject) {
-        console.log('VDJServer ADC API ERROR: Unable to login with guest account. ' + errorObject);
-        return Promise.reject(errorObject);
-    });
+function getInfoObject() {
+    var info = { };
+    var schema = global.airr['Info'];
+    info['title'] = config.info.description;
+    info['description'] = 'VDJServer ADC API response for expression query'
+    info['version'] = schema.version;
+    info['contact'] = config.info.contact;
+    return info;
 }
 
-GuestAccount.accessToken = function() {
-    return this.agaveToken.access_token;
+ExpressionController.getExpression = function(req, res) {
+    var info = getInfoObject();
+    res.json({"Info":info,"CellExpression":[]});
+}
+
+ExpressionController.queryExpressions = function(req, res) {
+    var bodyData = req.body;
+    var facets = bodyData['facets'];
+    var info = getInfoObject();
+
+    if (facets) res.json({"Info":info,"Facet":[]});
+    else res.json({"Info":info,"CellExpression":[]});
 }
