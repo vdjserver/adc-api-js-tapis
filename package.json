@@ -7,7 +7,7 @@
   "author": "UT Southwestern Medical Center",
   "license": "GNU AGPL V3",
   "homepage": "https://vdjserver.org",
-  "main": "app.js",
+  "main": "app/app.js",
   "dependencies": {
     "@apidevtools/json-schema-ref-parser": "8.0.0",
     "async": "^2.5.0",

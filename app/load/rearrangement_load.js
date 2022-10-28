@@ -125,7 +125,7 @@ console.log('Load AIRR rearrangements into VDJServer data repository.');
 var myArgs = process.argv.slice(2);
 if (myArgs.length != 3) {
     console.log('usage: node rearrangement_load.js load_set repertoire_file directory_prefix');
-    return;
+    process.exit(1);
 }
 
 console.log(mongoSettings.url);
@@ -171,5 +171,5 @@ var load_set_start = parseInt(myArgs[0], 10);
         }
 
         console.log(i);
-    };
+    }
 })();

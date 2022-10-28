@@ -43,7 +43,7 @@ function insertRepertoire(rep) {
 console.log('Load AIRR repertoire metadata into repository.');
 if (process.argv.length != 3) {
     console.log('usage: node repertoire_load.js repertoire_file');
-    return;
+    process.exit(1);
 }
 
 var myArgs = process.argv.slice(2);
@@ -58,11 +58,11 @@ for (var i in reps) {
     var r = reps[i];
     if (!r['repertoire_id']) {
         console.error('Repertoire is missing repertoire_id');
-        return;
+        process.exit(1);
     }
     if (r['repertoire_id'].length == 0) {
         console.error('Repertoire is missing repertoire_id');
-        return;
+        process.exit(1);
     }
     insertRepertoire(r);
 }

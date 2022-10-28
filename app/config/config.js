@@ -64,7 +64,7 @@ if (config.debug) console.log('VDJ-ADC-API INFO: Debug console messages enabled.
 config.slackURL = process.env.SLACK_WEBHOOK_URL;
 
 // get service info
-var infoFile = path.resolve(__dirname, '../package.json');
+var infoFile = path.resolve(__dirname, '../../package.json');
 var infoString = fs.readFileSync(infoFile, 'utf8');
 var info = JSON.parse(infoString);
 config.info = {};
