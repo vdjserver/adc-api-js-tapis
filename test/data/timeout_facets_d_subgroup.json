@@ -1,0 +1,10 @@
+{
+  "filters": {
+    "op": "=",
+    "content": {
+      "field": "d_subgroup",
+      "value": "IGHD1"
+    }
+  },
+  "facets":"repertoire_id"
+}

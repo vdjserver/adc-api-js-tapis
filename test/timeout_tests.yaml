@@ -1,0 +1,9 @@
+- name: timeout_facets_d_subgroup
+  data: timeout_facets_d_subgroup.json
+  endpoint: /rearrangement
+  code: 408
+  auth: false
+  response_type: dict
+  response:
+    message: Timeout error
+

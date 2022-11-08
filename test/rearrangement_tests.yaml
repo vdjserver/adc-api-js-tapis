@@ -1,0 +1,30 @@
+- name: by_load_set.json
+  data: by_load_set.json
+  endpoint: /rearrangement
+  code: 200
+  auth: false
+  response_type: dict
+  response:
+    Info: VDJServer ADC API
+    Facet: "10000"
+
+- name: by_repertoire_id_multiple.json
+  data: by_repertoire_id_multiple.json
+  endpoint: /rearrangement
+  code: 200
+  auth: false
+  response_type: dict
+  response:
+    Info: VDJServer ADC API
+    Facet: "7435023730911482346-242ac113-0001-012"
+
+- name: by_junction_aa_length.json
+  data: by_junction_aa_length.json
+  endpoint: /rearrangement
+  code: 200
+  auth: false
+  response_type: dict
+  response:
+    Info: VDJServer ADC API
+    Facet: junction_aa_length
+

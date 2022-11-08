@@ -1,0 +1,22 @@
+{
+  "filters": {
+    "op":"and",
+    "content": [
+      {
+        "op":"=",
+        "content": {
+          "field":"repertoire_id",
+          "value":"3195758240120836586-242ac11a-0001-012"
+        }
+      },
+      {
+        "op":"=",
+        "content": {
+          "field":"productive",
+          "value": true
+        }
+      }
+    ]
+  },
+  "facets":"repertoire_id"
+}

@@ -1,0 +1,130 @@
+- name: by_data_processing_id.json
+  data: by_data_processing_id.json
+  endpoint: /repertoire
+  code: 200
+  auth: false
+  response_type: dict
+  response:
+    Info: VDJServer ADC API
+    Facet: data_processing.data_processing_id
+
+- name: by_diagnosis.json
+  data: by_diagnosis.json
+  endpoint: /repertoire
+  code: 200
+  auth: false
+  response_type: dict
+  response:
+    Info: VDJServer ADC API
+    Facet: subject.diagnosis.disease_diagnosis.id
+
+- name: by_pcr_target_locus.json
+  data: by_pcr_target_locus.json
+  endpoint: /repertoire
+  code: 200
+  auth: false
+  response_type: dict
+  response:
+    Info: VDJServer ADC API
+    Facet: sample.pcr_target.pcr_target_locus
+
+- name: by_race.json
+  data: by_race.json
+  endpoint: /repertoire
+  code: 200
+  auth: false
+  response_type: dict
+  response:
+    Info: VDJServer ADC API
+    Facet: subject.race
+
+- name: by_sex.json
+  data: by_sex.json
+  endpoint: /repertoire
+  code: 200
+  auth: false
+  response_type: dict
+  response:
+    Info: VDJServer ADC API
+    Facet: subject.sex
+
+- name: by_study_id.json
+  data: by_study_id.json
+  endpoint: /repertoire
+  code: 200
+  auth: false
+  response_type: dict
+  response:
+    Info: VDJServer ADC API
+    Facet: study.study_id
+
+- name: by_study_keyword.json
+  data: by_study_keyword.json
+  endpoint: /repertoire
+  code: 200
+  auth: false
+  response_type: dict
+  response:
+    Info: VDJServer ADC API
+    Facet: study.keywords_study
+
+- name: by_study_type.json
+  data: by_study_type.json
+  endpoint: /repertoire
+  code: 200
+  auth: false
+  response_type: dict
+  response:
+    Info: VDJServer ADC API
+    Facet: study.study_type.id
+
+- name: by_repertoire_id.json
+  data: by_repertoire_id.json
+  endpoint: /repertoire
+  code: 200
+  auth: false
+  response_type: dict
+  response:
+    Info: VDJServer ADC API
+    Facet: repertoire_id
+
+- name: by_repertoire_id_multiple.json
+  data: by_repertoire_id_multiple.json
+  endpoint: /repertoire
+  code: 200
+  auth: false
+  response_type: dict
+  response:
+    Info: VDJServer ADC API
+    Facet: "7435023730911482346-242ac113-0001-012"
+
+- name: by_repertoire_id_single_1.json
+  data: by_repertoire_id_single_1.json
+  endpoint: /repertoire
+  code: 200
+  auth: false
+  response_type: dict
+  response:
+    Info: VDJServer ADC API
+    Facet: "7997882631039226346-242ac113-0001-012"
+
+- name: by_repertoire_id_single_2.json
+  data: by_repertoire_id_single_2.json
+  endpoint: /repertoire
+  code: 200
+  auth: false
+  response_type: dict
+  response:
+    Info: VDJServer ADC API
+    Facet: "7435023730911482346-242ac113-0001-012"
+
+- name: by_repertoire_id_single_3.json
+  data: by_repertoire_id_single_3.json
+  endpoint: /repertoire
+  code: 200
+  auth: false
+  response_type: dict
+  response:
+    Info: VDJServer ADC API
+    Facet: "7997882631039226346-242ac113-0001-012"
+
