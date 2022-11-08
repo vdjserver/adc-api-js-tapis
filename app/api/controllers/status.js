@@ -33,18 +33,24 @@ module.exports = StatusController;
 var config = require('../../config/config');
 var webhookIO = require('../vendor/webhookIO');
 
+// Tapis
+var tapisIO = null;
+if (config.tapis_version == 2) tapisIO = require('vdj-tapis-js');
+if (config.tapis_version == 3) tapisIO = require('vdj-tapis-js/tapisV3');
+var GuestAccount = tapisIO.guestAccount;
+
 // service status
 StatusController.getStatus = function(req, res) {
+    var context = 'StatusController.getStatus';
+
     // Verify we can login with guest account
-    var GuestAccount = require('../models/guestAccount');
     GuestAccount.getToken()
         .then(function(guestToken) {
             res.json({"result":"success"});
         })
         .catch(function(error) {
-            var msg = 'VDJServer ADC API ERROR (getStatus): Could not acquire guest token.\n.' + error;
+            var msg = config.log.error(context, 'Could not acquire guest token.\n.' + error);
             res.status(500).json({"message":"Internal service error."});
-            console.error(msg);
             webhookIO.postToSlack(msg);
         });
 }

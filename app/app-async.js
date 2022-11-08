@@ -37,9 +37,11 @@ var $RefParser = require("@apidevtools/json-schema-ref-parser");
 
 // Express app
 var app = module.exports = express();
+var context = 'app';
 
 // Server environment config
 var config = require('./config/config');
+config.name = 'VDJ-ADC-API-ASYNC';
 var airr = require('./api/helpers/airr-schema');
 var webhookIO = require('./api/vendor/webhookIO');
 
@@ -82,17 +84,17 @@ app.use(errorHandler({
 // This is also so that the /vdjZ Corral file volume can be accessed,
 // as it is restricted to the TACC vdj account.
 // read/write access is required.
-console.log('VDJ-ADC-API-ASYNC INFO: Downgrading to host user: ' + config.hostServiceAccount);
+config.log.info(context, 'Downgrading to host user: ' + config.hostServiceAccount, true);
 process.setgid(config.hostServiceGroup);
 process.setuid(config.hostServiceAccount);
-console.log('VDJ-ADC-API-ASYNC INFO: Current uid: ' + process.getuid());
-console.log('VDJ-ADC-API-ASYNC INFO: Current gid: ' + process.getgid());
+config.log.info(context, 'Current uid: ' + process.getuid(), true);
+config.log.info(context, 'Current gid: ' + process.getgid(), true);
 
 // Verify we can login with guest account
 var GuestAccount = require('./api/models/guestAccount');
 GuestAccount.getToken()
     .then(function(guestToken) {
-        console.log('VDJ-ADC-API-ASYNC INFO: Successfully acquired guest token.');
+        config.log.info(context, 'Successfully acquired guest token.');
 
         // Load AIRR Schema
         return airr.schema();
@@ -101,17 +103,17 @@ GuestAccount.getToken()
         // save in global
         global.airr = schema;
 
-        console.log('VDJ-ADC-API-ASYNC INFO: Loaded AIRR Schema, version ' + schema['Info']['version']);
+        config.log.info('Loaded AIRR Schema, version ' + schema['Info']['version']);
 
         // Load API
         var apiFile = path.resolve(__dirname, 'api/swagger/adc-api-async.yaml');
-        console.log('VDJ-ADC-API-ASYNC INFO: Using ADC API Async specification: ' + apiFile);
+        config.log.info(context, 'Using ADC API Async specification: ' + apiFile);
         var api_spec = yaml.safeLoad(fs.readFileSync(apiFile, 'utf8'));
-        console.log('VDJ-ADC-API-ASYNC INFO: Loaded ADC API Async version: ' + api_spec.info.version);
+        config.log.info(context, 'Loaded ADC API Async version: ' + api_spec.info.version);
 
         // Load internal notify API
         var notifyFile = path.resolve(__dirname, 'api/swagger/async-notify.yaml');
-        console.log('VDJ-ADC-API-ASYNC INFO: notify API specification: ' + notifyFile);
+        config.log.info(context, 'notify API specification: ' + notifyFile);
         var notify_spec = yaml.safeLoad(fs.readFileSync(notifyFile, 'utf8'));
         // copy paths
         for (var p in notify_spec['paths']) {
@@ -160,25 +162,24 @@ GuestAccount.getToken()
         // Start listening on port
         return new Promise(function(resolve, reject) {
             app.listen(app.get('port'), function() {
-                console.log('VDJ-ADC-API-ASYNC INFO: VDJServer ADC API service listening on port ' + app.get('port'));
+                config.log.info(context, 'VDJServer ADC ASYNC API service listening on port ' + app.get('port'));
                 resolve();
             });
         });
     })
     .then(function() {
         if (config.async.enable_poll) {
-            console.log('VDJ-ADC-API-ASYNC INFO: Polling ENABLED for LRQ');
+            config.log.info(context, 'Polling ENABLED for LRQ');
             AsyncQueue.triggerPolling();
         }
         if (config.async.enable_expire) {
-            console.log('VDJ-ADC-API-ASYNC INFO: Expiration ENABLED for async queries');
+            config.log.info(context, 'Expiration ENABLED for async queries');
             AsyncQueue.triggerExpiration();
         }
     })
     .catch(function(error) {
-        var msg = 'VDJ-ADC-API-ASYNC ERROR: Service could not be start.\n' + error;
-        console.error(msg);
-        console.trace(msg);
+        var msg = config.log.error(context, 'Service could not be start.\n' + error);
+        //console.trace(msg);
         webhookIO.postToSlack(msg);
         // continue in case its a temporary error
         //process.exit(1);

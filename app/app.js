@@ -37,11 +37,23 @@ var $RefParser = require("@apidevtools/json-schema-ref-parser");
 
 // Express app
 var app = module.exports = express();
+var context = 'app';
 
 // Server environment config
 var config = require('./config/config');
 var airr = require('./api/helpers/airr-schema');
 var webhookIO = require('./api/vendor/webhookIO');
+
+// Tapis
+if (config.tapis_version == 2) config.log.info(context, 'Using Tapis V2 API', true);
+else if (config.tapis_version == 3) config.log.info(context, 'Using Tapis V3 API', true);
+else {
+    config.log.error(context, 'Invalid Tapis version, check TAPIS_VERSION environment variable');
+    process.exit(1);
+}
+var tapisIO = null;
+if (config.tapis_version == 2) tapisIO = require('vdj-tapis-js');
+if (config.tapis_version == 3) tapisIO = require('vdj-tapis-js/tapisV3');
 
 // Controllers
 var statusController = require('./api/controllers/status');
@@ -78,28 +90,18 @@ app.use(errorHandler({
     showStack: true,
 }));
 
-/*
-    This is hack for when x-www-form-urlencoded is really JSON.
-    We don't want to use it.
-
-app.use(
-  bodyParser.raw({ type : 'application/x-www-form-urlencoded' }),
-  function(req, res, next) {
-    try {
-      req.body = JSON.parse(req.body)
-    } catch(e) {
-      req.body = require('qs').parse(req.body.toString());
-    }
-    next();
-  }
-);
-*/
-
-// Verify we can login with guest account
-var GuestAccount = require('./api/models/guestAccount');
+// Verify we can login with guest and service account
+var ServiceAccount = tapisIO.serviceAccount;
+var GuestAccount = tapisIO.guestAccount;
 GuestAccount.getToken()
     .then(function(guestToken) {
-        console.log('VDJ-ADC-API INFO: Successfully acquired guest token.');
+        config.log.info(context, 'Successfully acquired guest token.', true);
+
+        // Load AIRR Schema
+        return ServiceAccount.getToken();
+    })
+    .then(function(serviceToken) {
+        config.log.info(context, 'Successfully acquired service token.', true);
 
         // Load AIRR Schema
         return airr.schema();
@@ -108,13 +110,13 @@ GuestAccount.getToken()
         // save in global
         global.airr = schema;
 
-        console.log('VDJ-ADC-API INFO: Loaded AIRR Schema, version ' + schema['Info']['version']);
+        config.log.info(context, 'Loaded AIRR Schema, version ' + schema['Info']['version'], true);
 
         // Load API
         var apiFile = path.resolve(__dirname, 'api/swagger/adc-api.yaml');
-        console.log('VDJ-ADC-API INFO: Using ADC API specification: ' + apiFile);
+        config.log.info(context, 'Using ADC API specification: ' + apiFile, true);
         var api_spec = yaml.safeLoad(fs.readFileSync(apiFile, 'utf8'));
-        console.log('VDJ-ADC-API INFO: Loaded ADC API version: ' + api_spec.info.version);
+        config.log.info(context, 'Loaded ADC API version: ' + api_spec.info.version, true);
 
         // dereference the API spec
         //
@@ -124,7 +126,9 @@ GuestAccount.getToken()
         return $RefParser.dereference(api_spec);
     })
     .then(function(api_schema) {
-        //console.log(api_schema);
+        // save in global
+        global.adc_api = api_schema;
+        //console.log(JSON.stringify(api_schema.components.schemas.cell_extension, null, 2));
 
         openapi.initialize({
             apiDoc: api_schema,
@@ -175,13 +179,12 @@ GuestAccount.getToken()
         });
 
         app.listen(app.get('port'), function() {
-            console.log('VDJ-ADC-API INFO: VDJServer ADC API service listening on port ' + app.get('port'));
+            config.log.info(context, 'VDJServer ADC API service listening on port ' + app.get('port'), true);
         });
     })
     .catch(function(error) {
-        var msg = 'VDJ-ADC-API ERROR: Service could not be start.\n' + error;
-        console.error(msg);
-        console.trace(msg);
+        var msg = config.log.error(context, 'Service could not be start.\n' + error);
+        //console.trace(msg);
         webhookIO.postToSlack(msg);
         // continue in case its a temporary error
         //process.exit(1);

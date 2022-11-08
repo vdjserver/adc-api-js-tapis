@@ -21,6 +21,7 @@
     "json-approver": "1.0.3",
     "moment-timezone": "0.4.1",
     "request": "2.88.2",
+    "vdj-tapis-js": "file:vdj-tapis-js",
     "underscore": "1.7.0"
   },
   "devDependencies": {

@@ -38,8 +38,13 @@ var airr = require('../helpers/airr-schema');
 var assert = require('assert');
 
 // Processing
-var agaveIO = require('../vendor/agaveIO');
 var webhookIO = require('../vendor/webhookIO');
+var tapisIO = null;
+var tapisV2 = require('vdj-tapis-js');
+var tapisV3 = require('vdj-tapis-js/tapisV3');
+if (config.tapis_version == 2) tapisIO = tapisV2;
+if (config.tapis_version == 3) tapisIO = tapisV3;
+var context = 'repertoire';
 
 // Node Libraries
 var Queue = require('bull');
@@ -127,13 +132,13 @@ function constructQueryOperation(filter, error) {
                 content_properties = props;
             }
         } else {
-            if (config.debug) console.log('VDJ-ADC-API INFO: ' + content['field'] + ' is not found in AIRR schema.');
+            config.log.info(context, content['field'] + ' is not found in AIRR schema.');
         }
     }
     // if not in schema then maybe its a custom field
     // so use the same type as the value.
     if (!content_type) content_type = typeof content['value'];
-    if (config.debug) console.log('type: ' + content_type);
+    //config.log.info(context, 'type: ' + content_type);
 
     // verify the value type against the field type
     // stringify the value properly for the query
@@ -366,9 +371,9 @@ function cleanRecord(record) {
 
 // process LRQ file
 RepertoireController.processLRQfile = function(metadata_uuid) {
-    return agaveIO.getMetadata(metadata_uuid)
+    return tapisIO.getMetadata(metadata_uuid)
         .then(function(metadata) {
-            console.log(metadata);
+            //console.log(metadata);
 
             return new Promise(function(resolve, reject) {
                 if (metadata['value']['endpoint'] != 'repertoire') {
@@ -425,8 +430,10 @@ RepertoireController.processLRQfile = function(metadata_uuid) {
 
 // Get a single repertoire
 RepertoireController.getRepertoire = function(req, res) {
+    var context = 'RepertoireController.getRepertoire';
     var get_repertoire_id = req.params.repertoire_id;
-    if (config.debug) console.log('VDJ-ADC-API INFO: getRepertoire: ' + get_repertoire_id);
+
+    config.log.info(context, get_repertoire_id);
 
     var result = {};
     var result_message = "Server error";
@@ -449,7 +456,7 @@ RepertoireController.getRepertoire = function(req, res) {
     // Handle client HTTP request abort
     var abortQuery = false;
     req.on("close", function() {
-        if (config.debug) console.log('VDJ-ADC-API INFO: Client request closed unexpectedly.');
+        config.log.info(context, 'Client request closed unexpectedly.');
         abortQuery = true;
     });
 
@@ -465,7 +472,7 @@ RepertoireController.getRepertoire = function(req, res) {
     info['version'] = schema.version;
     info['contact'] = config.info.contact;
 
-    return agaveIO.performQuery(collection, query, null, null, null)
+    return tapisIO.performQuery(collection, query, null, null, null)
         .then(function(record) {
             if (record.length == 0) {
                 res.json({"Info":info,"Repertoire":[]});
@@ -483,22 +490,21 @@ RepertoireController.getRepertoire = function(req, res) {
             if (abortQuery) {
                 queryRecord['status'] = 'abort';
                 queryRecord['end'] = Date.now();
-                agaveIO.recordQuery(queryRecord);
+                tapisIO.recordQuery(queryRecord);
             } else {
                 queryRecord['status'] = 'success';
                 queryRecord['end'] = Date.now();
-                agaveIO.recordQuery(queryRecord);
+                tapisIO.recordQuery(queryRecord);
             }
         })
         .catch(function(error) {
-            var msg = 'VDJ-ADC-API ERROR (getRepertoire): ' + error;
+            var msg = config.log.error(context, 'tapisIO.performQuery error: ' + error);
             res.status(500).json({"message":result_message});
-            console.error(msg);
             webhookIO.postToSlack(msg);
             queryRecord['status'] = 'error';
             queryRecord['message'] = msg;
             queryRecord['end'] = Date.now();
-            agaveIO.recordQuery(queryRecord);
+            tapisIO.recordQuery(queryRecord);
             return;
         });
 }
@@ -508,11 +514,11 @@ function performQuery(collection, query, projection, start_page, pagesize) {
 
     //console.log(query);
     var doQuery = function(page) {
-        var queryFunction = agaveIO.performQuery;
-        if (query && query.length > config.large_query_size) queryFunction = agaveIO.performLargeQuery;
+        var queryFunction = tapisIO.performQuery;
+        if (query && query.length > config.large_query_size) queryFunction = tapisIO.performLargeQuery;
         return queryFunction(collection, query, projection, page, pagesize)
             .then(function(records) {
-                if (config.debug) console.log('VDJ-ADC-API INFO: query returned ' + records.length + ' records.');
+                config.log.info(context, 'query returned ' + records.length + ' records.');
                 if (records.length == 0) {
                     return Promise.resolve(models);
                 } else {
@@ -534,16 +540,16 @@ function performFacets(collection, query, field, start_page, pagesize) {
 
     //console.log(query);
     var doAggr = function(page) {
-        var aggrFunction = agaveIO.performAggregation;
+        var aggrFunction = tapisIO.performAggregation;
         if (query && query.length > config.large_query_size) {
-            if (config.debug) console.log('VDJ-ADC-API INFO: Large facets query detected.');
-            aggrFunction = agaveIO.performLargeAggregation;
+            config.log.info(context, 'Large facets query detected.');
+            aggrFunction = tapisIO.performLargeAggregation;
         }
         // TAPIS BUG: with pagesize and normal aggregation so use the large one for now
-        aggrFunction = agaveIO.performLargeAggregation;
+        aggrFunction = tapisIO.performLargeAggregation;
         return aggrFunction(collection, 'facets', query, field, null, null)
             .then(function(records) {
-                if (config.debug) console.log('VDJ-ADC-API INFO: query returned ' + records.length + ' records.');
+                config.log.info(context, 'query returned ' + records.length + ' records.');
                 //console.log(JSON.stringify(records));
                 if (records.length == 0) {
                     return Promise.resolve(models);
@@ -562,7 +568,8 @@ function performFacets(collection, query, field, start_page, pagesize) {
 
 // Generic query repertoires
 RepertoireController.queryRepertoires = function(req, res) {
-    if (config.debug) console.log('VDJ-ADC-API INFO: queryRepertoires');
+    var context = 'RepertoireController.queryRepertoires';
+    config.log.info(context, 'start');
 
     var do_async = false;
     if (req.params.do_async) do_async = true;
@@ -589,11 +596,11 @@ RepertoireController.queryRepertoires = function(req, res) {
     var bodyLength = JSON.stringify(bodyData).length;
     if (bodyLength > config.info.max_query_size) {
         result_message = "Query size (" + bodyLength + ") exceeds maximum size of " + config.info.max_query_size + " characters.";
-        console.error(result_message);
+        config.log.error(context, result_message);
         res.status(400).json({"message":result_message});
         queryRecord['status'] = 'reject';
         queryRecord['message'] = result_message;
-        agaveIO.recordQuery(queryRecord);
+        tapisIO.recordQuery(queryRecord);
         return;
     }
 /*
@@ -606,7 +613,7 @@ RepertoireController.queryRepertoires = function(req, res) {
             console.error(result_message);
             queryRecord['status'] = 'reject';
             queryRecord['message'] = result_message;
-            agaveIO.recordQuery(queryRecord);
+            tapisIO.recordQuery(queryRecord);
             res.status(400).json({"message":result_message});
             return;
         }
@@ -616,7 +623,7 @@ RepertoireController.queryRepertoires = function(req, res) {
             console.error(result_message);
             queryRecord['status'] = 'reject';
             queryRecord['message'] = result_message;
-            agaveIO.recordQuery(queryRecord);
+            tapisIO.recordQuery(queryRecord);
             res.status(400).json({"message":result_message});
             return;
         }
@@ -637,7 +644,7 @@ RepertoireController.queryRepertoires = function(req, res) {
             result_message = "fields parameter is not an array.";
             queryRecord['status'] = 'reject';
             queryRecord['message'] = result_message;
-            agaveIO.recordQuery(queryRecord);
+            tapisIO.recordQuery(queryRecord);
             res.status(400).json({"message":result_message});
             return;
         }
@@ -677,7 +684,7 @@ RepertoireController.queryRepertoires = function(req, res) {
         result_message = "Size too large (" + size + "), maximum size is " + config.max_size;
         queryRecord['status'] = 'reject';
         queryRecord['message'] = result_message;
-        agaveIO.recordQuery(queryRecord);
+        tapisIO.recordQuery(queryRecord);
         res.status(400).json({"message":result_message});
         return;
     }
@@ -685,7 +692,7 @@ RepertoireController.queryRepertoires = function(req, res) {
         result_message = "Negative size (" + size + ") not allowed.";
         queryRecord['status'] = 'reject';
         queryRecord['message'] = result_message;
-        agaveIO.recordQuery(queryRecord);
+        tapisIO.recordQuery(queryRecord);
         res.status(400).json({"message":result_message});
         return;
     }
@@ -703,7 +710,7 @@ RepertoireController.queryRepertoires = function(req, res) {
         result_message = "Negative from (" + from + ") not allowed.";
         queryRecord['status'] = 'reject';
         queryRecord['message'] = result_message;
-        agaveIO.recordQuery(queryRecord);
+        tapisIO.recordQuery(queryRecord);
         res.status(400).json({"message":result_message});
         return;
     } else {
@@ -730,19 +737,19 @@ RepertoireController.queryRepertoires = function(req, res) {
 
             if (!query) {
                 result_message = "Could not construct valid query. Error: " + error['message'];
-                if (config.debug) console.log('VDJ-ADC-API INFO: ' + result_message);
+                config.log.error(context, result_message);
                 queryRecord['status'] = 'reject';
                 queryRecord['message'] = result_message;
-                agaveIO.recordQuery(queryRecord);
+                tapisIO.recordQuery(queryRecord);
                 res.status(400).json({"message":result_message});
                 return;
             }
         } catch (e) {
             result_message = "Could not construct valid query: " + e;
-            if (config.debug) console.log('VDJ-ADC-API INFO: ' + result_message);
+            config.log.error(context, result_message);
             queryRecord['status'] = 'reject';
             queryRecord['message'] = result_message;
-            agaveIO.recordQuery(queryRecord);
+            tapisIO.recordQuery(queryRecord);
             res.status(400).json({"message":result_message});
             return;
         }
@@ -760,7 +767,7 @@ RepertoireController.queryRepertoires = function(req, res) {
     // Handle client HTTP request abort
     var abortQuery = false;
     req.on("close", function() {
-        if (config.debug) console.log('VDJ-ADC-API INFO: Client request closed unexpectedly.');
+        config.log.info(context, 'Client request closed unexpectedly.');
         abortQuery = true;
     });
 
@@ -770,26 +777,27 @@ RepertoireController.queryRepertoires = function(req, res) {
         var submitQueue = new Queue('lrq submit');
         var parsed_query = JSON.parse(query);
 
-        return agaveIO.createAsyncQueryMetadata('repertoire', collection, bodyData)
+        return tapisIO.createAsyncQueryMetadata('repertoire', collection, bodyData)
             .then(function(metadata) {
-                console.log(metadata);
-                console.log('VDJ-ADC-API INFO: Created async metadata:', metadata.uuid);
+                //console.log(metadata);
+                config.log.info(context, 'Created async metadata: ' + metadata.uuid);
                 submitQueue.add({collection: collection, query: parsed_query, metadata: metadata}, {attempts: 5, backoff: 5000});
                 res.status(200).json({"message":"repertoire lrq submitted.", "query_id": metadata.uuid});
                 return;
             })
             .catch(function(error) {
-                var msg = "VDJ-ADC-API ERROR (queryRepertoires): " + error;
+                var msg = config.log.error(context, "tapisIO.createAsyncQueryMetadata error: " + error);
                 res.status(500).json({"message":result_message});
-                console.error(msg);
                 webhookIO.postToSlack(msg);
                 queryRecord['status'] = 'error';
                 queryRecord['message'] = msg;
                 queryRecord['end'] = Date.now();
-                agaveIO.recordQuery(queryRecord);
+                tapisIO.recordQuery(queryRecord);
             });
     } else if (!facets) {
         // perform non-facets query
+        config.log.info(context, 'perform non-facets query');
+
         //console.log(query);
         // we just get all of them then manually do from/size
         return performQuery(collection, query, projection, 1, pagesize)
@@ -798,7 +806,7 @@ RepertoireController.queryRepertoires = function(req, res) {
                 //    if (config.debug) console.log('VDJ-ADC-API INFO: client aborted query.');
                 //    return;
                 //}
-                if (config.debug) console.log('VDJ-ADC-API INFO: query returned ' + records.length + ' records.');
+                config.log.info(context, 'query returned ' + records.length + ' records.');
 
                 if (records.length == 0) {
                     results = [];
@@ -821,7 +829,7 @@ RepertoireController.queryRepertoires = function(req, res) {
                 }
             })
             .then(function() {
-                if (config.debug) console.log('VDJ-ADC-API INFO: returning ' + results.length + ' records to client.');
+                config.log.info(context, 'returning ' + results.length + ' records to client.');
                 queryRecord['count'] = results.length;
                 res.json({"Info":info,"Repertoire":results});
             })
@@ -829,25 +837,26 @@ RepertoireController.queryRepertoires = function(req, res) {
                 if (abortQuery) {
                     queryRecord['status'] = 'abort';
                     queryRecord['end'] = Date.now();
-                    agaveIO.recordQuery(queryRecord);
+                    tapisIO.recordQuery(queryRecord);
                 } else {
                     queryRecord['status'] = 'success';
                     queryRecord['end'] = Date.now();
-                    agaveIO.recordQuery(queryRecord);
+                    tapisIO.recordQuery(queryRecord);
                 }
             })
             .catch(function(error) {
-                var msg = "VDJ-ADC-API ERROR (queryRepertoires): " + error;
+                var msg = config.log.error(context, "performQuery error: " + error);
                 res.status(500).json({"message":result_message});
-                console.error(msg);
                 webhookIO.postToSlack(msg);
                 queryRecord['status'] = 'error';
                 queryRecord['message'] = msg;
                 queryRecord['end'] = Date.now();
-                agaveIO.recordQuery(queryRecord);
+                tapisIO.recordQuery(queryRecord);
             });
     } else {
         // perform facets query
+        config.log.info(context, 'perform facets query');
+
         var field = '$' + facets;
         if (!query) query = '{}';
 
@@ -906,7 +915,7 @@ RepertoireController.queryRepertoires = function(req, res) {
                         }
                     }
                 }
-                if (config.debug) console.log('VDJ-ADC-API INFO: facets repertoire query returning ' + results.length + ' results to client.');
+                config.log.info(context, 'facets repertoire query returning ' + results.length + ' results to client.');
                 queryRecord['count'] = results.length;
                 res.json({"Info":info,"Facet":results});
             })
@@ -914,22 +923,21 @@ RepertoireController.queryRepertoires = function(req, res) {
                 if (abortQuery) {
                     queryRecord['status'] = 'abort';
                     queryRecord['end'] = Date.now();
-                    agaveIO.recordQuery(queryRecord);
+                    tapisIO.recordQuery(queryRecord);
                 } else {
                     queryRecord['status'] = 'success';
                     queryRecord['end'] = Date.now();
-                    agaveIO.recordQuery(queryRecord);
+                    tapisIO.recordQuery(queryRecord);
                 }
             })
             .catch(function(error) {
-                var msg = "VDJ-ADC-API ERROR (queryRepertoires, facets): " + error;
+                var msg = config.log.error(context, "facets error: " + error);
                 res.status(500).json({"message":result_message});
-                console.error(msg);
                 webhookIO.postToSlack(msg);
                 queryRecord['status'] = 'error';
                 queryRecord['message'] = msg;
                 queryRecord['end'] = Date.now();
-                agaveIO.recordQuery(queryRecord);
+                tapisIO.recordQuery(queryRecord);
             });
     }
 }

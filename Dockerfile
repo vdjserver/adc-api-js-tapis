@@ -53,13 +53,9 @@ RUN cp -rf /node-$NODE_VER-linux-x64/share/* /usr/share
 #RUN git config --global http.proxy http://proxy.swmed.edu:3128
 #RUN git config --global https.proxy https://proxy.swmed.edu:3128
 
+# Copy project source
 RUN mkdir /api-js-tapis
-#RUN mkdir /api-js-tapis/app
-
-# Install npm dependencies (optimized for cache)
-#COPY app/package.json /api-js-tapis/app
-#RUN cd /api-js-tapis/app && npm install
-COPY package.json /api-js-tapis
+COPY . /api-js-tapis
 RUN cd /api-js-tapis && npm install
 
 # Setup redis
@@ -67,9 +63,6 @@ COPY docker/redis/redis.conf /etc/redis/redis.conf
 
 # Setup supervisor
 COPY docker/supervisor/supervisor.conf /etc/supervisor/conf.d/
-
-# Copy project source
-COPY . /api-js-tapis
 
 # ESLint
 RUN cd /api-js-tapis && ls && npm run eslint app

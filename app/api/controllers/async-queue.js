@@ -79,6 +79,7 @@ AsyncQueue.checkNotification = function(metadata) {
 // 6. Send notification
 
 AsyncQueue.processQueryJobs = function() {
+    var context = 'AsyncQueue.processQueryJobs';
     var countQueue = new Queue('lrq count');
     var submitQueue = new Queue('lrq submit');
     var finishQueue = new Queue('lrq finish');
@@ -88,17 +89,17 @@ AsyncQueue.processQueryJobs = function() {
         // the query specifies a size, we first perform a count. The query controller
         // defines count_aggr to generate the count.
 
+        var context = 'countQueue.process';
         var msg = null;
         var metadata = job['data']['metadata'];
-        if (config.debug) console.log('VDJ-ADC-ASYNC-API INFO: submitting count aggregation for LRQ:', metadata['uuid']);
+        config.log.info(context, 'submitting count aggregation for LRQ:', metadata['uuid']);
         //console.log(job['data']);
 
         var controller = null;
         if (metadata["value"]["endpoint"] == "repertoire") controller = repertoireController;
         if (metadata["value"]["endpoint"] == "rearrangement") controller = rearrangementController;
         if (! controller) {
-            msg = 'Unknown endpoint: ' + metadata["value"]["endpoint"];
-            console.error(msg);
+            msg = config.log.error(context, 'Unknown endpoint: ' + metadata["value"]["endpoint"]);
             return Promise.reject(new Error(msg));
         }
 
@@ -108,8 +109,7 @@ AsyncQueue.processQueryJobs = function() {
         //console.log(JSON.stringify(count_aggr));
         var async_query = await agaveIO.performAsyncAggregation('count_query', metadata['value']['collection'], count_aggr, notification)
             .catch(function(error) {
-                msg = 'VDJ-ADC-ASYNC-API ERROR (countQueue): Could not submit count query for LRQ ' + metadata['uuid'] + '.\n' + error;
-                console.error(msg);
+                msg = config.log.error(context, 'Could not submit count query for LRQ ' + metadata['uuid'] + '.\n' + error);
                 webhookIO.postToSlack(msg);
             });
 
@@ -125,8 +125,7 @@ AsyncQueue.processQueryJobs = function() {
                     var data = AsyncQueue.cleanStatus(metadata);
                     await agaveIO.sendNotification(notify, data)
                         .catch(function(error) {
-                            var cmsg = 'VDJ-ADC-ASYNC-API ERROR (countQueue): Could not post notification.\n' + error;
-                            console.error(cmsg);
+                            var cmsg = config.log.error(context, 'Could not post notification.\n' + error);
                             webhookIO.postToSlack(cmsg);
                         });
                 }
@@ -135,15 +134,14 @@ AsyncQueue.processQueryJobs = function() {
             return Promise.reject(new Error(msg));
         }
 
-        if (config.debug) console.log('VDJ-ADC-ASYNC-API INFO: Count aggregation submitted with LRQ ID:', async_query['_id']);
+        config.log.info(context, 'Count aggregation submitted with LRQ ID:', async_query['_id']);
 
         // update metadata
         metadata['value']['lrq_id'] = async_query['_id'];
         metadata['value']['status'] = 'COUNTING';
         await agaveIO.updateMetadata(metadata['uuid'], metadata['name'], metadata['value'], null)
             .catch(function(error) {
-                msg = 'VDJ-ADC-ASYNC-API ERROR (countQueue): Could not update metadata for LRQ ' + metadata["uuid"] + '.\n' + error;
-                console.error(msg);
+                msg = config.log.error(context, 'Could not update metadata for LRQ ' + metadata["uuid"] + '.\n' + error);
                 webhookIO.postToSlack(msg);
             });
 
@@ -153,17 +151,17 @@ AsyncQueue.processQueryJobs = function() {
     submitQueue.process(async (job) => {
         // submit query LRQ API
 
+        var context = 'submitQueue.process';
         var msg = null;
         var metadata = job['data']['metadata'];
-        if (config.debug) console.log('VDJ-ADC-ASYNC-API INFO: submitting query for LRQ:', metadata['uuid']);
+        config.log.info(context, 'submitting query for LRQ:', metadata['uuid']);
         //console.log(job['data']);
 
         var controller = null;
         if (metadata["value"]["endpoint"] == "repertoire") controller = repertoireController;
         if (metadata["value"]["endpoint"] == "rearrangement") controller = rearrangementController;
         if (! controller) {
-            msg = 'Unknown endpoint: ' + metadata["value"]["endpoint"];
-            console.error(msg);
+            msg = config.log.error(context, 'Unknown endpoint: ' + metadata["value"]["endpoint"]);
             return Promise.reject(new Error(msg));
         }
 
@@ -176,15 +174,13 @@ AsyncQueue.processQueryJobs = function() {
             // if only one entry then it is a simple query
             async_query = await agaveIO.performAsyncQuery(metadata['value']['collection'], query_aggr[0]["$match"], null, notification)
                 .catch(function(error) {
-                    msg = 'VDJ-ADC-ASYNC-API ERROR (submitQueue): Could not submit full query for LRQ ' + metadata['uuid'] + '.\n.' + error;
-                    console.error(msg);
+                    msg = config.log.error(context, 'Could not submit full query for LRQ ' + metadata['uuid'] + '.\n.' + error);
                     webhookIO.postToSlack(msg);
                 });
         } else {
             async_query = await agaveIO.performAsyncAggregation('full_query', metadata['value']['collection'], query_aggr, notification)
                 .catch(function(error) {
-                    msg = 'VDJ-ADC-ASYNC-API ERROR (submitQueue): Could not submit full query for LRQ ' + metadata['uuid'] + '.\n.' + error;
-                    console.error(msg);
+                    msg = config.log.error(context, 'Could not submit full query for LRQ ' + metadata['uuid'] + '.\n.' + error);
                     webhookIO.postToSlack(msg);
                 });
         }
@@ -200,8 +196,7 @@ AsyncQueue.processQueryJobs = function() {
                     let data = AsyncQueue.cleanStatus(metadata);
                     await agaveIO.sendNotification(notify, data)
                         .catch(function(error) {
-                            var cmsg = 'VDJ-ADC-ASYNC-API ERROR (submitQueue): Could not post notification.\n' + error;
-                            console.error(cmsg);
+                            var cmsg = config.log.error(context, 'Could not post notification.\n' + error);
                             webhookIO.postToSlack(cmsg);
                         });
                 }
@@ -210,15 +205,14 @@ AsyncQueue.processQueryJobs = function() {
             return Promise.reject(new Error(msg));
         }
 
-        if (config.debug) console.log('VDJ-ADC-ASYNC-API INFO: Full query submitted with LRQ ID:', async_query['_id']);
+        config.log.info(context, 'Full query submitted with LRQ ID:', async_query['_id']);
 
         // update metadata
         metadata['value']['lrq_id'] = async_query['_id'];
         metadata['value']['status'] = 'SUBMITTED';
         await agaveIO.updateMetadata(metadata['uuid'], metadata['name'], metadata['value'], null)
             .catch(function(error) {
-                msg = 'VDJ-ADC-ASYNC-API ERROR (submitQueue): Could not update metadata for LRQ ' + metadata["uuid"] + '.\n' + error;
-                console.error(msg);
+                msg = config.log.error(context, 'Could not update metadata for LRQ ' + metadata["uuid"] + '.\n' + error);
                 webhookIO.postToSlack(msg);
             });
 
@@ -228,8 +222,7 @@ AsyncQueue.processQueryJobs = function() {
                 let data = AsyncQueue.cleanStatus(metadata);
                 await agaveIO.sendNotification(notify, data)
                     .catch(function(error) {
-                        var cmsg = 'VDJ-ADC-ASYNC-API ERROR (submitQueue): Could not post notification.\n' + error;
-                        console.error(cmsg);
+                        var cmsg = config.log.error(context, 'Could not post notification.\n' + error);
                         webhookIO.postToSlack(cmsg);
                     });
             }
@@ -240,25 +233,22 @@ AsyncQueue.processQueryJobs = function() {
 
     finishQueue.process(async (job) => {
         // process data
+        var context = 'finishQueue.process';
         var msg = null;
-        console.log('process data');
-        console.log(job['data']);
         var metadata = job['data']['metadata'];
 
         var controller = null;
         if (metadata["value"]["endpoint"] == "repertoire") controller = repertoireController;
         if (metadata["value"]["endpoint"] == "rearrangement") controller = rearrangementController;
         if (! controller) {
-            msg = 'Unknown endpoint: ' + metadata["value"]["endpoint"];
-            console.error(msg);
+            msg = config.log.error(context, 'Unknown endpoint: ' + metadata["value"]["endpoint"]);
             return Promise.reject(new Error(msg));
         }
 
         // process data into final format
         var outname = await controller.processLRQfile(metadata["uuid"])
             .catch(function(error) {
-                msg = 'VDJ-ADC-ASYNC-API ERROR (finishQueue): Could not finish processing LRQ ' + metadata["uuid"] + '.\n' + error;
-                console.error(msg);
+                msg = config.log.error(context, 'Could not finish processing LRQ ' + metadata["uuid"] + '.\n' + error);
                 webhookIO.postToSlack(msg);
             });
 
@@ -273,8 +263,7 @@ AsyncQueue.processQueryJobs = function() {
                     let data = AsyncQueue.cleanStatus(metadata);
                     await agaveIO.sendNotification(notify, data)
                         .catch(function(error) {
-                            var cmsg = 'VDJ-ADC-ASYNC-API ERROR (finishQueue): Could not post notification.\n' + error;
-                            console.error(cmsg);
+                            var cmsg = config.log.error(context, 'Could not post notification.\n' + error);
                             webhookIO.postToSlack(cmsg);
                         });
                 }
@@ -283,7 +272,7 @@ AsyncQueue.processQueryJobs = function() {
             return Promise.reject(new Error(msg));
         }
 
-        if (config.debug) console.log('VDJ-ADC-ASYNC-API INFO: final processed file: ' + outname);
+        config.log.info(context, 'final processed file: ' + outname);
         metadata["value"]["final_file"] = outname;
 
         // create postit with expiration
@@ -296,8 +285,7 @@ AsyncQueue.processQueryJobs = function() {
 
         var postit = await agaveIO.createPublicFilePostit(url, false, config.async.max_uses, config.async.lifetime)
             .catch(function(error) {
-                msg = 'VDJ-ADC-ASYNC-API ERROR (finishQueue): Could not create postit for LRQ ' + metadata["uuid"] + '.\n' + error;
-                console.error(msg);
+                msg = config.log.error(context, 'Could not create postit for LRQ ' + metadata["uuid"] + '.\n' + error);
                 webhookIO.postToSlack(msg);
             });
 
@@ -312,8 +300,7 @@ AsyncQueue.processQueryJobs = function() {
                     let data = AsyncQueue.cleanStatus(metadata);
                     await agaveIO.sendNotification(notify, data)
                         .catch(function(error) {
-                            let cmsg = 'VDJ-ADC-ASYNC-API ERROR (finishQueue): Could not post notification.\n' + error;
-                            console.error(cmsg);
+                            let cmsg = config.log.error(context, 'Could not post notification.\n' + error);
                             webhookIO.postToSlack(cmsg);
                         });
                 }
@@ -323,23 +310,21 @@ AsyncQueue.processQueryJobs = function() {
         }
 
         // update with processed file
-        if (config.debug) console.log('VDJ-ADC-ASYNC-API INFO: Created postit: ' + postit["postit"]);
+        config.log.info(context, 'Created postit: ' + postit["postit"]);
         metadata["value"]["postit_id"] = postit["postit"];
         metadata["value"]["download_url"] = postit["_links"]["self"]["href"];
         metadata["value"]["status"] = "FINISHED";
         var retry = false;
         await agaveIO.updateMetadata(metadata['uuid'], metadata['name'], metadata['value'], null)
             .catch(function(error) {
-                msg = 'VDJ-ADC-ASYNC-API ERROR (finishQueue): Could not update metadata for LRQ ' + metadata["uuid"] + '.\n' + error;
-                console.error(msg);
+                msg = config.log.error(context, 'Could not update metadata for LRQ ' + metadata["uuid"] + '.\n' + error);
                 retry = true;
             });
         if (retry) {
-            console.log('VDJ-ADC-ASYNC-API INFO (finishQueue): Retrying updateMetadata');
+            config.log.info(context, 'Retrying updateMetadata');
             await agaveIO.updateMetadata(metadata['uuid'], metadata['name'], metadata['value'], null)
             .catch(function(error) {
-                msg = 'VDJ-ADC-ASYNC-API ERROR (finishQueue): Could not update metadata for LRQ ' + metadata["uuid"] + '. Metadata in inconsistent state.\n' + error;
-                console.error(msg);
+                msg = config.log.error(context, 'Could not update metadata for LRQ ' + metadata["uuid"] + '. Metadata in inconsistent state.\n' + error);
                 webhookIO.postToSlack(msg);
                 return Promise.reject(new Error(msg));
             });
@@ -352,8 +337,7 @@ AsyncQueue.processQueryJobs = function() {
                 let data = AsyncQueue.cleanStatus(metadata);
                 await agaveIO.sendNotification(notify, data)
                     .catch(function(error) {
-                        let cmsg = 'VDJ-ADC-ASYNC-API ERROR (finishQueue): Could not post notification.\n' + error;
-                        console.error(cmsg);
+                        let cmsg = config.log.error(context, 'Could not post notification.\n' + error);
                         webhookIO.postToSlack(cmsg);
                     });
             }
@@ -367,39 +351,37 @@ AsyncQueue.processQueryJobs = function() {
 // because we cannot trust their notifications
 var pollQueue = new Queue('ADC ASYNC polling');
 AsyncQueue.triggerPolling = async function() {
+    var context = 'AsyncQueue.triggerPolling';
     var msg = null;
 
     if (! config.async.enable_poll) {
-        msg = 'VDJ-ADC-ASYNC-API ERROR: Polling is not enabled in configuration, cannot trigger';
-        console.error(msg);
+        msg = config.log.error(context, 'Polling is not enabled in configuration, cannot trigger');
         webhookIO.postToSlack(msg);
         return Promise.reject(new Error(msg));
     }
 
-    if (config.debug) console.log('VDJ-ADC-ASYNC-API INFO: AsyncQueue.triggerPolling');
+    config.log.info(context, 'start');
 
     // Check if any open COUNTING queries
     var counts = await agaveIO.getAsyncQueryMetadataWithStatus('COUNTING')
         .catch(function(error) {
-            msg = 'VDJ-ADC-ASYNC-API ERROR (AsyncQueue.triggerPolling): Could not get COUNTING metadata.\n' + error;
-            console.error(msg);
+            msg = config.log.error(context, 'Could not get COUNTING metadata.\n' + error);
             webhookIO.postToSlack(msg);
             return Promise.reject(new Error(msg));
         });
 
-    if (config.debug) console.log('VDJ-ADC-ASYNC-API INFO (AsyncQueue.triggerPolling): Found', counts.length, 'records with COUNTING status.');
+    config.log.info(context, 'Found', counts.length, 'records with COUNTING status.');
     //console.log(counts);
 
     // Check if any open SUBMITTED queries
     var submits = await agaveIO.getAsyncQueryMetadataWithStatus('SUBMITTED')
         .catch(function(error) {
-            msg = 'VDJ-ADC-ASYNC-API ERROR (AsyncQueue.triggerPolling): Could not get SUBMITTED metadata.\n' + error;
-            console.error(msg);
+            msg = config.log.error(context, 'Could not get SUBMITTED metadata.\n' + error);
             webhookIO.postToSlack(msg);
             return Promise.reject(new Error(msg));
         });
 
-    if (config.debug) console.log('VDJ-ADC-ASYNC-API INFO (AsyncQueue.triggerPolling): Found', submits.length, 'records with SUBMITTED status.');
+    config.log.info(context, 'Found', submits.length, 'records with SUBMITTED status.');
     //console.log(submits);
 
     // check every 600secs/10mins
@@ -407,31 +389,34 @@ AsyncQueue.triggerPolling = async function() {
 
     // testing, every 60 secs
     //pollQueue.add({}, { repeat: { every: 60000 }});
+
+    config.log.info(context, 'end');
 }
 
 // Check for async queries where the LRQ is FINISHED
 // but we have not received the notification.
 
 pollQueue.process(async (job) => {
+    var context = 'pollQueue.process';
     var msg = null;
 
     if (! config.async.enable_poll) {
-        console.log('VDJ-ADC-ASYNC-API INFO (pollQueue): Polling is not enabled in configuration, exiting.');
+        msg = config.log.error(context, 'Polling is not enabled in configuration, exiting.');
+        webhookIO.postToSlack(msg);
         return Promise.resolve();
     }
 
-    if (config.debug) console.log('VDJ-ADC-ASYNC-API INFO (pollQueue): Checking for entries.');
+    config.log.info(context, 'Checking for entries.');
 
     // Check if any open COUNTING queries
     var counts = await agaveIO.getAsyncQueryMetadataWithStatus('COUNTING')
         .catch(function(error) {
-            msg = 'VDJ-ADC-ASYNC-API ERROR (pollQueue): Could not get COUNTING metadata.\n' + error;
-            console.error(msg);
+            msg = config.log.error(context, 'Could not get COUNTING metadata.\n' + error);
             webhookIO.postToSlack(msg);
             return Promise.reject(new Error(msg));
         });
 
-    if (config.debug) console.log('VDJ-ADC-ASYNC-API INFO (pollQueue): Found', counts.length, 'records with COUNTING status.');
+    config.log.info(context, 'Found', counts.length, 'records with COUNTING status.');
 
     if (counts.length > 0) {
         for (let i in counts) {
@@ -439,14 +424,13 @@ pollQueue.process(async (job) => {
             //console.log(entry);
 
             if (! entry['value']['lrq_id']) {
-                console.log('VDJ-ADC-ASYNC-API INFO (pollQueue): Entry', entry['uuid'], 'is missing lrq_id, skipping.');
+                config.log.info(context, 'Entry', entry['uuid'], 'is missing lrq_id, skipping.');
                 continue;
             }
 
             let lrq_status = await agaveIO.getLRQStatus(entry['value']['lrq_id'])
                 .catch(function(error) {
-                    msg = 'VDJ-ADC-ASYNC-API ERROR (pollQueue): Could not get LRQ status of ' + entry['value']['lrq_id'] + ' for metadata ' + entry['uuid'] + '.\n.' + error;
-                    console.error(msg);
+                    msg = config.log.error(context, 'Could not get LRQ status of ' + entry['value']['lrq_id'] + ' for metadata ' + entry['uuid'] + '.\n.' + error);
                     webhookIO.postToSlack(msg);
                 });
 
@@ -455,7 +439,7 @@ pollQueue.process(async (job) => {
             if (lrq_status.status == 'FINISHED') {
                 if (lrq_status.notification) {
                     // found one! manually post the notification, hack the POST data
-                    console.log('VDJ-ADC-ASYNC-API INFO (pollQueue): Manually posting notification for', entry['uuid']);
+                    config.log.info(context, 'Manually posting notification for', entry['uuid']);
 
                     let filename = 'lrq-' + entry["value"]["lrq_id"] + '.json';
                     let data = {
@@ -469,8 +453,7 @@ pollQueue.process(async (job) => {
 
                     await agaveIO.sendNotification({url: lrq_status.notification, method: 'POST'}, data)
                         .catch(function(error) {
-                            msg = 'VDJ-ADC-ASYNC-API ERROR (pollQueue): Could not post notification.\n' + error;
-                            console.error(msg);
+                            msg = config.log.error(context, 'Could not post notification.\n' + error);
                             webhookIO.postToSlack(msg);
                             return Promise.reject(new Error(msg));
                         });
@@ -482,37 +465,35 @@ pollQueue.process(async (job) => {
     // Check if any open SUBMITTED queries
     var submits = await agaveIO.getAsyncQueryMetadataWithStatus('SUBMITTED')
         .catch(function(error) {
-            msg = 'VDJ-ADC-ASYNC-API ERROR (pollQueue): Could not get SUBMITTED metadata.\n' + error;
-            console.error(msg);
+            msg = config.log.error(context, 'Could not get SUBMITTED metadata.\n' + error);
             webhookIO.postToSlack(msg);
             return Promise.reject(new Error(msg));
         });
 
-    if (config.debug) console.log('VDJ-ADC-ASYNC-API INFO (pollQueue): Found', submits.length, 'records with SUBMITTED status.');
+    config.log.info(context, 'Found', submits.length, 'records with SUBMITTED status.');
 
     if (submits.length > 0) {
         for (let i in submits) {
             let entry = submits[i];
-            console.log(entry);
+            //console.log(entry);
 
             if (! entry['value']['lrq_id']) {
-                console.log('VDJ-ADC-ASYNC-API INFO (pollQueue): Entry', entry['uuid'], 'is missing lrq_id, skipping.');
+                config.log.info(context, 'Entry', entry['uuid'], 'is missing lrq_id, skipping.');
                 continue;
             }
 
             let lrq_status = await agaveIO.getLRQStatus(entry['value']['lrq_id'])
                 .catch(function(error) {
-                    msg = 'VDJ-ADC-ASYNC-API ERROR (pollQueue): Could not get LRQ status of ' + entry['value']['lrq_id'] + ' for metadata ' + entry['uuid'] + '.\n.' + error;
-                    console.error(msg);
+                    msg = config.log.error(context, 'Could not get LRQ status of ' + entry['value']['lrq_id'] + ' for metadata ' + entry['uuid'] + '.\n.' + error);
                     webhookIO.postToSlack(msg);
                 });
 
-            console.log(lrq_status);
+            //console.log(lrq_status);
 
             if (lrq_status.status == 'FINISHED') {
                 if (lrq_status.notification) {
                     // found one! manually post the notification, hack the POST data
-                    console.log('VDJ-ADC-ASYNC-API INFO (pollQueue): Manually posting notification for', entry['uuid']);
+                    config.log.info(context, 'Manually posting notification for', entry['uuid']);
 
                     let filename = 'lrq-' + entry["value"]["lrq_id"] + '.json';
                     let data = {
@@ -526,8 +507,7 @@ pollQueue.process(async (job) => {
 
                     await agaveIO.sendNotification({url: lrq_status.notification, method: 'POST'}, data)
                         .catch(function(error) {
-                            msg = 'VDJ-ADC-ASYNC-API ERROR (pollQueue): Could not post notification.\n' + error;
-                            console.error(msg);
+                            msg = config.log.error(context, 'Could not post notification.\n' + error);
                             webhookIO.postToSlack(msg);
                             return Promise.reject(new Error(msg));
                         });
@@ -546,47 +526,50 @@ pollQueue.process(async (job) => {
 // check if any queries need to be expired
 var expireQueue = new Queue('ADC ASYNC expire');
 AsyncQueue.triggerExpiration = async function() {
+    var context = 'AsyncQueue.triggerExpiration';
     var msg = null;
 
     if (! config.async.enable_expire) {
-        msg = 'VDJ-ADC-ASYNC-API ERROR: Expiration is not enabled in configuration, cannot trigger';
-        console.error(msg);
+        msg = config.log.error(context, 'Expiration is not enabled in configuration, cannot trigger');
+        webhookIO.postToSlack(msg);
         return Promise.resolve();
     }
 
-    if (config.debug) console.log('VDJ-ADC-ASYNC-API INFO: AsyncQueue.triggerExpiration');
+    config.log.info(context, 'start');
 
     // submit to check every 3600secs/1hour
     expireQueue.add({}, { repeat: { every: 3600000 }});
 
     // testing, every 2 mins
     //expireQueue.add({}, { repeat: { every: 120000 }});
+
+    config.log.info(context, 'end');
 }
 
 // Check for async queries where the postit lifetime
 // has expired, thus data can no longer be downloaded
 
 expireQueue.process(async (job) => {
+    var context = 'expireQueue.process';
     var msg = null;
 
     if (! config.async.enable_expire) {
-        msg = 'VDJ-ADC-ASYNC-API ERROR: Expiration is not enabled in configuration, cannot trigger';
-        console.error(msg);
+        msg = config.log.error(context, 'Expiration is not enabled in configuration, cannot trigger');
+        webhookIO.postToSlack(msg);
         return Promise.resolve();
     }
 
-    if (config.debug) console.log('VDJ-ADC-ASYNC-API INFO (expireQueue): Checking for entries.');
+    config.log.info(context, 'Checking for entries.');
 
     // Get all FINISHED queries
     var finish = await agaveIO.getAsyncQueryMetadataWithStatus('FINISHED')
         .catch(function(error) {
-            msg = 'VDJ-ADC-ASYNC-API ERROR (expireQueue): Could not get FINISHED metadata.\n' + error;
-            console.error(msg);
+            msg = config.log.error(context, 'Could not get FINISHED metadata.\n' + error);
             webhookIO.postToSlack(msg);
             return Promise.reject(new Error(msg));
         });
 
-    if (config.debug) console.log('VDJ-ADC-ASYNC-API INFO (expireQueue): Found', finish.length, 'records with FINISHED status.');
+    config.log.info(context, 'Found', finish.length, 'records with FINISHED status.');
 
     if (finish.length > 0) {
         for (var i in finish) {
@@ -597,18 +580,17 @@ expireQueue.process(async (job) => {
 
             // if missing postit for some reason, expire it
             if (! metadata['value']['postit_id']) {
-                console.log('VDJ-ADC-ASYNC-API INFO (expireQueue): Entry', metadata['uuid'], 'is missing postit_id, expiring.');
+                config.log.info(context, 'Entry', metadata['uuid'], 'is missing postit_id, expiring.');
                 shouldExpire = true;
             } else {
                 // get postit
                 var postit = await agaveIO.getPostit(metadata['value']['postit_id'])
                     .catch(function(error) {
-                        msg = 'VDJ-ADC-ASYNC-API ERROR (expireQueue): Could not get postit: ' + metadata['value']['postit_id'] + '.\n' + error;
-                        console.error(msg);
+                        msg = config.log.error(context, 'Could not get postit: ' + metadata['value']['postit_id'] + '.\n' + error);
                         webhookIO.postToSlack(msg);
                         return Promise.reject(new Error(msg));
                     });
-                console.log(postit);
+                //console.log(postit);
 
                 // check if it has expired
                 if (postit['status'] == 'EXPIRED') shouldExpire = true;
@@ -625,7 +607,7 @@ expireQueue.process(async (job) => {
             }
 
             if (shouldExpire) {
-                console.log('VDJ-ADC-ASYNC-API INFO (expireQueue): Expiring entry:', metadata['uuid']);
+                config.log.info(context, 'Expiring entry:', metadata['uuid']);
 
                 // delete LRQ count file
                 if (metadata['value']['count_lrq_id']) {
@@ -635,8 +617,7 @@ expireQueue.process(async (job) => {
                     } catch (e) {
                         // ignore if file does not exist
                         if (e.code != 'ENOENT') {
-                            msg = 'VDJ-ADC-ASYNC-API ERROR (expireQueue): Unknown error deleting ' + thefile + ', error: ' + e;
-                            console.error(msg);
+                            msg = config.log.error(context, 'Unknown error deleting ' + thefile + ', error: ' + e);
                             webhookIO.postToSlack(msg);
                         }
                     }
@@ -650,8 +631,7 @@ expireQueue.process(async (job) => {
                     } catch (e) {
                         // ignore if file does not exist
                         if (e.code != 'ENOENT') {
-                            msg = 'VDJ-ADC-ASYNC-API ERROR (expireQueue): Unknown error deleting ' + thefile + ', error: ' + e;
-                            console.error(msg);
+                            msg = config.log.error(context, 'Unknown error deleting ' + thefile + ', error: ' + e);
                             webhookIO.postToSlack(msg);
                         }
                     }
@@ -664,8 +644,7 @@ expireQueue.process(async (job) => {
                         await fsPromises.unlink(thefile);
                     } catch (e) {
                         if (e.code != 'ENOENT') {
-                            msg = 'VDJ-ADC-ASYNC-API ERROR (expireQueue): Unknown error deleting ' + thefile + ', error: ' + e;
-                            console.error(msg);
+                            msg = config.log.error(context, 'Unknown error deleting ' + thefile + ', error: ' + e);
                             webhookIO.postToSlack(msg);
                         }
                     }
@@ -676,8 +655,7 @@ expireQueue.process(async (job) => {
                     metadata['value']['status'] = 'EXPIRED';
                     await agaveIO.updateMetadata(metadata['uuid'], metadata['name'], metadata['value'], null)
                         .catch(function(error) {
-                            msg = 'VDJ-ADC-ASYNC-API ERROR (expireQueue): Could not update metadata for LRQ ' + metadata["uuid"] + '.\n' + error;
-                            console.error(msg);
+                            msg = config.log.error(context, 'Could not update metadata for LRQ ' + metadata["uuid"] + '.\n' + error);
                             webhookIO.postToSlack(msg);
                         });
                 }
@@ -689,8 +667,7 @@ expireQueue.process(async (job) => {
                         let data = AsyncQueue.cleanStatus(metadata);
                         await agaveIO.sendNotification(notify, data)
                             .catch(function(error) {
-                                let cmsg = 'VDJ-ADC-ASYNC-API ERROR (expireQueue): Could not post notification.\n' + error;
-                                console.error(cmsg);
+                                let cmsg = config.log.error(context, 'Could not post notification.\n' + error);
                                 webhookIO.postToSlack(cmsg);
                             });
                     }
@@ -699,7 +676,7 @@ expireQueue.process(async (job) => {
         }
     }
 
-    if (config.debug) console.log('VDJ-ADC-ASYNC-API INFO (expireQueue): Done with expiration queue.');
+    config.log.info(context, 'Done with expiration queue.');
 
     return Promise.resolve();
 });

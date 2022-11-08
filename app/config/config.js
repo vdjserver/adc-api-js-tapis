@@ -45,6 +45,8 @@ function parseBoolean(value)
 config.port = process.env.API_PORT;
 config.async_port = process.env.API_ASYNC_PORT;
 config.lrqdata_path = process.env.LRQDATA_PATH;
+config.tapis_version = process.env.TAPIS_VERSION;
+config.name = 'VDJ-ADC-API';
 
 // Host user for Corral access
 config.hostServiceAccount = process.env.HOST_SERVICE_ACCOUNT;
@@ -54,11 +56,26 @@ config.hostServiceGroup = process.env.HOST_SERVICE_GROUP;
 config.custom_file = process.env.CUSTOM_FILE;
 
 // Error/debug reporting
-config.debug = process.env.DEBUG_CONSOLE;
-if (config.debug == 'true') config.debug = true;
-else if (config.debug == 1) config.debug = true;
-else config.debug = false;
-if (config.debug) console.log('VDJ-ADC-API INFO: Debug console messages enabled.');
+config.debug = parseBoolean(process.env.DEBUG_CONSOLE);
+
+// standard info/error reporting
+config.log = {};
+config.log.info = function(context, msg, ignore_debug = false) {
+    var date = new Date().toLocaleString('en-US', { timeZone: 'America/Chicago' });
+    if (ignore_debug)
+        console.log(date, '-', config.name, 'INFO (' + context + '):', msg);
+    else
+        if (config.debug) console.log(date, '-', config.name, 'INFO (' + context + '):', msg);
+}
+
+config.log.error = function(context, msg) {
+    var date = new Date().toLocaleString('en-US', { timeZone: 'America/Chicago' });
+    var full_msg = date + ' - ' + config.name + ' ERROR (' + context + '): ' + msg
+    console.error(full_msg);
+    console.trace(context);
+    return full_msg;
+}
+config.log.info('config', 'Debug console messages enabled.', true);
 
 // post error messages to a slack channel
 config.slackURL = process.env.SLACK_WEBHOOK_URL;
