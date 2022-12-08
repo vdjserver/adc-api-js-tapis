@@ -72,6 +72,7 @@ def updateRecord(token, config, object):
     if object.get('uuid') is None:
         print('ERROR: object is missing uuid')
         return
+    #print(json.dumps(object, indent=2))
 
     headers = {
         "Content-Type":"application/json",
@@ -79,7 +80,7 @@ def updateRecord(token, config, object):
         "Authorization": "Bearer " + token['access_token']
     }
     url = 'https://' + config['api_server'] + '/meta/v2/data/' + object['uuid']
-    resp = requests.post(url, data=object, headers=headers)
+    resp = requests.post(url, data=json.dumps(object), headers=headers)
     print(json.dumps(resp.json(), indent=2))
     print('INFO: (', object['name'], ') object uuid', object['uuid'], 'updated.')
     return
@@ -274,6 +275,7 @@ def convertSample(sample, verbose):
         # but we also might have invalid V2 AIRR samples
         if sample['value'].get('physical_linkage', 'missing') != 'missing':
             print('INFO: looks like V2 AIRR already')
+            is_v2 = True
             if sample['value'].get('physical_linkage') is None:
                 print('INFO: physical_linkage is null')
                 print('CHANGE: sample uuid', sample['uuid'], 'change null physical_linkage to none')
@@ -343,11 +345,17 @@ def convertSample(sample, verbose):
         print('INFO: sample uuid:', sample['uuid'], 'null template_amount')
 
     # Any additional cleanup
-    if result['object'] is not None:
+    if (result['object'] is not None) or is_v2:
         if sample['value'].get('collection_time_point_relative_unit', 'missing') == 'missing':
             print('INFO: collection_time_point_relative_unit is missing')
             print('CHANGE: sample uuid', sample['uuid'], 'set collection_time_point_relative_unit to null')
             sample['value']['collection_time_point_relative_unit'] = None
+            result['check'] = True
+            result['object'] = sample
+        if sample['value'].get('collection_time_point_relative', 'missing') == 'missing':
+            print('INFO: collection_time_point_relative is missing')
+            print('CHANGE: sample uuid', sample['uuid'], 'set collection_time_point_relative to null')
+            sample['value']['collection_time_point_relative'] = None
             result['check'] = True
             result['object'] = sample
         if sample['value'].get('template_amount_unit', 'missing') == 'missing':
@@ -418,16 +426,192 @@ def convertSample(sample, verbose):
             sample['value']['sequencing_files']['paired_read_length'] = None
             result['check'] = True
             result['object'] = sample
+        if sample['value']['sequencing_files'].get('paired_filename', 'missing') == 'missing':
+            print('INFO: paired_filename is missing')
+            print('CHANGE: sample uuid', sample['uuid'], 'set paired_filename to null')
+            sample['value']['sequencing_files']['paired_filename'] = None
+            result['check'] = True
+            result['object'] = sample
+        if sample['value']['sequencing_files'].get('paired_read_direction', 'missing') == 'missing':
+            print('INFO: paired_read_direction is missing')
+            print('CHANGE: sample uuid', sample['uuid'], 'set paired_read_direction to null')
+            sample['value']['sequencing_files']['paired_read_direction'] = None
+            result['check'] = True
+            result['object'] = sample
         if sample['value'].get('cell_species', 'missing') == 'missing':
             print('INFO: cell_species is missing')
             print('CHANGE: sample uuid', sample['uuid'], 'set cell_species to null')
             sample['value']['cell_species'] = None
             result['check'] = True
             result['object'] = sample
+        if sample['value'].get('anatomic_site', 'missing') == 'missing':
+            print('INFO: anatomic_site is missing')
+            print('CHANGE: sample uuid', sample['uuid'], 'set anatomic_site to null')
+            sample['value']['anatomic_site'] = None
+            result['check'] = True
+            result['object'] = sample
+        if sample['value'].get('disease_state_sample', 'missing') == 'missing':
+            print('INFO: disease_state_sample is missing')
+            print('CHANGE: sample uuid', sample['uuid'], 'set disease_state_sample to null')
+            sample['value']['disease_state_sample'] = None
+            result['check'] = True
+            result['object'] = sample
+        if sample['value'].get('collection_time_point_reference', 'missing') == 'missing':
+            print('INFO: collection_time_point_reference is missing')
+            print('CHANGE: sample uuid', sample['uuid'], 'set collection_time_point_reference to null')
+            sample['value']['collection_time_point_reference'] = None
+            result['check'] = True
+            result['object'] = sample
+        if sample['value'].get('biomaterial_provider', 'missing') == 'missing':
+            print('INFO: biomaterial_provider is missing')
+            print('CHANGE: sample uuid', sample['uuid'], 'set biomaterial_provider to null')
+            sample['value']['biomaterial_provider'] = None
+            result['check'] = True
+            result['object'] = sample
+        if sample['value'].get('tissue_processing', 'missing') == 'missing':
+            print('INFO: tissue_processing is missing')
+            print('CHANGE: sample uuid', sample['uuid'], 'set tissue_processing to null')
+            sample['value']['tissue_processing'] = None
+            result['check'] = True
+            result['object'] = sample
+        if sample['value'].get('cell_subset', 'missing') == 'missing':
+            print('INFO: cell_subset is missing')
+            print('CHANGE: sample uuid', sample['uuid'], 'set cell_subset to null')
+            sample['value']['cell_subset'] = None
+            result['check'] = True
+            result['object'] = sample
+        if sample['value'].get('cell_phenotype', 'missing') == 'missing':
+            print('INFO: cell_phenotype is missing')
+            print('CHANGE: sample uuid', sample['uuid'], 'set cell_phenotype to null')
+            sample['value']['cell_phenotype'] = None
+            result['check'] = True
+            result['object'] = sample
+        if sample['value'].get('cell_number', 'missing') == 'missing':
+            print('INFO: cell_number is missing')
+            print('CHANGE: sample uuid', sample['uuid'], 'set cell_number to null')
+            sample['value']['cell_number'] = None
+            result['check'] = True
+            result['object'] = sample
+        if sample['value'].get('cells_per_reaction', 'missing') == 'missing':
+            print('INFO: cells_per_reaction is missing')
+            print('CHANGE: sample uuid', sample['uuid'], 'set cells_per_reaction to null')
+            sample['value']['cells_per_reaction'] = None
+            result['check'] = True
+            result['object'] = sample
+        if sample['value'].get('cell_quality', 'missing') == 'missing':
+            print('INFO: cell_quality is missing')
+            print('CHANGE: sample uuid', sample['uuid'], 'set cell_quality to null')
+            sample['value']['cell_quality'] = None
+            result['check'] = True
+            result['object'] = sample
+        if sample['value'].get('cell_isolation', 'missing') == 'missing':
+            print('INFO: cell_isolation is missing')
+            print('CHANGE: sample uuid', sample['uuid'], 'set cell_isolation to null')
+            sample['value']['cell_isolation'] = None
+            result['check'] = True
+            result['object'] = sample
+        if sample['value'].get('cell_processing_protocol', 'missing') == 'missing':
+            print('INFO: cell_processing_protocol is missing')
+            print('CHANGE: sample uuid', sample['uuid'], 'set cell_processing_protocol to null')
+            sample['value']['cell_processing_protocol'] = None
+            result['check'] = True
+            result['object'] = sample
+        if sample['value'].get('template_quality', 'missing') == 'missing':
+            print('INFO: template_quality is missing')
+            print('CHANGE: sample uuid', sample['uuid'], 'set template_quality to null')
+            sample['value']['template_quality'] = None
+            result['check'] = True
+            result['object'] = sample
+        if sample['value'].get('template_amount', 'missing') == 'missing':
+            print('INFO: template_amount is missing')
+            print('CHANGE: sample uuid', sample['uuid'], 'set template_amount to null')
+            sample['value']['template_amount'] = None
+            result['check'] = True
+            result['object'] = sample
+        if sample['value'].get('template_class') is None:
+            print('INFO: template_class is null')
+            print('CHANGE: sample uuid', sample['uuid'], 'set template_class to DNA')
+            sample['value']['template_class'] = 'DNA'
+            result['check'] = True
+            result['object'] = sample
+        if sample['value'].get('library_generation_method') is None:
+            print('INFO: library_generation_method is null')
+            print('CHANGE: sample uuid', sample['uuid'], 'set library_generation_method to PCR')
+            sample['value']['library_generation_method'] = 'PCR'
+            result['check'] = True
+            result['object'] = sample
+        if sample['value'].get('pcr_target') is not None:
+            for entry in sample['value']['pcr_target']:
+                if entry.get('forward_pcr_primer_target_location', 'missing') == 'missing':
+                    print('INFO: forward_pcr_primer_target_location is missing')
+                    print('CHANGE: sample uuid', sample['uuid'], 'set forward_pcr_primer_target_location to null')
+                    entry['forward_pcr_primer_target_location'] = None
+                    result['check'] = True
+                    result['object'] = sample
+                if entry.get('reverse_pcr_primer_target_location', 'missing') == 'missing':
+                    print('INFO: reverse_pcr_primer_target_location is missing')
+                    print('CHANGE: sample uuid', sample['uuid'], 'set reverse_pcr_primer_target_location to null')
+                    entry['reverse_pcr_primer_target_location'] = None
+                    result['check'] = True
+                    result['object'] = sample
+        if sample['value'].get('sequencing_run_id', 'missing') == 'missing':
+            print('INFO: sequencing_run_id is missing')
+            print('CHANGE: sample uuid', sample['uuid'], 'set sequencing_run_id to null')
+            sample['value']['sequencing_run_id'] = None
+            result['check'] = True
+            result['object'] = sample
+        if sample['value'].get('total_reads_passing_qc_filter', 'missing') == 'missing':
+            print('INFO: total_reads_passing_qc_filter is missing')
+            print('CHANGE: sample uuid', sample['uuid'], 'set total_reads_passing_qc_filter to null')
+            sample['value']['total_reads_passing_qc_filter'] = None
+            result['check'] = True
+            result['object'] = sample
+        if sample['value'].get('sequencing_platform', 'missing') == 'missing':
+            print('INFO: sequencing_platform is missing')
+            print('CHANGE: sample uuid', sample['uuid'], 'set sequencing_platform to null')
+            sample['value']['sequencing_platform'] = None
+            result['check'] = True
+            result['object'] = sample
+        if sample['value'].get('sequencing_facility', 'missing') == 'missing':
+            print('INFO: sequencing_facility is missing')
+            print('CHANGE: sample uuid', sample['uuid'], 'set sequencing_facility to null')
+            sample['value']['sequencing_facility'] = None
+            result['check'] = True
+            result['object'] = sample
+        if sample['value'].get('sequencing_run_date', 'missing') == 'missing':
+            print('INFO: sequencing_run_date is missing')
+            print('CHANGE: sample uuid', sample['uuid'], 'set sequencing_run_date to null')
+            sample['value']['sequencing_run_date'] = None
+            result['check'] = True
+            result['object'] = sample
+        if sample['value'].get('sequencing_kit', 'missing') == 'missing':
+            print('INFO: sequencing_kit is missing')
+            print('CHANGE: sample uuid', sample['uuid'], 'set sequencing_kit to null')
+            sample['value']['sequencing_kit'] = None
+            result['check'] = True
+            result['object'] = sample
         if sample['value'].get('sample_processing_id', 'missing') == 'missing':
             print('INFO: sample_processing_id is missing')
             print('CHANGE: sample uuid', sample['uuid'], 'set sample_processing_id to null')
             sample['value']['sample_processing_id'] = None
+            result['check'] = True
+            result['object'] = sample
+        if sample['value'].get('sample_type', 'missing') == 'missing':
+            print('INFO: sample_type is missing')
+            print('CHANGE: sample uuid', sample['uuid'], 'set sample_type to null')
+            sample['value']['sample_type'] = None
+            result['check'] = True
+            result['object'] = sample
+        if sample['value'].get('library_generation_protocol', 'missing') == 'missing':
+            print('INFO: library_generation_protocol is missing')
+            print('CHANGE: sample uuid', sample['uuid'], 'set library_generation_protocol to null')
+            sample['value']['library_generation_protocol'] = None
+            result['check'] = True
+            result['object'] = sample
+        if sample['value'].get('library_generation_kit_version', 'missing') == 'missing':
+            print('INFO: library_generation_kit_version is missing')
+            print('CHANGE: sample uuid', sample['uuid'], 'set library_generation_kit_version to null')
+            sample['value']['library_generation_kit_version'] = None
             result['check'] = True
             result['object'] = sample
         if sample['value'].get('tissue') is not None:
@@ -462,6 +646,7 @@ def convertSample(sample, verbose):
         sample['name'] = 'sample_processing'
         print('CHANGE: sample uuid', sample['uuid'], 'change name to sample_processing')
 
+        # should pass at this point
         airr.schema.AIRRSchema['SampleProcessing'].validate_object(result['object']['value'])
 
     if verbose:
@@ -472,7 +657,7 @@ def convertSample(sample, verbose):
 
 # main entry
 if (__name__=="__main__"):
-    parser = argparse.ArgumentParser(description='Fix subject species ontology.')
+    parser = argparse.ArgumentParser(description='One-time in-place database conversion from AIRR Schema v1.3 to v1.4.')
     parser.add_argument('-c', '--convert', help='Perform conversion operations', action="store_true", required=False)
     parser.add_argument('-v', '--verbose', help='Increase conversion verbosity', action="store_true", required=False)
     args = parser.parse_args()
@@ -510,18 +695,22 @@ if (__name__=="__main__"):
         skip_cnt = 0
         cnt = 0
         for study in studies:
+            #if study['uuid'] != "5558760323211783700-242ac117-0001-012":
+            #    continue
             result = convertStudy(study, args.verbose)
             if result['check']:
                 cnt += 1
                 if args.convert:
                     print('INFO: Updating record.')
+                    updateRecord(token, config, result['object'])
             else:
                 skip_cnt += 1
                 print('INFO: Unchanged record', study['uuid'])
 
         print('INFO:', cnt, 'total studies converted.')
         print('INFO:', skip_cnt, 'total studies skipped.')
-        json.dump(studies, open('/work/studies.json','w'), indent=2)
+        json.dump(studies, open('/work/public.studies.json','w'), indent=2)
+        public_studies = studies
 
         # AIRR VDJServer V2 projects that have been made public
         # NOTE: some of these have been made public, need to fix that
@@ -529,47 +718,83 @@ if (__name__=="__main__"):
         skip_cnt = 0
         cnt = 0
         for study in studies:
+            #if study['uuid'] != "5558760323211783700-242ac117-0001-012":
+            #    continue
             result = convertStudy(study, args.verbose)
             if result['check']:
                 cnt += 1
                 if args.convert:
                     print('INFO: Updating record.')
+                    updateRecord(token, config, result['object'])
             else:
                 skip_cnt += 1
                 print('INFO: Unchanged record', study['uuid'])
 
         print('INFO:', cnt, 'total studies converted.')
         print('INFO:', skip_cnt, 'total studies skipped.')
+        json.dump(studies, open('/work/private.studies.json','w'), indent=2)
+        private_studies = studies
 
-        # made a mistake in the original implementation in that I kept the same
-        # name of 'sample' for AIRR which makes it harder now to distinguish
-        # them from old V1 samples as some look AIRR-like.
+        # made a mistake in the start of the V2 implementation in that I kept the same
+        # name of 'sample' for the AIRR sample_processing which makes it harder now to distinguish
+        # them from old V1 samples as some look AIRR-like. Fortunately, I'm assuming only V2 projects
+        # need to be converted so that restricts the set.
         # will rename to 'sample_processing' with this conversion
         samples = getObjects(token, config, "sample")
+        json.dump(samples, open('/work/samples.json','w'), indent=2)
 
-        # TODO: should I just limit these to the list of studies and
+        # limit these to the list of studies and
         # assume they all should be AIRR? I think so...
         # count should be greater than the ADC because public and private
+        # in theory, the public should match the ADC exactly but some projects are still private
+        airr_studies = {}
+        for study in public_studies:
+            airr_studies[study['uuid']] = study['uuid']
+        for study in private_studies:
+            airr_studies[study['uuid']] = study['uuid']
 
-        json.dump(samples, open('/work/samples.json','w'), indent=2)
+        # hack for testing
+        #airr_studies = { "5558760323211783700-242ac117-0001-012": "5558760323211783700-242ac117-0001-012" }
+        print('INFO:', len(airr_studies), 'AIRR studies.')
+
         output_samples = []
         skip_samples = []
+        airr_samples = []
+        airr_cnt = 0
         skip_cnt = 0
         cnt = 0
         for sample in samples:
-            result = convertSample(sample, args.verbose)
-            if result['check']:
-                cnt += 1
-                output_samples.append(result['object'])
-                if args.convert:
-                    print('INFO: Updating record.')
+            # check if AIRR project
+            found = False
+            if sample.get('associationIds') is not None:
+                for aid in sample['associationIds']:
+                    if airr_studies.get(aid) is not None:
+                        found = True
+
+            if found:
+                result = convertSample(sample, args.verbose)
+                airr_cnt += 1
+                if result['check']:
+                    cnt += 1
+                    output_samples.append(result['object'])
+                    airr_samples.append(result['object'])
+                    if args.convert:
+                        print('INFO: Updating record.')
+                        updateRecord(token, config, result['object'])
+                else:
+                    skip_cnt += 1
+                    skip_samples.append(sample)
+                    airr_samples.append(sample)
+                    print('INFO: Unchanged record', sample['uuid'])
             else:
                 skip_cnt += 1
                 skip_samples.append(sample)
-                print('INFO: Unchanged record', sample['uuid'])
-                
+                print('INFO: Not AIRR study', sample['uuid'])
+
         json.dump(output_samples, open('/work/samples.output.json','w'), indent=2)
         json.dump(skip_samples, open('/work/samples.skip.json','w'), indent=2)
+        json.dump(airr_samples, open('/work/samples.airr.json','w'), indent=2)
 
         print('INFO:', cnt, 'total samples converted.')
         print('INFO:', skip_cnt, 'total samples skipped.')
+        print('INFO:', airr_cnt, 'total AIRR samples.')
