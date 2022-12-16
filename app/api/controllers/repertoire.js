@@ -631,8 +631,10 @@ RepertoireController.queryRepertoires = function(req, res) {
 
     // AIRR fields
     var all_fields = [];
+    airr.collectFields(global.airr['Repertoire'], 'airr-schema', all_fields, null);
+    var include_fields = [];
     if (bodyData['include_fields']) {
-        airr.collectFields(global.airr['Repertoire'], bodyData['include_fields'], all_fields, null);
+        airr.collectFields(global.airr['Repertoire'], bodyData['include_fields'], include_fields, null);
     }
 
     // field projection
@@ -658,14 +660,14 @@ RepertoireController.queryRepertoires = function(req, res) {
         // NOTE: projection will not add a field if it is not already in the document
         // so below after the data has been retrieved, missing fields need to be
         // added with null values.
-        if (all_fields.length > 0) {
-            for (var r in all_fields) projection[all_fields[r]] = 1;
+        if (include_fields.length > 0) {
+            for (var r in include_fields) projection[include_fields[r]] = 1;
         }
 
         // add to field list so will be put in response if necessary
         for (var i = 0; i < fields.length; ++i) {
             if (fields[i] == '_id') continue;
-            all_fields.push(fields[i]);
+            include_fields.push(fields[i]);
         }
     }
     projection['_id'] = 0;
@@ -821,9 +823,12 @@ RepertoireController.queryRepertoires = function(req, res) {
                         if (record['_etag']) delete record['_etag'];
 
                         // add any missing required fields
-                        if (all_fields.length > 0) {
+                        if (include_fields.length > 0) {
+                            airr.addFields(records[i], include_fields, global.airr['Repertoire']);
+                        } else {
                             airr.addFields(records[i], all_fields, global.airr['Repertoire']);
                         }
+
                         results.push(record);
                     }
                 }

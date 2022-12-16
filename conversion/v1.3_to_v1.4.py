@@ -1,7 +1,7 @@
 #
 # Convert AIRR v1.3 schema to AIRR v1.4
 #
-# This script assumes you are running in a docker container.
+# This script assumes you are running in a docker container, check README.
 #
 # This script was coded using error-based programming. That is, conditionals were added
 # with iterative coding starting with the first error/warning in the output and repeating until
@@ -21,7 +21,7 @@
 #   convert template_amount to separate quantity/unit fields
 #   
 
-# NOTE: Some schemas changes are doing when loading into the ADC repository
+# NOTE: Some schemas changes are done when loading into the ADC repository
 
 import json
 from dotenv import load_dotenv
