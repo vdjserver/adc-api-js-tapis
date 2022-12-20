@@ -160,7 +160,7 @@ def convertSubject(subject, verbose, quiet):
 
     # conversion
     if subject['value'].get('genotype') is not None:
-        print(json.dumps(subject, indent=2))
+        #print(json.dumps(subject, indent=2))
         if subject['value'].get('genotype').get('receptor_genotype_set') is not None:
             if subject['value'].get('genotype').get('receptor_genotype_set').get('receptor_genotype_set_id') is None:
                 print('INFO: subject uuid', subject['uuid'], 'has null genotype, setting to null')
@@ -169,7 +169,7 @@ def convertSubject(subject, verbose, quiet):
     if subject['value'].get('genotype') is not None:
         if subject['value']['genotype'].get('mhc_genotype_set') is not None:
             if subject['value']['genotype'].get('mhc_genotype_set').get('mhc_genotype_class_list') is not None:
-                print(json.dumps(subject, indent=2))
+                #print(json.dumps(subject, indent=2))
                 print('INFO: subject uuid', subject['uuid'], 'has mhc_genotype_class_list, generate mhc_genotype_list, copy data, delete mhc_genotype_class_list')
                 sgg = subject['value']['genotype']['mhc_genotype_set']
                 if type(sgg.get('mhc_genotype_class_list')) == list:
@@ -206,7 +206,7 @@ def convertSubject(subject, verbose, quiet):
                         print(len(sgg['mhc_genotype_class_list']))
                         raise Exception("len(sgg['mhc_genotype_list']) != len(sgg['mhc_genotype_class_list'])")
                 del sgg['mhc_genotype_class_list']
-                print(json.dumps(subject, indent=2))
+                #print(json.dumps(subject, indent=2))
 
     if subject['value'].get('diagnosis') is None:
         print('INFO: subject uuid', subject['uuid'], 'diagnosis is null, setting to template')
@@ -218,6 +218,13 @@ def convertSubject(subject, verbose, quiet):
                 if len(d.get('disease_diagnosis')) == 0:
                     print('INFO: subject uuid', subject['uuid'], 'disease_diagnosis has blank string, setting to null')
                     d['disease_diagnosis'] = None
+        if d.get('study_group_description') is not None and d.get('medical_history','missing') == 'missing':
+            print('INFO: subject uuid', subject['uuid'], 'fill out diagnosis object from template')
+            entry = subject['value']['diagnosis'][0]
+            t = airr.schema.AIRRSchema['Diagnosis'].template()
+            for entry in t:
+                if d.get(entry) is None:
+                    d[entry] = t[entry]
 
     if subject['value'].get('age_event', 'missing') == 'missing':
         print('INFO: age_event is missing')
@@ -388,10 +395,10 @@ if (__name__=="__main__"):
         private_studies = studies
 
         airr_studies = {}
-        for study in public_studies:
-            airr_studies[study['uuid']] = study['uuid']
-#        for study in private_studies:
+#        for study in public_studies:
 #            airr_studies[study['uuid']] = study['uuid']
+        for study in private_studies:
+            airr_studies[study['uuid']] = study['uuid']
         #airr_studies['5558760323211783700-242ac117-0001-012'] = '5558760323211783700-242ac117-0001-012'
         print('INFO:', len(airr_studies), 'AIRR studies.')
 

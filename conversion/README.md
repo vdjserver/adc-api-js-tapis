@@ -46,3 +46,27 @@ To actually perform the modifications:
 vdj-airr python3 /work/v1.3_to_v1.4.py --convert
 ```
 
+* `fix_v1.4.py`: After running `v1.3_to_v1.4.py` and reloading the metadata, I realized
+  that I missed `Subject`, which had many old non-compliant record, plus there was some MHC
+  genotypes in a pre-v1.4 form. This script was easier because they are all AIRR records, so
+  I can expect that they pass validate.
+
+```
+vdj-airr python3 /work/fix_v1.4.py
+```
+
+To actually perform the modifications:
+
+```
+vdj-airr python3 /work/vfix_v1.4.py --convert
+```
+
+There is still some stuff to do:
+
+# convert mhc for the Adaptive studies, did IPA do it?
+
+# there are VDJServer-related fields that we need to consolidate into a sub-object. What name
+  to use: `x-vdjserver`, `vdjserver`, `vdjserver_custom`?  Hmm, should be snakecase, so I 
+  think simple `vdjserver` should work.
+
+# have validation routines which for VDJServer schemas based upon AIRR validation
