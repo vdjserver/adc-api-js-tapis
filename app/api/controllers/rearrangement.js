@@ -1326,10 +1326,32 @@ RearrangementController.queryRearrangements = function(req, res) {
                 }
             })
             .catch(function(error) {
-                var msg = config.log.error(context, "error: " + error);
-                res.status(500).json({"message":result_message});
-                webhookIO.postToSlack(msg);
-                queryRecord['status'] = 'error';
+                var msg = '';
+
+                // construct message
+                if (error['http status code'] == 408) {
+                    config.log.info(context, 'got timeout');
+                    msg += 'Timeout error while performing query.';
+                    msg += ' Perform an asynchronous query using the AIRR Extension API for long running queries.';
+                } else {
+                    msg = "error: " + error + ',While performing query: ';
+                    if (query && query.length > config.large_query_size)
+                        msg += 'a very large query (' + query.length + ')';
+                    else
+                        msg += query;
+                }
+                msg = config.log.error(context, msg);
+
+                // send response with status
+                if (error['http status code'] == 408) {
+                    res.status(408).json({"message":msg});
+                    queryRecord['status'] = 'timeout';
+                } else {
+                    res.status(500).json({"message":result_message});
+                    webhookIO.postToSlack(msg);
+                    queryRecord['status'] = 'error';
+                }
+
                 queryRecord['message'] = msg;
                 queryRecord['end'] = Date.now();
                 tapisIO.recordQuery(queryRecord);
