@@ -142,6 +142,7 @@ async function readCountFile(filename) {
 
 // receive notification from Tapis LRQ
 AsyncController.asyncNotify = async function(req, res) {
+    var context = 'AsyncController.asyncNotify';
     console.log('VDJ-ADC-API-ASYNC INFO: Received LRQ notification id:', req.params.notify_id, 'body:', JSON.stringify(req.body));
 
     // return a response
@@ -190,6 +191,18 @@ AsyncController.asyncNotify = async function(req, res) {
                 console.log(metadata);
                 //return Promise.reject(new Error(msg));
             });
+        if (countFail) {
+            config.log.info(context, 'Sleep and retry to read count file.');
+            await new Promise(resolve => setTimeout(resolve, 60000));
+            countFail = false;
+            count_obj = await readCountFile(filename)
+                .catch(function(error) {
+                    msg = 'VDJ-ADC-ASYNC-API ERROR (asyncNotify): Could not read count file (' + filename + ') for LRQ ' + metadata["uuid"] + '.\n' + error;
+                    console.error(msg);
+                    webhookIO.postToSlack(msg);
+                    countFail = true;
+                });
+        }
         console.log('fall through');
         console.log(metadata);
         console.log(countFail);
