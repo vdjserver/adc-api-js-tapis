@@ -21,6 +21,7 @@ The python code can be run as follows against a local server:
 ```
 $ python3 test_driver.py http://localhost:8020/airr/v1 repertoire_tests.yaml
 $ python3 test_driver.py http://localhost:8020/airr/v1 rearrangement_tests.yaml
+$ python3 test_driver.py http://localhost:8020/airr/v1 timeout_tests.yaml
 ```
 
 Required command line options consist of:
