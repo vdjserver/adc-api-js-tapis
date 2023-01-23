@@ -356,7 +356,8 @@ AsyncQueue.triggerPolling = async function() {
 
     if (! config.async.enable_poll) {
         msg = config.log.error(context, 'Polling is not enabled in configuration, cannot trigger');
-        webhookIO.postToSlack(msg);
+        config.log.info(context, msg);
+        //webhookIO.postToSlack(msg);
         return Promise.reject(new Error(msg));
     }
 
@@ -402,7 +403,8 @@ pollQueue.process(async (job) => {
 
     if (! config.async.enable_poll) {
         msg = config.log.error(context, 'Polling is not enabled in configuration, exiting.');
-        webhookIO.postToSlack(msg);
+        config.log.info(context, msg);
+        //webhookIO.postToSlack(msg);
         return Promise.resolve();
     }
 
@@ -531,7 +533,8 @@ AsyncQueue.triggerExpiration = async function() {
 
     if (! config.async.enable_expire) {
         msg = config.log.error(context, 'Expiration is not enabled in configuration, cannot trigger');
-        webhookIO.postToSlack(msg);
+        config.log.info(context, msg);
+        //webhookIO.postToSlack(msg);
         return Promise.resolve();
     }
 
@@ -555,7 +558,8 @@ expireQueue.process(async (job) => {
 
     if (! config.async.enable_expire) {
         msg = config.log.error(context, 'Expiration is not enabled in configuration, cannot trigger');
-        webhookIO.postToSlack(msg);
+        config.log.info(context, msg);
+        //webhookIO.postToSlack(msg);
         return Promise.resolve();
     }
 
