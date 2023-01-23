@@ -58,7 +58,21 @@ vdj-airr python3 /work/fix_v1.4.py
 To actually perform the modifications:
 
 ```
-vdj-airr python3 /work/vfix_v1.4.py --convert
+vdj-airr python3 /work/fix_v1.4.py --convert
+```
+
+* `fix_ontology_v1.4.py`: The AIRR validation does not verify the ontology fields, but ireceptor
+   has one that points out errors. The errors look to be either incorrect labels or the id
+   has underscore instead of a colon.
+
+```
+vdj-airr python3 /work/fix_ontology_v1.4.py
+```
+
+To actually perform the modifications:
+
+```
+vdj-airr python3 /work/fix_ontology_v1.4.py --convert
 ```
 
 There is still some stuff to do:
