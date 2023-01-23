@@ -171,11 +171,11 @@ GuestAccount.getToken()
         if (config.async.enable_poll) {
             config.log.info(context, 'Polling ENABLED for LRQ');
             AsyncQueue.triggerPolling();
-        }
+        } else config.log.info(context, 'Polling DISABLED for LRQ');
         if (config.async.enable_expire) {
             config.log.info(context, 'Expiration ENABLED for async queries');
             AsyncQueue.triggerExpiration();
-        }
+        } else config.log.info(context, 'Expiration DISABLED for async queries');
     })
     .catch(function(error) {
         var msg = config.log.error(context, 'Service could not be start.\n' + error);
