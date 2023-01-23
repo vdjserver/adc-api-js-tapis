@@ -120,11 +120,11 @@ config.info.max_query_size = 2 * 1024 * 1024;
 
 // async API settings
 config.async = {};
-config.async.enable_expire = true;
+config.async.enable_poll = parseBoolean(process.env.API_ASYNC_ENABLE_POLL);
+config.async.enable_expire = parseBoolean(process.env.API_ASYNC_ENABLE_EXPIRE);
 config.async.lifetime = 5 * 24 * 60 * 60; // 5 days in secs
 //config.async.lifetime = 60 * 60; // 1 hr for testing
 config.async.max_uses = 1000; // postit attempts
 config.async.max_size = 500 * 1024 * 1024; // 500M
 //config.async.max_size = 30 * 1024 * 1024; // 30M for testing
 
-config.async.enable_poll = parseBoolean(process.env.API_ASYNC_ENABLE_POLL);
