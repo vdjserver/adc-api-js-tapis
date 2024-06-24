@@ -39,7 +39,8 @@ RUN chown vdj /home/vdj
 RUN chgrp G-803419 /home/vdj
 
 # node
-ENV NODE_VER v12.18.3
+#ENV NODE_VER v12.18.3
+ENV NODE_VER v14.21.3
 RUN wget https://nodejs.org/dist/$NODE_VER/node-$NODE_VER-linux-x64.tar.xz
 RUN tar xf node-$NODE_VER-linux-x64.tar.xz
 RUN cp -rf /node-$NODE_VER-linux-x64/bin/* /usr/bin
