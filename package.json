@@ -1,6 +1,6 @@
 {
-  "name": "api-js-tapis",
-  "version": "2.0.0",
+  "name": "adc-api-js-tapis",
+  "version": "1.3.0",
   "private": true,
   "description": "AIRR Data Commons API for VDJServer Community Data Portal",
   "keywords": [],
@@ -19,10 +19,10 @@
     "express-openapi": "^6.0.0",
     "js-yaml": "^3.10.0",
     "json-approver": "1.0.3",
-    "moment-timezone": "0.4.1",
+    "moment-timezone": ">=0.5.35",
     "request": "2.88.2",
     "vdj-tapis-js": "file:vdj-tapis-js",
-    "underscore": "1.7.0"
+    "underscore": ">=1.12.1"
   },
   "devDependencies": {
     "eslint": "^7.9.0",
