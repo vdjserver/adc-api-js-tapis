@@ -1,6 +1,3 @@
 [submodule "airr-standards"]
 	path = airr-standards
 	url = https://github.com/airr-community/airr-standards.git
-[submodule "vdj-tapis-js"]
-	path = vdj-tapis-js
-	url = https://bitbucket.org/vdjserver/vdj-tapis-js.git
