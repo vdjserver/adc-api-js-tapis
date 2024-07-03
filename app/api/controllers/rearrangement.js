@@ -31,34 +31,27 @@ module.exports = RearrangementController;
 
 // Server environment config
 var config = require('../../config/config');
-//var agaveSettings = require('../../config/tapisSettings');
-var mongoSettings = require('../../config/mongoSettings');
-var airr = require('../helpers/airr-schema');
 
-// Processing
-var webhookIO = require('../vendor/webhookIO');
+// Schema libraries
+var airr = require('airr-js');
+var vdj_schema = require('vdjserver-schema');
+
+// Tapis
+var tapisV2 = require('vdj-tapis-js/tapis');
+var tapisV3 = require('vdj-tapis-js/tapisV3');
 var tapisIO = null;
-if (config.tapis_version == 2) tapisIO = require('vdj-tapis-js');
-if (config.tapis_version == 3) tapisIO = require('vdj-tapis-js/tapisV3');
-var context = 'rearrangement';
-
-// Node Libraries
-var Queue = require('bull');
-var fs = require('fs');
-const zlib = require('zlib');
-var stream = require('stream');
-
-// escape strings for regex, double \\ for restheart
-
-//var escapeString = function(text) {
-//    var encoded = text.replace(/\*/g, '\\\\\*');
-//    encoded = encoded.replace(/\+/g, '\\\\\+');
-//    return encoded;
-//}
+if (config.tapis_version == 2) tapisIO = tapisV2;
+if (config.tapis_version == 3) tapisIO = tapisV3;
+var tapisSettings = tapisIO.tapisSettings;
+var ServiceAccount = tapisIO.serviceAccount;
+var GuestAccount = tapisIO.guestAccount;
+var authController = tapisIO.authController;
+var webhookIO = require('vdj-tapis-js/webhookIO');
+var adc_mongo_query = require('vdj-tapis-js/adc_mongo_query');
 
 function getInfoObject() {
     var info = { };
-    var schema = global.airr['Info'];
+    var schema = airr.get_info();
     info['title'] = config.info.description;
     info['description'] = 'VDJServer ADC API response for rearrangement query'
     info['version'] = schema.version;
@@ -71,7 +64,7 @@ function getInfoObject() {
   filters parameter is a JSON object that can be any number of nested
   levels, so we recursively construct the query.
 */
-function constructQueryOperation(filter, error) {
+/* function constructQueryOperation(filter, error) {
     if (!filter['op']) {
         error['message'] = 'missing op';
         return null;
@@ -377,7 +370,7 @@ function constructQueryOperation(filter, error) {
 
     // should not get here
     //return null;
-}
+} */
 
 // Clean data record
 // Remove any internal fields
@@ -413,6 +406,7 @@ function cleanRecord(record, projection, all_fields) {
     return record;
 }
 
+/*
 // process LRQ file
 RearrangementController.processLRQfile = function(metadata_uuid) {
     var context = 'RearrangementController.processLRQfile';
@@ -629,25 +623,13 @@ RearrangementController.processLRQfile = function(metadata_uuid) {
                         writable.end();
                     });
 
-/*
-                readable.pipe(zlib.createGunzip())
-                    .pipe(transform)
-                    .on('error', function(e) { console.log('caught error'); console.log(e); return reject(e); })
-                    .pipe(zlib.createGzip())
-                    .pipe(writable)
-                    .on('finish', function() {
-                        console.log('end of stream');
-                        writable.end();
-                    });
-*/
-
                 writable.on('finish', function() {
                     config.log.info(context, 'finish of write stream');
                     return resolve(outname);
                 });
             });
         });
-}
+} */
 
 // get a single rearrangement
 RearrangementController.getRearrangement = function(req, res) {
@@ -671,7 +653,7 @@ RearrangementController.getRearrangement = function(req, res) {
         start: Date.now()
     };
 
-    var collection = 'rearrangement' + mongoSettings.queryCollection + '/' + get_sequence_id;
+    var collection = 'rearrangement' + tapisSettings.mongo_queryCollection + '/' + get_sequence_id;
 
     // Handle client HTTP request abort
     var abortQuery = false;
@@ -682,15 +664,16 @@ RearrangementController.getRearrangement = function(req, res) {
 
     // all AIRR fields
     var all_fields = [];
-    airr.collectFields(global.airr['Rearrangement'], 'airr-schema', all_fields, null);
+    var airr_schema = airr.get_schema('Rearrangement')['definition'];
+    airr.collectFields(airr_schema, 'airr-schema', all_fields, null);
 
     // construct info object for response
-    var info = { };
-    var schema = global.airr['Info'];
-    info['title'] = config.info.description;
-    info['description'] = 'VDJServer ADC API response for rearrangement query'
-    info['version'] = schema.version;
-    info['contact'] = config.info.contact;
+    var info = getInfoObject();
+//    var schema = global.airr['Info'];
+//    info['title'] = config.info.description;
+//    info['description'] = 'VDJServer ADC API response for rearrangement query'
+//    info['version'] = schema.version;
+//    info['contact'] = config.info.contact;
 
     return tapisIO.performQuery(collection, null, null, null, null)
         .then(function(record) {
@@ -704,7 +687,7 @@ RearrangementController.getRearrangement = function(req, res) {
                 }
                 if (record['_id']) delete record['_id'];
                 if (record['_etag']) delete record['_etag'];
-                airr.addFields(record, all_fields, global.airr['Rearrangement']);
+                airr.addFields(record, all_fields, airr_schema);
                 res.json({"Info":info,"Rearrangement":[record]});
                 queryRecord['count'] = 1;
             }
@@ -731,7 +714,7 @@ RearrangementController.getRearrangement = function(req, res) {
             return;
         });
 }
-
+/*
 function performFacets(collection, query, field, start_page, pagesize) {
     var models = [];
 
@@ -782,7 +765,7 @@ RearrangementController.generateAsyncCountQuery = function(metadata) {
         filter = bodyData['filters'];
         try {
             var error = { message: '' };
-            query = constructQueryOperation(filter, error);
+            query = adc_mongo_query.constructQueryOperation(airr, airr.get_schema('Rearrangement')['definition'], filter, error, false, true);
             //console.log(query);
 
             if (!query) {
@@ -833,7 +816,7 @@ RearrangementController.generateAsyncQuery = function(metadata) {
         filter = bodyData['filters'];
         try {
             var error = { message: '' };
-            query = constructQueryOperation(filter, error);
+            query = adc_mongo_query.constructQueryOperation(airr, airr.get_schema('Rearrangement')['definition'], filter, error, false, true);
             //console.log(query);
 
             if (!query) {
@@ -867,14 +850,11 @@ RearrangementController.generateAsyncQuery = function(metadata) {
     //console.log(JSON.stringify(aggr_query));
     return aggr_query;
 }
-
+*/
 RearrangementController.queryRearrangements = function(req, res) {
     var context = 'RearrangementController.queryRearrangements';
 
     config.log.info(context, 'start');
-
-    var do_async = false;
-    if (req.params.do_async) do_async = true;
 
     var results = [];
     var result = {};
@@ -912,13 +892,14 @@ RearrangementController.queryRearrangements = function(req, res) {
 
     // AIRR fields
     var all_fields = [];
+    var airr_schema = airr.get_schema('Rearrangement')['definition'];
     if (bodyData['include_fields']) {
-        airr.collectFields(global.airr['Rearrangement'], bodyData['include_fields'], all_fields, null);
+        airr.collectFields(airr_schema, bodyData['include_fields'], all_fields, null);
         //if (config.debug) console.log(all_fields);
     }
     // collect all AIRR schema fields
     var schema_fields = [];
-    airr.collectFields(global.airr['Rearrangement'], 'airr-schema', schema_fields, null);
+    airr.collectFields(airr_schema, 'airr-schema', schema_fields, null);
 
     // field projection
     // NOTE: we actually leave out the projection from the query to avoid it becoming too large
@@ -988,32 +969,14 @@ RearrangementController.queryRearrangements = function(req, res) {
         tapisIO.recordQuery(queryRecord);
         return;
     }
-    if (do_async) {
-        // async queries have a different max
-        if (! bodyData['size']) {
-            // if the query does not specify a size, we need to count to see if the
-            // result set is too big. we indicate this with a null size.
-            size = null;
-        } else {
-            if (size > config.async.max_size) {
-                result_message = "Size too large (" + size + "), maximum size is " + config.async.max_size;
-                res.status(400).json({"message":result_message});
-                queryRecord['status'] = 'reject';
-                queryRecord['message'] = result_message;
-                tapisIO.recordQuery(queryRecord);
-                return;
-            }
-        }
-    } else {
-        // normal query max
-        if (size > config.max_size) {
-            result_message = "Size too large (" + size + "), maximum size is " + config.max_size;
-            res.status(400).json({"message":result_message});
-            queryRecord['status'] = 'reject';
-            queryRecord['message'] = result_message;
-            tapisIO.recordQuery(queryRecord);
-            return;
-        }
+    // normal query max
+    if (size > config.max_size) {
+        result_message = "Size too large (" + size + "), maximum size is " + config.max_size;
+        res.status(400).json({"message":result_message});
+        queryRecord['status'] = 'reject';
+        queryRecord['message'] = result_message;
+        tapisIO.recordQuery(queryRecord);
+        return;
     }
 
     // from parameter
@@ -1051,7 +1014,7 @@ RearrangementController.queryRearrangements = function(req, res) {
         filter = bodyData['filters'];
         try {
             var error = { message: '' };
-            query = constructQueryOperation(filter, error);
+            query = adc_mongo_query.constructQueryOperation(airr, airr_schema, filter, error, false, true);
             //console.log(query);
 
             if (!query) {
@@ -1076,72 +1039,15 @@ RearrangementController.queryRearrangements = function(req, res) {
     var facets = bodyData['facets'];
 
     // construct info object for response
-    var info = { };
-    var schema = global.airr['Info'];
-    info['title'] = config.info.description;
-    info['description'] = 'VDJServer ADC API response for rearrangement query'
-    info['version'] = schema.version;
-    info['contact'] = config.info.contact;
+    var info = getInfoObject();
+//    var schema = global.airr['Info'];
+//    info['title'] = config.info.description;
+//    info['description'] = 'VDJServer ADC API response for rearrangement query'
+//    info['version'] = schema.version;
+//    info['contact'] = config.info.contact;
 
-    // Handle client HTTP request abort
-    var abortQuery = false;
-    req.on("close", function() {
-        config.log.info(context, 'Client request closed unexpectedly');
-        abortQuery = true;
-    });
-
-    var collection = 'rearrangement' + mongoSettings.queryCollection;
-    if (do_async) {
-        // perform async query
-        //
-        // An async query is performed in multiple steps. If we do not know the size of the result size, which
-        // we generally do not unless the query specifies a size, then we first perform a count aggregation.
-        // If size is specified in the query, the check is above, and if it passes then we perform the query.
-        // If we need to count, we get a notification from the count aggregation, which checks that the size
-        // is okay and performs the query, or marks the query as ERROR.
-        // We setup all the necessary data here so that the queues can process everything as needed.
-        var countQueue = new Queue('lrq count');
-        var submitQueue = new Queue('lrq submit');
-        var parsed_query = JSON.parse(query);
-
-        // We put the commands in with the $ so that Tapis metadata service does not try to interpret it
-
-        var count_query = null;
-        if (! size) {
-            // we do not know size, so setup count aggregation query
-            count_query = [{"match":parsed_query}];
-            if (from) count_query.push({"skip":from});
-            count_query.push({"count":"total_records"});
-        }
-        var aggr_query = [{"match":parsed_query}];
-        if (from) aggr_query.push({"skip":from});
-        if (size) aggr_query.push({"limit":size});
-
-        //console.log(JSON.stringify(count_query));
-        //console.log(JSON.stringify(aggr_query));
-        return tapisIO.createAsyncQueryMetadata('rearrangement', collection, bodyData, null, null)
-            .then(function(metadata) {
-                //console.log(metadata);
-                config.log.info(context, 'Created async metadata:', metadata.uuid);
-                if (count_query)
-                    //countQueue.add({metadata: metadata}, {attempts: 5, backoff: 5000});
-                    countQueue.add({metadata: metadata});
-                else
-                    //submitQueue.add({metadata: metadata}, {attempts: 5, backoff: 5000});
-                    submitQueue.add({metadata: metadata});
-                res.status(200).json({"message":"rearrangement lrq submitted.", "query_id": metadata.uuid});
-                return;
-            })
-            .catch(function(error) {
-                var msg = config.log.error(context, "tapisIO.createAsyncQueryMetadata error: " + error);
-                res.status(500).json({"message":result_message});
-                webhookIO.postToSlack(msg);
-                queryRecord['status'] = 'error';
-                queryRecord['message'] = msg;
-                queryRecord['end'] = Date.now();
-                tapisIO.recordQuery(queryRecord);
-            });
-    } else if (!facets) {
+    var collection = 'rearrangement' + tapisSettings.mongo_queryCollection;
+    if (!facets) {
         // perform non-facets query
         //var queryFunction = tapisIO.performQuery;
         var queryFunction = tapisIO.performQuery;
@@ -1153,10 +1059,6 @@ RearrangementController.queryRearrangements = function(req, res) {
 
         return queryFunction(collection, query, null, page, pagesize)
             .then(function(records) {
-                if (abortQuery) {
-                    return;
-                }
-
                 config.log.info(context, 'query returned ' + records.length + ' records.');
                 if (records.length == 0) {
                     results = [];
@@ -1186,7 +1088,7 @@ RearrangementController.queryRearrangements = function(req, res) {
 
                         // add any missing required fields
                         if (all_fields.length > 0) {
-                            airr.addFields(record, all_fields, global.airr['Rearrangement']);
+                            airr.addFields(record, all_fields, airr_schema);
                         }
                         // apply projection
                         var keys = Object.keys(record);
@@ -1200,10 +1102,6 @@ RearrangementController.queryRearrangements = function(req, res) {
                 }
             })
             .then(function() {
-                if (abortQuery) {
-                    return;
-                }
-
                 if ((!second_size) || (results.length < pagesize)) {
                     // only one query so return the results
                     return;
@@ -1238,7 +1136,7 @@ RearrangementController.queryRearrangements = function(req, res) {
 
                                 // add any missing required fields
                                 if (all_fields.length > 0) {
-                                    airr.addFields(record, all_fields, global.airr['Rearrangement']);
+                                    airr.addFields(record, all_fields, airr_schema);
                                 }
                                 // apply projection
                                 var keys = Object.keys(record);
@@ -1253,11 +1151,6 @@ RearrangementController.queryRearrangements = function(req, res) {
                 }
             })
             .then(function() {
-                if (abortQuery) {
-                    config.log.info(context, 'client aborted query.');
-                    return;
-                }
-
                 // format results and return them
                 queryRecord['count'] = results.length;
                 if (format == 'json') {
@@ -1315,15 +1208,9 @@ RearrangementController.queryRearrangements = function(req, res) {
                 res.end();
             })
             .then(function() {
-                if (abortQuery) {
-                    queryRecord['status'] = 'abort';
-                    queryRecord['end'] = Date.now();
-                    tapisIO.recordQuery(queryRecord);
-                } else {
-                    queryRecord['status'] = 'success';
-                    queryRecord['end'] = Date.now();
-                    tapisIO.recordQuery(queryRecord);
-                }
+                queryRecord['status'] = 'success';
+                queryRecord['end'] = Date.now();
+                tapisIO.recordQuery(queryRecord);
             })
             .catch(function(error) {
                 var msg = '';
@@ -1398,15 +1285,9 @@ RearrangementController.queryRearrangements = function(req, res) {
                     res.json({"Info":info,"Facet":results});
                 })
                 .then(function() {
-                    if (abortQuery) {
-                        queryRecord['status'] = 'abort';
-                        queryRecord['end'] = Date.now();
-                        tapisIO.recordQuery(queryRecord);
-                    } else {
-                        queryRecord['status'] = 'success';
-                        queryRecord['end'] = Date.now();
-                        tapisIO.recordQuery(queryRecord);
-                    }
+                    queryRecord['status'] = 'success';
+                    queryRecord['end'] = Date.now();
+                    tapisIO.recordQuery(queryRecord);
                 })
                 .catch(function(error) {
                     var msg = config.log.error(context, "error: " + error
@@ -1421,7 +1302,7 @@ RearrangementController.queryRearrangements = function(req, res) {
 
         } else {
 
-            return performFacets(collection, query, field, 1, pagesize)
+            return tapisIO.performFacets(collection, query, field, 1, pagesize)
                 .then(function(records) {
                     //console.log(records);
                     if (records.length == 0) {
@@ -1442,15 +1323,9 @@ RearrangementController.queryRearrangements = function(req, res) {
                     res.json({"Info":info,"Facet":results});
                 })
                 .then(function() {
-                    if (abortQuery) {
-                        queryRecord['status'] = 'abort';
-                        queryRecord['end'] = Date.now();
-                        tapisIO.recordQuery(queryRecord);
-                    } else {
-                        queryRecord['status'] = 'success';
-                        queryRecord['end'] = Date.now();
-                        tapisIO.recordQuery(queryRecord);
-                    }
+                    queryRecord['status'] = 'success';
+                    queryRecord['end'] = Date.now();
+                    tapisIO.recordQuery(queryRecord);
                 })
                 .catch(function(error) {
                     var msg = '';

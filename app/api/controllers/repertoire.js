@@ -86,7 +86,7 @@ RepertoireController.getRepertoire = function(req, res) {
 
     // all AIRR fields
     var all_fields = [];
-    var airr_schema = airr.get_schema('Repertoire');
+    var airr_schema = airr.get_schema('Repertoire')['definition'];
     airr.collectFields(airr_schema, 'airr-schema', all_fields, null);
 
     // construct info object for response
@@ -159,7 +159,7 @@ RepertoireController.queryRepertoires = function(req, res) {
 
     // AIRR fields
     var all_fields = [];
-    var airr_schema = airr.get_schema('Repertoire');
+    var airr_schema = airr.get_schema('Repertoire')['definition'];
     airr.collectFields(airr_schema, 'airr-schema', all_fields, null);
     var include_fields = [];
     if (bodyData['include_fields']) {
@@ -263,7 +263,7 @@ RepertoireController.queryRepertoires = function(req, res) {
         filter = bodyData['filters'];
         try {
             var error = { message: '' };
-            query = adc_mongo_query.constructQueryOperation(airr, airr.get_schema('Repertoire')['definition'], filter, error);
+            query = adc_mongo_query.constructQueryOperation(airr, airr_schema, filter, error);
             //console.log(query);
 
             if (!query) {
