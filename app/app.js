@@ -27,13 +27,14 @@
 //
 
 var express = require('express');
-var errorHandler = require('errorhandler');
 var bodyParser   = require('body-parser');
 var openapi = require('express-openapi');
 var path = require('path');
 var fs = require('fs');
 var yaml = require('js-yaml');
 var $RefParser = require("@apidevtools/json-schema-ref-parser");
+var airr = require('airr-js');
+var vdj_schema = require('vdjserver-schema');
 
 // Express app
 var app = module.exports = express();
@@ -41,28 +42,6 @@ var context = 'app';
 
 // Server environment config
 var config = require('./config/config');
-var airr = require('./api/helpers/airr-schema');
-var webhookIO = require('./api/vendor/webhookIO');
-
-// Tapis
-if (config.tapis_version == 2) config.log.info(context, 'Using Tapis V2 API', true);
-else if (config.tapis_version == 3) config.log.info(context, 'Using Tapis V3 API', true);
-else {
-    config.log.error(context, 'Invalid Tapis version, check TAPIS_VERSION environment variable');
-    process.exit(1);
-}
-var tapisIO = null;
-if (config.tapis_version == 2) tapisIO = require('vdj-tapis-js');
-if (config.tapis_version == 3) tapisIO = require('vdj-tapis-js/tapisV3');
-
-// Controllers
-var statusController = require('./api/controllers/status');
-var repertoireController = require('./api/controllers/repertoire');
-var rearrangementController = require('./api/controllers/rearrangement');
-var cloneController = require('./api/controllers/clone');
-var cellController = require('./api/controllers/cell');
-var expressionController = require('./api/controllers/expression');
-var receptorController = require('./api/controllers/receptor');
 
 // CORS
 var allowCrossDomain = function(request, response, next) {
@@ -84,15 +63,39 @@ app.set('port', config.port);
 app.use(allowCrossDomain);
 // trust proxy so we can get client IP
 app.set('trust proxy', true);
+app.redisConfig = {
+    port: 6379,
+    host: 'vdjr-redis'
+};
 
-app.use(errorHandler({
-    dumpExceptions: true,
-    showStack: true,
-}));
-
-// Verify we can login with guest and service account
+// Tapis
+if (config.tapis_version == 2) config.log.info(context, 'Using Tapis V2 API', true);
+else if (config.tapis_version == 3) config.log.info(context, 'Using Tapis V3 API', true);
+else {
+    config.log.error(context, 'Invalid Tapis version, check TAPIS_VERSION environment variable');
+    process.exit(1);
+}
+var tapisV2 = require('vdj-tapis-js/tapis');
+var tapisV3 = require('vdj-tapis-js/tapisV3');
+var tapisIO = null;
+if (config.tapis_version == 2) tapisIO = tapisV2;
+if (config.tapis_version == 3) tapisIO = tapisV3;
+tapisIO.set_config(config);
+var tapisSettings = tapisIO.tapisSettings;
 var ServiceAccount = tapisIO.serviceAccount;
 var GuestAccount = tapisIO.guestAccount;
+var webhookIO = require('vdj-tapis-js/webhookIO');
+
+// Controllers
+var statusController = require('./api/controllers/status');
+var repertoireController = require('./api/controllers/repertoire');
+var rearrangementController = require('./api/controllers/rearrangement');
+var cloneController = require('./api/controllers/clone');
+var cellController = require('./api/controllers/cell');
+var expressionController = require('./api/controllers/expression');
+var receptorController = require('./api/controllers/receptor');
+
+// Verify we can login with guest and service account
 GuestAccount.getToken()
     .then(function(guestToken) {
         config.log.info(context, 'Successfully acquired guest token.', true);
@@ -103,32 +106,40 @@ GuestAccount.getToken()
     .then(function(serviceToken) {
         config.log.info(context, 'Successfully acquired service token.', true);
 
-        // Load AIRR Schema
-        return airr.schema();
+        // wait for the AIRR schema to be loaded
+        return airr.load_schema();
     })
-    .then(function(schema) {
-        // save in global
-        global.airr = schema;
+    .then(function() {
+        config.log.info(context, 'Loaded AIRR Schema version ' + airr.get_info()['version']);
 
-        config.log.info(context, 'Loaded AIRR Schema, version ' + schema['Info']['version'], true);
+        // wait for the VDJServer schema to be loaded
+        return vdj_schema.load_schema();
+    })
+    .then(function() {
+        config.log.info(context, 'Loaded VDJServer Schema version ' + vdj_schema.get_info()['version']);
 
-        // Load API
-        var apiFile = path.resolve(__dirname, 'api/swagger/adc-api.yaml');
+        // Load ADC API
+        var apiFile = path.resolve(__dirname, 'api/swagger/adc-api-openapi3.yaml');
         config.log.info(context, 'Using ADC API specification: ' + apiFile, true);
         var api_spec = yaml.safeLoad(fs.readFileSync(apiFile, 'utf8'));
         config.log.info(context, 'Loaded ADC API version: ' + api_spec.info.version, true);
 
         // dereference the API spec
-        //
-        // OPENAPI BUG: We should not have to do this, but openapi does not seem
-        // to recognize the nullable flags or the types with $ref
-        // https://github.com/kogosoftwarellc/open-api/issues/647
         return $RefParser.dereference(api_spec);
     })
     .then(function(api_schema) {
-        // save in global
-        global.adc_api = api_schema;
-        //console.log(JSON.stringify(api_schema.components.schemas.cell_extension, null, 2));
+
+        // wrap the operations functions to catch syntax errors and such
+        // we do not get a good stack trace with the middleware error handler
+        var try_function = async function (request, response, the_function) {
+            try {
+                await the_function(request, response);
+            } catch (e) {
+                console.error(e);
+                console.error(e.stack);
+                throw e;
+            }
+        };
 
         openapi.initialize({
             apiDoc: api_schema,
@@ -153,28 +164,28 @@ GuestAccount.getToken()
                 get_info: statusController.getInfo,
 
                 // repertoires
-                get_repertoire: repertoireController.getRepertoire,
-                query_repertoires: repertoireController.queryRepertoires,
-                
+                get_repertoire: async function(req, res) { return try_function(req, res, repertoireController.getRepertoire); },
+                query_repertoires: async function(req, res) { return try_function(req, res, repertoireController.queryRepertoires); },
+
                 // rearrangements
-                get_rearrangement: rearrangementController.getRearrangement,
-                query_rearrangements: rearrangementController.queryRearrangements,
+                get_rearrangement: async function(req, res) { return try_function(req, res, rearrangementController.getRearrangement); },
+                query_rearrangements: async function(req, res) { return try_function(req, res, rearrangementController.queryRearrangements); },
 
                 // clones
-                get_clone: cloneController.getClone,
-                query_clones: cloneController.queryClones,
+                get_clone: async function(req, res) { return try_function(req, res, cloneController.getClone); },
+                query_clones: async function(req, res) { return try_function(req, res, cloneController.queryClones); },
 
                 // cells
-                get_cell: cellController.getCell,
-                query_cell: cellController.queryCells,
+                get_cell: async function(req, res) { return try_function(req, res, cellController.getCell); },
+                query_cell: async function(req, res) { return try_function(req, res, cellController.queryCells); },
 
                 // expression
-                get_expression: expressionController.getExpression,
-                query_expression: expressionController.queryExpressions,
+                get_expression: async function(req, res) { return try_function(req, res, expressionController.getExpression); },
+                query_expression: async function(req, res) { return try_function(req, res, expressionController.queryExpressions); },
 
                 // receptor
-                get_receptor: receptorController.getReceptor,
-                query_receptor: receptorController.queryReceptors
+                get_receptor: async function(req, res) { return try_function(req, res, receptorController.getReceptor); },
+                query_receptor: async function(req, res) { return try_function(req, res, receptorController.queryReceptors); }
             }
         });
 

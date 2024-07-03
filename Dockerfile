@@ -1,5 +1,5 @@
 # Base Image
-FROM ubuntu:20.04
+FROM ubuntu:22.04
 
 LABEL maintainer="VDJServer <vdjserver@utsouthwestern.edu>"
 
@@ -14,22 +14,12 @@ RUN export DEBIAN_FRONTEND=noninteractive && apt-get update && apt-get install -
     make \
     wget \
     xz-utils \
-    default-jre \
     git \
-    python3 \
-    python3-pip \
-    python3-sphinx \
-    python3-scipy \
-    libyaml-dev \
     wget \
-    supervisor \
-    redis-server \
-    redis-tools
+    supervisor
 
-RUN pip3 install \
-    pandas \
-    biopython \
-    python-dotenv
+##################
+##################
 
 # setup vdj user
 RUN echo "vdj:x:816290:803419:VDJServer,,,:/home/vdj:/bin/bash" >> /etc/passwd
@@ -38,9 +28,11 @@ RUN mkdir /home/vdj
 RUN chown vdj /home/vdj
 RUN chgrp G-803419 /home/vdj
 
+##################
+##################
+
 # node
-#ENV NODE_VER v12.18.3
-ENV NODE_VER v14.21.3
+ENV NODE_VER v18.17.1
 RUN wget https://nodejs.org/dist/$NODE_VER/node-$NODE_VER-linux-x64.tar.xz
 RUN tar xf node-$NODE_VER-linux-x64.tar.xz
 RUN cp -rf /node-$NODE_VER-linux-x64/bin/* /usr/bin
@@ -55,26 +47,18 @@ RUN cp -rf /node-$NODE_VER-linux-x64/share/* /usr/share
 #RUN git config --global https.proxy https://proxy.swmed.edu:3128
 
 # Copy project source
-RUN mkdir /api-js-tapis
-COPY . /api-js-tapis
-RUN cd /api-js-tapis && npm install
-
-# Setup redis
-COPY docker/redis/redis.conf /etc/redis/redis.conf
+RUN mkdir /adc-api-js-tapis
+COPY . /adc-api-js-tapis
+RUN cd /adc-api-js-tapis && npm install
 
 # Setup supervisor
 COPY docker/supervisor/supervisor.conf /etc/supervisor/conf.d/
 
 # ESLint
-RUN cd /api-js-tapis && ls && npm run eslint app
-RUN cd /api-js-tapis && npm run eslint vdj-tapis-js
-
-# Install the local airr-standards
-RUN cd /api-js-tapis/airr-standards/lang/python && python3 setup.py install
+RUN cd /adc-api-js-tapis && ls && npm run eslint app/api app/vdj-tapis-js
 
 # Copy AIRR spec
-RUN cp /api-js-tapis/airr-standards/specs/adc-api-openapi3.yaml /api-js-tapis/app/api/swagger/adc-api.yaml
-RUN cp /api-js-tapis/airr-standards/specs/adc-api-async.yaml /api-js-tapis/app/api/swagger/adc-api-async.yaml
-RUN cp /api-js-tapis/airr-standards/specs/airr-schema-openapi3.yaml /api-js-tapis/app/config/airr-schema.yaml
+RUN cp /adc-api-js-tapis/app/vdjserver-schema/airr-standards/specs/adc-api-openapi3.yaml /adc-api-js-tapis/app/api/swagger/adc-api-openapi3.yaml
+RUN cp /adc-api-js-tapis/app/vdjserver-schema/airr-standards/specs/airr-schema-openapi3.yaml /adc-api-js-tapis/app/config/airr-schema-openapi3.yaml
 
-CMD ["bash", "/api-js-tapis/docker/scripts/vdjserver-adc-api.sh"]
+CMD ["bash", "/adc-api-js-tapis/docker/scripts/vdjserver-adc-api.sh"]

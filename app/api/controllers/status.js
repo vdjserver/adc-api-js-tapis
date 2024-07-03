@@ -31,13 +31,19 @@ module.exports = StatusController;
 
 // Server environment config
 var config = require('../../config/config');
-var webhookIO = require('../vendor/webhookIO');
 
 // Tapis
+var tapisV2 = require('vdj-tapis-js/tapis');
+var tapisV3 = require('vdj-tapis-js/tapisV3');
 var tapisIO = null;
-if (config.tapis_version == 2) tapisIO = require('vdj-tapis-js');
-if (config.tapis_version == 3) tapisIO = require('vdj-tapis-js/tapisV3');
+if (config.tapis_version == 2) tapisIO = tapisV2;
+if (config.tapis_version == 3) tapisIO = tapisV3;
+var tapisSettings = tapisIO.tapisSettings;
+var ServiceAccount = tapisIO.serviceAccount;
 var GuestAccount = tapisIO.guestAccount;
+var authController = tapisIO.authController;
+var webhookIO = require('vdj-tapis-js/webhookIO');
+var adc_mongo_query = require('vdj-tapis-js/adc_mongo_query');
 
 // service status
 StatusController.getStatus = function(req, res) {

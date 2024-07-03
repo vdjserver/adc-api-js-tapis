@@ -97,14 +97,14 @@ config.info.license = {};
 config.info.license.name = info.license;
 
 // get api info
-var apiFile = fs.readFileSync(path.resolve(__dirname, '../api/swagger/adc-api.yaml'), 'utf8');
+var apiFile = fs.readFileSync(path.resolve(__dirname, '../api/swagger/adc-api-openapi3.yaml'), 'utf8');
 var apiSpec = yaml.safeLoad(apiFile);
 config.info.api = apiSpec['info'];
 
 // get schema info
-var schemaFile = fs.readFileSync(path.resolve(__dirname, './airr-schema.yaml'), 'utf8');
-var schemaSpec = yaml.safeLoad(schemaFile);
-config.info.schema = schemaSpec['Info'];
+//var schemaFile = fs.readFileSync(path.resolve(__dirname, './airr-schema.yaml'), 'utf8');
+//var schemaSpec = yaml.safeLoad(schemaFile);
+//config.info.schema = schemaSpec['Info'];
 
 // constraints
 config.max_size = 1000;
