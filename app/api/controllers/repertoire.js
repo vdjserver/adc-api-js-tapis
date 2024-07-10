@@ -37,12 +37,8 @@ var airr = require('airr-js');
 var vdj_schema = require('vdjserver-schema');
 
 // Tapis
-var tapisV2 = require('vdj-tapis-js/tapis');
-var tapisV3 = require('vdj-tapis-js/tapisV3');
-var tapisIO = null;
-if (config.tapis_version == 2) tapisIO = tapisV2;
-if (config.tapis_version == 3) tapisIO = tapisV3;
-var tapisSettings = tapisIO.tapisSettings;
+var tapisSettings = require('vdj-tapis-js/tapisSettings');
+var tapisIO = tapisSettings.get_default_tapis();
 var ServiceAccount = tapisIO.serviceAccount;
 var GuestAccount = tapisIO.guestAccount;
 var authController = tapisIO.authController;

@@ -69,21 +69,11 @@ app.redisConfig = {
 };
 
 // Tapis
-if (config.tapis_version == 2) config.log.info(context, 'Using Tapis V2 API', true);
-else if (config.tapis_version == 3) config.log.info(context, 'Using Tapis V3 API', true);
-else {
-    config.log.error(context, 'Invalid Tapis version, check TAPIS_VERSION environment variable');
-    process.exit(1);
-}
-var tapisV2 = require('vdj-tapis-js/tapis');
-var tapisV3 = require('vdj-tapis-js/tapisV3');
-var tapisIO = null;
-if (config.tapis_version == 2) tapisIO = tapisV2;
-if (config.tapis_version == 3) tapisIO = tapisV3;
-tapisIO.set_config(config);
-var tapisSettings = tapisIO.tapisSettings;
+var tapisSettings = require('vdj-tapis-js/tapisSettings');
+var tapisIO = tapisSettings.get_default_tapis(config);
 var ServiceAccount = tapisIO.serviceAccount;
 var GuestAccount = tapisIO.guestAccount;
+var authController = tapisIO.authController;
 var webhookIO = require('vdj-tapis-js/webhookIO');
 
 // Controllers
@@ -94,6 +84,8 @@ var cloneController = require('./api/controllers/clone');
 var cellController = require('./api/controllers/cell');
 var expressionController = require('./api/controllers/expression');
 var receptorController = require('./api/controllers/receptor');
+var adcController = require('./api/controllers/adcController');
+var adcDownloadController = require('./api/controllers/adcDownloadController');
 
 // Verify we can login with guest and service account
 GuestAccount.getToken()
@@ -123,6 +115,21 @@ GuestAccount.getToken()
         config.log.info(context, 'Using ADC API specification: ' + apiFile, true);
         var api_spec = yaml.safeLoad(fs.readFileSync(apiFile, 'utf8'));
         config.log.info(context, 'Loaded ADC API version: ' + api_spec.info.version, true);
+
+        // Load internal admin API
+        var notifyFile = path.resolve(__dirname, 'api/swagger/adc-admin.yaml');
+        config.log.info(context, 'Using ADMIN ADC API specification: ' + notifyFile, true);
+        var notify_spec = yaml.safeLoad(fs.readFileSync(notifyFile, 'utf8'));
+        // copy paths
+        for (var p in notify_spec['paths']) {
+            api_spec['paths'][p] = notify_spec['paths'][p];
+        }
+
+        // Add VDJServer schemas
+        var vs = vdj_schema.get_schemas();
+        for (var p in vs) {
+            if (! api_spec['components']['schemas'][p]) api_spec['components']['schemas'][p] = vs[p];
+        }
 
         // dereference the API spec
         return $RefParser.dereference(api_spec);
@@ -158,6 +165,9 @@ GuestAccount.getToken()
                 'application/json': bodyParser.json({limit: config.max_query_size})
                 //'application/x-www-form-urlencoded': bodyParser.urlencoded({extended: true})
             },
+            securityHandlers: {
+                admin_authorization: authController.adminAuthorization
+            },
             operations: {
                 // service status and info
                 get_service_status: statusController.getStatus,
@@ -185,13 +195,54 @@ GuestAccount.getToken()
 
                 // receptor
                 get_receptor: async function(req, res) { return try_function(req, res, receptorController.getReceptor); },
-                query_receptor: async function(req, res) { return try_function(req, res, receptorController.queryReceptors); }
+                query_receptor: async function(req, res) { return try_function(req, res, receptorController.queryReceptors); },
+
+                // Load/unload/reload
+                loadProject: async function(req, res) { return try_function(req, res, adcController.loadProject); },
+                unloadProject: async function(req, res) { return try_function(req, res, adcController.unloadProject); },
+                reloadProject: async function(req, res) { return try_function(req, res, adcController.reloadProject); },
+
+                // ADC Repository
+                statusADCRepository: async function(req, res) { return try_function(req, res, adcDownloadController.statusADCRepository); },
+                defaultADCRepositories: async function(req, res) { return try_function(req, res, adcDownloadController.defaultADCRepositories); },
+                updateADCRepositories: async function(req, res) { return try_function(req, res, adcDownloadController.updateADCRepositories); },
+
+                // ADC Download Cache
+                getADCDownloadCacheStatus: async function(req, res) { return try_function(req, res, adcDownloadController.getADCDownloadCacheStatus); },
+                updateADCDownloadCacheStatus: async function(req, res) { return try_function(req, res, adcDownloadController.updateADCDownloadCacheStatus); },
+                getADCDownloadCacheForStudies: async function(req, res) { return try_function(req, res, adcDownloadController.getADCDownloadCacheForStudies); },
+                updateADCDownloadCacheForStudy: async function(req, res) { return try_function(req, res, adcDownloadController.updateADCDownloadCacheForStudy); },
+                deleteADCDownloadCacheForStudy: async function(req, res) { return try_function(req, res, adcDownloadController.deleteADCDownloadCacheForStudy); },
+                updateADCDownloadCacheForRepertoire: async function(req, res) { return try_function(req, res, adcDownloadController.updateADCDownloadCacheForRepertoire); },
+                deleteADCDownloadCacheForRepertoire: async function(req, res) { return try_function(req, res, adcDownloadController.deleteADCDownloadCacheForRepertoire); },
+                notifyADCDownloadCache: async function(req, res) { return try_function(req, res, adcDownloadController.notifyADCDownloadCache); },
+
+                // administration
+                queryProjectLoad: async function(req, res) { return try_function(req, res, adcDownloadController.queryProjectLoad); }
             }
         });
 
-        app.listen(app.get('port'), function() {
-            config.log.info(context, 'VDJServer ADC API service listening on port ' + app.get('port'), true);
+        // Start listening on port
+        return new Promise(function(resolve, reject) {
+            app.listen(app.get('port'), function() {
+                config.log.info(context, 'VDJServer ADC API service listening on port ' + app.get('port'), true);
+                resolve();
+            });
         });
+    })
+    .then(function() {
+        // Initialize queues
+
+        // ADC load of rearrangements
+        if (config.enableADCLoad) {
+            config.log.info(context, 'ADC loading is enabled, triggering checks.');
+            //projectQueueManager.checkRearrangementLoad();
+            //projectQueueManager.triggerRearrangementLoad();
+        } else {
+            config.log.info(context, 'ADC loading is disabled.');
+            // TODO: remove any existing jobs from the queue?
+        }
+
     })
     .catch(function(error) {
         var msg = config.log.error(context, 'Service could not be start.\n' + error);
@@ -200,3 +251,5 @@ GuestAccount.getToken()
         // continue in case its a temporary error
         //process.exit(1);
     });
+
+var adcDownloadQueueManager = require('./api/queues/adcDownloadQueueManager');

@@ -21,7 +21,7 @@
     "js-yaml": "^3.10.0",
     "json-approver": "1.0.3",
     "moment-timezone": ">=0.5.35",
-    "request": "2.88.2",
+    "tar": "^6.1.2",
     "vdj-tapis-js": "file:app/vdj-tapis-js",
     "vdjserver-schema": "file:app/vdjserver-schema",
     "underscore": ">=1.12.1"
