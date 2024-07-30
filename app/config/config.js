@@ -77,6 +77,13 @@ config.log.error = function(context, msg) {
 }
 config.log.info('config', 'Debug console messages enabled.', true);
 
+// AIRR Data Commons
+config.adcRepositoryEntry = process.env.ADC_REPOSITORY_ENTRY;
+if (! config.adcRepositoryEntry) config.adcRepositoryEntry = 'adc';
+config.log.info('config', 'adc_system_repositories entry = ' + config.adcRepositoryEntry, true);
+config.enableADCDownloadCache = parseBoolean(process.env.ENABLE_ADC_DOWNLOAD_CACHE);
+config.enableADCLoad = parseBoolean(process.env.ENABLE_ADC_LOAD);
+
 // post error messages to a slack channel
 config.slackURL = process.env.SLACK_WEBHOOK_URL;
 

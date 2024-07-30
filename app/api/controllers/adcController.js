@@ -69,18 +69,17 @@ var mongoSettings = require('vdj-tapis-js/mongoSettings');
 // 5. set verification flag
 
 adcController.loadProject = async function(request, response) {
+    var context = 'adcController.loadProject';
     var projectUuid = request.params.project_uuid;
     var msg = null;
 
-    return apiResponseController.sendError('Not implemented', 500, response);
-
-/*    // check for project load metadata
-    var loadMetadata = await tapisIO.getProjectLoadMetadata(projectUuid, mongoSettings.loadCollection)
+    // check for project load metadata
+    var loadMetadata = await tapisIO.getProjectLoadMetadata(projectUuid, tapisSettings.mongo_loadCollection)
         .catch(function(error) {
-            msg = 'VDJ-API ERROR: ProjectController.loadProject - tapisIO.getProjectLoadMetadata, error: ' + error;
+            msg = 'tapisIO.getProjectLoadMetadata, error: ' + error;
         });
     if (msg) {
-        console.error(msg);
+        msg = config.log.error(context, msg);
         webhookIO.postToSlack(msg);
         return apiResponseController.sendError(msg, 500, response);
     }
@@ -91,70 +90,62 @@ adcController.loadProject = async function(request, response) {
         loadMetadata = loadMetadata[0];
 
         if (loadMetadata['value']['isLoaded']) {
-            msg = 'VDJ-API ERROR: ProjectController.loadProject, project: ' + projectUuid + ', error: project already loaded'
+            msg = 'project: ' + projectUuid + ', error: project already loaded'
                 + ', metadata: ' + loadMetadata.uuid;
-            console.error(msg);
+            msg = config.log.error(context, msg);
             webhookIO.postToSlack(msg);            
             return apiResponseController.sendError(msg, 400, response);
         }
 
         if (loadMetadata['value']['shouldLoad']) {
-            msg = 'VDJ-API ERROR: ProjectController.loadProject, project: ' + projectUuid + ', error: project already flagged for load'
+            msg = 'project: ' + projectUuid + ', error: project already flagged for load'
                 + ', metadata: ' + loadMetadata.uuid;
-            console.error(msg);
+            msg = config.log.error(context, msg);
             webhookIO.postToSlack(msg);            
             return apiResponseController.sendError(msg, 400, response);
         }
 
-        console.log('VDJ-API INFO: ProjectController.loadProject, project: ' + projectUuid + ' load record already exists, marking for load'
+        config.log.info(context, 'project: ' + projectUuid + ' load record already exists, marking for load'
                     + ', metadata: ' + loadMetadata.uuid);
 
         loadMetadata['value']['shouldLoad'] = true;
-        await tapisIO.updateMetadata(loadMetadata.uuid, loadMetadata.name, loadMetadata.value, loadMetadata.associationIds)
+        await tapisIO.updateDocument(loadMetadata.uuid, loadMetadata.name, loadMetadata.value)
             .catch(function(error) {
-                msg = 'VDJ-API ERROR: ProjectController.loadProject - tapisIO.updateMetadata, error: ' + error;
+                msg = 'tapisIO.updateDocument, error: ' + error;
             });
         if (msg) {
-            console.error(msg);
+            msg = config.log.error(context, msg);
             webhookIO.postToSlack(msg);
             return apiResponseController.sendError(msg, 500, response);
         }
 
-        taskQueue
-            .create('checkProjectsToLoadTask', null)
-            .removeOnComplete(true)
-            .attempts(5)
-            .backoff({delay: 60 * 1000, type: 'fixed'})
-            .save();
+        adcQueueManager.triggerProjectLoad();
 
         return apiResponseController.sendSuccess('Project marked for load', response);
 
     } else {
 
+        // TODO: Project needs to be published?
+
         // create the project load metadata
        loadMetadata = await tapisIO.createProjectLoadMetadata(projectUuid, mongoSettings.loadCollection)
             .catch(function(error) {
-                msg = 'VDJ-API ERROR: ProjectController.loadProject - tapisIO.createProjectLoadMetadata, error: ' + error;
+                msg = 'tapisIO.createProjectLoadMetadata, error: ' + error;
             });
         if (msg) {
-            console.error(msg);
+            msg = config.log.error(context, msg);
             webhookIO.postToSlack(msg);
             return apiResponseController.sendError(msg, 500, response);
         }
 
         // trigger load queue if necessary
-        console.log('VDJ-API INFO: ProjectController.loadProject, project: ' + projectUuid + ' flagged for repository load'
+        config.log.info(context, 'project: ' + projectUuid + ' flagged for repository load'
                     + ', metadata: ' + loadMetadata.uuid);
 
-        taskQueue
-            .create('checkProjectsToLoadTask', null)
-            .removeOnComplete(true)
-            .attempts(5)
-            .backoff({delay: 60 * 1000, type: 'fixed'})
-            .save();
+        adcQueueManager.triggerProjectLoad();
 
         return apiResponseController.sendSuccess('Project marked for load', response);
-    } */
+    }
 };
 
 //

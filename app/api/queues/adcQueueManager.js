@@ -47,353 +47,740 @@ var Queue = require('bull');
 var jsonApprover = require('json-approver');
 
 // Bull queues
+var triggerQueue = new Queue('ADC project load trigger', { redis: app.redisConfig });
+var submitQueue = new Queue('ADC project load submit', { redis: app.redisConfig });
+var repertoireQueue = new Queue('ADC project load repertoire', { redis: app.redisConfig });
+var rearrangementCheckQueue = new Queue('ADC project check rearrangement', { redis: app.redisConfig });
+var rearrangementLoadQueue = new Queue('ADC project load rearrangement', { redis: app.redisConfig });
 var unloadQueue = new Queue('ADC project unload', { redis: app.redisConfig });
 
 
+//
+// Trigger the project load process
+// This is called by app initialization or from a project load request
+//
+adcQueueManager.triggerProjectLoad = function() {
+    var context = 'adcQueueManager.triggerProjectLoad';
+    var msg = null;
 
+    config.log.info(context, 'start');
+
+    // check if enabled
+    if (config.enableADCLoad) {
+        config.log.info(context, 'ADC loading is enabled, triggering queue.');
+    } else {
+        config.log.info(context, 'ADC loading is disabled.');
+        return;
+    }
+
+    // trigger the queue
+    // submit one job to run immediately and another once per hour
+    triggerQueue.add({});
+    triggerQueue.add({}, { repeat: { cron: '0 * * * *' } });
+}
+
+//
+// Because project load is resource intensive, we
+// only want one task occurring at a time. Here we check the task
+// queues to see if any are running. If not, we start a cache entry
+// job
+//
+
+triggerQueue.process(async (job) => {
+    var context = 'adcQueueManager.triggerQueue';
+    var msg = null;
+    var triggers, jobs;
+
+    config.log.info(context, 'start');
+
+    triggers = await triggerQueue.getJobs(['active']);
+    config.log.info(context, 'active trigger jobs (' + triggers.length + ')');
+    triggers = await triggerQueue.getJobs(['wait']);
+    config.log.info(context, 'wait trigger jobs (' + triggers.length + ')');
+    triggers = await triggerQueue.getJobs(['delayed']);
+    config.log.info(context, 'delayed trigger jobs (' + triggers.length + ')');
+
+    // check if active jobs in queues
+    jobs = await submitQueue.getJobs(['active']);
+    //console.log(jobs);
+    //console.log(jobs.length);
+    //if (jobs.length > 0) {
+        config.log.info(context, 'active jobs (' + jobs.length + ') in ADC project load submit queue, skip trigger');
+    //    return Promise.resolve();
+    //}
+
+    // check if active jobs in queues
+    jobs = await repertoireQueue.getJobs(['active']);
+    //console.log(jobs);
+    //console.log(jobs.length);
+    //if (jobs.length > 0) {
+        config.log.info(context, 'active jobs (' + jobs.length + ') in ADC project repertoire metadata load queue, skip trigger');
+    //    return Promise.resolve();
+    //}
+
+    jobs = await rearrangementCheckQueue.getJobs(['active']);
+    //console.log(jobs);
+    //console.log(jobs.length);
+    //if (jobs.length > 0) {
+        config.log.info(context, 'active jobs (' + jobs.length + ') in ADC project rearrangement check queue, skip trigger');
+    //    return Promise.resolve();
+    //}
+
+    jobs = await rearrangementLoadQueue.getJobs(['active']);
+    //console.log(jobs);
+    //console.log(jobs.length);
+    //if (jobs.length > 0) {
+        config.log.info(context, 'active jobs (' + jobs.length + ') in ADC project rearrangement load queue, skip trigger');
+    //    return Promise.resolve();
+    //}
+
+    // check if enabled
+    if (config.enableADCLoad) {
+        config.log.info(context, 'ADC loading is enabled, submitting ADC project load job.');
+        submitQueue.add({});
+    } else {
+        config.log.info(context, 'ADC loading is disabled.');
+        return Promise.resolve();
+    }
+
+    return Promise.resolve();
+});
+
+
+//
+// Load project data into the VDJServer ADC data repository.
+// Currently two main data to be loaded:
+// 1) repertoire metadata
+// 2) rearrangement data
+//
+// The repertoire metadata is relatively small and quick to load,
+// while the rearrangement data is large and may takes days or
+// weeks to competely load. We load the repertoire metadata for
+// all projects as soon as possible. However, we currently load
+// the rearrangement data for only one project at a time
+// to avoid overloading any particular system.
+//
+// Because the rearrangement data is large, we do the loading process
+// in small steps to allow easier recovery from errors. Most of the
+// complexity of these tasks involves the rearrangement data.
+//
+// The load records keep track of the rearrangement collection, so
+// that we can support separate load and query collections.
+//
+// 1. check if projects to be loaded
+// 2. load repertoire metadata
+// 3. check if rearrangement data to be loaded
+// 4. load rearrangement data for each repertoire
+//
+
+//
+// 1. check if projects to be loaded
+//
+submitQueue.process(async (job) => {
+    var context = 'adcQueueManager.submitQueue';
+    var msg = null;
+
+    config.log.info(context, 'start');
+
+    var projectList = await tapisIO.getProjectsToBeLoaded(tapisSettings.mongo_loadCollection)
+        .catch(function(error) {
+            msg = 'tapisIO.getProjectsToBeLoaded, error: ' + error;
+        });
+    if (msg) {
+        msg = config.log.error(context, msg);
+        webhookIO.postToSlack(msg);
+        return Promise.reject();
+    }
+
+    config.log.info(context, projectList.length + ' project(s) to be loaded.');
+
+    if (projectList.length > 0) {
+        repertoireQueue.add({});
+    }
+
+    return Promise.resolve();
+});
+
+//
+// 2. load repertoire metadata
+//
+repertoireQueue.process(async (job) => {
+    try {
+
+    var context = 'adcQueueManager.repertoireQueue';
+    var msg = null;
+    var projectLoad = null;
+    var projectUuid = null;
+    var allRepertoiresLoaded = false;
+
+    config.log.info(context, 'start');
+
+    var projectList = await tapisIO.getProjectsToBeLoaded(tapisSettings.mongo_loadCollection)
+        .catch(function(error) {
+            msg = 'tapisIO.getProjectsToBeLoaded, error: ' + error;
+        });
+    if (msg) {
+        msg = config.log.error(context, msg);
+        webhookIO.postToSlack(msg);
+        return Promise.reject();
+    }
+
+    // look for project that needs repertoire metadata to be loaded
+    for (var i = 0; i < projectList.length; ++i) {
+        config.log.info(context, 'checking load record: ' + projectList[i]['uuid'] + ' for project: ' + projectList[i]['value']['projectUuid']);
+        if (! projectList[i]['value']['repertoireMetadataLoaded']) {
+            projectLoad = projectList[i];
+            projectUuid = projectLoad['value']['projectUuid'];
+            break;
+        }
+    }
+
+    // we did not find one, so all the repertoire metadata is loaded
+    // trigger the rearrangement load task
+    if (! projectLoad) {
+        config.log.info(context, 'all repertoire metadata is loaded, triggering rearrangement load.');
+        allRepertoiresLoaded = true;
+        rearrangementCheckQueue.add({});
+        config.log.info(context, 'end');
+        return Promise.resolve();
+    }
+
+    config.log.info(context, 'load repertoire metadata for project: ' + projectUuid);
+
+    var projectMetadata = await tapisIO.getAnyPublicProjectMetadata(projectUuid)
+        .catch(function(error) {
+            msg = 'tapisIO.getAnyPublicProjectMetadata, error: ' + error;
+        });
+    if (msg) {
+        msg = config.log.error(context, msg);
+        webhookIO.postToSlack(msg);
+        return Promise.reject();
+    }
+
+    if (projectMetadata.length != 1) {
+        msg = config.log.error(context, 'internal error, invalid query results for project: ' + projectUuid + ', length 1 != ' + projectMetadata.length);
+        webhookIO.postToSlack(msg);
+        return Promise.resolve();
+    }
+    projectMetadata = projectMetadata[0];
+
+    // set ADC dates
+    if (! projectMetadata.value.adc_publish_date)
+        projectMetadata.value.adc_publish_date = new Date().toISOString();
+    else
+        projectMetadata.value.adc_update_date = new Date().toISOString();
+
+    await tapisIO.updateDocument(projectMetadata.uuid, projectMetadata.name, projectMetadata.value)
+        .catch(function(error) {
+            msg = 'tapisIO.updateDocument, error: ' + error;
+        });
+    if (msg) {
+        msg = config.log.error(context, msg);
+        webhookIO.postToSlack(msg);
+        return Promise.reject();
+    }
+
+    var repertoireMetadata = await tapisIO.gatherRepertoireMetadataForProject(projectMetadata, true)
+        .catch(function(error) {
+            msg = 'tapisIO.gatherRepertoireMetadataForProject, error: ' + error;
+        });
+    if (msg) {
+        msg = config.log.error(context, msg);
+        webhookIO.postToSlack(msg);
+        return Promise.reject();
+    }
+
+    config.log.info(context, 'gathered ' + repertoireMetadata.length
+                + ' repertoire metadata for project: ' + projectUuid);
+
+    if (! repertoireMetadata || repertoireMetadata.length == 0) return;
+
+    for (let i in repertoireMetadata) {
+        if (! repertoireMetadata[i]['repertoire_id']) {
+            msg = 'Entry is missing repertoire_id, aborting!';
+            msg = config.log.error(context, msg);
+            webhookIO.postToSlack(msg);
+            return Promise.reject(new Error(msg));
+        }
+    }
+
+    // insert repertoires into database
+    await mongoIO.loadRepertoireMetadata(repertoireMetadata, tapisSettings.mongo_loadCollection)
+        .catch(function(error) {
+            msg = 'mongoIO.loadRepertoireMetadata, error: ' + error;
+        });
+    if (msg) {
+        msg = config.log.error(context, msg);
+        webhookIO.postToSlack(msg);
+        return Promise.reject();
+    }
+
+    config.log.info(context, 'repertoire metadata is loaded for project: ' + projectUuid);
+
+    // update the load status
+    projectLoad.value.repertoireMetadataLoaded = true;
+    await tapisIO.updateDocument(projectLoad.uuid, projectLoad.name, projectLoad.value)
+        .catch(function(error) {
+            msg = 'tapisIO.updateDocument, error: ' + error;
+        });
+    if (msg) {
+        msg = config.log.error(context, msg);
+        webhookIO.postToSlack(msg);
+        return Promise.reject();
+    }
+
+    // re-check for more projects to load
+    adcQueueManager.triggerProjectLoad();
+
+    } catch (e) {
+        msg = 'service error: ' + e;
+        msg = config.log.error(context, msg);
+        webhookIO.postToSlack(msg);
+    }
+
+    config.log.info(context, 'end');
+
+    return Promise.resolve();
+});
+
+
+//
+// 3. check if rearrangement data to be loaded
+//
+rearrangementCheckQueue.process(async (job) => {
+    try {
+
+    var context = 'adcQueueManager.rearrangementCheckQueue';
+    var msg = null;
+    var projectLoad = null;
+    var projectUuid = null;
+
+    config.log.info(context, 'start');
+
+    var projectList = await tapisIO.getProjectsToBeLoaded(tapisSettings.mongo_loadCollection)
+        .catch(function(error) {
+            msg = 'tapisIO.getProjectsToBeLoaded, error: ' + error;
+        });
+    if (msg) {
+        msg = config.log.error(context, msg);
+        webhookIO.postToSlack(msg);
+        return Promise.reject();
+    }
+
+    // look for project that needs rearrangement data to be loaded
+    for (var i = 0; i < projectList.length; ++i) {
+        if (! projectList[i]['value']['rearrangementDataLoaded']) {
+            projectLoad = projectList[i];
+            projectUuid = projectLoad['value']['projectUuid'];
+            break;
+        }
+    }
+
+    // we did not find one, so all the rearrangement data is loaded
+    if (! projectLoad) {
+        config.log.info(context, 'all rearrangement data is loaded.');
+        config.log.info(context, 'end');
+        return Promise.resolve();
+    }
+
+    config.log.info(context, 'setup rearrangement data load for project: ' + projectUuid);
+
+    var projectMetadata = await tapisIO.getAnyPublicProjectMetadata(projectUuid)
+        .catch(function(error) {
+            msg = 'tapisIO.getAnyPublicProjectMetadata, error: ' + error;
+        });
+    if (msg) {
+        msg = config.log.error(context, msg);
+        webhookIO.postToSlack(msg);
+        return Promise.reject();
+    }
+
+    if (projectMetadata.length != 1) {
+        msg = config.log.error(context, 'internal error, invalid query results for project: ' + projectUuid + ', length 1 != ' + projectMetadata.length);
+        webhookIO.postToSlack(msg);
+        return Promise.resolve();
+    }
+    projectMetadata = projectMetadata[0];
+
+    var repertoireMetadata = await tapisIO.gatherRepertoireMetadataForProject(projectMetadata, true)
+        .catch(function(error) {
+            msg = 'tapisIO.gatherRepertoireMetadataForProject, error: ' + error;
+        });
+    if (msg) {
+        msg = config.log.error(context, msg);
+        webhookIO.postToSlack(msg);
+        return Promise.reject();
+    }
+
+    if (! repertoireMetadata || repertoireMetadata.length == 0) {
+        msg = 'project has no repertoires: ' + projectUuid;
+        msg = config.log.error(context, msg);
+        webhookIO.postToSlack(msg);
+        return Promise.resolve();
+    }
+
+    config.log.info(context, 'gathered ' + repertoireMetadata.length
+                + ' repertoire metadata for project: ' + projectUuid);
+
+    // check if there are existing rearrangement load records
+    var rearrangementLoad = await tapisIO.getRearrangementsToBeLoaded(projectUuid, tapisSettings.mongo_loadCollection)
+        .catch(function(error) {
+            msg = 'tapisIO.getRearrangementsToBeLoaded, error: ' + error;
+        });
+    if (msg) {
+        msg = config.log.error(context, msg);
+        webhookIO.postToSlack(msg);
+        return Promise.reject();
+    }
+
+    if (rearrangementLoad.length == 0) {
+        // need to create the rearrangement load records
+        config.log.info(context, 'create rearrangement load records for project: ' + projectUuid);
+
+        for (let i = 0; i < repertoireMetadata.length; i++) {
+            let repertoire_id = repertoireMetadata[i]['repertoire_id'];
+            await tapisIO.createRearrangementLoadMetadata(projectUuid, repertoire_id, tapisSettings.mongo_loadCollection)
+                .catch(function(error) {
+                    msg = 'tapisIO.createRearrangementLoadMetadata, error: ' + error;
+                });
+            if (msg) {
+                msg = config.log.error(context, msg);
+                webhookIO.postToSlack(msg);
+                return Promise.reject();
+            }
+        }
+    } else if (rearrangementLoad.length != repertoireMetadata.length) {
+        msg = 'VDJ-API INFO: projectQueueManager.checkRearrangementsToLoadTask, number of repertoires ('
+            + repertoireMetadata.length + ') is not equal to number of rearrangement load records ('
+            + rearrangementLoad.length + ') for project: ' + projectUuid;
+        config.log.info(context, msg);
+        config.log.info(context, 'create missing rearrangement load records for project: ' + projectUuid);
+
+        let idx = 0;
+        for (let i = 0; i < repertoireMetadata.length; i++) {
+            var found = false;
+            for (let j = 0; j < rearrangementLoad.length; j++) {
+                if (rearrangementLoad[j]['value']['repertoire_id'] == repertoireMetadata[i]['repertoire_id']) {
+                    found = true;
+                    break;
+                }
+            }
+            if (! found) {
+                let repertoire_id = repertoireMetadata[i]['repertoire_id'];
+                await tapisIO.createRearrangementLoadMetadata(projectUuid, repertoire_id, tapisSettings.mongo_loadCollection)
+                    .catch(function(error) {
+                        msg = 'tapisIO.createRearrangementLoadMetadata, error: ' + error;
+                    });
+                if (msg) {
+                    msg = config.log.error(context, msg);
+                    webhookIO.postToSlack(msg);
+                    return Promise.reject();
+                }
+                idx++;
+            }
+        }
+    } else {
+        config.log.info(context, 'rearrangement load records already created for project: ' + projectUuid);
+    }
+
+    // trigger rearrangement load
+    rearrangementLoadQueue.add({});
+
+    } catch (e) {
+        msg = 'service error: ' + e;
+        msg = config.log.error(context, msg);
+        webhookIO.postToSlack(msg);
+    }
+
+    config.log.info(context, 'end');
+
+    return Promise.resolve();
+});
+
+rearrangementLoadQueue.process(async (job) => {
+    try {
+
+    var context = 'adcQueueManager.rearrangementLoadQueue';
+    var msg = null;
+    var projectLoad = null;
+    var projectUuid = null;
+    var allProjectsLoaded = false;
+    var allRearrangementsLoaded = false;
+
+    config.log.info(context, 'start');
+
+    var projectList = await tapisIO.getProjectsToBeLoaded(tapisSettings.mongo_loadCollection)
+        .catch(function(error) {
+            msg = 'tapisIO.getProjectsToBeLoaded, error: ' + error;
+        });
+    if (msg) {
+        msg = config.log.error(context, msg);
+        webhookIO.postToSlack(msg);
+        return Promise.reject();
+    }
+
+    if (projectList.length == 0) allProjectsLoaded = true;
+    else {
+        // check to see if any projects have been completely loaded
+        for (let i = 0; i < projectList.length; ++i) {
+            let proj = projectList[i];
+            if (proj['value']['repertoireMetadataLoaded'] && proj['value']['rearrangementDataLoaded']) {
+                config.log.info(context, 'project completely loaded: ' + proj.uuid);
+                proj.value.isLoaded = true;
+                await tapisIO.updateDocument(proj.uuid, proj.name, proj.value)
+                    .catch(function(error) {
+                        msg = 'tapisIO.updateDocument, error: ' + error;
+                    });
+                if (msg) {
+                    msg = config.log.error(context, msg);
+                    webhookIO.postToSlack(msg);
+                    return Promise.reject();
+                }
+            }
+        }
+    }
+
+    // look for project that needs rearrangement data to be loaded
+    for (var i = 0; i < projectList.length; ++i) {
+        if (! projectList[i]['value']['rearrangementDataLoaded']) {
+            projectLoad = projectList[i];
+            projectUuid = projectLoad['value']['projectUuid'];
+            break;
+        }
+    }
+
+    // we did not find one, so all the rearrangement data is loaded
+    if (! projectLoad) {
+        config.log.info(context, 'all rearrangement data is loaded.');
+        allRearrangementsLoaded = true;
+
+        config.log.info(context, 'end');
+        return Promise.resolve();
+    }
+
+    // check if there are existing rearrangement load records
+    var rearrangementLoad = await tapisIO.getRearrangementsToBeLoaded(projectUuid, tapisSettings.mongo_loadCollection)
+        .catch(function(error) {
+            msg = 'tapisIO.getRearrangementsToBeLoaded, error: ' + error;
+        });
+    if (msg) {
+        msg = config.log.error(context, msg);
+        webhookIO.postToSlack(msg);
+        return Promise.reject();
+    }
+
+    if (! rearrangementLoad || rearrangementLoad.length == 0) {
+        msg = 'project has no rearrangement load records: ' + projectUuid;
+        msg = config.log.error(context, msg);
+        webhookIO.postToSlack(msg);
+        return Promise.resolve();
+    }
+
+    config.log.info(context, 'gathered ' + rearrangementLoad.length + ' rearrangement load records for project: ' + projectUuid);
+
+    let loadedCount = 0;
+    for (let i = 0; i < rearrangementLoad.length; ++i)
+        if (rearrangementLoad[i]['value']['isLoaded'])
+            ++loadedCount;
+
+    var dataLoad = null;
+    for (let i = 0; i < rearrangementLoad.length; ++i) {
+        if (! rearrangementLoad[i]['value']['isLoaded']) {
+            dataLoad = rearrangementLoad[i];
+            break;
+        }
+    }
+
+    config.log.info(context, loadedCount + ' of the total ' + rearrangementLoad.length
+                + ' rearrangement load records have been loaded.');
+
+    var projectMetadata = await tapisIO.getAnyPublicProjectMetadata(projectUuid)
+        .catch(function(error) {
+            msg = 'tapisIO.getAnyPublicProjectMetadata, error: ' + error;
+        });
+    if (msg) {
+        msg = config.log.error(context, msg);
+        webhookIO.postToSlack(msg);
+        return Promise.reject();
+    }
+
+    if (projectMetadata.length != 1) {
+        msg = config.log.error(context, 'internal error, invalid query results for project: ' + projectUuid + ', length 1 != ' + projectMetadata.length);
+        webhookIO.postToSlack(msg);
+        return Promise.resolve();
+    }
+    projectMetadata = projectMetadata[0];
+
+    var repertoireMetadata = await tapisIO.gatherRepertoireMetadataForProject(projectMetadata, true)
+        .catch(function(error) {
+            msg = 'tapisIO.gatherRepertoireMetadataForProject, error: ' + error;
+        });
+    if (msg) {
+        msg = config.log.error(context, msg);
+        webhookIO.postToSlack(msg);
+        return Promise.reject();
+    }
+
+    if (! repertoireMetadata || repertoireMetadata.length == 0) {
+        msg = 'project has no repertoires: ' + projectUuid;
+        msg = config.log.error(context, msg);
+        webhookIO.postToSlack(msg);
+        return Promise.resolve();
+    }
+
+    if (repertoireMetadata.length != rearrangementLoad.length) {
+        msg = 'number (' + rearrangementLoad.length
+            + ') of rearrangement load records is not equal to number (' + repertoireMetadata.length
+            + ') of repertoires.';
+        msg = config.log.error(context, msg);
+        webhookIO.postToSlack(msg);
+        return Promise.resolve();
+    }
+
+    if (! dataLoad) {
+        config.log.info(context, 'all rearrangement loads done for project: ' + projectLoad.uuid);
+        config.log.info(context, 'project completely loaded: ' + projectLoad.uuid);
+        // project to be loaded but no dataLoad means all rearrangement loads have been completed
+        // update the load status
+        projectLoad.value.rearrangementDataLoaded = true;
+        projectLoad.value.isLoaded = true;
+        await tapisIO.updateDocument(projectLoad.uuid, projectLoad.name, projectLoad.value)
+            .catch(function(error) {
+                msg = 'tapisIO.updateDocument, error: ' + error;
+            });
+        if (msg) {
+            msg = config.log.error(context, msg);
+            webhookIO.postToSlack(msg);
+            return Promise.reject();
+        }
+    } else {
+        config.log.info(context, 'rearrangement data load: '
+                    + dataLoad['uuid'] + ' for repertoire: ' + dataLoad['value']['repertoire_id']
+                    + ' at load set: ' + dataLoad['value']['load_set']);
+
+        var repertoire = null;
+        for (var i = 0; i < repertoireMetadata.length; ++i) {
+            if (repertoireMetadata[i]['repertoire_id'] == dataLoad['value']['repertoire_id']) {
+                repertoire = repertoireMetadata[i];
+                break;
+            }
+        }
+
+        if (! repertoire) {
+            msg = 'could not find repertoire record for repertoire_id: '
+                + dataLoad['value']['repertoire_id'];
+            msg = config.log.error(context, msg);
+            webhookIO.postToSlack(msg);
+            return Promise.resolve();
+        }
+
+        var primaryDP = null;
+        for (var i = 0; i < repertoire['data_processing'].length; ++i) {
+            if (repertoire['data_processing'][i]['primary_annotation']) {
+                primaryDP = repertoire['data_processing'][i];
+                break;
+            }
+        }
+
+        if (! primaryDP) {
+            msg = 'could not find primary data processing for repertoire_id: '
+                + dataLoad['value']['repertoire_id'];
+            msg = config.log.error(context, msg);
+            webhookIO.postToSlack(msg);
+            return Promise.resolve();
+        }
+
+        if (! primaryDP['data_processing_id']) {
+            msg = 'no data_processing_id for primary data processing for repertoire_id: '
+                + dataLoad['value']['repertoire_id'];
+            msg = config.log.error(context, msg);
+            webhookIO.postToSlack(msg);
+            return Promise.resolve();
+        }
+
+        if (! primaryDP['data_processing_files']) {
+            msg = 'primary data processing: '
+                + primaryDP['data_processing_id'] + " does not have data_processing_files.";
+            msg = config.log.error(context, msg);
+            webhookIO.postToSlack(msg);
+            return Promise.resolve();
+        }
+
+        if (primaryDP['data_processing_files'].length == 0) {
+            msg = 'primary data processing: '
+                + primaryDP['data_processing_id'] + " does not have data_processing_files.";
+            msg = config.log.error(context, msg);
+            webhookIO.postToSlack(msg);
+            return Promise.resolve();
+        }
+
+        // get the data processing record
+        // TODO: right now this is a job, but we should switch to using analysis_provenance_id
+        // which contains the appropriate information
+        var jobOutput = { archivePath: '/projects/4607853120978751976-242ac11c-0001-012/analyses/2019-06-17-21-14-50-45-my-job-17-jun-2019-4:14:35-pm' };
+/*        var jobOutput = await tapisIO.getJobOutput(primaryDP['data_processing_id'])
+            .catch(function(error) {
+                msg = 'tapisIO.getJobOutput, error: ' + error;
+            });
+        if (msg) {
+            msg = config.log.error(context, msg);
+            webhookIO.postToSlack(msg);
+            return Promise.reject();
+        } */
+
+        if (! jobOutput) {
+            msg = 'could not get job: ' + primaryDP['data_processing_id'] + ' for primary data processing: ' + primaryDP['data_processing_id'];
+            msg = config.log.error(context, msg);
+            webhookIO.postToSlack(msg);
+            return Promise.resolve();
+        }
+
+        if (! jobOutput['archivePath']) {
+            msg = 'job: ' + jobOutput.uuid + " is missing archivePath.";
+            msg = config.log.error(context, msg);
+            webhookIO.postToSlack(msg);
+            return Promise.resolve();
+        }
+        if (jobOutput['archivePath'].length == 0) {
+            msg = 'job: ' + jobOutput.uuid + " is missing archivePath.";
+            msg = config.log.error(context, msg);
+            webhookIO.postToSlack(msg);
+            return Promise.resolve();
+        }
+
+        // finally, start the rearrangement load!
+        await mongoIO.loadRearrangementData(dataLoad, repertoire, primaryDP, jobOutput);
+    }
+
+    if (allRearrangementsLoaded && allProjectsLoaded) {
+        // if not all loaded trigger start at beginning and check for more
+        config.log.info(context, 'all loads done, pausing queue.');
+    } else {
+        // re-check for more projects to load
+        adcQueueManager.triggerProjectLoad();
+    }
+
+    } catch (e) {
+        msg = 'service error: ' + e;
+        msg = config.log.error(context, msg);
+        webhookIO.postToSlack(msg);
+    }
+
+    config.log.info(context, 'end');
+
+    return Promise.resolve();
+});
 
 /*
   OLD CODE
 
 
-//
-// Because loading rearrangement data is resource intensive, we
-// only want one load occurring at a time. Here we check the task
-// queues to see if a rearrangement load is running.
-//
-adcQueueManager.checkRearrangementLoad = function() {
-
-    console.log('VDJ-API INFO: projectQueueManager.checkRearrangementLoad');
-
-    var isRunning = false;
-
-    var activePromise = new Promise(function(resolve, reject) {
-        kue.Job.rangeByType('rearrangementLoadTask', 'active', 0, 1000, 'asc', function(error, jobs) {
-            console.log(jobs.length);
-            if (jobs.length > 0) isRunning = true;
-            resolve();
-        });
-    });
-
-    var inactivePromise = new Promise(function(resolve, reject) {
-        kue.Job.rangeByType('rearrangementLoadTask', 'inactive', 0, 1000, 'asc', function(error, jobs) {
-            console.log(jobs.length);
-            if (jobs.length > 0) isRunning = true;
-            resolve();
-        });
-    });
-
-    return activePromise
-        .then(function() {
-            return inactivePromise;
-        })
-        .then(function() {
-            if (! isRunning) {
-                // no rearrangement load is running so kick off a task
-                console.log('VDJ-API INFO: projectQueueManager.checkRearrangementLoad, no rearrangement load task running, triggering task.');
-                taskQueue
-                    .create('rearrangementLoadTask', null)
-                    .removeOnComplete(true)
-                    .attempts(5)
-                    .backoff({delay: 60 * 1000, type: 'fixed'})
-                    .save();
-            } else {
-                console.log('VDJ-API INFO: projectQueueManager.checkRearrangementLoad, a rearrangement load task is running.');
-            }
-    
-            return isRunning;
-        });
-};
 
 
-//
-// Trigger queue process to load for projects to be loaded
-//
-adcQueueManager.triggerProjectLoad = function() {
-    console.log('VDJ-API INFO (ProjectQueueManager.triggerProjectLoad):');
-    taskQueue
-        .create('checkProjectsToLoadTask', null)
-        .removeOnComplete(true)
-        .attempts(5)
-        .backoff({delay: 60 * 1000, type: 'fixed'})
-        .save();
-}
 
 
-    //
-    // Load project data into the VDJServer ADC data repository.
-    // Currently two main data to be loaded:
-    // 1) repertoire metadata
-    // 2) rearrangement data
-    //
-    // The repertoire metadata is relatively small and quick to load,
-    // while the rearrangement data is large and may takes days or
-    // weeks to competely load. We load the repertoire metadata for
-    // all projects as soon as possible. However, we currently load
-    // the rearrangement data for only one project at a time
-    // to avoid overloading any particular system.
-    //
-    // Because the rearrangement data is large, we do the loading process
-    // in small steps to allow easier recovery from errors. Most of the
-    // complexity of these tasks involves the rearrangement data.
-    //
-    // The load records keep track of the rearrangement collection, so
-    // that we can support separate load and query collections.
-    //
-    // 1. check if projects to be loaded
-    // 2. load repertoire metadata
-    // 3. check if rearrangement data to be loaded
-    // 4. load rearrangement data for each repertoire
-    //
 
-    // 1. check if projects to be loaded
-    taskQueue.process('checkProjectsToLoadTask', function(task, done) {
-        var msg;
 
-        console.log('VDJ-API INFO: projectQueueManager.checkProjectsToLoadTask, task started.');
-
-        tapisIO.getProjectsToBeLoaded(mongoSettings.loadCollection)
-            .then(function(projectList) {
-                console.log('VDJ-API INFO: projectQueueManager.checkProjectsToLoadTask, ' + projectList.length + ' project(s) to be loaded.');
-                if (projectList.length > 0) {
-                    // there are projects to be loaded so trigger next task
-                    taskQueue
-                        .create('loadRepertoireMetadataTask', null)
-                        .removeOnComplete(true)
-                        .attempts(5)
-                        .backoff({delay: 60 * 1000, type: 'fixed'})
-                        .save();
-                }
-            })
-            .then(function() {
-                console.log('VDJ-API INFO: projectQueueManager.checkProjectsToLoadTask, task done.');
-                done();
-            })
-            .catch(function(error) {
-                if (!msg) msg = 'VDJ-API ERROR: projectQueueManager.checkProjectsToLoadTask - error ' + error;
-                console.error(msg);
-                webhookIO.postToSlack(msg);
-                done(new Error(msg));
-            });
-    });
-
-    // 2. load repertoire metadata
-    taskQueue.process('loadRepertoireMetadataTask', function(task, done) {
-        var msg;
-        var projectLoad = null;
-        var projectUuid = null;
-        var allRepertoiresLoaded = false;
-
-        console.log('VDJ-API INFO: projectQueueManager.loadRepertoireMetadataTask, task started.');
-
-        tapisIO.getProjectsToBeLoaded(mongoSettings.loadCollection)
-            .then(function(projectList) {
-                // look for project that needs repertoire metadata to be loaded
-                for (var i = 0; i < projectList.length; ++i) {
-                    console.log('VDJ-API INFO: projectQueueManager.loadRepertoireMetadataTask, checking load record: '
-                                + projectList[i]['uuid'] + ' for project: ' + projectList[i]['associationIds'][0]);
-                    if (! projectList[i]['value']['repertoireMetadataLoaded']) {
-                        projectLoad = projectList[i];
-                        projectUuid = projectLoad['associationIds'][0];
-                        break;
-                    }
-                }
-                return;
-            })
-            .then(function() {
-                // we did not find one, so all the repertoire metadata is loaded
-                // trigger the next task
-                if (! projectLoad) {
-                    console.log('VDJ-API INFO: projectQueueManager.loadRepertoireMetadataTask, all repertoire metadata is loaded.');
-                    allRepertoiresLoaded = true;
-                    return null;
-                }
-
-                console.log('VDJ-API INFO: projectQueueManager.loadRepertoireMetadataTask, load repertoire metadata for project: ' + projectUuid);
-
-                return tapisIO.getMetadata(projectUuid)
-                    .then(function(projectMetadata) {
-                        // set ADC dates
-                        if (! projectMetadata.value.adc_publish_date)
-                            projectMetadata.value.adc_publish_date = new Date().toISOString();
-                        else
-                            projectMetadata.value.adc_update_date = new Date().toISOString();
-
-                        return tapisIO.updateMetadata(projectMetadata.uuid, projectMetadata.name, projectMetadata.value, projectMetadata.associationIds);
-                    })
-                    .then(function(projectMetadata) {
-                        // gather the repertoire objects
-                        return tapisIO.gatherRepertoireMetadataForProject(projectUuid, true);
-                    })
-                    .then(function(repertoireMetadata) {
-                        //console.log(JSON.stringify(repertoireMetadata));
-                        console.log('VDJ-API INFO: projectQueueManager.loadRepertoireMetadataTask, gathered ' + repertoireMetadata.length
-                                    + ' repertoire metadata for project: ' + projectUuid);
-
-                        if (! repertoireMetadata || repertoireMetadata.length == 0) return;
-
-                        for (let i in repertoireMetadata) {
-                            if (! repertoireMetadata[i]['repertoire_id']) {
-                                msg = 'VDJ-API ERROR (projectQueueManager.loadRepertoireMetadataTask): Entry is missing repertoire_id, aborting!';
-                                return Promise.reject(new Error(msg));
-                            }
-                        }
-
-                        // insert repertoires into database
-                        // TODO: we should use RestHeart meta/v3 API but we are getting errors
-                        // TODO: using direct access to MongoDB for now
-                        return mongoIO.loadRepertoireMetadata(repertoireMetadata, mongoSettings.loadCollection);
-                    })
-                    .then(function(result) {
-                        console.log('VDJ-API INFO: projectQueueManager.loadRepertoireMetadataTask, repertoire metadata is loaded for project: ' + projectUuid);
-                        // update the load status
-                        projectLoad.value.repertoireMetadataLoaded = true;
-                        return tapisIO.updateMetadata(projectLoad.uuid, projectLoad.name, projectLoad.value, projectLoad.associationIds);
-                    });
-            })
-            .then(function() {
-                if (allRepertoiresLoaded) {
-                    // if all project repertoire data is loaded then trigger rearrangement load check
-                    taskQueue
-                        .create('checkRearrangementsToLoadTask', null)
-                        .removeOnComplete(true)
-                        .attempts(5)
-                        .backoff({delay: 60 * 1000, type: 'fixed'})
-                        .save();
-                } else {
-                    // otherwise re-check for more projects to load
-                    taskQueue
-                        .create('checkProjectsToLoadTask', null)
-                        .removeOnComplete(true)
-                        .attempts(5)
-                        .backoff({delay: 60 * 1000, type: 'fixed'})
-                        .save();
-                }
-                console.log('VDJ-API INFO: projectQueueManager.loadRepertoireMetadataTask, task done.');
-                done();
-            })
-            .catch(function(error) {
-                if (!msg) msg = 'VDJ-API ERROR: projectQueueManager.loadRepertoireMetadataTask - error ' + error;
-                console.error(msg);
-                webhookIO.postToSlack(msg);
-                done(new Error(msg));
-            });
-    });
-
-    // 3. check if rearrangement data to be loaded
-    taskQueue.process('checkRearrangementsToLoadTask', function(task, done) {
-        var msg = null;
-        var projectLoad = null;
-        var projectUuid = null;
-        var repertoireMetadata = null;
-
-        console.log('VDJ-API INFO: projectQueueManager.checkRearrangementsToLoadTask, task started.');
-
-        tapisIO.getProjectsToBeLoaded(mongoSettings.loadCollection)
-            .then(function(projectList) {
-                console.log('VDJ-API INFO: projectQueueManager.checkRearrangementsToLoadTask, ' + projectList.length + ' project(s) to be loaded.');
-
-                // look for project that needs rearrangement data to be loaded
-                for (var i = 0; i < projectList.length; ++i) {
-                    if (! projectList[i]['value']['rearrangementDataLoaded']) {
-                        projectLoad = projectList[i];
-                        projectUuid = projectLoad['associationIds'][0];
-                        break;
-                    }
-                }
-                return;
-            })
-            .then(function() {
-                // we did not find one, so all the rearrangement data is loaded
-                if (! projectLoad) {
-                    console.log('VDJ-API INFO: projectQueueManager.checkRearrangementsToLoadTask, all rearrangement data is loaded.');
-                    return null;
-                }
-
-                console.log('VDJ-API INFO: projectQueueManager.checkRearrangementsToLoadTask, setup rearrangement data load for project: ' + projectUuid);
-
-                // gather the repertoire objects
-                return tapisIO.gatherRepertoireMetadataForProject(projectUuid, true)
-                    .then(function(_repertoireMetadata) {
-                        repertoireMetadata = _repertoireMetadata;
-                        //console.log(JSON.stringify(repertoireMetadata));
-                        console.log('VDJ-API INFO: projectQueueManager.checkRearrangementsToLoadTask, gathered ' + repertoireMetadata.length
-                                    + ' repertoire metadata for project: ' + projectUuid);
-
-                        if (! repertoireMetadata || repertoireMetadata.length == 0) {
-                            msg = 'VDJ-API ERROR: project has no repertoires: ' + projectUuid;
-                            return;
-                        }
-
-                        // check if there are existing rearrangement load records
-                        return tapisIO.getRearrangementsToBeLoaded(projectUuid, mongoSettings.loadCollection);
-                    })
-                    .then(function(rearrangementLoad) {
-                        if (!rearrangementLoad) return;
-
-                        if (rearrangementLoad.length == 0) {
-                            // need to create the rearrangement load records
-                            console.log('VDJ-API INFO: projectQueueManager.checkRearrangementsToLoadTask, create rearrangement load records for project: ' + projectUuid);
-                            var promises = [];
-
-                            for (var i = 0; i < repertoireMetadata.length; i++) {
-                                var repertoire_id = repertoireMetadata[i]['repertoire_id'];
-                                promises[i] = tapisIO.createRearrangementLoadMetadata(projectUuid, repertoire_id, mongoSettings.loadCollection);
-                            }
-
-                            return Promise.allSettled(promises);
-                        } else if (rearrangementLoad.length != repertoireMetadata.length) {
-                            msg = 'VDJ-API INFO: projectQueueManager.checkRearrangementsToLoadTask, number of repertoires ('
-                                + repertoireMetadata.length + ') is not equal to number of rearrangement load records ('
-                                + rearrangementLoad.length + ') for project: ' + projectUuid;
-                            console.log(msg);
-                            console.log('VDJ-API INFO: projectQueueManager.checkRearrangementsToLoadTask, create missing rearrangement load records for project: ' + projectUuid);
-
-                            var promises = [];
-
-                            var idx = 0;
-                            for (var i = 0; i < repertoireMetadata.length; i++) {
-                                var found = false;
-                                for (var j = 0; j < rearrangementLoad.length; j++) {
-                                    if (rearrangementLoad[j]['value']['repertoire_id'] == repertoireMetadata[i]['repertoire_id']) {
-                                        found = true;
-                                        break;
-                                    }
-                                }
-                                if (! found) {
-                                    var repertoire_id = repertoireMetadata[i]['repertoire_id'];
-                                    promises[idx] = tapisIO.createRearrangementLoadMetadata(projectUuid, repertoire_id, mongoSettings.loadCollection);
-                                    idx++;
-                                }
-                            }
-
-                            return Promise.allSettled(promises);
-                        } else {
-                            console.log('VDJ-API INFO: projectQueueManager.checkRearrangementsToLoadTask, rearrangement load records already created for project: ' + projectUuid);
-                            return;
-                        }
-                    });
-            })
-            .then(function() {
-                console.log('VDJ-API INFO: projectQueueManager.checkRearrangementsToLoadTask, task done.');
-                if (msg) {
-                    // an error occurred so stop the task
-                    console.error(msg);
-                    webhookIO.postToSlack(msg);
-                    done(new Error(msg));
-                } else {
-                    // otherwise trigger rearrangement load if necessary
-                    ProjectQueueManager.checkRearrangementLoad();
-                    done();
-                }
-            })
-            .catch(function(error) {
-                if (!msg) msg = 'VDJ-API ERROR: projectQueueManager.checkRearrangementsToLoadTask - error ' + error;
-                console.error(msg);
-                webhookIO.postToSlack(msg);
-                done(new Error(msg));
-            });
-    });
 
     // 4. load rearrangement data for each repertoire
     taskQueue.process('rearrangementLoadTask', function(task, done) {

@@ -110,6 +110,9 @@ GuestAccount.getToken()
     .then(function() {
         config.log.info(context, 'Loaded VDJServer Schema version ' + vdj_schema.get_info()['version']);
 
+        // Connect schema to vdj-tapis
+        tapisIO.init_with_schema(vdj_schema);
+
         // Load ADC API
         var apiFile = path.resolve(__dirname, 'api/swagger/adc-api-openapi3.yaml');
         config.log.info(context, 'Using ADC API specification: ' + apiFile, true);
@@ -236,8 +239,7 @@ GuestAccount.getToken()
         // ADC load of rearrangements
         if (config.enableADCLoad) {
             config.log.info(context, 'ADC loading is enabled, triggering checks.');
-            //projectQueueManager.checkRearrangementLoad();
-            //projectQueueManager.triggerRearrangementLoad();
+            adcQueueManager.triggerProjectLoad();
         } else {
             config.log.info(context, 'ADC loading is disabled.');
             // TODO: remove any existing jobs from the queue?
@@ -252,4 +254,5 @@ GuestAccount.getToken()
         //process.exit(1);
     });
 
+var adcQueueManager = require('./api/queues/adcQueueManager');
 var adcDownloadQueueManager = require('./api/queues/adcDownloadQueueManager');

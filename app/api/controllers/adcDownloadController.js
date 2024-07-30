@@ -85,6 +85,7 @@ adcDownloadController.defaultADCRepositories = async function(request, response)
 };
 
 adcDownloadController.updateADCRepositories = async function(request, response) {
+    var context = 'adcDownloadController.updateADCRepositories';
 
     // TODO: change this to support the staging and develop entries
 
@@ -94,10 +95,10 @@ adcDownloadController.updateADCRepositories = async function(request, response) 
     // get list from metadata
     var adc = await tapisIO.getSystemADCRepositories()
         .catch(function(error) {
-            msg = 'VDJ-API ERROR: ADCController.updateADCRepositories, error ' + error;
+            msg = 'error ' + error;
         });
     if (msg) {
-        console.error(msg);
+        msg = config.log.error(context, msg);
         webhookIO.postToSlack(msg);
         return apiResponseController.sendError(msg, 500, response);
     }
@@ -117,26 +118,27 @@ adcDownloadController.updateADCRepositories = async function(request, response) 
         }
 
         // save
-        await tapisIO.updateMetadata(entry['uuid'], entry['name'], value, null)
+        await tapisIO.updateDocument(entry['uuid'], entry['name'], value)
             .catch(function(error) {
-                msg = 'VDJ-API ERROR: ADCController.updateADCRepositories, error while updating: ' + error;
+                msg = 'error while updating: ' + error;
             });
         if (msg) {
-            console.error(msg);
+            msg = config.log.error(context, msg);
             webhookIO.postToSlack(msg);
             return apiResponseController.sendError(msg, 500, response);
         }
 
         return apiResponseController.sendSuccess('Updated', response);
     } else {
-        msg = 'VDJ-API ERROR: ADCController.updateADCRepositories, could not retrieve default set.';
-        console.error(msg);
+        msg = 'could not retrieve default set.';
+        msg = config.log.error(context, msg);
         webhookIO.postToSlack(msg);
         return apiResponseController.sendError(msg, 500, response);
     }
 };
 
 adcDownloadController.getADCDownloadCacheStatus = async function(request, response) {
+    var context = 'adcDownloadController.updateADCRepositories';
 
     var msg = null;
 
