@@ -47,4 +47,7 @@ COPY app/vdj-tapis-js /conversion/vdj-tapis-js
 COPY app/vdjserver-schema /conversion/vdjserver-schema
 RUN cd /conversion && npm install
 
+# ESLint
+RUN cd /conversion && npm run eslint *.js
+
 WORKDIR /conversion

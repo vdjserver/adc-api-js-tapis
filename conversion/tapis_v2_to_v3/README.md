@@ -43,12 +43,28 @@ the API can be used to update it.
 - projectLoad --> adc_project_load
 - rearrangementLoad --> adc_rearrangement_load
 
+There are old load meta records from before the double-buffering with the
+two collections (_0 and _1) was implemented. Those records are ignored.
+
+The uuids for all of the records are maintained.
+
+```
+node adc_load.js json_file
+```
 
 ## Download cache
 
 - adc_cache
+
+Singleton object.
+
 - adc_cache_study
+
+Need to generate new postit and download URL. There might be multiple.
+
 - adc_cache_repertoire
+
+These had postits assigned but we never use them so going to skip.
 
 ## Migration tasks and programs
 
