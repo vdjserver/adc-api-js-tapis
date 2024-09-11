@@ -136,7 +136,7 @@ ServiceAccount.getToken()
                             let urls = [];
                             let postit_ids = [];
                             for (let i in data['value']['archive_file']) {
-                                let fileobj = { allowedUses: -1, validSeconds: 2000000000 };
+                                let fileobj = { allowedUses: 2000000000, validSeconds: 2000000000 };
                                 fileobj['path'] = data['value']['archive_file'][i];
                                 var obj = await tapisIO.createADCDownloadCachePostit(data['uuid'], fileobj)
                                     .catch(function(error) {
@@ -150,7 +150,7 @@ ServiceAccount.getToken()
                             data['value']['download_url'] = urls;
                             data['value']['postit_id'] = postit_ids;
                         } else {
-                            let fileobj = { allowedUses: -1, validSeconds: 2000000000 };
+                            let fileobj = { allowedUses: 2000000000, validSeconds: 2000000000 };
                             fileobj['path'] = data['value']['archive_file'];
                             var obj = await tapisIO.createADCDownloadCachePostit(data['uuid'], fileobj)
                                 .catch(function(error) {
