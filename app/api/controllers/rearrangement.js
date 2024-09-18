@@ -632,7 +632,7 @@ RearrangementController.getRearrangement = function(req, res) {
     var context = 'RearrangementController.getRearrangement';
 
     var get_sequence_id = req.params.sequence_id;
-    config.log(context, 'getRearrangement: ' + get_sequence_id);
+    config.log.info(context, 'getRearrangement: ' + get_sequence_id);
 
     var result = {};
     var result_message = "Server error";
@@ -1045,7 +1045,6 @@ RearrangementController.queryRearrangements = function(req, res) {
     var collection = 'rearrangement' + tapisSettings.mongo_queryCollection;
     if (!facets) {
         // perform non-facets query
-        //var queryFunction = tapisIO.performQuery;
         var queryFunction = tapisIO.performQuery;
         if (query && query.length > config.large_query_size) {
             config.log.info(context, 'Large query detected.');
@@ -1053,6 +1052,7 @@ RearrangementController.queryRearrangements = function(req, res) {
         }
         //if (config.debug) console.log(query);
 
+        if (query) query = JSON.parse(query);
         return queryFunction(collection, query, null, page, pagesize)
             .then(function(records) {
                 config.log.info(context, 'query returned ' + records.length + ' records.');
@@ -1261,6 +1261,8 @@ RearrangementController.queryRearrangements = function(req, res) {
                 single_rep_id = filter['content']['value'][0];
             }
         }
+
+        if (query) query = JSON.parse(query);
 
         if (single_rep_facet) {
             //console.log('single repertoire facet');

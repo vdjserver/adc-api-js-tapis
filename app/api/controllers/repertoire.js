@@ -78,7 +78,7 @@ RepertoireController.getRepertoire = function(req, res) {
     };
 
     var collection = 'repertoire' + tapisSettings.mongo_queryCollection;
-    var query = '{repertoire_id:"' + get_repertoire_id + '"}';
+    var query = { "repertoire_id": get_repertoire_id };
 
     // all AIRR fields
     var all_fields = [];
@@ -290,8 +290,10 @@ RepertoireController.queryRepertoires = function(req, res) {
     if (!facets) {
         // perform non-facets query
         config.log.info(context, 'perform non-facets query');
-    
+
         //console.log(query);
+        if (query) query = JSON.parse(query);
+
         // we just get all of them then manually do from/size
         return tapisIO.performMultiQuery(collection, query, projection, 1, pagesize)
             .then(function(records) {
@@ -344,6 +346,7 @@ RepertoireController.queryRepertoires = function(req, res) {
 
         var field = '$' + facets;
         if (!query) query = '{}';
+        if (query) query = JSON.parse(query);
 
         return tapisIO.performFacets(collection, query, field, 1, pagesize)
             .then(function(records) {
