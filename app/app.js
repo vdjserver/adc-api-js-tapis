@@ -76,6 +76,10 @@ var GuestAccount = tapisIO.guestAccount;
 var authController = tapisIO.authController;
 var webhookIO = require('vdj-tapis-js/webhookIO');
 
+// Mongo
+var mongoSettings = require('vdj-tapis-js/mongoSettings');
+mongoSettings.set_config(config);
+
 // Controllers
 var statusController = require('./api/controllers/status');
 var repertoireController = require('./api/controllers/repertoire');
