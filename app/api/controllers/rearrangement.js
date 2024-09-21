@@ -627,6 +627,7 @@ RearrangementController.queryRearrangements = async function(req, res) {
         if (single_rep_facet) {
             config.log.info(context, 'single repertoire facet.');
 
+
             let agg = [];
             if (query) agg.push({ $match: query });
             agg.push({ $group: { _id: field, count: { $sum: 1}} });
@@ -635,16 +636,17 @@ RearrangementController.queryRearrangements = async function(req, res) {
 //      { "$group": { "_id": null, "facets": { "$push": { "_id": "$_id", "count": "$count" }}}}
 
 //            return tapisIO.performQuery(collection, query, null, null, null, true)
-            return mongoIO.performAggregation(collection, agg)
+//            return mongoIO.performAggregation(collection, agg)
+            return mongoIO.queryCount(collection, query)
                 .then(function(record) {
                     console.log(JSON.stringify(record));
                     var results = [];
                     if (record && record.length == 1) {
                         var entry = record[0];
                         var new_entry = {}
-                        new_entry[facets] = entry['_id'];
+                        //new_entry[facets] = entry['_id'];
                         new_entry['count'] = entry['count'];
-                        //new_entry[facets] = single_rep_id;
+                        new_entry[facets] = single_rep_id;
                         //new_entry['count'] = record['_size'];
                         results.push(new_entry);
                     }
