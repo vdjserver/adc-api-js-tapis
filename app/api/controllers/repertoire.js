@@ -44,6 +44,7 @@ var GuestAccount = tapisIO.guestAccount;
 var authController = tapisIO.authController;
 var webhookIO = require('vdj-tapis-js/webhookIO');
 var adc_mongo_query = require('vdj-tapis-js/adc_mongo_query');
+var mongoIO = require('vdj-tapis-js/mongoIO');
 
 function getInfoObject() {
     var info = { };
@@ -119,7 +120,7 @@ RepertoireController.getRepertoire = function(req, res) {
 }
 
 // Generic query repertoires
-RepertoireController.queryRepertoires = function(req, res) {
+RepertoireController.queryRepertoires = async function(req, res) {
     var context = 'RepertoireController.queryRepertoires';
     config.log.info(context, 'start');
 
@@ -348,73 +349,26 @@ RepertoireController.queryRepertoires = function(req, res) {
         if (!query) query = '{}';
         if (query) query = JSON.parse(query);
 
-        return tapisIO.performFacets(collection, query, field, 1, pagesize)
-            .then(function(records) {
-                if (records.length == 0) {
-                    results = [];
-                } else {
-                    // loop through records, clean data
-                    // and collapse arrays
-                    for (var i in records) {
-                        var new_entries = [];
-                        var entry = records[i];
-                        if (entry['_id'] instanceof Array) {
-                            // get unique values
-                            var values = [];
-                            for (var j in entry['_id'])
-                                if (entry['_id'][j] instanceof Array) {
-                                    // array of arrays
-                                    for (var k in entry['_id'][j]) {
-                                        if (values.indexOf(entry['_id'][j][k]) < 0) values.push(entry['_id'][j][k]);
-                                    }
-                                } else {
-                                    if (values.indexOf(entry['_id'][j]) < 0) values.push(entry['_id'][j]);
-                                }
-                            for (var j in values) {
-                                var new_entry = {};
-                                new_entry[facets] = values[j];
-                                new_entry['count'] = entry['count'];
-                                new_entries.push(new_entry);
-                            }
-                            //console.log(values);
-                        } else {
-                            // only single value
-                            var new_entry = {};
-                            new_entry[facets] = entry['_id'];
-                            new_entry['count'] = entry['count'];
-                            new_entries.push(new_entry);
-                        }
-                        //console.log(new_entries);
-                        for (var j in new_entries) {
-                            var found = false;
-                            for (var k in results) {
-                                if (new_entries[j][facets] == results[k][facets]) {
-                                    results[k]['count'] += new_entries[j]['count'];
-                                    found = true;
-                                    break;
-                                }
-                            }
-                            if (! found) results.push(new_entries[j]);
-                        }
-                    }
-                }
-                config.log.info(context, 'facets repertoire query returning ' + results.length + ' results to client.');
-                queryRecord['count'] = results.length;
-                res.json({"Info":info,"Facet":results});
-            })
-            .then(function() {
-                queryRecord['status'] = 'success';
-                queryRecord['end'] = Date.now();
-                tapisIO.recordQuery(queryRecord);
-            })
+        let msg = null;
+        let results = await adc_mongo_query.performFacets(collection, query, facets)
             .catch(function(error) {
-                var msg = config.log.error(context, "facets error: " + error);
-                res.status(500).json({"message":result_message});
-                webhookIO.postToSlack(msg);
-                queryRecord['status'] = 'error';
-                queryRecord['message'] = msg;
-                queryRecord['end'] = Date.now();
-                tapisIO.recordQuery(queryRecord);
+                msg = config.log.error(context, "facets error: " + error);
             });
+        if (msg) {
+            res.status(500).json({"message":result_message});
+            webhookIO.postToSlack(msg);
+            queryRecord['status'] = 'error';
+            queryRecord['message'] = msg;
+            queryRecord['end'] = Date.now();
+            return tapisIO.recordQuery(queryRecord);
+        }
+
+        config.log.info(context, 'facets repertoire query returning ' + results.length + ' results to client.');
+        queryRecord['count'] = results.length;
+        res.json({"Info":info,"Facet":results});
+
+        queryRecord['status'] = 'success';
+        queryRecord['end'] = Date.now();
+        return tapisIO.recordQuery(queryRecord);
     }
 }

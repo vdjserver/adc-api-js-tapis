@@ -672,6 +672,37 @@ RearrangementController.queryRearrangements = async function(req, res) {
 
         } else {
 
+            // perform facets query
+            config.log.info(context, 'perform facets query');
+            console.log(query);
+
+            //var field = '$' + facets;
+            //if (!query) query = '{}';
+            //if (query) query = JSON.parse(query);
+
+            let msg = null;
+            let results = await adc_mongo_query.performFacets(collection, query, facets)
+                .catch(function(error) {
+                    msg = config.log.error(context, "facets error: " + error);
+                });
+            if (msg) {
+                res.status(500).json({"message":result_message});
+                webhookIO.postToSlack(msg);
+                queryRecord['status'] = 'error';
+                queryRecord['message'] = msg;
+                queryRecord['end'] = Date.now();
+                return tapisIO.recordQuery(queryRecord);
+            }
+
+            config.log.info(context, 'facets rearrangement query returning ' + results.length + ' results to client.');
+            queryRecord['count'] = results.length;
+            res.json({"Info":info,"Facet":results});
+
+            queryRecord['status'] = 'success';
+            queryRecord['end'] = Date.now();
+            return tapisIO.recordQuery(queryRecord);
+
+/*
             return tapisIO.performFacets(collection, query, field, 1, pagesize)
                 .then(function(records) {
                     //console.log(records);
@@ -727,7 +758,7 @@ RearrangementController.queryRearrangements = async function(req, res) {
                     queryRecord['message'] = msg;
                     queryRecord['end'] = Date.now();
                     tapisIO.recordQuery(queryRecord);
-                });
+                }); */
         }
     }
 }
