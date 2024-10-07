@@ -57,7 +57,7 @@ function getInfoObject() {
 }
 
 // Get a single repertoire
-RepertoireController.getRepertoire = function(req, res) {
+RepertoireController.getRepertoire = async function(req, res) {
     var context = 'RepertoireController.getRepertoire';
     var get_repertoire_id = req.params.repertoire_id;
 
@@ -89,15 +89,49 @@ RepertoireController.getRepertoire = function(req, res) {
     // construct info object for response
     var info = getInfoObject();
 
-    return tapisIO.performQuery(collection, query, null, null, null)
+    var clean_record = adc_mongo_query.endpoint_map['repertoire'];
+    let process_record = function(record) {
+        if (!record) return;
+        var entry = null;
+
+        // clean record
+        entry = clean_record(record, airr_schema, null, all_fields);
+
+        if (entry) results.push(entry);
+        else config.log.error(context, "clean record returned a null object.");
+    }
+
+    let msg = null;
+    await mongoIO.performQuery(collection, query, null, null, null, process_record)
+        .catch(function(error) {
+            msg = config.log.error(context, "mongoIO.performQuery error: " + error);
+        });
+    if (msg) {
+        res.status(500).json({"message":result_message});
+        webhookIO.postToSlack(msg);
+        queryRecord['status'] = 'error';
+        queryRecord['message'] = msg;
+        queryRecord['end'] = Date.now();
+        return tapisIO.recordQuery(queryRecord);
+    }
+
+    res.json({"Info":info,"Repertoire":results});
+
+    queryRecord['count'] = results.length;
+    queryRecord['status'] = 'success';
+    queryRecord['end'] = Date.now();
+    return tapisIO.recordQuery(queryRecord);
+
+/*    return tapisIO.performQuery(collection, query, null, null, null)
         .then(function(record) {
             if (record.length == 0) {
                 res.json({"Info":info,"Repertoire":[]});
                 queryRecord['count'] = 0;
             } else {
                 record = record[0];
-                record = adc_mongo_query.cleanRecord(record);
-                airr.addFields(record, all_fields, airr_schema);
+                record = clean_record(record, airr_schema, null, all_fields);
+                //record = clean_record(record);
+                //airr.addFields(record, all_fields, airr_schema);
                 res.json({"Info":info,"Repertoire":[record]});
                 queryRecord['count'] = 1;
             }
@@ -116,7 +150,7 @@ RepertoireController.getRepertoire = function(req, res) {
             queryRecord['end'] = Date.now();
             tapisIO.recordQuery(queryRecord);
             return;
-        });
+        }); */
 }
 
 // Generic query repertoires
@@ -295,6 +329,45 @@ RepertoireController.queryRepertoires = async function(req, res) {
         //console.log(query);
         if (query) query = JSON.parse(query);
 
+        var clean_record = adc_mongo_query.endpoint_map['repertoire'];
+        let process_record = function(record) {
+            //console.log(results.length);
+            if (!record) return;
+            var entry = null;
+
+            // clean record
+            if (include_fields.length > 0) {
+                entry = clean_record(record, airr_schema, projection, include_fields);
+            } else {
+                entry = clean_record(record, airr_schema, projection, all_fields);
+            }
+
+            if (entry) results.push(entry);
+        }
+
+        let msg = null;
+        await mongoIO.performQuery(collection, query, from, size, projection, process_record)
+            .catch(function(error) {
+                msg = config.log.error(context, "facets error: " + error);
+            });
+        if (msg) {
+            res.status(500).json({"message":result_message});
+            webhookIO.postToSlack(msg);
+            queryRecord['status'] = 'error';
+            queryRecord['message'] = msg;
+            queryRecord['end'] = Date.now();
+            return tapisIO.recordQuery(queryRecord);
+        }
+
+        config.log.info(context, 'returning ' + results.length + ' records to client.');
+        res.json({"Info":info,"Repertoire":results});
+
+        queryRecord['count'] = results.length;
+        queryRecord['status'] = 'success';
+        queryRecord['end'] = Date.now();
+        return tapisIO.recordQuery(queryRecord);
+
+/*
         // we just get all of them then manually do from/size
         return tapisIO.performMultiQuery(collection, query, projection, 1, pagesize)
             .then(function(records) {
@@ -340,7 +413,7 @@ RepertoireController.queryRepertoires = async function(req, res) {
                 queryRecord['message'] = msg;
                 queryRecord['end'] = Date.now();
                 tapisIO.recordQuery(queryRecord);
-            });
+            }); */
     } else {
         // perform facets query
         config.log.info(context, 'perform facets query');
