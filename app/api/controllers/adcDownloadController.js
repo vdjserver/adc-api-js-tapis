@@ -282,7 +282,7 @@ adcDownloadController.notifyADCDownloadCache = async function(request, response)
         return Promise.resolve();
 
     // search for metadata item based on notification id
-    var metadata = await tapisIO.getADCDownloadCacheNotification(notify_id)
+    var metadata = await tapisIO.getDocument(notify_id)
         .catch(function(error) {
             msg = 'VDJ-API ERROR (ADCController.notifyADCDownloadCache): Could not get metadata for notification id: ' + notify_id + ', error: ' + error;
             console.error(msg);
