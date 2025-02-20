@@ -188,7 +188,7 @@ adcDownloadController.updateADCDownloadCacheStatus = async function(request, res
         if (operation == 'trigger') value['enable_cache'] = true;
 
         // update
-        await tapisIO.updateMetadata(cache[0]['uuid'], cache[0]['name'], value, null)
+        await tapisIO.updateDocument(cache[0]['uuid'], cache[0]['name'], value, null)
             .catch(function(error) {
                 msg = 'VDJ-API ERROR: ADCController.updateADCDownloadCacheStatus, error while updating: ' + error;
             });
@@ -282,7 +282,7 @@ adcDownloadController.notifyADCDownloadCache = async function(request, response)
         return Promise.resolve();
 
     // search for metadata item based on notification id
-    var metadata = await tapisIO.getMetadata(notify_id)
+    var metadata = await tapisIO.getADCDownloadCacheNotification(notify_id)
         .catch(function(error) {
             msg = 'VDJ-API ERROR (ADCController.notifyADCDownloadCache): Could not get metadata for notification id: ' + notify_id + ', error: ' + error;
             console.error(msg);

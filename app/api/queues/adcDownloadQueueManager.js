@@ -101,7 +101,7 @@ ADCDownloadQueueManager.triggerDownloadCache = async function() {
     // enable the cache
     console.log('VDJ-API INFO: ADCDownloadQueueManager.triggerDownloadCache, enabling cache');
     adc_cache['value']['enable_cache'] = true;
-    await tapisIO.updateMetadata(adc_cache['uuid'], adc_cache['name'], adc_cache['value'], null)
+    await tapisIO.updateDocument(adc_cache['uuid'], adc_cache['name'], adc_cache['value'], null)
         .catch(function(error) {
             msg = 'VDJ-API ERROR: ADCDownloadQueueManager.triggerDownloadCache, error ' + error;
         });
@@ -575,7 +575,7 @@ cacheQueue.process(async (job) => {
 
         // save query_id in repertoire cache metadata
         repertoire_cache['value']['async_query_id'] = query_id['query_id'];
-        await tapisIO.updateMetadata(repertoire_cache['uuid'], repertoire_cache['name'], repertoire_cache['value'], null)
+        await tapisIO.updateDocument(repertoire_cache['uuid'], repertoire_cache['name'], repertoire_cache['value'], null)
             .catch(function(error) {
                 msg = 'VDJ-API ERROR: ADCDownloadQueueManager cacheQueue, error ' + error;
             });
@@ -662,7 +662,7 @@ finishQueue.process(async (job) => {
     console.log(query_status);
 
     // reload cache metadata, to check if already finished
-    var metadata = await tapisIO.getMetadata(repertoire_cache['uuid'])
+    var metadata = await tapisIO.getDocument(repertoire_cache['uuid'])
         .catch(function(error) {
             msg = 'VDJ-API ERROR (finishQueuee): Could not get metadata id: ' + repertoire_cache['uuid'] + ', error: ' + error;
             console.error(msg);
@@ -720,7 +720,7 @@ finishQueue.process(async (job) => {
     var cache_path = config.vdjserver_data_path + 'community/cache/' + study_cache['uuid'] + '/';
     var stats = fs.statSync(cache_path + outname);
     repertoire_cache["value"]["file_size"] = stats.size;
-    await tapisIO.updateMetadata(repertoire_cache['uuid'], repertoire_cache['name'], repertoire_cache['value'], null)
+    await tapisIO.updateDocument(repertoire_cache['uuid'], repertoire_cache['name'], repertoire_cache['value'], null)
         .catch(function(error) {
             msg = 'VDJ-API ERROR (finishQueue): Could not update metadata for repertoire cache: ' + repertoire_cache['uuid'] + '.\n' + error;
             console.error(msg);
@@ -772,20 +772,22 @@ ADCDownloadQueueManager.processStudyFile = async function(cache_dir, file_list, 
 // in a study, now create archive for the whole study
 finishStudyQueue.process(async (job) => {
     var msg = null;
+    var context = 'ADCDownloadQueueManager.finishStudyQueue';
 
     var repository = job['data']['repository'];
     var study_cache = job['data']['study_cache'];
 
-    console.log('VDJ-API INFO (finishStudyQueue): start job for repository:', study_cache['value']['repository_id'], 'and study:', study_cache['value']['study_id']);
+    config.log.info(context, 'start job for repository: ' + study_cache['value']['repository_id'] + ' and study: ' + study_cache['value']['study_id']);
 
     // reload cache metadata, to check if already finished
-    var metadata = await tapisIO.getMetadata(study_cache['uuid'])
+    var metadata = await tapisIO.getDocument(study_cache['uuid'])
         .catch(function(error) {
             msg = 'VDJ-API ERROR (finishStudyQueue): Could not get metadata id: ' + study_cache['uuid'] + ', error: ' + error;
             console.error(msg);
             webhookIO.postToSlack(msg);
             return Promise.reject(new Error(msg));
         });
+    metadata = metadata[0];
     if ((! metadata['value']['should_cache']) || (metadata['value']['is_cached'])) {
         console.log('VDJ-API INFO (finishStudyQueue): already cached:',study_cache['uuid'],', skipping finish process');
         return Promise.resolve();
@@ -801,6 +803,7 @@ finishStudyQueue.process(async (job) => {
         webhookIO.postToSlack(msg);
         return Promise.reject(new Error(msg));
     }
+    //console.log(cached_reps);
 
     // get all the repertoire metadata for the study and put in file
     var repertoire_metadata = await adcIO.getRepertoires(repository, study_cache['value']['study_id'])
@@ -812,11 +815,19 @@ finishStudyQueue.process(async (job) => {
         webhookIO.postToSlack(msg);
         return Promise.reject(new Error(msg));
     }
+    //console.log(repertoire_metadata);
 
     var cache_path = config.vdjserver_data_path + 'community/cache/' + study_cache['uuid'] + '/';
     var metaname = 'repertoires.airr.json';
     var metafile = cache_path + metaname;
-    fs.writeFileSync(metafile, JSON.stringify(repertoire_metadata, null, 2));
+    config.log.info(context, "Writing repertoire metadata json to file: " + metafile);
+    try {
+        fs.writeFileSync(metafile, JSON.stringify(repertoire_metadata, null, 2));
+    } catch (e) {
+        msg = config.log.error(context, "Error writing repertoire metadata file: " + metafile + ", error: " + e);
+        webhookIO.postToSlack(msg);
+        return Promise.reject(new Error(msg));
+    }
 
     var file_list = ['repertoires.airr.json'];
     for (let i in cached_reps) file_list.push(cached_reps[i]['value']['archive_file']);
@@ -833,7 +844,7 @@ finishStudyQueue.process(async (job) => {
             var repertoire_cache = cached_reps[i];
             var stats = fs.statSync(cache_path + repertoire_cache["value"]["archive_file"]);
             repertoire_cache["value"]["file_size"] = stats.size;
-            await tapisIO.updateMetadata(repertoire_cache['uuid'], repertoire_cache['name'], repertoire_cache['value'], null)
+            await tapisIO.updateDocument(repertoire_cache['uuid'], repertoire_cache['name'], repertoire_cache['value'], null)
                 .catch(function(error) {
                     msg = 'VDJ-API ERROR (finishStudyQueue): Could not update metadata for repertoire cache: ' + repertoire_cache['uuid'] + '.\n' + error;
                     console.error(msg);
@@ -868,28 +879,31 @@ finishStudyQueue.process(async (job) => {
         outnames.push(outname);
 
         // create permanent postit
-        var url = 'https://' + tapisSettings.hostname
-            + '/files/v2/media/system/'
-            + tapisSettings.storageSystem
-            + '//community/cache/' + study_cache['uuid'] + '/' + outname
-            + '?force=true';
+        //var url = 'https://' + tapisSettings.hostname
+        //    + '/files/v2/media/system/'
+        //    + tapisSettings.storageSystem
+        //    + '//community/cache/' + study_cache['uuid'] + '/' + outname
+        //    + '?force=true';
 
-        var postit = await tapisIO.createPublicFilePostit(url, true)
+        let fileobj = { allowedUses: 2000000000, validSeconds: 2000000000 };
+        fileobj['path'] = outname;
+        var postit = await tapisIO.createADCDownloadCachePostit(study_cache['uuid'], fileobj)
             .catch(function(error) {
                 msg = 'VDJ-API ERROR (finishStudyQueue): Could not create postit for study archive for study cache: ' + study_cache['uuid'] + '.\n' + error;
                 console.error(msg);
                 webhookIO.postToSlack(msg);
                 return Promise.reject(new Error(msg));
             });
+        console.log(postit);
         postits.push(postit);
-        if (config.debug) console.log('VDJ-API INFO (finishStudyQueue): Created postit: ' + postit["postit"]);
+        if (config.debug) console.log('VDJ-API INFO (finishStudyQueue): Created postit: ' + postit["id"]);
     }
 
     // update the metadata
     if (idx == 0) {
         study_cache["value"]["archive_file"] = outnames[0];
-        study_cache["value"]["postit_id"] = postits[0]["postit"];
-        study_cache["value"]["download_url"] = postits[0]["_links"]["self"]["href"];
+        study_cache["value"]["postit_id"] = postits[0]["id"];
+        study_cache["value"]["download_url"] = postits[0]["redeemUrl"];
         let stats = fs.statSync(cache_path + outnames[0]);
         study_cache["value"]["file_size"] = stats.size;
     } else {
@@ -897,8 +911,8 @@ finishStudyQueue.process(async (job) => {
         var url_list = [];
         var size_list = [];
         for (let i = 0; i <= idx; ++i) {
-            postit_list.push(postits[i]["postit"]);
-            url_list.push(postits[i]["_links"]["self"]["href"]);
+            postit_list.push(postits[i]["id"]);
+            url_list.push(postits[i]["redeemUrl"]);
             let stats = fs.statSync(cache_path + outnames[i]);
             size_list.push(stats.size);
         }
@@ -909,7 +923,7 @@ finishStudyQueue.process(async (job) => {
     }
     study_cache["value"]["is_cached"] = true;
 
-    await tapisIO.updateMetadata(study_cache['uuid'], study_cache['name'], study_cache['value'], null)
+    await tapisIO.updateDocument(study_cache['uuid'], study_cache['name'], study_cache['value'], null)
         .catch(function(error) {
             msg = 'VDJ-API ERROR (finishStudyQueue): Could not update metadata for study cache: ' + study_cache['uuid'] + '.\n' + error;
             console.error(msg);
@@ -965,7 +979,7 @@ ADCDownloadQueueManager.recacheRepertoireMetadata = async function(repository_id
     study_cache["value"]["is_cached"] = false;
     study_cache["value"]["archive_file"] = null;
 
-    await tapisIO.updateMetadata(study_cache['uuid'], study_cache['name'], study_cache['value'], null)
+    await tapisIO.updateDocument(study_cache['uuid'], study_cache['name'], study_cache['value'], null)
         .catch(function(error) {
             msg = 'VDJ-API ERROR (ADCDownloadQueueManager.recacheRepertoireMetadata): Could not update metadata for study cache: ' + study_cache['uuid'] + '.\n' + error;
             console.error(msg);
