@@ -44,6 +44,7 @@ function parseBoolean(value)
 // General
 config.port = process.env.API_PORT;
 config.async_port = process.env.API_ASYNC_PORT;
+config.vdjserver_data_path = process.env.VDJSERVER_DATA_PATH;
 config.lrqdata_path = process.env.LRQDATA_PATH;
 config.tapis_version = process.env.TAPIS_VERSION;
 config.name = 'VDJ-ADC-API';
