@@ -68,6 +68,20 @@ app.redisConfig = {
     host: 'vdjr-redis'
 };
 
+// Downgrade to host vdj user
+// This is also so that the /vdjZ Corral file volume can be accessed,
+// as it is restricted to the TACC vdj account.
+// Currently only read access is required.
+if (config.hostServiceAccount) {
+    config.log.info(context, 'Downgrading to host user: ' + config.hostServiceAccount);
+    process.setgid(config.hostServiceGroup);
+    process.setuid(config.hostServiceAccount);
+    config.log.info(context, 'Current uid: ' + process.getuid());
+    config.log.info(context, 'Current gid: ' + process.getgid());
+} else {
+    config.log.info('WARNING', 'config.hostServiceAccount is not defined, Corral access will generate errors.');
+}
+
 // Tapis
 var tapisSettings = require('vdj-tapis-js/tapisSettings');
 var tapisIO = tapisSettings.get_default_tapis(config);
@@ -239,6 +253,16 @@ GuestAccount.getToken()
     })
     .then(function() {
         // Initialize queues
+
+        // ADC download cache queues
+        if (config.enableADCDownloadCache) {
+            config.log.info(context, 'ADC download cache is enabled, triggering cache.');
+            adcDownloadQueueManager.triggerDownloadCache();
+        } else {
+            config.log.info(context, 'ADC download cache is disabled.');
+
+            // TODO: remove any existing jobs from the queue
+        }
 
         // ADC load of rearrangements
         if (config.enableADCLoad) {
