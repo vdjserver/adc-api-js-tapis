@@ -499,7 +499,6 @@ cacheQueue.process(async (job) => {
     var repertoire_cache = job['data']['repertoire_cache'];
     var repertoire_id = repertoire_cache['value']['repertoire_id'];
     var study_cache_uuid = job['data']['study_cache']['uuid'];
-    var tapis_path = 'agave://data.vdjserver.org//community/cache';
 
     //console.log(study_cache_uuid);
     console.log('VDJ-API INFO: creating cache directory:', study_cache_uuid);
@@ -589,7 +588,7 @@ cacheQueue.process(async (job) => {
         config.log.info(context, 'ADC ASYNC API not available for repository: ' + repository['repository_id']);
 
         var filename = repertoire_cache['uuid'] + '.airr.tsv';
-        var filepath = config.lrqdata_path + filename;
+        var filepath = config.lrqdata_local_path + filename;
         await adcIO.downloadRearrangements(repository, repertoire_id, filepath)
             .catch(function(error) {
                 msg = 'Could not download rearrangements for repertoire_id '
@@ -619,7 +618,7 @@ ADCDownloadQueueManager.finishDownload = function(data) {
 // Create the cached rearrangement file in its final spot
 // We directly access the Corral file system
 ADCDownloadQueueManager.processRearrangementFile = async function(repertoire_id, filename, cache_dir) {
-    var infile = config.lrqdata_path + filename;
+    var infile = config.lrqdata_local_path + filename;
     var cache_path = config.vdjserver_data_path + 'community/cache/' + cache_dir + '/';
     var outname = repertoire_id + '.airr.tsv.gz';
     var outfile = cache_path + outname;
@@ -654,6 +653,8 @@ finishQueue.process(async (job) => {
     var msg = null;
     var context = 'ADCDownloadQueueManager.finishQueue';
 
+    config.log.info(context, 'start');
+try {
     var study_cache = job['data']['study_cache'];
     var repertoire_cache = job['data']['repertoire_cache'];
     var query_status = job['data']['query_status'];
@@ -669,6 +670,8 @@ finishQueue.process(async (job) => {
             webhookIO.postToSlack(msg);
             return Promise.reject(new Error(msg));
         });
+    metadata = metadata[0];
+    console.log(metadata);
     if ((! metadata['value']['should_cache']) || (metadata['value']['is_cached'])) {
         console.log('VDJ-API INFO (finishQueue): already cached:',repertoire_cache['uuid'],', skipping finish process');
         return Promise.resolve();
@@ -696,6 +699,7 @@ finishQueue.process(async (job) => {
         }
     }
 
+    /* no postits for individual repertoires
     // create permanent postit
     var url = 'https://' + tapisSettings.hostname
         + '/files/v2/media/system/'
@@ -710,12 +714,13 @@ finishQueue.process(async (job) => {
             webhookIO.postToSlack(msg);
             return Promise.reject(new Error(msg));
         });
+	*/ 
 
     // update the metadata
-    if (config.debug) console.log('VDJ-API INFO (finishQueue): Created postit: ' + postit["postit"]);
+    //if (config.debug) console.log('VDJ-API INFO (finishQueue): Created postit: ' + postit["postit"]);
     repertoire_cache["value"]["archive_file"] = outname;
-    repertoire_cache["value"]["postit_id"] = postit["postit"];
-    repertoire_cache["value"]["download_url"] = postit["_links"]["self"]["href"];
+    //repertoire_cache["value"]["postit_id"] = postit["postit"];
+    //repertoire_cache["value"]["download_url"] = postit["_links"]["self"]["href"];
     repertoire_cache["value"]["is_cached"] = true;
     var cache_path = config.vdjserver_data_path + 'community/cache/' + study_cache['uuid'] + '/';
     var stats = fs.statSync(cache_path + outname);
@@ -731,7 +736,7 @@ finishQueue.process(async (job) => {
     console.log('VDJ-API INFO: finishing ADC download cache job');
 
     ADCDownloadQueueManager.triggerDownloadCache();
-
+} catch (e) { console.log(e); }
     return Promise.resolve();
 });
 
