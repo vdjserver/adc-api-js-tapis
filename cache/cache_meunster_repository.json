@@ -1,0 +1,11 @@
+{
+    "repository_set":"staging",
+    "repository": {
+        "repository_id":"meunster",
+        "server_host": "agschwab.uni-muenster.de",
+        "base_url": "/airr/v1",
+        "title": "University of Meunster",
+        "enable_cache": true,
+        "disable": false
+    }
+}

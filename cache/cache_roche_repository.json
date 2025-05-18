@@ -1,0 +1,11 @@
+{
+    "repository_set":"staging",
+    "repository": {
+        "repository_id":"roche",
+        "server_host": "roche-airr.ireceptor.org",
+        "base_url": "/airr/v1",
+        "title": "Roche/KCL",
+        "enable_cache": true,
+        "disable": false
+    }
+}

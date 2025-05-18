@@ -1,0 +1,11 @@
+{
+    "repository_set":"staging",
+    "repository": {
+        "repository_id":"scireptor",
+        "server_host": "scireptor.dkfz.de",
+        "base_url": "/airr/v1",
+        "title": "sciReptor",
+        "enable_cache": true,
+        "disable": false
+    }
+}

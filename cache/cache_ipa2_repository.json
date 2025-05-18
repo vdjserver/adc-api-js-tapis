@@ -1,0 +1,12 @@
+{
+    "repository_set":"adc",
+    "repository_id":"ipa2",
+    "repository": {
+        "repository_id":"ipa2",
+        "server_host": "ipa2.ireceptor.org",
+        "base_url": "/airr/v1",
+        "title": "IPA",
+        "enable_cache": true,
+        "disable": false
+    }
+}

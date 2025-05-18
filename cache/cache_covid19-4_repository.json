@@ -1,0 +1,11 @@
+{
+    "repository_set":"adc",
+    "repository": {
+        "repository_id":"covid19-4",
+        "server_host": "covid19-4.ireceptor.org",
+        "base_url": "/airr/v1",
+        "title": "IPA",
+        "enable_cache": true,
+        "disable": false
+    }
+}

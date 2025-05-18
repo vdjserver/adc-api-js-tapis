@@ -1,0 +1,15 @@
+{
+    "repository_set":"adc",
+    "repository": {
+        "repository_id":"vdjserver",
+        "server_host": "vdjserver.org",
+        "base_url": "/airr/v1",
+        "title": "VDJServer",
+        "enable_cache": true,
+        "disable": false,
+        "enable_statistics_cache" : false,
+        "supports_async" : true,
+        "async_host" : "vdjserver.org",
+        "async_base_url" : "/airr/async/v1"
+    }
+}
