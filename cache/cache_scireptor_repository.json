@@ -1,5 +1,5 @@
 {
-    "repository_set":"staging",
+    "repository_set":"adc",
     "repository": {
         "repository_id":"scireptor",
         "server_host": "scireptor.dkfz.de",

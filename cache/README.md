@@ -30,6 +30,8 @@ curl --data @cache_covid19-4_repository.json -H 'content-type:application/json' 
 curl --data @cache_roche_repository.json -H 'content-type:application/json' -H "Authorization: Bearer $JWT" https://vdjserver.org/airr/v1/admin/adc/registry
 curl --data @cache_t1d-1_repository.json -H 'content-type:application/json' -H "Authorization: Bearer $JWT" https://vdjserver.org/airr/v1/admin/adc/registry
 curl --data @cache_t1d-2_repository.json -H 'content-type:application/json' -H "Authorization: Bearer $JWT" https://vdjserver.org/airr/v1/admin/adc/registry
+
+curl --data @cache_hpap_repository.json -H 'content-type:application/json' -H "Authorization: Bearer $JWT" https://vdjserver.org/airr/v1/admin/adc/registry
 ```
 
 
