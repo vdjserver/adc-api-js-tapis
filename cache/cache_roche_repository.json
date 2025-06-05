@@ -1,5 +1,5 @@
 {
-    "repository_set":"staging",
+    "repository_set":"adc",
     "repository": {
         "repository_id":"roche",
         "server_host": "roche-airr.ireceptor.org",

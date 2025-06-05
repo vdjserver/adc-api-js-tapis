@@ -1,10 +1,10 @@
 {
     "repository_set":"adc",
     "repository": {
-        "repository_id":"t1d-2",
-        "server_host": "t1d-2.ireceptor.org",
+        "repository_id":"hpap",
+        "server_host": "hpap.ireceptor.org",
         "base_url": "/airr/v1",
-        "title": "T1D",
+        "title": "HPAP",
         "enable_cache": true,
         "disable": false
     }
