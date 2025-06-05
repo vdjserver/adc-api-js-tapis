@@ -44,7 +44,6 @@ var mongoIO = require('vdj-tapis-js/mongoIO');
 
 // Node Libraries
 var Queue = require('bull');
-var jsonApprover = require('json-approver');
 
 // Bull queues
 var triggerQueue = new Queue('ADC project load trigger', { redis: app.redisConfig });

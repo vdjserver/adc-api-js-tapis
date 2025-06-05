@@ -19,7 +19,6 @@
     "express": "^4.12.3",
     "express-openapi": "^6.0.0",
     "js-yaml": "^3.10.0",
-    "json-approver": "1.0.3",
     "moment-timezone": ">=0.5.35",
     "tar": "^6.1.2",
     "vdj-tapis-js": "file:app/vdj-tapis-js",
