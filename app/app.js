@@ -152,6 +152,9 @@ GuestAccount.getToken()
             if (! api_spec['components']['schemas'][p]) api_spec['components']['schemas'][p] = vs[p];
         }
 
+        // add security schemes
+        api_spec['components']['securitySchemes'] = { admin_authorization: { type: 'http', scheme: 'bearer' }};
+
         // dereference the API spec
         return $RefParser.dereference(api_spec);
     })
@@ -239,7 +242,7 @@ GuestAccount.getToken()
                 notifyADCDownloadCache: async function(req, res) { return try_function(req, res, adcDownloadController.notifyADCDownloadCache); },
 
                 // administration
-                queryProjectLoad: async function(req, res) { return try_function(req, res, adcDownloadController.queryProjectLoad); }
+                queryProjectLoad: async function(req, res) { return try_function(req, res, adcController.queryProjectLoad); }
             }
         });
 

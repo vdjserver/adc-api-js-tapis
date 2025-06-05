@@ -330,3 +330,28 @@ adcController.reloadProject = async function(request, response) {
         return apiResponseController.sendError(msg, 400, response);
     } */
 };
+
+adcController.queryProjectLoad = async function(request, response) {
+    var context = 'adcController.queryProjectLoad';
+    config.log.info(context, 'parameters: ' + JSON.stringify(request.query));
+
+    var projectUuid = request.query.project_uuid;
+    var collection = request.query.collection;
+    var shouldLoad = request.query.should_load;
+    var isLoaded = request.query.is_loaded;
+    var repertoireMetadataLoaded = request.query.repertoire_loaded;
+    var rearrangementDataLoaded = request.query.rearrangement_loaded;
+    var msg = null;
+
+    // query the records
+    var project_loads = await tapisIO.queryProjectLoadMetadata(projectUuid, collection, shouldLoad, isLoaded, repertoireMetadataLoaded, rearrangementDataLoaded)
+        .catch(function(error) {
+            msg = config.log.error(context, 'error ' + error);
+        });
+    if (msg) {
+        webhookIO.postToSlack(msg);
+        return apiResponseController.sendError(msg, 500, response);
+    }
+
+    return apiResponseController.sendSuccess(project_loads, response);
+}
