@@ -1,0 +1,25 @@
+{
+    "filters": {
+        "op": "and",
+        "content": [
+            {
+                "op": "=",
+                "content": {
+                    "field": "sample.pcr_target.pcr_target_locus",
+                    "value": "IGH"
+                }
+            },
+            {
+                "op": "in",
+                "content": {
+                    "field": "repertoire_id",
+                    "value": [
+                        "6158520074267529706-242ac113-0001-012"
+                    ]
+                }
+            }
+        ]
+    },
+    "from":0,
+    "size":10
+}

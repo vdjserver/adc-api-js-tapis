@@ -1,0 +1,12 @@
+{
+  "filters": {
+    "op": "=",
+    "content": {
+      "field": "repertoire_id",
+      "value": "303352230808514070-242ac113-0001-012"
+    }
+  },
+  "include_fields": "airr-schema",
+  "fields": ["receptor_id"],
+  "format": "tsv"
+}
