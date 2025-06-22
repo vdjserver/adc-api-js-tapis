@@ -31,7 +31,7 @@ if (process.argv.length != 3) {
 var projs = {};
 var reps = {};
 // testing
-var skip_save = true;
+var skip_save = false;
 
 // Verify we can login with guest and service account
 ServiceAccount.getToken()
@@ -70,22 +70,22 @@ ServiceAccount.getToken()
                 try {
                     ++cnt;
                     let data = JSON.parse(line);
-    
                     docs.push(data);
-                    if (docs.length == 1000) {
+
+                    if (docs.length == 500) {
                         config.log.info(context, 'Number of records to be inserted: ' + docs.length);
                         lr.pause();
 
                         if (skip_save) {
                             config.log.info(context, 'skipping save.');
                         } else {
-                            var obj = await tapisIO.createMultipleDocuments(docs)
+                            var obj = await tapisIO.createRecord('tapis_meta', docs)
                                 .catch(function(error) {
-                                    config.log.error(context, 'tapisIO.createMultipleDocuments, error: ' + error);
+                                    config.log.error(context, 'tapisIO.createRecord, error: ' + error);
                                     process.exit(1);
                                 });
             
-                            console.log(obj.length);
+                            config.log.info(context, 'Objects inserted: ' + obj.inserted);
                         }
                         docs = [];
 
@@ -104,17 +104,20 @@ ServiceAccount.getToken()
                 if (skip_save) {
                     config.log.info(context, 'skipping save.');
                 } else {
-                    var obj = await tapisIO.createMultipleDocuments(docs)
+                    var obj = await tapisIO.createRecord('tapis_meta', docs)
                         .catch(function(error) {
-                            config.log.error(context, 'tapisIO.createMultipleDocuments, error: ' + error);
+                            config.log.error(context, 'tapisIO.createRecord, error: ' + error);
                             process.exit(1);
                         });
     
-                    console.log(obj.length);
+                    config.log.info(context, 'Objects inserted: ' + obj.inserted);
                 }
                 resolve();
             });
         });
+    })
+    .then(function() {
+        config.log.info(context, 'Load done.');
     })
     .catch(function(error) {
         var msg = config.log.error(context, 'Error during load.\n' + error);
