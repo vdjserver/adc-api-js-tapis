@@ -714,18 +714,27 @@ rearrangementLoadQueue.process(async (job) => {
         }
 
         // get the data processing record
-        // TODO: right now this is a job, but we should switch to using analysis_provenance_id
+        // TODO: right now this is a (tapis v2) job, but we should switch to using analysis_provenance_id
         // which contains the appropriate information
-        var jobOutput = { archivePath: '/projects/4607853120978751976-242ac11c-0001-012/analyses/2019-06-17-21-14-50-45-my-job-17-jun-2019-4:14:35-pm' };
-/*        var jobOutput = await tapisIO.getJobOutput(primaryDP['data_processing_id'])
+        config.log.info(context, 'Looking for job archive path for primary data_processing_id: ' + primaryDP['data_processing_id']);
+        var jobOutput = await tapisIO.getDocument(primaryDP['data_processing_id'])
             .catch(function(error) {
-                msg = 'tapisIO.getJobOutput, error: ' + error;
+                msg = 'tapisIO.getDocument, error: ' + error;
             });
         if (msg) {
             msg = config.log.error(context, msg);
             webhookIO.postToSlack(msg);
             return Promise.reject();
-        } */
+        }
+        if (jobOutput.length > 0) {
+            var job = jobOutput[0];
+            console.log(job);
+            if (job['name'] == 'tapis_v2_job') {
+                console.log(job['name']);
+                jobOutput = { archivePath: job['value']['archive_path'] };
+            }
+        }
+        //console.log(jobOutput);
 
         if (! jobOutput) {
             msg = 'could not get job: ' + primaryDP['data_processing_id'] + ' for primary data processing: ' + primaryDP['data_processing_id'];
