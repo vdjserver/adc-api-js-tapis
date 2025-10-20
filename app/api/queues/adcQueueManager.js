@@ -34,6 +34,10 @@ module.exports = adcQueueManager;
 var app = require('../../app');
 var config = require('../../config/config');
 
+// Schemas
+var airr = require('airr-js');
+var vdj_schema = require('vdjserver-schema');
+
 // Tapis
 var tapisSettings = require('vdj-tapis-js/tapisSettings');
 var tapisIO = tapisSettings.get_default_tapis();
@@ -684,6 +688,98 @@ rearrangementLoadQueue.process(async (job) => {
         if (! primaryDP) {
             msg = 'could not find primary data processing for repertoire_id: '
                 + dataLoad['value']['repertoire_id'];
+            config.log.info(context, msg);
+            msg = null;
+
+            // TODO: might need to rethink how to do this
+            // If a user attached AIRR TSV files to the repertoire with no data processing
+            // versus uploading raw files and processing on VDJServer, we still want to
+            // be able to load the project.
+
+            // We need to create a data processing record so that the load process can find
+            // the AIRR TSV files.
+            
+            // AIRR TSV are recorded as FASTA in SequencingData but the actual file type is AIRR TSV
+            console.log(JSON.stringify(repertoire, null, 2));
+            if (repertoire['sample'][0]['sequencing_files'] && repertoire['sample'][0]['sequencing_files']['file_type'] == 'fasta') {
+                let url = 'tapis://' + tapisSettings.storageSystem + "/projects/" + projectUuid + '/files/' + repertoire['sample'][0]['sequencing_files']['filename'];
+                let file = await tapisIO.getProjectFileMetadataByURL(projectUuid, url)
+                    .catch(function(error) {
+                        msg = 'tapisIO.getProjectFileMetadataByURL, error: ' + error;
+                    });
+                if (msg) {
+                    msg = config.log.error(context, msg);
+                    webhookIO.postToSlack(msg);
+                    return Promise.reject();
+                }
+                console.log(file);
+
+                if (! file || file.length != 1) {
+                    msg = 'Invalid project file info: ' + url;
+                    msg = config.log.error(context, msg);
+                    webhookIO.postToSlack(msg);
+                    return Promise.resolve();
+                }
+                file = file[0];
+
+                if (file['value']['fileType'] == 9) {
+                    config.log.info(context, 'Found an AIRR TSV: ' + url);
+                    config.log.info(context, 'Creating a primary data processing record for the AIRR TSV.');
+
+                    let dpschema = airr.get_schema('DataProcessing');
+                    let dp = dpschema.template();
+                    dp['primary_annotation'] = true;
+                    dp['data_processing_files'] = [ file['value']['name'] ];
+
+                    let dp_metadata = await tapisIO.createMetadataForProject(projectUuid, 'data_processing', { 'value': dp }, 'data_processing_id')
+                        .catch(function(error) {
+                            msg = 'got error for creating data_processing metadata for project: ' + projectUuid + ', error: ' + error;
+                        });
+                    if (msg) {
+                        msg = config.log.error(context, msg);
+                        webhookIO.postToSlack(msg);
+                        return Promise.resolve();
+                    }
+                    console.log(JSON.stringify(dp_metadata, null, 2));
+                    config.log.info(context, 'Successfully created a primary data processing record for the AIRR TSV: ' + dp_metadata['uuid']);
+
+                    // update the repertoire record
+                    let rep_metadata = await tapisIO.getMetadataForProject(projectUuid, repertoire['repertoire_id'])
+                        .catch(function(error) {
+                            msg = 'got error for project: ' + projectUuid + ' with repertoire_id: ' + repertoire['repertoire_id'] + ', error: ' + error;
+                        });
+                    if (msg) {
+                        msg = config.log.error(context, msg);
+                        webhookIO.postToSlack(msg);
+                        return Promise.resolve();
+                    }
+                    console.log(JSON.stringify(rep_metadata, null, 2));
+                    rep_metadata = rep_metadata[0];
+
+                    if ((rep_metadata['value']['data_processing'].length == 1) && (rep_metadata['value']['data_processing'][0]['vdjserver_uuid'] == null)) {
+                        rep_metadata['value']['data_processing'] = [{ "vdjserver_uuid": dp_metadata['uuid'] }];
+                    } else {
+                        rep_metadata['value']['data_processing'].push({ "vdjserver_uuid": dp_metadata['uuid'] });
+                    }
+                    rep_metadata = await tapisIO.updateMetadataForProject(projectUuid, rep_metadata['uuid'], rep_metadata)
+                        .catch(function(error) {
+                            msg = 'got error for project: ' + projectUuid + ' with repertoire_id: ' + repertoire['repertoire_id'] + ', error: ' + error;
+                        });
+                    if (msg) {
+                        msg = config.log.error(context, msg);
+                        webhookIO.postToSlack(msg);
+                        return Promise.resolve();
+                    }
+                    console.log(JSON.stringify(rep_metadata, null, 2));
+                    config.log.info(context, 'Successfully updated repertoire with data processing record: ' + repertoire['repertoire_id']);
+
+                    // have it reload everything
+                    return Promise.resolve();
+                }
+            }
+
+            msg = 'could not find primary data processing for repertoire_id: '
+                + dataLoad['value']['repertoire_id'];
             msg = config.log.error(context, msg);
             webhookIO.postToSlack(msg);
             return Promise.resolve();
@@ -732,6 +828,9 @@ rearrangementLoadQueue.process(async (job) => {
             if (job['name'] == 'tapis_v2_job') {
                 console.log(job['name']);
                 jobOutput = { archivePath: job['value']['archive_path'] };
+            } else if (job['name'] == 'data_processing') {
+                console.log(job['name']);
+                jobOutput = { archivePath: '/projects/' + projectUuid + '/files' };
             }
         }
         //console.log(jobOutput);
