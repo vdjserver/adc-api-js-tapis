@@ -269,7 +269,9 @@ adcDownloadController.deleteADCDownloadCacheForRepertoire = async function(reque
 };
 
 adcDownloadController.notifyADCDownloadCache = async function(request, response) {
-    console.log('VDJ-API INFO: Received ADCDownloadCache notification id:', request.params.notify_id, 'body:', JSON.stringify(request.body));
+    var context = 'adcDownloadController.notifyADCDownloadCache';
+
+    config.log.info(context, 'Received notification id:', request.params.notify_id, ' body:', JSON.stringify(request.body));
 
     var msg = null;
     var notify_id = request.params.notify_id;
@@ -289,6 +291,7 @@ adcDownloadController.notifyADCDownloadCache = async function(request, response)
             webhookIO.postToSlack(msg);
             return Promise.reject(new Error(msg));
         });
+    metadata = metadata[0];
 
     // do some error checking
     console.log(metadata);

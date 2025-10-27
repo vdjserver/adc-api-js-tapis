@@ -306,6 +306,7 @@ adcController.reloadProject = async function(request, response) {
             webhookIO.postToSlack(msg);
             return apiResponseController.sendError(msg, 500, response);
         }
+        projectMetadata = projectMetadata[0];
 
         // assume VDJServer repository
         adcDownloadQueueManager.recacheRepertoireMetadata('vdjserver', projectMetadata['value']['study_id']);

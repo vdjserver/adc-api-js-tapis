@@ -542,7 +542,7 @@ cacheQueue.process(async (job) => {
             if (query_status['status'] == 'FINISHED') {
                 console.log('VDJ-API INFO: async query is FINISHED, manually sending notification.');
                 // manually send notification
-                var notification = { url: tapisSettings.notifyHost + '/api/v2/adc/cache/notify/' + repertoire_cache['uuid'], method: 'POST' };
+                var notification = { url: tapisSettings.notifyHost + '/airr/v1/admin/adc/cache/notify/' + repertoire_cache['uuid'], method: 'POST' };
                 await adcIO.sendNotification(notification, query_status)
                     .catch(function(error) {
                         msg = 'VDJ-API ERROR: ADCDownloadQueueManager cacheQueue, could not manually send notification '
@@ -558,7 +558,7 @@ cacheQueue.process(async (job) => {
     // use ADC ASYNC API if supported
     // TODO: we should get this from the repository info
     if (repository['supports_async']) {
-        var notification = { url: tapisSettings.notifyHost + '/api/v2/adc/cache/notify/' + repertoire_cache['uuid'], method: 'POST' };
+        var notification = { url: tapisSettings.notifyHost + '/airr/v1/admin/adc/cache/notify/' + repertoire_cache['uuid'], method: 'POST' };
         var query_id = await adcIO.asyncGetRearrangements(repository, repertoire_id, notification)
             .catch(function(error) {
                 msg = 'VDJ-API ERROR: ADCDownloadQueueManager cacheQueue, could not submit ADC ASYNC query for repertoire_id '
