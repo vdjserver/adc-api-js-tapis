@@ -1048,7 +1048,7 @@ clearQueue.process(async (job) => {
     // delete the whole study cache directory
     var cache_path = config.vdjserver_data_path + 'community/cache/' + study_cache['uuid'];
     console.log('VDJ-API INFO (clearQueue): deleting ADC directory:', cache_path);
-    fs.rmdirSync(cache_path, { recursive:true });
+    fs.rmSync(cache_path, { recursive:true });
 
     // for each cached repertoire entry, delete the postit, delete the metadata
     for (let i in cached_reps) {
@@ -1066,12 +1066,12 @@ clearQueue.process(async (job) => {
             }
         }
 
-        await tapisIO.deleteMetadata(ServiceAccount.accessToken(), cached_reps[i]['uuid'])
+        await tapisIO.deleteRecord('tapis_meta', cached_reps[i]['_id']['$oid'])
             .catch(function(error) {
-                msg = 'VDJ-API ERROR (clearQueue): tapisIO.deleteMetadata: ' + cached_reps[i]['uuid'] + ', error ' + error;
+                msg = 'tapisIO.deleteRecord, error: ' + error;
             });
         if (msg) {
-            console.error(msg);
+            msg = config.log.error(context, msg);
             webhookIO.postToSlack(msg);
             return Promise.resolve();
         }
@@ -1091,12 +1091,12 @@ clearQueue.process(async (job) => {
         }
     }
 
-    await tapisIO.deleteMetadata(ServiceAccount.accessToken(), study_cache['uuid'])
+    await tapisIO.deleteRecord('tapis_meta', study_cache['_id']['$oid'])
         .catch(function(error) {
-            msg = 'VDJ-API ERROR (clearQueue): tapisIO.deleteMetadata: ' + study_cache['uuid'] + ', error ' + error;
+            msg = 'tapisIO.deleteRecord, error: ' + error;
         });
     if (msg) {
-        console.error(msg);
+        msg = config.log.error(context, msg);
         webhookIO.postToSlack(msg);
         return Promise.resolve();
     }
