@@ -996,6 +996,7 @@ ADCDownloadQueueManager.recacheRepertoireMetadata = async function(repository_id
 }
 
 clearQueue.process(async (job) => {
+    var context = 'adcDownloadQueueManager.clearQueue';
     var msg = null;
     var repository_id = job['data']['repository_id'];
     var study_id = job['data']['study_id'];
