@@ -382,6 +382,25 @@ rearrangementCheckQueue.process(async (job) => {
     // we did not find one, so all the rearrangement data is loaded
     if (! projectLoad) {
         config.log.info(context, 'all rearrangement data is loaded.');
+
+        // check to see if any projects have been completely loaded
+        for (let i = 0; i < projectList.length; ++i) {
+            let proj = projectList[i];
+            if (proj['value']['repertoireMetadataLoaded'] && proj['value']['rearrangementDataLoaded']) {
+                config.log.info(context, 'project completely loaded: ' + proj.uuid);
+                proj.value.isLoaded = true;
+                await tapisIO.updateDocument(proj.uuid, proj.name, proj.value)
+                    .catch(function(error) {
+                        msg = 'tapisIO.updateDocument, error: ' + error;
+                    });
+                if (msg) {
+                    msg = config.log.error(context, msg);
+                    webhookIO.postToSlack(msg);
+                    return Promise.reject();
+                }
+            }
+        }
+
         config.log.info(context, 'end');
         return Promise.resolve();
     }
@@ -556,24 +575,6 @@ rearrangementLoadQueue.process(async (job) => {
     if (! projectLoad) {
         config.log.info(context, 'all rearrangement data is loaded.');
         allRearrangementsLoaded = true;
-
-        // check to see if any projects have been completely loaded
-        for (let i = 0; i < projectList.length; ++i) {
-            let proj = projectList[i];
-            if (proj['value']['repertoireMetadataLoaded'] && proj['value']['rearrangementDataLoaded']) {
-                config.log.info(context, 'project completely loaded: ' + proj.uuid);
-                proj.value.isLoaded = true;
-                await tapisIO.updateDocument(proj.uuid, proj.name, proj.value)
-                    .catch(function(error) {
-                        msg = 'tapisIO.updateDocument, error: ' + error;
-                    });
-                if (msg) {
-                    msg = config.log.error(context, msg);
-                    webhookIO.postToSlack(msg);
-                    return Promise.reject();
-                }
-            }
-        }
 
         config.log.info(context, 'end');
         return Promise.resolve();
