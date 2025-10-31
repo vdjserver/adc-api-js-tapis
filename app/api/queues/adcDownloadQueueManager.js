@@ -1047,9 +1047,13 @@ clearQueue.process(async (job) => {
     }
 
     // delete the whole study cache directory
-    var cache_path = config.vdjserver_data_path + 'community/cache/' + study_cache['uuid'];
-    console.log('VDJ-API INFO (clearQueue): deleting ADC directory:', cache_path);
-    fs.rmSync(cache_path, { recursive:true });
+    try {
+        var cache_path = config.vdjserver_data_path + 'community/cache/' + study_cache['uuid'];
+        console.log('VDJ-API INFO (clearQueue): deleting ADC directory:', cache_path);
+        fs.rmSync(cache_path, { recursive:true });
+    } catch (e) {
+        config.log.error(context, 'Error while trying to delete ADC cache directory, ignoring: ' + e);
+    }
 
     // for each cached repertoire entry, delete the postit, delete the metadata
     for (let i in cached_reps) {
