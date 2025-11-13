@@ -105,37 +105,20 @@ triggerQueue.process(async (job) => {
 
     // check if active jobs in queues
     jobs = await submitQueue.getJobs(['active']);
-    //console.log(jobs);
-    //console.log(jobs.length);
-    //if (jobs.length > 0) {
-        config.log.info(context, 'active jobs (' + jobs.length + ') in ADC project load submit queue, skip trigger');
-    //    return Promise.resolve();
-    //}
+    config.log.info(context, 'active jobs (' + jobs.length + ') in ADC project load submit queue.');
 
     // check if active jobs in queues
     jobs = await repertoireQueue.getJobs(['active']);
-    //console.log(jobs);
-    //console.log(jobs.length);
-    //if (jobs.length > 0) {
-        config.log.info(context, 'active jobs (' + jobs.length + ') in ADC project repertoire metadata load queue, skip trigger');
-    //    return Promise.resolve();
-    //}
+    config.log.info(context, 'active jobs (' + jobs.length + ') in ADC project repertoire metadata load queue.');
 
     jobs = await rearrangementCheckQueue.getJobs(['active']);
-    //console.log(jobs);
-    //console.log(jobs.length);
-    //if (jobs.length > 0) {
-        config.log.info(context, 'active jobs (' + jobs.length + ') in ADC project rearrangement check queue, skip trigger');
-    //    return Promise.resolve();
-    //}
+    config.log.info(context, 'active jobs (' + jobs.length + ') in ADC project rearrangement check queue.');
 
     jobs = await rearrangementLoadQueue.getJobs(['active']);
-    //console.log(jobs);
-    //console.log(jobs.length);
-    //if (jobs.length > 0) {
-        config.log.info(context, 'active jobs (' + jobs.length + ') in ADC project rearrangement load queue, skip trigger');
-    //    return Promise.resolve();
-    //}
+    config.log.info(context, 'active jobs (' + jobs.length + ') in ADC project rearrangement load queue.');
+
+    jobs = await unloadQueue.getJobs(['active']);
+    config.log.info(context, 'active jobs (' + jobs.length + ') in ADC project unload queue');
 
     // check if enabled
     if (config.enableADCLoad) {
