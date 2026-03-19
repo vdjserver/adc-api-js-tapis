@@ -77,7 +77,7 @@ config.log.error = function(context, msg) {
     console.trace(context);
     return full_msg;
 }
-config.log.info('config', 'Debug console messages enabled.', true);
+config.log.info('config', 'Debug console messages: ' + config.debug, true);
 
 // AIRR Data Commons
 config.adcRepositoryEntry = process.env.ADC_REPOSITORY_ENTRY;

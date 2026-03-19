@@ -78,7 +78,7 @@ ADCDownloadQueueManager.triggerDownloadCache = async function() {
         return;
     }
 
-    //console.log(adc_cache);
+    console.log(adc_cache);
     if (adc_cache.length == 0) {
         console.log('VDJ-API INFO: ADCDownloadQueueManager.triggerDownloadCache, creating adc_cache metadata singleton');
 

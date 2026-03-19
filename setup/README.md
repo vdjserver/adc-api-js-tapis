@@ -1,3 +1,88 @@
+# VDJServer ADC Repository
+
+Now that we have direct control of the database for the ADC data, we
+should not be using the Tapis Meta API for setting up and querying the
+Mongo database for the ADC repository. While with V1, those database
+names were the same, now we make them different to enforce the
+distinction and catch possible code bugs.
+
+The load ADC database and query ADC database are now separated as
+independent services, and we have a complete set of connection
+environment variables for each.
+
+This database is different from the Tapis Meta API database where
+metadata is stored, and we use the Meta API for all system metadata,
+including the metadata to manage the ADC repository and its
+subcomponents.
+
+These two databases (ADC database, Tapis database) need to be in
+sync. Be careful of using the `production` database for one and `test`
+with the other, or vice versa, in the .env file. Also, by default, all
+queues are turned off. All development testing, especially for the
+queues, must use the test databases. Be careful of turning on the
+queues with the production databases.
+
+# Mongo ADC query and load databases
+
+The docker compose for these databases are in the vdjserver-mongo
+repository. The Docker file modifies the standard Mongo docker image
+to use the vdj account so it can access Corral files.  There is a
+separate docker compose setup for each Mongo service, and with a Mongo
+service, there can be multiple databases. We generally have the "test"
+and "production" databases together in the same service.
+
+We assume that the Tapis Meta API Mongo service is already setup and
+configured by the Tapis team in the VDJServer tenant so that the Meta
+API is operationally. The service should have the production (v2vdj)
+and test (v2vdjtest) databases within it.
+
+## Mongo for ADC load
+
+First step is to clone the vdjserver-mongo repository on the
+appropriate machine and use the load_db docker compose to start up the
+Mongo service. Verify that you can connect with the Mongo shell. If
+starting from a completely empty Mongo, a `v2airr` and `v2test`
+databases need to be created. From the Mongo shell, we insert a fake
+document to trigger the creation of the database, then remove the
+document.
+
+```
+use v2airr
+db.myNewCollection.insertOne({ name: "Sample Document" })
+db.myNewCollection.drop()
+use v2test
+db.myNewCollection.insertOne({ name: "Sample Document" })
+db.myNewCollection.drop()
+show dbs
+```
+
+## Mongo for ADC query
+
+With the load and query databases now in separate Mongo services, the
+query database does not have its own setup. Instead our release
+process is to copy the load database files on Corral to the folder for
+the query database. Clone the vdjserver-mongo repository on the
+appropriate machine and use the docker compose to start up the Mongo
+service. Verify that you can connect with the Mongo shell. Everything
+should look identical to the load database.
+
+# Create indexes
+
+
+
+[what setup is needed?]
+
+/admin/adc/registry is not working.
+
+[We need to prepare for switching from Mongo to Postgres, and the move
+to AIRR Standards V2. We might be using LinkML at that point to define
+the database schema.]
+
+
+
+
+# OBSOLETE: Text after this point is obsolete and deprecated
+
 # Setup Tapis V3 metadata database
 
 If starting from a brand new database, there are setup steps. We rely upon the docker image

@@ -45,6 +45,7 @@ var ServiceAccount = tapisIO.serviceAccount;
 var GuestAccount = tapisIO.guestAccount;
 var webhookIO = require('vdj-tapis-js/webhookIO');
 var mongoIO = require('vdj-tapis-js/mongoIO');
+var mongoSettings = require('vdj-tapis-js/mongoSettings');
 
 // Node Libraries
 var Queue = require('bull');
@@ -168,7 +169,7 @@ submitQueue.process(async (job) => {
 
     config.log.info(context, 'start');
 
-    var projectList = await tapisIO.getProjectsToBeLoaded(tapisSettings.mongo_loadCollection)
+    var projectList = await tapisIO.getProjectsToBeLoaded(mongoSettings.loadCollection)
         .catch(function(error) {
             msg = 'tapisIO.getProjectsToBeLoaded, error: ' + error;
         });
@@ -201,7 +202,7 @@ repertoireQueue.process(async (job) => {
 
     config.log.info(context, 'start');
 
-    var projectList = await tapisIO.getProjectsToBeLoaded(tapisSettings.mongo_loadCollection)
+    var projectList = await tapisIO.getProjectsToBeLoaded(mongoSettings.loadCollection)
         .catch(function(error) {
             msg = 'tapisIO.getProjectsToBeLoaded, error: ' + error;
         });
@@ -266,7 +267,7 @@ repertoireQueue.process(async (job) => {
         return Promise.reject();
     }
 
-    var repertoireMetadata = await tapisIO.gatherRepertoireMetadataForProject(projectMetadata, true)
+    var repertoireMetadata = await tapisIO.gatherRepertoireMetadataForProject(null, projectMetadata.uuid, true)
         .catch(function(error) {
             msg = 'tapisIO.gatherRepertoireMetadataForProject, error: ' + error;
         });
@@ -291,7 +292,7 @@ repertoireQueue.process(async (job) => {
     }
 
     // insert repertoires into database
-    await mongoIO.loadRepertoireMetadata(repertoireMetadata, tapisSettings.mongo_loadCollection)
+    await mongoIO.loadRepertoireMetadata(repertoireMetadata, mongoSettings.loadCollection)
         .catch(function(error) {
             msg = 'mongoIO.loadRepertoireMetadata, error: ' + error;
         });
@@ -343,7 +344,7 @@ rearrangementCheckQueue.process(async (job) => {
 
     config.log.info(context, 'start');
 
-    var projectList = await tapisIO.getProjectsToBeLoaded(tapisSettings.mongo_loadCollection)
+    var projectList = await tapisIO.getProjectsToBeLoaded(mongoSettings.loadCollection)
         .catch(function(error) {
             msg = 'tapisIO.getProjectsToBeLoaded, error: ' + error;
         });
@@ -407,7 +408,7 @@ rearrangementCheckQueue.process(async (job) => {
     }
     projectMetadata = projectMetadata[0];
 
-    var repertoireMetadata = await tapisIO.gatherRepertoireMetadataForProject(projectMetadata, true)
+    var repertoireMetadata = await tapisIO.gatherRepertoireMetadataForProject(null, projectUuid, true)
         .catch(function(error) {
             msg = 'tapisIO.gatherRepertoireMetadataForProject, error: ' + error;
         });
@@ -428,7 +429,7 @@ rearrangementCheckQueue.process(async (job) => {
                 + ' repertoire metadata for project: ' + projectUuid);
 
     // check if there are existing rearrangement load records
-    var rearrangementLoad = await tapisIO.getRearrangementsToBeLoaded(projectUuid, tapisSettings.mongo_loadCollection)
+    var rearrangementLoad = await tapisIO.getRearrangementsToBeLoaded(projectUuid, mongoSettings.loadCollection)
         .catch(function(error) {
             msg = 'tapisIO.getRearrangementsToBeLoaded, error: ' + error;
         });
@@ -444,7 +445,7 @@ rearrangementCheckQueue.process(async (job) => {
 
         for (let i = 0; i < repertoireMetadata.length; i++) {
             let repertoire_id = repertoireMetadata[i]['repertoire_id'];
-            await tapisIO.createRearrangementLoadMetadata(projectUuid, repertoire_id, tapisSettings.mongo_loadCollection)
+            await tapisIO.createRearrangementLoadMetadata(projectUuid, repertoire_id, mongoSettings.loadCollection)
                 .catch(function(error) {
                     msg = 'tapisIO.createRearrangementLoadMetadata, error: ' + error;
                 });
@@ -472,7 +473,7 @@ rearrangementCheckQueue.process(async (job) => {
             }
             if (! found) {
                 let repertoire_id = repertoireMetadata[i]['repertoire_id'];
-                await tapisIO.createRearrangementLoadMetadata(projectUuid, repertoire_id, tapisSettings.mongo_loadCollection)
+                await tapisIO.createRearrangementLoadMetadata(projectUuid, repertoire_id, tapisSettings.mongoSettings.loadCollection)
                     .catch(function(error) {
                         msg = 'tapisIO.createRearrangementLoadMetadata, error: ' + error;
                     });
@@ -514,7 +515,7 @@ rearrangementLoadQueue.process(async (job) => {
 
     config.log.info(context, 'start');
 
-    var projectList = await tapisIO.getProjectsToBeLoaded(tapisSettings.mongo_loadCollection)
+    var projectList = await tapisIO.getProjectsToBeLoaded(mongoSettings.loadCollection)
         .catch(function(error) {
             msg = 'tapisIO.getProjectsToBeLoaded, error: ' + error;
         });
@@ -564,7 +565,7 @@ rearrangementLoadQueue.process(async (job) => {
     }
 
     // check if there are existing rearrangement load records
-    var rearrangementLoad = await tapisIO.getRearrangementsToBeLoaded(projectUuid, tapisSettings.mongo_loadCollection)
+    var rearrangementLoad = await tapisIO.getRearrangementsToBeLoaded(projectUuid, mongoSettings.loadCollection)
         .catch(function(error) {
             msg = 'tapisIO.getRearrangementsToBeLoaded, error: ' + error;
         });
@@ -616,7 +617,7 @@ rearrangementLoadQueue.process(async (job) => {
     }
     projectMetadata = projectMetadata[0];
 
-    var repertoireMetadata = await tapisIO.gatherRepertoireMetadataForProject(projectMetadata, true)
+    var repertoireMetadata = await tapisIO.gatherRepertoireMetadataForProject(null, projectUuid, true)
         .catch(function(error) {
             msg = 'tapisIO.gatherRepertoireMetadataForProject, error: ' + error;
         });
@@ -899,7 +900,7 @@ unloadQueue.process(async (job) => {
     config.log.info(context, 'start');
 
     // get the rearrangement load records
-    var rearrangementLoad = await tapisIO.getRearrangementsToBeLoaded(projectUuid, tapisSettings.mongo_loadCollection)
+    var rearrangementLoad = await tapisIO.getRearrangementsToBeLoaded(projectUuid, mongoSettings.loadCollection)
         .catch(function(error) {
             msg = 'tapisIO.getRearrangementsToBeLoaded, error: ' + error;
         });
@@ -929,8 +930,8 @@ unloadQueue.process(async (job) => {
             return Promise.resolve();
         }
 
-        if (loadRecord['value']['collection'] != tapisSettings.mongo_loadCollection) {
-            msg = 'load record collection: ' + loadRecord['value']['collection'] + ' != ' + tapisSettings.mongo_loadCollection + ' config load collection';
+        if (loadRecord['value']['collection'] != mongoSettings.loadCollection) {
+            msg = 'load record collection: ' + loadRecord['value']['collection'] + ' != ' + mongoSettings.loadCollection + ' config load collection';
             msg = config.log.error(context, msg);
             webhookIO.postToSlack(msg);
             return Promise.resolve();
