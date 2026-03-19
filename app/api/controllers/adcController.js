@@ -74,7 +74,7 @@ adcController.loadProject = async function(request, response) {
     var msg = null;
 
     // check for project load metadata
-    var loadMetadata = await tapisIO.getProjectLoadMetadata(projectUuid, tapisSettings.mongo_loadCollection)
+    var loadMetadata = await tapisIO.getProjectLoadMetadata(projectUuid, mongoSettings.loadCollection)
         .catch(function(error) {
             msg = 'tapisIO.getProjectLoadMetadata, error: ' + error;
         });
@@ -152,24 +152,22 @@ adcController.loadProject = async function(request, response) {
 // Unload project data from VDJServer ADC data repository
 //
 adcController.unloadProject = async function(request, response) {
+    var context = 'adcController.unloadProject';
     var projectUuid = request.params.project_uuid;
     var load_id = request.body.load_id;
     var clear_cache = request.body.clear_cache;
     var clear_statistics = request.body.clear_statistics;
     var msg = null;
 
-    return apiResponseController.sendError('Not implemented', 500, response);
-
-/*    console.log('VDJ-API INFO (ProjectController.unloadProject): start, project: ' + projectUuid);
-    console.log(request.body);
+    config.log.info(context, 'start, project: ' + projectUuid);
 
     // check for project load metadata
     var loadMetadata = await tapisIO.getProjectLoadMetadata(projectUuid, mongoSettings.loadCollection)
         .catch(function(error) {
-            msg = 'VDJ-API ERROR: ProjectController.unloadProject - tapisIO.getProjectLoadMetadata, error: ' + error;
+            msg = 'tapisIO.getProjectLoadMetadata, error: ' + error;
         });
     if (msg) {
-        console.error(msg);
+        msg = config.log.error(context, msg);
         webhookIO.postToSlack(msg);
         return apiResponseController.sendError(msg, 500, response);
     }
@@ -177,9 +175,9 @@ adcController.unloadProject = async function(request, response) {
     if (loadMetadata && loadMetadata[0]) {
         loadMetadata = loadMetadata[0];
         if (loadMetadata['uuid'] != load_id) {
-            msg = 'VDJ-API ERROR (ProjectController.unloadProject): Invalid load metadata id for project: ' + projectUuid;
-            console.error(msg);
-            webhookIO.postToSlack(msg);            
+            msg = 'Invalid load metadata id for project: ' + projectUuid + ', ' + load_id + ' != ' + loadMetadata['uuid'];
+            msg = config.log.error(context, msg);
+            webhookIO.postToSlack(msg);
             return apiResponseController.sendError(msg, 400, response);
         }
 
@@ -188,44 +186,35 @@ adcController.unloadProject = async function(request, response) {
         loadMetadata['value']['isLoaded'] = false;
         loadMetadata['value']['repertoireMetadataLoaded'] = false;
         loadMetadata['value']['rearrangementDataLoaded'] = false;
-        await tapisIO.updateMetadata(loadMetadata.uuid, loadMetadata.name, loadMetadata.value, loadMetadata.associationIds)
+        await tapisIO.updateDocument(loadMetadata.uuid, loadMetadata.name, loadMetadata.value)
             .catch(function(error) {
-                msg = 'VDJ-API ERROR: ProjectController.unloadProject - tapisIO.getProjectLoadMetadata, error: ' + error;
+                msg = 'tapisIO.updateDocument, error: ' + error;
             });
         if (msg) {
-            console.error(msg);
+            msg = config.log.error(context, msg);
             webhookIO.postToSlack(msg);
             return apiResponseController.sendError(msg, 500, response);
         }
 
         // trigger load queue if necessary
-        console.log('VDJ-API INFO: ProjectController.unloadProject, project: ' + projectUuid + ' flagged for repository unload'
+        config.log.info(context, 'project: ' + projectUuid + ' flagged for repository unload'
             + ', metadata: ' + loadMetadata.uuid);
 
-        projectQueueManager.triggerProjectUnload(projectUuid, loadMetadata);
+        adcQueueManager.triggerProjectUnload(projectUuid, loadMetadata);
 
         // clear ADC download cache
         if (clear_cache) {
-            await ServiceAccount.getToken()
-                .catch(function(error) {
-                    msg = 'VDJ-API ERROR (ProjectController.unloadProject): ServiceAccount.getToken, error: ' + error;
-                });
-            if (msg) {
-                console.error(msg);
-                webhookIO.postToSlack(msg);
-                return apiResponseController.sendError(msg, 500, response);
-            }
-
             // get the study_id
-            var projectMetadata = await tapisIO.getProjectMetadata(ServiceAccount.accessToken(), projectUuid)
+            var projectMetadata = await tapisIO.getAnyPublicProjectMetadata(projectUuid)
                 .catch(function(error) {
-                    msg = 'VDJ-API ERROR (ProjectController.unloadProject): tapisIO.getProjectMetadata, error: ' + error;
+                    msg = 'tapisIO.getAnyPublicProjectMetadata, error: ' + error;
                 });
             if (msg) {
-                console.error(msg);
+                msg = config.log.error(context, msg);
                 webhookIO.postToSlack(msg);
                 return apiResponseController.sendError(msg, 500, response);
             }
+            projectMetadata = projectMetadata[0];
 
             // assume VDJServer repository
             adcDownloadQueueManager.triggerClearCache('vdjserver', projectMetadata['value']['study_id']);
@@ -238,33 +227,32 @@ adcController.unloadProject = async function(request, response) {
 
         return apiResponseController.sendSuccess('Project queued for unload', response);
     } else {
-        msg = 'VDJ-API ERROR (ProjectController.unloadProject): project: ' + projectUuid + ' does not have load metadata.';
-        console.error(msg);
-        webhookIO.postToSlack(msg);            
+        msg = 'project: ' + projectUuid + ' does not have load metadata.';
+        msg = config.log.error(context, msg);
+        webhookIO.postToSlack(msg);
         return apiResponseController.sendError(msg, 400, response);
-    } */
+    }
 };
 
 //
 // Reload repertoire metadata for project in VDJServer ADC data repository
 //
 adcController.reloadProject = async function(request, response) {
+    var context = 'adcController.reloadProject';
     var projectUuid = request.params.project_uuid;
     var load_id = request.body.load_id;
     var msg = null;
 
-    return apiResponseController.sendError('Not implemented', 500, response);
-
-/*    console.log('VDJ-API INFO (ProjectController.reloadProject): start, project: ' + projectUuid);
+    config.log.info(context, 'start, project: ' + projectUuid);
     console.log(request.body);
 
     // check for project load metadata
     var loadMetadata = await tapisIO.getProjectLoadMetadata(projectUuid, mongoSettings.loadCollection)
         .catch(function(error) {
-            msg = 'VDJ-API ERROR: ProjectController.reloadProject - tapisIO.getProjectLoadMetadata, error: ' + error;
+            msg = 'tapisIO.getProjectLoadMetadata, error: ' + error;
         });
     if (msg) {
-        console.error(msg);
+        msg = config.log.error(context, msg);
         webhookIO.postToSlack(msg);
         return apiResponseController.sendError(msg, 500, response);
     }
@@ -272,63 +260,53 @@ adcController.reloadProject = async function(request, response) {
     if (loadMetadata && loadMetadata[0]) {
         loadMetadata = loadMetadata[0];
         if (loadMetadata['uuid'] != load_id) {
-            msg = 'VDJ-API ERROR (ProjectController.reloadProject): Invalid load metadata id for project: ' + projectUuid + ', ' + load_id + ' != ' + loadMetadata['uuid'];
-            console.error(msg);
-            webhookIO.postToSlack(msg);            
+            msg = 'Invalid load metadata id for project: ' + projectUuid + ', ' + load_id + ' != ' + loadMetadata['uuid'];
+            msg = config.log.error(context, msg);
+            webhookIO.postToSlack(msg);
             return apiResponseController.sendError(msg, 400, response);
         }
 
         // flag repertoire metadata as not loaded
         loadMetadata['value']['isLoaded'] = false;
         loadMetadata['value']['repertoireMetadataLoaded'] = false;
-        await tapisIO.updateMetadata(loadMetadata.uuid, loadMetadata.name, loadMetadata.value, loadMetadata.associationIds)
+        await tapisIO.updateDocument(loadMetadata.uuid, loadMetadata.name, loadMetadata.value)
             .catch(function(error) {
-                msg = 'VDJ-API ERROR: ProjectController.reloadProject - tapisIO.getProjectLoadMetadata, error: ' + error;
+                msg = 'tapisIO.updateDocument, error: ' + error;
             });
         if (msg) {
-            console.error(msg);
+            msg = config.log.error(context, msg);
             webhookIO.postToSlack(msg);
             return apiResponseController.sendError(msg, 500, response);
         }
 
         // trigger load queue if necessary
-        console.log('VDJ-API INFO: ProjectController.reloadProject, project: ' + projectUuid + ' flagged for repository reload'
-            + ', metadata: ' + loadMetadata.uuid);
+        config.log.info(context, 'project: ' + projectUuid + ' flagged for repository reload' + ', metadata: ' + loadMetadata.uuid);
 
-        projectQueueManager.triggerProjectLoad(projectUuid, loadMetadata);
+        adcQueueManager.triggerProjectLoad();
 
         // flag ADC download cache
-        await ServiceAccount.getToken()
-            .catch(function(error) {
-                msg = 'VDJ-API ERROR (ProjectController.reloadProject): ServiceAccount.getToken, error: ' + error;
-            });
-        if (msg) {
-            console.error(msg);
-            webhookIO.postToSlack(msg);
-            return apiResponseController.sendError(msg, 500, response);
-        }
-
         // get the study_id
-        var projectMetadata = await tapisIO.getProjectMetadata(ServiceAccount.accessToken(), projectUuid)
+        var projectMetadata = await tapisIO.getAnyPublicProjectMetadata(projectUuid)
             .catch(function(error) {
-                msg = 'VDJ-API ERROR (ProjectController.reloadProject): tapisIO.getProjectMetadata, error: ' + error;
+                msg = 'tapisIO.getAnyPublicProjectMetadata, error: ' + error;
             });
         if (msg) {
-            console.error(msg);
+            msg = config.log.error(context, msg);
             webhookIO.postToSlack(msg);
             return apiResponseController.sendError(msg, 500, response);
         }
+        projectMetadata = projectMetadata[0];
 
         // assume VDJServer repository
         adcDownloadQueueManager.recacheRepertoireMetadata('vdjserver', projectMetadata['value']['study_id']);
 
         return apiResponseController.sendSuccess('Project queued for reload', response);
     } else {
-        msg = 'VDJ-API ERROR (ProjectController.reloadProject): project: ' + projectUuid + ' does not have load metadata.';
-        console.error(msg);
-        webhookIO.postToSlack(msg);            
+        msg = 'project: ' + projectUuid + ' does not have load metadata.';
+        msg = config.log.error(context, msg);
+        webhookIO.postToSlack(msg);
         return apiResponseController.sendError(msg, 400, response);
-    } */
+    }
 };
 
 adcController.queryProjectLoad = async function(request, response) {

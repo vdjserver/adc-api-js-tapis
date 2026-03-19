@@ -44,17 +44,30 @@ var tapisIO = tapisSettings.get_default_tapis();
 var ServiceAccount = tapisIO.serviceAccount;
 var GuestAccount = tapisIO.guestAccount;
 var webhookIO = require('vdj-tapis-js/webhookIO');
-var mongoIO = require('vdj-tapis-js/mongoIO');
 var emailIO = require('vdj-tapis-js/emailIO');
+
+// ADC Mongo db
+var mongoIO = require('vdj-tapis-js/mongoIO');
+var mongoSettings = require('vdj-tapis-js/mongoSettings');
 
 adcDownloadController.statusADCRepository = async function(request, response) {
 
     var msg = null;
 
-    var status = { query_collection: tapisSettings.mongo_queryCollection, load_collection: tapisSettings.mongo_loadCollection };
+    var status = {
+	tapis_db: tapisSettings.mongo_dbname,
+	query_db: mongoSettings.queryDatabase,
+	query_collection: mongoSettings.queryCollection,
+	load_db: mongoSettings.loadDatabase,
+	load_collection: mongoSettings.loadCollection
+    };
+    if (mongoSettings.queryHost == mongoSettings.loadHost) status['same_host'] = true;
+    else status['same_host'] = false;
 
     var result = await mongoIO.testConnection();
-    status['db_connection'] = result;
+    status['query_connection'] = result;
+    result = await mongoIO.testLoadConnection();
+    status['load_connection'] = result;
 
     return apiResponseController.sendSuccess(status, response);
 };
@@ -269,7 +282,9 @@ adcDownloadController.deleteADCDownloadCacheForRepertoire = async function(reque
 };
 
 adcDownloadController.notifyADCDownloadCache = async function(request, response) {
-    console.log('VDJ-API INFO: Received ADCDownloadCache notification id:', request.params.notify_id, 'body:', JSON.stringify(request.body));
+    var context = 'adcDownloadController.notifyADCDownloadCache';
+
+    config.log.info(context, 'Received notification id:', request.params.notify_id, ' body:', JSON.stringify(request.body));
 
     var msg = null;
     var notify_id = request.params.notify_id;
@@ -289,6 +304,7 @@ adcDownloadController.notifyADCDownloadCache = async function(request, response)
             webhookIO.postToSlack(msg);
             return Promise.reject(new Error(msg));
         });
+    metadata = metadata[0];
 
     // do some error checking
     console.log(metadata);

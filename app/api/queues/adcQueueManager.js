@@ -34,6 +34,10 @@ module.exports = adcQueueManager;
 var app = require('../../app');
 var config = require('../../config/config');
 
+// Schemas
+var airr = require('airr-js');
+var vdj_schema = require('vdjserver-schema');
+
 // Tapis
 var tapisSettings = require('vdj-tapis-js/tapisSettings');
 var tapisIO = tapisSettings.get_default_tapis();
@@ -41,6 +45,7 @@ var ServiceAccount = tapisIO.serviceAccount;
 var GuestAccount = tapisIO.guestAccount;
 var webhookIO = require('vdj-tapis-js/webhookIO');
 var mongoIO = require('vdj-tapis-js/mongoIO');
+var mongoSettings = require('vdj-tapis-js/mongoSettings');
 
 // Node Libraries
 var Queue = require('bull');
@@ -101,37 +106,20 @@ triggerQueue.process(async (job) => {
 
     // check if active jobs in queues
     jobs = await submitQueue.getJobs(['active']);
-    //console.log(jobs);
-    //console.log(jobs.length);
-    //if (jobs.length > 0) {
-        config.log.info(context, 'active jobs (' + jobs.length + ') in ADC project load submit queue, skip trigger');
-    //    return Promise.resolve();
-    //}
+    config.log.info(context, 'active jobs (' + jobs.length + ') in ADC project load submit queue.');
 
     // check if active jobs in queues
     jobs = await repertoireQueue.getJobs(['active']);
-    //console.log(jobs);
-    //console.log(jobs.length);
-    //if (jobs.length > 0) {
-        config.log.info(context, 'active jobs (' + jobs.length + ') in ADC project repertoire metadata load queue, skip trigger');
-    //    return Promise.resolve();
-    //}
+    config.log.info(context, 'active jobs (' + jobs.length + ') in ADC project repertoire metadata load queue.');
 
     jobs = await rearrangementCheckQueue.getJobs(['active']);
-    //console.log(jobs);
-    //console.log(jobs.length);
-    //if (jobs.length > 0) {
-        config.log.info(context, 'active jobs (' + jobs.length + ') in ADC project rearrangement check queue, skip trigger');
-    //    return Promise.resolve();
-    //}
+    config.log.info(context, 'active jobs (' + jobs.length + ') in ADC project rearrangement check queue.');
 
     jobs = await rearrangementLoadQueue.getJobs(['active']);
-    //console.log(jobs);
-    //console.log(jobs.length);
-    //if (jobs.length > 0) {
-        config.log.info(context, 'active jobs (' + jobs.length + ') in ADC project rearrangement load queue, skip trigger');
-    //    return Promise.resolve();
-    //}
+    config.log.info(context, 'active jobs (' + jobs.length + ') in ADC project rearrangement load queue.');
+
+    jobs = await unloadQueue.getJobs(['active']);
+    config.log.info(context, 'active jobs (' + jobs.length + ') in ADC project unload queue');
 
     // check if enabled
     if (config.enableADCLoad) {
@@ -181,7 +169,7 @@ submitQueue.process(async (job) => {
 
     config.log.info(context, 'start');
 
-    var projectList = await tapisIO.getProjectsToBeLoaded(tapisSettings.mongo_loadCollection)
+    var projectList = await tapisIO.getProjectsToBeLoaded(mongoSettings.loadCollection)
         .catch(function(error) {
             msg = 'tapisIO.getProjectsToBeLoaded, error: ' + error;
         });
@@ -214,7 +202,7 @@ repertoireQueue.process(async (job) => {
 
     config.log.info(context, 'start');
 
-    var projectList = await tapisIO.getProjectsToBeLoaded(tapisSettings.mongo_loadCollection)
+    var projectList = await tapisIO.getProjectsToBeLoaded(mongoSettings.loadCollection)
         .catch(function(error) {
             msg = 'tapisIO.getProjectsToBeLoaded, error: ' + error;
         });
@@ -279,7 +267,7 @@ repertoireQueue.process(async (job) => {
         return Promise.reject();
     }
 
-    var repertoireMetadata = await tapisIO.gatherRepertoireMetadataForProject(projectMetadata, true)
+    var repertoireMetadata = await tapisIO.gatherRepertoireMetadataForProject(null, projectMetadata.uuid, true)
         .catch(function(error) {
             msg = 'tapisIO.gatherRepertoireMetadataForProject, error: ' + error;
         });
@@ -304,7 +292,7 @@ repertoireQueue.process(async (job) => {
     }
 
     // insert repertoires into database
-    await mongoIO.loadRepertoireMetadata(repertoireMetadata, tapisSettings.mongo_loadCollection)
+    await mongoIO.loadRepertoireMetadata(repertoireMetadata, mongoSettings.loadCollection)
         .catch(function(error) {
             msg = 'mongoIO.loadRepertoireMetadata, error: ' + error;
         });
@@ -356,7 +344,7 @@ rearrangementCheckQueue.process(async (job) => {
 
     config.log.info(context, 'start');
 
-    var projectList = await tapisIO.getProjectsToBeLoaded(tapisSettings.mongo_loadCollection)
+    var projectList = await tapisIO.getProjectsToBeLoaded(mongoSettings.loadCollection)
         .catch(function(error) {
             msg = 'tapisIO.getProjectsToBeLoaded, error: ' + error;
         });
@@ -378,6 +366,25 @@ rearrangementCheckQueue.process(async (job) => {
     // we did not find one, so all the rearrangement data is loaded
     if (! projectLoad) {
         config.log.info(context, 'all rearrangement data is loaded.');
+
+        // check to see if any projects have been completely loaded
+        for (let i = 0; i < projectList.length; ++i) {
+            let proj = projectList[i];
+            if (proj['value']['repertoireMetadataLoaded'] && proj['value']['rearrangementDataLoaded']) {
+                config.log.info(context, 'project completely loaded: ' + proj.uuid);
+                proj.value.isLoaded = true;
+                await tapisIO.updateDocument(proj.uuid, proj.name, proj.value)
+                    .catch(function(error) {
+                        msg = 'tapisIO.updateDocument, error: ' + error;
+                    });
+                if (msg) {
+                    msg = config.log.error(context, msg);
+                    webhookIO.postToSlack(msg);
+                    return Promise.reject();
+                }
+            }
+        }
+
         config.log.info(context, 'end');
         return Promise.resolve();
     }
@@ -401,7 +408,7 @@ rearrangementCheckQueue.process(async (job) => {
     }
     projectMetadata = projectMetadata[0];
 
-    var repertoireMetadata = await tapisIO.gatherRepertoireMetadataForProject(projectMetadata, true)
+    var repertoireMetadata = await tapisIO.gatherRepertoireMetadataForProject(null, projectUuid, true)
         .catch(function(error) {
             msg = 'tapisIO.gatherRepertoireMetadataForProject, error: ' + error;
         });
@@ -422,7 +429,7 @@ rearrangementCheckQueue.process(async (job) => {
                 + ' repertoire metadata for project: ' + projectUuid);
 
     // check if there are existing rearrangement load records
-    var rearrangementLoad = await tapisIO.getRearrangementsToBeLoaded(projectUuid, tapisSettings.mongo_loadCollection)
+    var rearrangementLoad = await tapisIO.getRearrangementsToBeLoaded(projectUuid, mongoSettings.loadCollection)
         .catch(function(error) {
             msg = 'tapisIO.getRearrangementsToBeLoaded, error: ' + error;
         });
@@ -438,7 +445,7 @@ rearrangementCheckQueue.process(async (job) => {
 
         for (let i = 0; i < repertoireMetadata.length; i++) {
             let repertoire_id = repertoireMetadata[i]['repertoire_id'];
-            await tapisIO.createRearrangementLoadMetadata(projectUuid, repertoire_id, tapisSettings.mongo_loadCollection)
+            await tapisIO.createRearrangementLoadMetadata(projectUuid, repertoire_id, mongoSettings.loadCollection)
                 .catch(function(error) {
                     msg = 'tapisIO.createRearrangementLoadMetadata, error: ' + error;
                 });
@@ -466,7 +473,7 @@ rearrangementCheckQueue.process(async (job) => {
             }
             if (! found) {
                 let repertoire_id = repertoireMetadata[i]['repertoire_id'];
-                await tapisIO.createRearrangementLoadMetadata(projectUuid, repertoire_id, tapisSettings.mongo_loadCollection)
+                await tapisIO.createRearrangementLoadMetadata(projectUuid, repertoire_id, tapisSettings.mongoSettings.loadCollection)
                     .catch(function(error) {
                         msg = 'tapisIO.createRearrangementLoadMetadata, error: ' + error;
                     });
@@ -508,7 +515,7 @@ rearrangementLoadQueue.process(async (job) => {
 
     config.log.info(context, 'start');
 
-    var projectList = await tapisIO.getProjectsToBeLoaded(tapisSettings.mongo_loadCollection)
+    var projectList = await tapisIO.getProjectsToBeLoaded(mongoSettings.loadCollection)
         .catch(function(error) {
             msg = 'tapisIO.getProjectsToBeLoaded, error: ' + error;
         });
@@ -558,7 +565,7 @@ rearrangementLoadQueue.process(async (job) => {
     }
 
     // check if there are existing rearrangement load records
-    var rearrangementLoad = await tapisIO.getRearrangementsToBeLoaded(projectUuid, tapisSettings.mongo_loadCollection)
+    var rearrangementLoad = await tapisIO.getRearrangementsToBeLoaded(projectUuid, mongoSettings.loadCollection)
         .catch(function(error) {
             msg = 'tapisIO.getRearrangementsToBeLoaded, error: ' + error;
         });
@@ -610,7 +617,7 @@ rearrangementLoadQueue.process(async (job) => {
     }
     projectMetadata = projectMetadata[0];
 
-    var repertoireMetadata = await tapisIO.gatherRepertoireMetadataForProject(projectMetadata, true)
+    var repertoireMetadata = await tapisIO.gatherRepertoireMetadataForProject(null, projectUuid, true)
         .catch(function(error) {
             msg = 'tapisIO.gatherRepertoireMetadataForProject, error: ' + error;
         });
@@ -684,6 +691,98 @@ rearrangementLoadQueue.process(async (job) => {
         if (! primaryDP) {
             msg = 'could not find primary data processing for repertoire_id: '
                 + dataLoad['value']['repertoire_id'];
+            config.log.info(context, msg);
+            msg = null;
+
+            // TODO: might need to rethink how to do this
+            // If a user attached AIRR TSV files to the repertoire with no data processing
+            // versus uploading raw files and processing on VDJServer, we still want to
+            // be able to load the project.
+
+            // We need to create a data processing record so that the load process can find
+            // the AIRR TSV files.
+            
+            // AIRR TSV are recorded as FASTA in SequencingData but the actual file type is AIRR TSV
+            console.log(JSON.stringify(repertoire, null, 2));
+            if (repertoire['sample'][0]['sequencing_files'] && repertoire['sample'][0]['sequencing_files']['file_type'] == 'fasta') {
+                let url = 'tapis://' + tapisSettings.storageSystem + "/projects/" + projectUuid + '/files/' + repertoire['sample'][0]['sequencing_files']['filename'];
+                let file = await tapisIO.getProjectFileMetadataByURL(projectUuid, url)
+                    .catch(function(error) {
+                        msg = 'tapisIO.getProjectFileMetadataByURL, error: ' + error;
+                    });
+                if (msg) {
+                    msg = config.log.error(context, msg);
+                    webhookIO.postToSlack(msg);
+                    return Promise.reject();
+                }
+                console.log(file);
+
+                if (! file || file.length != 1) {
+                    msg = 'Invalid project file info: ' + url;
+                    msg = config.log.error(context, msg);
+                    webhookIO.postToSlack(msg);
+                    return Promise.resolve();
+                }
+                file = file[0];
+
+                if (file['value']['fileType'] == 9) {
+                    config.log.info(context, 'Found an AIRR TSV: ' + url);
+                    config.log.info(context, 'Creating a primary data processing record for the AIRR TSV.');
+
+                    let dpschema = airr.get_schema('DataProcessing');
+                    let dp = dpschema.template();
+                    dp['primary_annotation'] = true;
+                    dp['data_processing_files'] = [ file['value']['name'] ];
+
+                    let dp_metadata = await tapisIO.createMetadataForProject(projectUuid, 'data_processing', { 'value': dp }, 'data_processing_id')
+                        .catch(function(error) {
+                            msg = 'got error for creating data_processing metadata for project: ' + projectUuid + ', error: ' + error;
+                        });
+                    if (msg) {
+                        msg = config.log.error(context, msg);
+                        webhookIO.postToSlack(msg);
+                        return Promise.resolve();
+                    }
+                    console.log(JSON.stringify(dp_metadata, null, 2));
+                    config.log.info(context, 'Successfully created a primary data processing record for the AIRR TSV: ' + dp_metadata['uuid']);
+
+                    // update the repertoire record
+                    let rep_metadata = await tapisIO.getMetadataForProject(projectUuid, repertoire['repertoire_id'])
+                        .catch(function(error) {
+                            msg = 'got error for project: ' + projectUuid + ' with repertoire_id: ' + repertoire['repertoire_id'] + ', error: ' + error;
+                        });
+                    if (msg) {
+                        msg = config.log.error(context, msg);
+                        webhookIO.postToSlack(msg);
+                        return Promise.resolve();
+                    }
+                    console.log(JSON.stringify(rep_metadata, null, 2));
+                    rep_metadata = rep_metadata[0];
+
+                    if ((rep_metadata['value']['data_processing'].length == 1) && (rep_metadata['value']['data_processing'][0]['vdjserver_uuid'] == null)) {
+                        rep_metadata['value']['data_processing'] = [{ "vdjserver_uuid": dp_metadata['uuid'] }];
+                    } else {
+                        rep_metadata['value']['data_processing'].push({ "vdjserver_uuid": dp_metadata['uuid'] });
+                    }
+                    rep_metadata = await tapisIO.updateMetadataForProject(projectUuid, rep_metadata['uuid'], rep_metadata)
+                        .catch(function(error) {
+                            msg = 'got error for project: ' + projectUuid + ' with repertoire_id: ' + repertoire['repertoire_id'] + ', error: ' + error;
+                        });
+                    if (msg) {
+                        msg = config.log.error(context, msg);
+                        webhookIO.postToSlack(msg);
+                        return Promise.resolve();
+                    }
+                    console.log(JSON.stringify(rep_metadata, null, 2));
+                    config.log.info(context, 'Successfully updated repertoire with data processing record: ' + repertoire['repertoire_id']);
+
+                    // have it reload everything
+                    return Promise.resolve();
+                }
+            }
+
+            msg = 'could not find primary data processing for repertoire_id: '
+                + dataLoad['value']['repertoire_id'];
             msg = config.log.error(context, msg);
             webhookIO.postToSlack(msg);
             return Promise.resolve();
@@ -732,6 +831,9 @@ rearrangementLoadQueue.process(async (job) => {
             if (job['name'] == 'tapis_v2_job') {
                 console.log(job['name']);
                 jobOutput = { archivePath: job['value']['archive_path'] };
+            } else if (job['name'] == 'data_processing') {
+                console.log(job['name']);
+                jobOutput = { archivePath: '/projects/' + projectUuid + '/files' };
             }
         }
         //console.log(jobOutput);
@@ -779,261 +881,41 @@ rearrangementLoadQueue.process(async (job) => {
     return Promise.resolve();
 });
 
-/*
-  OLD CODE
-
-
-
-
-
-
-
-
-
-    // 4. load rearrangement data for each repertoire
-    taskQueue.process('rearrangementLoadTask', function(task, done) {
-        var msg = null;
-        var projectLoad = null;
-        var projectUuid = null;
-        var rearrangementLoad = null;
-        var repertoireMetadata = null;
-        var repertoire = null;
-        var dataLoad = null;
-        var primaryDP = null;
-        var jobOutput = null;
-        var allProjectsLoaded = false;
-        var allRearrangementsLoaded = false;
-
-        console.log('VDJ-API INFO: projectQueueManager.rearrangementLoadTask, task started.');
-
-        tapisIO.getProjectsToBeLoaded(mongoSettings.loadCollection)
-            .then(function(projectList) {
-                console.log('VDJ-API INFO: projectQueueManager.rearrangementLoadTask, ' + projectList.length + ' project(s) to be loaded.');
-
-                // look for project that needs rearrangement data to be loaded
-                for (var i = 0; i < projectList.length; ++i) {
-                    if (! projectList[i]['value']['rearrangementDataLoaded']) {
-                        projectLoad = projectList[i];
-                        projectUuid = projectLoad['associationIds'][0];
-                        break;
-                    }
-                }
-                if (projectList.length == 0) allProjectsLoaded = true;
-
-                // we did not find one, so all the rearrangement data is loaded
-                if (! projectLoad) {
-                    console.log('VDJ-API INFO: projectQueueManager.rearrangementLoadTask, all rearrangement data is loaded.');
-                    allRearrangementsLoaded = true;
-
-                    // but the project is to be loaded, check to see if all is done and update
-                    for (var i = 0; i < projectList.length; ++i) {
-                        var proj = projectList[i];
-                        if (proj['value']['repertoireMetadataLoaded'] && proj['value']['rearrangementDataLoaded']) {
-                            console.log('VDJ-API INFO: projectQueueManager.rearrangementLoadTask, project completely loaded: ' + proj.uuid);
-                            proj.value.isLoaded = true;
-                            return tapisIO.updateMetadata(proj.uuid, proj.name, proj.value, proj.associationIds);
-                        }
-                    }
-                }
-
-                return;
-            })
-            .then(function() {
-                if (! projectLoad) return;
-
-                // check if there are existing rearrangement load records
-                return tapisIO.getRearrangementsToBeLoaded(projectUuid, mongoSettings.loadCollection)
-                    .then(function(_rearrangementLoad) {
-                        rearrangementLoad = _rearrangementLoad;
-                        if (! rearrangementLoad || rearrangementLoad.length == 0) {
-                            msg = 'VDJ-API ERROR: projectQueueManager.rearrangementLoadTask, project has no rearrangement load records: ' + projectUuid;
-                            return null;
-                        }
-
-                        console.log('VDJ-API INFO: projectQueueManager.rearrangementLoadTask, gathered ' + rearrangementLoad.length
-                                    + ' rearrangement load records for project: ' + projectUuid);
-
-                        var loadedCount = 0;
-                        for (var i = 0; i < rearrangementLoad.length; ++i)
-                            if (rearrangementLoad[i]['value']['isLoaded'])
-                                ++loadedCount;
-                                
-                        for (var i = 0; i < rearrangementLoad.length; ++i) {
-                            if (! rearrangementLoad[i]['value']['isLoaded']) {
-                                dataLoad = rearrangementLoad[i];
-                                break;
-                            }
-                        }
-
-                        console.log('VDJ-API INFO: projectQueueManager.rearrangementLoadTask, ' + loadedCount
-                                    + ' of the total ' + rearrangementLoad.length
-                                    + ' rearrangement load records have been loaded.');
-
-                        return tapisIO.gatherRepertoireMetadataForProject(projectUuid, true);
-                    })
-            })
-            .then(function(_repertoireMetadata) {
-                if (! projectLoad) return;
-                if (! dataLoad) {
-                    console.log('VDJ-API INFO: projectQueueManager.rearrangementLoadTask, all rearrangement loads done for project: ' + projectLoad.uuid);
-                    console.log('VDJ-API INFO: projectQueueManager.rearrangementLoadTask, project completely loaded: ' + projectLoad.uuid);
-                    // project to be loaded but no dataLoad means all rearrangement loads have been completed
-                    // update the load status
-                    projectLoad.value.rearrangementDataLoaded = true;
-                    projectLoad.value.isLoaded = true;
-                    return tapisIO.updateMetadata(projectLoad.uuid, projectLoad.name, projectLoad.value, projectLoad.associationIds);
-                }
-
-                //console.log(dataLoad);
-                repertoireMetadata = _repertoireMetadata;
-
-                if (repertoireMetadata.length != rearrangementLoad.length) {
-                    msg = 'VDJ-API ERROR: projectQueueManager.rearrangementLoadTask, number (' + rearrangementLoad.length
-                        + ') of rearrangement load records is not equal to number (' + repertoireMetadata.length
-                        + ') of repertoires.';
-                    return null;
-                }
-
-                console.log('VDJ-API INFO: projectQueueManager.rearrangementLoadTask, rearrangement data load: '
-                            + dataLoad['uuid'] + ' for repertoire: ' + dataLoad['value']['repertoire_id']
-                            + ' at load set: ' + dataLoad['value']['load_set']);
-
-                for (var i = 0; i < repertoireMetadata.length; ++i) {
-                    if (repertoireMetadata[i]['repertoire_id'] == dataLoad['value']['repertoire_id']) {
-                        repertoire = repertoireMetadata[i];
-                        break;
-                    }
-                }
-                //console.log(repertoire);
-
-                if (! repertoire) {
-                    msg = 'VDJ-API ERROR: projectQueueManager.rearrangementLoadTask, could not find repertoire record for repertoire_id: '
-                        + dataLoad['value']['repertoire_id'];
-                    return null;
-                }
-
-                for (var i = 0; i < repertoire['data_processing'].length; ++i) {
-                    if (repertoire['data_processing'][i]['primary_annotation']) {
-                        primaryDP = repertoire['data_processing'][i];
-                        break;
-                    }
-                }
-
-                if (! primaryDP) {
-                    msg = 'VDJ-API ERROR: projectQueueManager.rearrangementLoadTask, could not find primary data processing for repertoire_id: '
-                        + dataLoad['value']['repertoire_id'];
-                    return null;
-                }
-                
-                if (! primaryDP['data_processing_id']) {
-                    msg = 'VDJ-API ERROR: projectQueueManager.rearrangementLoadTask, no data_processing_id for primary data processing for repertoire_id: '
-                        + dataLoad['value']['repertoire_id'];
-                    return null;
-                }
-
-                if (! primaryDP['data_processing_files']) {
-                    msg = 'VDJ-API ERROR: projectQueueManager.rearrangementLoadTask, primary data processing: '
-                        + primaryDP['data_processing_id'] + " does not have data_processing_files.";
-                    return null;
-                }
-
-                if (primaryDP['data_processing_files'].length == 0) {
-                    msg = 'VDJ-API ERROR: projectQueueManager.rearrangementLoadTask, primary data processing: '
-                        + primaryDP['data_processing_id'] + " does not have data_processing_files.";
-                    return null;
-                }
-
-                // get the data processing record
-                // TODO: right now this is a job, but we should switch to using analysis_provenance_id
-                // which contains the appropriate information
-                return tapisIO.getJobOutput(primaryDP['data_processing_id'])
-                    .then(function(_job) {
-                        if (! _job) {
-                            msg = 'VDJ-API ERROR: projectQueueManager.rearrangementLoadTask, could not get job: '
-                                + primaryDP['data_processing_id'] + ' for primary data processing: ' + primaryDP['data_processing_id'];
-                            return null;
-                        }
-                        jobOutput = _job;
-                        //console.log(jobOutput);
-
-                        if (! jobOutput['archivePath']) {
-                            msg = 'VDJ-API ERROR: projectQueueManager.rearrangementLoadTask, job: ' + jobOutput.uuid + " is missing archivePath.";
-                            return null;
-                        }
-                        if (jobOutput['archivePath'].length == 0) {
-                            msg = 'VDJ-API ERROR: projectQueueManager.rearrangementLoadTask, job: ' + jobOutput.uuid + " is missing archivePath.";
-                            return null;
-                        }
-
-                        // finally, start the rearrangement load!
-                        return mongoIO.loadRearrangementData(dataLoad, repertoire, primaryDP, jobOutput);
-                    })
-            })
-            .then(function() {
-                console.log('VDJ-API INFO: projectQueueManager.rearrangementLoadTask, task done.');
-                if (msg) {
-                    // an error occurred so stop the task
-                    console.error(msg);
-                    webhookIO.postToSlack(msg);
-                    done(new Error(msg));
-                } else {
-                    // if not all loaded trigger start at beginning and check for more
-                    if (allRearrangementsLoaded && allProjectsLoaded) {
-                        console.log('VDJ-API INFO: projectQueueManager.rearrangementLoadTask, all loads done, pausing queue.');
-                    }
-                    else {
-                        taskQueue
-                            .create('checkProjectsToLoadTask', null)
-                            .removeOnComplete(true)
-                            .attempts(5)
-                            .backoff({delay: 60 * 1000, type: 'fixed'})
-                            .save();
-                    }
-
-                    done();
-                }
-            })
-            .catch(function(error) {
-                if (!msg) msg = 'VDJ-API ERROR: projectQueueManager.rearrangementLoadTask - error ' + error;
-                console.error(msg);
-                webhookIO.postToSlack(msg);
-                done(new Error(msg));
-            });
-
-    });
-};
-*/
-
+//
+// Unloading
+//
 
 adcQueueManager.triggerProjectUnload = function(projectUuid, loadMetadata) {
-    console.log('VDJ-API INFO (ProjectQueueManager.triggerProjectUnload):');
+    var context = 'adcQueueManager.triggerProjectUnload';
+    config.log.info(context, 'project: ' + projectUuid);
     unloadQueue.add({projectUuid:projectUuid, loadMetadata:loadMetadata});
 }
 
 unloadQueue.process(async (job) => {
+    var context = 'adcQueueManager.unloadQueue';
     var msg = null;
     var projectUuid = job['data']['projectUuid'];
     var loadMetadata = job['data']['loadMetadata'];
 
-    console.log('VDJ-API INFO (unloadQueue): start');
+    config.log.info(context, 'start');
 
     // get the rearrangement load records
-    var rearrangementLoad = await tapisIO.getRearrangementsToBeLoaded(projectUuid, tapisSettings.mongo_loadCollection)
+    var rearrangementLoad = await tapisIO.getRearrangementsToBeLoaded(projectUuid, mongoSettings.loadCollection)
         .catch(function(error) {
-            msg = 'VDJ-API ERROR (unloadQueue): tapisIO.getRearrangementsToBeLoaded, error: ' + error;
+            msg = 'tapisIO.getRearrangementsToBeLoaded, error: ' + error;
         });
     if (msg) {
-        console.error(msg);
+        msg = config.log.error(context, msg);
         webhookIO.postToSlack(msg);
         return Promise.resolve();
     }
 
     if (! rearrangementLoad || rearrangementLoad.length == 0) {
-        console.log('VDJ-API INFO (unloadQueue): project has no rearrangement load records: ' + projectUuid);
+        config.log.info(context, 'project has no rearrangement load records: ' + projectUuid);
         return Promise.resolve();
     }
 
-    console.log('VDJ-API INFO (unloadQueue): gathered ' + rearrangementLoad.length + ' rearrangement load records for project: ' + projectUuid);
+    config.log.info(context, 'gathered ' + rearrangementLoad.length + ' rearrangement load records for project: ' + projectUuid);
 
     // for each load record, delete rearrangements, delete load metadata
     for (let i = 0; i < rearrangementLoad.length; i++) {
@@ -1042,26 +924,26 @@ unloadQueue.process(async (job) => {
         var repertoireCollection = 'repertoire' + loadRecord['value']['collection'];
 
         if (! loadRecord['value']['repertoire_id']) {
-            msg = 'VDJ-API ERROR (unloadQueue): missing repertoire_id from load record: ' + JSON.stringify(loadRecord);
-            console.error(msg);
+            msg = 'missing repertoire_id from load record: ' + JSON.stringify(loadRecord);
+            msg = config.log.error(context, msg);
             webhookIO.postToSlack(msg);
             return Promise.resolve();
         }
 
-        if (loadRecord['value']['collection'] != tapisSettings.mongo_loadCollection) {
-            msg = 'VDJ-API ERROR (unloadQueue): load record collection: ' + loadRecord['value']['collection'] + ' != ' + tapisSettings.mongo_loadCollection + ' config load collection';
-            console.error(msg);
+        if (loadRecord['value']['collection'] != mongoSettings.loadCollection) {
+            msg = 'load record collection: ' + loadRecord['value']['collection'] + ' != ' + mongoSettings.loadCollection + ' config load collection';
+            msg = config.log.error(context, msg);
             webhookIO.postToSlack(msg);
             return Promise.resolve();
         }
 
-        console.log('VDJ-API INFO (unloadQueue): deleting rearrangements for repertoire:', loadRecord['value']['repertoire_id']);
+        config.log.info(context, 'deleting rearrangements for repertoire:', loadRecord['value']['repertoire_id']);
         await mongoIO.deleteLoadSet(loadRecord['value']['repertoire_id'], null, rearrangementCollection)
             .catch(function(error) {
-                msg = 'VDJ-API ERROR (unloadQueue): mongoIO.deleteLoadSet, error: ' + error;
+                msg = 'mongoIO.deleteLoadSet, error: ' + error;
             });
         if (msg) {
-            console.error(msg);
+            msg = config.log.error(context, msg);
             webhookIO.postToSlack(msg);
             return Promise.resolve();
         }
@@ -1069,35 +951,26 @@ unloadQueue.process(async (job) => {
         console.log('VDJ-API INFO (unloadQueue): deleting repertoire:', loadRecord['value']['repertoire_id']);
         await mongoIO.deleteRepertoire(loadRecord['value']['repertoire_id'], repertoireCollection)
             .catch(function(error) {
-                msg = 'VDJ-API ERROR (unloadQueue): mongoIO.deleteLoadSet, error: ' + error;
+                msg = 'mongoIO.deleteLoadSet, error: ' + error;
             });
         if (msg) {
-            console.error(msg);
+            msg = config.log.error(context, msg);
             webhookIO.postToSlack(msg);
             return Promise.resolve();
         }
 
-        console.log('VDJ-API INFO (unloadQueue): deleting rearrangement load record:', loadRecord['uuid']);
-        await ServiceAccount.getToken()
+        console.log(loadRecord);
+        config.log.info(context, 'deleting rearrangement load record:', loadRecord['uuid']);
+        await tapisIO.deleteRecord('tapis_meta', loadRecord['_id']['$oid'])
             .catch(function(error) {
-                msg = 'VDJ-API ERROR (unloadQueue): ServiceAccount.getToken, error: ' + error;
+                msg = 'tapisIO.deleteRecord, error: ' + error;
             });
         if (msg) {
-            console.error(msg);
-            webhookIO.postToSlack(msg);
-            return Promise.resolve();
-        }
-
-        await tapisIO.deleteMetadata(ServiceAccount.accessToken(), loadRecord['uuid'])
-            .catch(function(error) {
-                msg = 'VDJ-API ERROR (unloadQueue): tapisIO.deleteMetadata, error: ' + error;
-            });
-        if (msg) {
-            console.error(msg);
+            msg = config.log.error(context, msg);
             webhookIO.postToSlack(msg);
             return Promise.resolve();
         }
     }
 
-    console.log('VDJ-API INFO (unloadQueue): complete');
+    config.log.info(context, 'complete');
 });

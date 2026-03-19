@@ -8,7 +8,7 @@
 // ADC API for VDJServer
 // https://vdjserver.org
 //
-// Copyright (C) 2020 The University of Texas Southwestern Medical Center
+// Copyright (C) 2020-2025 The University of Texas Southwestern Medical Center
 //
 // Author: Scott Christley <scott.christley@utsouthwestern.edu>
 //
@@ -45,6 +45,7 @@ var authController = tapisIO.authController;
 var webhookIO = require('vdj-tapis-js/webhookIO');
 var adc_mongo_query = require('vdj-tapis-js/adc_mongo_query');
 var mongoIO = require('vdj-tapis-js/mongoIO');
+var mongoSettings = require('vdj-tapis-js/mongoSettings');
 
 var ObjectId = require('mongodb').ObjectId;
 
@@ -57,40 +58,6 @@ function getInfoObject() {
     info['contact'] = config.info.contact;
     return info;
 }
-
-// Clean data record
-// Remove any internal fields
-/* function cleanRecord(record, projection, all_fields) {
-    if (!record['sequence_id']) {
-        if (record['_id']['$oid']) record['sequence_id'] = record['_id']['$oid'];
-        else record['sequence_id'] = record['_id'];
-    }
-
-    // gene calls, join back to string
-    if ((typeof record['v_call']) == "object") record['v_call'] = record['v_call'].join(',');
-    if ((typeof record['d_call']) == "object") record['d_call'] = record['d_call'].join(',');
-    if ((typeof record['j_call']) == "object") record['j_call'] = record['j_call'].join(',');
-
-    // TODO: general this a bit in case we add more
-    if (record['_id']) delete record['_id'];
-    if (record['_etag']) delete record['_etag'];
-    if (record['vdjserver_junction_suffixes'])
-        if (projection['vdjserver_junction_suffixes'] == undefined)
-            delete record['vdjserver_junction_suffixes'];
-
-    // add any missing required fields
-    if (all_fields.length > 0) {
-        airr.addFields(record, all_fields, global.airr['Rearrangement']);
-    }
-    // apply projection
-    var keys = Object.keys(record);
-    if (Object.keys(projection).length > 0) {
-        for (var p = 0; p < keys.length; ++p)
-            if (projection[keys[p]] == undefined)
-                delete record[keys[p]];
-    } 
-    return record;
-} */
 
 // get a single rearrangement
 RearrangementController.getRearrangement = async function(req, res) {
@@ -114,16 +81,8 @@ RearrangementController.getRearrangement = async function(req, res) {
         start: Date.now()
     };
 
-    //var collection = 'rearrangement' + tapisSettings.mongo_queryCollection + '/' + get_sequence_id;
-    var collection = 'rearrangement' + tapisSettings.mongo_queryCollection;
+    var collection = 'rearrangement' + mongoSettings.queryCollection;
     var query = { "_id": ObjectId(get_sequence_id) };
-
-    // Handle client HTTP request abort
-/*    var abortQuery = false;
-    req.on("close", function() {
-        config.log.info(context, 'Client request closed unexpectedly.');
-        abortQuery = true;
-    }); */
 
     // all AIRR fields
     var all_fields = [];
@@ -165,79 +124,7 @@ RearrangementController.getRearrangement = async function(req, res) {
     queryRecord['status'] = 'success';
     queryRecord['end'] = Date.now();
     return tapisIO.recordQuery(queryRecord);
-
-/*    return tapisIO.performQuery(collection, null, null, null, null)
-        .then(function(record) {
-            if (record['http status code'] == 404) {
-                res.json({"Info":info,"Rearrangement":[]});
-                queryRecord['count'] = 0;
-            } else {
-                if (!record['sequence_id']) {
-                    if (record['_id']['$oid']) record['sequence_id'] = record['_id']['$oid'];
-                    else record['sequence_id'] = record['_id'];
-                }
-                if (record['_id']) delete record['_id'];
-                if (record['_etag']) delete record['_etag'];
-                airr.addFields(record, all_fields, airr_schema);
-                res.json({"Info":info,"Rearrangement":[record]});
-                queryRecord['count'] = 1;
-            }
-        })
-        .then(function() {
-            if (abortQuery) {
-                queryRecord['status'] = 'abort';
-                queryRecord['end'] = Date.now();
-                tapisIO.recordQuery(queryRecord);
-            } else {
-                queryRecord['status'] = 'success';
-                queryRecord['end'] = Date.now();
-                tapisIO.recordQuery(queryRecord);
-            }
-        })
-        .catch(function(error) {
-            var msg = config.log.error(context, 'tapisIO.performQuery error: ' + error);
-            res.status(500).json({"message":result_message});
-            webhookIO.postToSlack(msg);
-            queryRecord['status'] = 'error';
-            queryRecord['message'] = msg;
-            queryRecord['end'] = Date.now();
-            tapisIO.recordQuery(queryRecord);
-            return;
-        }); */
 }
-/*
-function performFacets(collection, query, field, start_page, pagesize) {
-    var models = [];
-
-    //console.log(query);
-    var doAggr = function(page) {
-        var aggrFunction = tapisIO.performAggregation;
-        if (query && query.length > config.large_query_size) {
-            config.log.info(context, 'Large facets query detected.');
-            aggrFunction = tapisIO.performLargeAggregation;
-        }
-        // TAPIS BUG: with pagesize and normal aggregation so use the large one for now
-        aggrFunction = tapisIO.performLargeAggregation;
-        return aggrFunction(collection, 'facets', query, field, null, null)
-            .then(function(records) {
-                config.log.info(context, 'query returned ' + records.length + ' records.');
-                //console.log(JSON.stringify(records));
-                if (records.length == 0) {
-                    return Promise.resolve(models);
-                } else {
-                    // the new facets aggregation returns a single record with all the data
-                    return Promise.resolve(records[0]['facets']);
-                }
-            })
-            .catch(function(errorObject) {
-                return Promise.reject(errorObject);
-            });
-    };
-    
-    return doAggr(start_page);
-}
-
-*/
 
 RearrangementController.queryRearrangements = async function(req, res) {
     var context = 'RearrangementController.queryRearrangements';
@@ -402,6 +289,8 @@ RearrangementController.queryRearrangements = async function(req, res) {
         filter = bodyData['filters'];
         try {
             var error = { message: '' };
+            // TODO: check support is off because we need the rearrangements extensions in the ADC API spec
+            // it should be on to protect from bad queries on rearrangements
             query = adc_mongo_query.constructQueryOperation(airr, airr_schema, filter, error, false, true);
             //console.log(query);
 
@@ -428,13 +317,8 @@ RearrangementController.queryRearrangements = async function(req, res) {
 
     // construct info object for response
     var info = getInfoObject();
-//    var schema = global.airr['Info'];
-//    info['title'] = config.info.description;
-//    info['description'] = 'VDJServer ADC API response for rearrangement query'
-//    info['version'] = schema.version;
-//    info['contact'] = config.info.contact;
 
-    var collection = 'rearrangement' + tapisSettings.mongo_queryCollection;
+    var collection = 'rearrangement' + mongoSettings.queryCollection;
     if (!facets) {
         // perform non-facets query
         config.log.info(context, 'perform non-facets query');
@@ -529,204 +413,8 @@ RearrangementController.queryRearrangements = async function(req, res) {
         queryRecord['end'] = Date.now();
         return tapisIO.recordQuery(queryRecord);
 
-
-/*        // perform non-facets query
-        var queryFunction = tapisIO.performQuery;
-        if (query && query.length > config.large_query_size) {
-            config.log.info(context, 'Large query detected.');
-            queryFunction = tapisIO.performLargeQuery;
-        }
-        //if (config.debug) console.log(query);
-
-        if (query) query = JSON.parse(query);
-        return queryFunction(collection, query, null, page, pagesize)
-            .then(function(records) {
-                config.log.info(context, 'query returned ' + records.length + ' records.');
-                if (records.length == 0) {
-                    results = [];
-                } else {
-                    // loop through records, clean data
-                    // and only retrieve desired from/size
-                    for (var i in records) {
-                        if (i < from_skip) continue;
-                        if (i >= size_stop) break;
-                        var record = records[i];
-                        if (!record['sequence_id']) {
-                            if (record['_id']['$oid']) record['sequence_id'] = record['_id']['$oid'];
-                            else record['sequence_id'] = record['_id'];
-                        }
-
-                        // gene calls, join back to string
-                        if ((typeof record['v_call']) == "object") record['v_call'] = record['v_call'].join(',');
-                        if ((typeof record['d_call']) == "object") record['d_call'] = record['d_call'].join(',');
-                        if ((typeof record['j_call']) == "object") record['j_call'] = record['j_call'].join(',');
-
-                        // TODO: general this a bit in case we add more
-                        if (record['_id']) delete record['_id'];
-                        if (record['_etag']) delete record['_etag'];
-                        if (record['vdjserver_junction_suffixes'])
-                            if (projection['vdjserver_junction_suffixes'] == undefined)
-                                delete record['vdjserver_junction_suffixes'];
-
-                        // add any missing required fields
-                        if (all_fields.length > 0) {
-                            airr.addFields(record, all_fields, airr_schema);
-                        }
-                        // apply projection
-                        var keys = Object.keys(record);
-                        if (Object.keys(projection).length > 0) {
-                            for (var p = 0; p < keys.length; ++p)
-                                if (projection[keys[p]] == undefined)
-                                    delete record[keys[p]];
-                        }
-                        results.push(record);
-                    }
-                }
-            })
-            .then(function() {
-                if ((!second_size) || (results.length < pagesize)) {
-                    // only one query so return the results
-                    return;
-                } else {
-                    // we need to do a second query for the rest
-                    page += 1;
-                    return queryFunction(collection, query, null, page, pagesize)
-                        .then(function(records) {
-                            config.log.info(context, 'second query returned ' + records.length + ' records.')
-
-                            // loop through records, clean data
-                            // and only retrieve desired from/size
-                            for (var i in records) {
-                                if (i >= second_size) break;
-                                var record = records[i];
-                                if (!record['sequence_id']) {
-                                    if (record['_id']['$oid']) record['sequence_id'] = record['_id']['$oid'];
-                                    else record['sequence_id'] = record['_id'];
-                                }
-
-                                // gene calls, join back to string
-                                if ((typeof record['v_call']) == "object") record['v_call'] = record['v_call'].join(',');
-                                if ((typeof record['d_call']) == "object") record['d_call'] = record['d_call'].join(',');
-                                if ((typeof record['j_call']) == "object") record['j_call'] = record['j_call'].join(',');
-
-                                // TODO: general this a bit in case we add more
-                                if (record['_id']) delete record['_id'];
-                                if (record['_etag']) delete record['_etag'];
-                                if (record['vdjserver_junction_suffixes'])
-                                    if (projection['vdjserver_junction_suffixes'] == undefined)
-                                        delete record['vdjserver_junction_suffixes'];
-
-                                // add any missing required fields
-                                if (all_fields.length > 0) {
-                                    airr.addFields(record, all_fields, airr_schema);
-                                }
-                                // apply projection
-                                var keys = Object.keys(record);
-                                if (Object.keys(projection).length > 0) {
-                                    for (var p = 0; p < keys.length; ++p)
-                                        if (projection[keys[p]] == undefined)
-                                            delete record[keys[p]];
-                                }
-                                results.push(record);
-                            }
-                        });
-                }
-            }) */
-
-/*            .then(function() {
-                // format results and return them
-                queryRecord['count'] = results.length;
-                if (format == 'json') {
-                    config.log.info(context, 'returning ' + results.length + ' records to client.');
-                    res.json({"Info":info,"Rearrangement":results});
-                } else if (format == 'tsv') {
-                    res.setHeader('Content-Type', 'text/tsv');
-
-                    // write headers
-                    var headers = [];
-
-                    // if no projection
-                    if (Object.keys(projection).length == 0) {
-                        // then return all schema fields
-                        headers = schema_fields;
-                    } else {
-                        // else only return specified fields
-                        // schema fields first
-                        for (let p = 0; p < schema_fields.length; ++p) {
-                            if (projection[schema_fields[p]]) headers.push(schema_fields[p]);
-                        }
-                        // add custom fields on end
-                        for (let p in projection) {
-                            if (p == '_id') continue;
-                            if (projection[p]) {
-                                if (schema_fields.indexOf(p) >= 0) continue;
-                                else headers.push(p);
-                            }
-                        }
-                    }
-
-                    res.write(headers.join('\t'));
-                    res.write('\n');
-                    //if (config.debug) console.log(headers);
-
-                    var first = true;
-                    for (var r in results) {
-                        var entry = results[r]
-                        if (!first) {
-                            res.write('\n');
-                        }  else {
-                            first = false;
-                        }
-
-                        var vals = [];
-                        for (var i = 0; i < headers.length; ++i) {
-                            var p = headers[i];
-                            if (entry[p] == undefined) vals.push('');
-                            else vals.push(entry[p]);
-                        }
-                        res.write(vals.join('\t'));
-                    }
-                }
-                if (format == 'tsv') res.write('\n');
-                res.end();
-            })
-            .then(function() {
-                queryRecord['status'] = 'success';
-                queryRecord['end'] = Date.now();
-                tapisIO.recordQuery(queryRecord);
-            })
-            .catch(function(error) {
-                var msg = '';
-
-                // construct message
-                if (error['http status code'] == 408) {
-                    config.log.info(context, 'got timeout');
-                    msg += 'Timeout error while performing query.';
-                    msg += ' Perform an asynchronous query using the AIRR Extension API for long running queries.';
-                } else {
-                    msg = "error: " + error + ',While performing query: ';
-                    if (query && query.length > config.large_query_size)
-                        msg += 'a very large query (' + query.length + ')';
-                    else
-                        msg += query;
-                }
-                msg = config.log.error(context, msg);
-
-                // send response with status
-                if (error['http status code'] == 408) {
-                    res.status(408).json({"message":msg});
-                    queryRecord['status'] = 'timeout';
-                } else {
-                    res.status(500).json({"message":result_message});
-                    webhookIO.postToSlack(msg);
-                    queryRecord['status'] = 'error';
-                }
-
-                queryRecord['message'] = msg;
-                queryRecord['end'] = Date.now();
-                tapisIO.recordQuery(queryRecord);
-            }); */
     } else {
+
         // perform facets query
         var field = '$' + facets;
         if (!query) query = '{}';
@@ -758,12 +446,6 @@ RearrangementController.queryRearrangements = async function(req, res) {
             let agg = [];
             if (query) agg.push({ $match: query });
             agg.push({ $group: { _id: field, count: { $sum: 1}} });
-//            agg.push({ "$group": { "_id": null, "facets": { "$push": { "_id": "$_id", "count": "$count" }}}});
-
-//      { "$group": { "_id": null, "facets": { "$push": { "_id": "$_id", "count": "$count" }}}}
-
-//            return tapisIO.performQuery(collection, query, null, null, null, true)
-//            return mongoIO.performAggregation(collection, agg)
             return mongoIO.queryCount(collection, query)
                 .then(function(record) {
                     //console.log(JSON.stringify(record));
@@ -829,63 +511,6 @@ RearrangementController.queryRearrangements = async function(req, res) {
             queryRecord['end'] = Date.now();
             return tapisIO.recordQuery(queryRecord);
 
-/*
-            return tapisIO.performFacets(collection, query, field, 1, pagesize)
-                .then(function(records) {
-                    //console.log(records);
-                    if (records.length == 0) {
-                        results = [];
-                    } else {
-                        // loop through records, clean data
-                        // and only retrieve desired from/size
-                        for (var i in records) {
-                            var entry = records[i];
-                            var new_entry = {}
-                            new_entry[facets] = entry['_id'];
-                            new_entry['count'] = entry['count'];
-                            results.push(new_entry);
-                        }
-                    }
-                    config.log.info(context, 'facets rearrangement query returning ' + results.length + ' results to client.');
-                    queryRecord['count'] = results.length;
-                    res.json({"Info":info,"Facet":results});
-                })
-                .then(function() {
-                    queryRecord['status'] = 'success';
-                    queryRecord['end'] = Date.now();
-                    tapisIO.recordQuery(queryRecord);
-                })
-                .catch(function(error) {
-                    var msg = '';
-
-                    // construct message
-                    if (error['http status code'] == 408) {
-                        config.log.info(context, 'got timeout');
-                        msg += 'Timeout error while performing query.';
-                        msg += ' Perform an asynchronous query using the AIRR Extension API for long running queries.';
-                    } else {
-                        msg = "error: " + error + ',While performing query: ';
-                        if (query && query.length > config.large_query_size)
-                            msg += 'a very large query (' + query.length + ')';
-                        else
-                            msg += query;
-                    }
-                    msg = config.log.error(context, msg);
-
-                    // send response with status
-                    if (error['http status code'] == 408) {
-                        res.status(408).json({"message":msg});
-                        queryRecord['status'] = 'timeout';
-                    } else {
-                        res.status(500).json({"message":result_message});
-                        webhookIO.postToSlack(msg);
-                        queryRecord['status'] = 'error';
-                    }
-
-                    queryRecord['message'] = msg;
-                    queryRecord['end'] = Date.now();
-                    tapisIO.recordQuery(queryRecord);
-                }); */
         }
     }
 }

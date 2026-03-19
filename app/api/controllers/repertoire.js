@@ -8,7 +8,7 @@
 // ADC API for VDJServer
 // https://vdjserver.org
 //
-// Copyright (C) 2020 The University of Texas Southwestern Medical Center
+// Copyright (C) 2020-2025 The University of Texas Southwestern Medical Center
 //
 // Author: Scott Christley <scott.christley@utsouthwestern.edu>
 //
@@ -45,6 +45,7 @@ var authController = tapisIO.authController;
 var webhookIO = require('vdj-tapis-js/webhookIO');
 var adc_mongo_query = require('vdj-tapis-js/adc_mongo_query');
 var mongoIO = require('vdj-tapis-js/mongoIO');
+var mongoSettings = require('vdj-tapis-js/mongoSettings');
 
 function getInfoObject() {
     var info = { };
@@ -78,7 +79,7 @@ RepertoireController.getRepertoire = async function(req, res) {
         start: Date.now()
     };
 
-    var collection = 'repertoire' + tapisSettings.mongo_queryCollection;
+    var collection = 'repertoire' + mongoSettings.queryCollection;
     var query = { "repertoire_id": get_repertoire_id };
 
     // all AIRR fields
@@ -121,36 +122,6 @@ RepertoireController.getRepertoire = async function(req, res) {
     queryRecord['status'] = 'success';
     queryRecord['end'] = Date.now();
     return tapisIO.recordQuery(queryRecord);
-
-/*    return tapisIO.performQuery(collection, query, null, null, null)
-        .then(function(record) {
-            if (record.length == 0) {
-                res.json({"Info":info,"Repertoire":[]});
-                queryRecord['count'] = 0;
-            } else {
-                record = record[0];
-                record = clean_record(record, airr_schema, null, all_fields);
-                //record = clean_record(record);
-                //airr.addFields(record, all_fields, airr_schema);
-                res.json({"Info":info,"Repertoire":[record]});
-                queryRecord['count'] = 1;
-            }
-        })
-        .then(function() {
-            queryRecord['status'] = 'success';
-            queryRecord['end'] = Date.now();
-            tapisIO.recordQuery(queryRecord);
-        })
-        .catch(function(error) {
-            var msg = config.log.error(context, 'tapisIO.performQuery error: ' + error);
-            res.status(500).json({"message":result_message});
-            webhookIO.postToSlack(msg);
-            queryRecord['status'] = 'error';
-            queryRecord['message'] = msg;
-            queryRecord['end'] = Date.now();
-            tapisIO.recordQuery(queryRecord);
-            return;
-        }); */
 }
 
 // Generic query repertoires
@@ -321,7 +292,7 @@ RepertoireController.queryRepertoires = async function(req, res) {
     // construct info object for response
     var info = getInfoObject();
 
-    var collection = 'repertoire' + tapisSettings.mongo_queryCollection;
+    var collection = 'repertoire' + mongoSettings.queryCollection;
     if (!facets) {
         // perform non-facets query
         config.log.info(context, 'perform non-facets query');
@@ -366,54 +337,6 @@ RepertoireController.queryRepertoires = async function(req, res) {
         queryRecord['status'] = 'success';
         queryRecord['end'] = Date.now();
         return tapisIO.recordQuery(queryRecord);
-
-/*
-        // we just get all of them then manually do from/size
-        return tapisIO.performMultiQuery(collection, query, projection, 1, pagesize)
-            .then(function(records) {
-                config.log.info(context, 'query returned ' + records.length + ' records.');
-    
-                if (records.length == 0) {
-                    results = [];
-                } else {
-                    // loop through records, clean data
-                    // and only retrieve desired from/size
-                    for (var i in records) {
-                        if (i < from) continue;
-                        if ((size > 0) && (i >= (size + from))) break;
-                        var record = records[i];
-                        record = adc_mongo_query.cleanRecord(record);
-    
-                        // add any missing required fields
-                        if (include_fields.length > 0) {
-                            airr.addFields(records[i], include_fields, airr_schema);
-                        } else {
-                            airr.addFields(records[i], all_fields, airr_schema);
-                        }
-    
-                        results.push(record);
-                    }
-                }
-            })
-            .then(function() {
-                config.log.info(context, 'returning ' + results.length + ' records to client.');
-                queryRecord['count'] = results.length;
-                res.json({"Info":info,"Repertoire":results});
-            })
-            .then(function() {
-                queryRecord['status'] = 'success';
-                queryRecord['end'] = Date.now();
-                tapisIO.recordQuery(queryRecord);
-            })
-            .catch(function(error) {
-                var msg = config.log.error(context, "performQuery error: " + error);
-                res.status(500).json({"message":result_message});
-                webhookIO.postToSlack(msg);
-                queryRecord['status'] = 'error';
-                queryRecord['message'] = msg;
-                queryRecord['end'] = Date.now();
-                tapisIO.recordQuery(queryRecord);
-            }); */
     } else {
         // perform facets query
         config.log.info(context, 'perform facets query');

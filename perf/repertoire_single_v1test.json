@@ -1,0 +1,10 @@
+{
+  "filters": {
+    "op": "=",
+    "content": {
+      "field": "repertoire_id",
+      "value": "3be09659-eaf6-46eb-a96f-80c8dc86ccd3"
+    }
+  },
+  "format":"tsv"
+}

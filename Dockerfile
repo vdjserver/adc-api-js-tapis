@@ -1,7 +1,7 @@
 # Base Image
 FROM ubuntu:22.04
 
-LABEL maintainer="VDJServer <vdjserver@utsouthwestern.edu>"
+LABEL MAINTAINER="VDJServer <vdjserver@utsouthwestern.edu>"
 
 # PROXY: uncomment these if building behind UTSW proxy
 #ENV http_proxy 'http://proxy.swmed.edu:3128/'

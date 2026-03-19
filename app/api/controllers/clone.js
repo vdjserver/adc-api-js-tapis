@@ -32,9 +32,13 @@ module.exports = CloneController;
 // Server environment config
 var config = require('../../config/config');
 
+// Schema libraries
+var airr = require('airr-js');
+var vdj_schema = require('vdjserver-schema');
+
 function getInfoObject() {
     var info = { };
-    var schema = global.airr['Info'];
+    var schema = airr.get_info();
     info['title'] = config.info.description;
     info['description'] = 'VDJServer ADC API response for clone query'
     info['version'] = schema.version;

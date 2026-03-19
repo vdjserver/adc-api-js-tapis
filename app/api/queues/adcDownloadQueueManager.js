@@ -78,7 +78,7 @@ ADCDownloadQueueManager.triggerDownloadCache = async function() {
         return;
     }
 
-    //console.log(adc_cache);
+    console.log(adc_cache);
     if (adc_cache.length == 0) {
         console.log('VDJ-API INFO: ADCDownloadQueueManager.triggerDownloadCache, creating adc_cache metadata singleton');
 
@@ -542,7 +542,7 @@ cacheQueue.process(async (job) => {
             if (query_status['status'] == 'FINISHED') {
                 console.log('VDJ-API INFO: async query is FINISHED, manually sending notification.');
                 // manually send notification
-                var notification = { url: tapisSettings.notifyHost + '/api/v2/adc/cache/notify/' + repertoire_cache['uuid'], method: 'POST' };
+                var notification = { url: tapisSettings.notifyHost + '/airr/v1/admin/adc/cache/notify/' + repertoire_cache['uuid'], method: 'POST' };
                 await adcIO.sendNotification(notification, query_status)
                     .catch(function(error) {
                         msg = 'VDJ-API ERROR: ADCDownloadQueueManager cacheQueue, could not manually send notification '
@@ -558,7 +558,7 @@ cacheQueue.process(async (job) => {
     // use ADC ASYNC API if supported
     // TODO: we should get this from the repository info
     if (repository['supports_async']) {
-        var notification = { url: tapisSettings.notifyHost + '/api/v2/adc/cache/notify/' + repertoire_cache['uuid'], method: 'POST' };
+        var notification = { url: tapisSettings.notifyHost + '/airr/v1/admin/adc/cache/notify/' + repertoire_cache['uuid'], method: 'POST' };
         var query_id = await adcIO.asyncGetRearrangements(repository, repertoire_id, notification)
             .catch(function(error) {
                 msg = 'VDJ-API ERROR: ADCDownloadQueueManager cacheQueue, could not submit ADC ASYNC query for repertoire_id '
@@ -996,6 +996,7 @@ ADCDownloadQueueManager.recacheRepertoireMetadata = async function(repository_id
 }
 
 clearQueue.process(async (job) => {
+    var context = 'adcDownloadQueueManager.clearQueue';
     var msg = null;
     var repository_id = job['data']['repository_id'];
     var study_id = job['data']['study_id'];
@@ -1046,9 +1047,13 @@ clearQueue.process(async (job) => {
     }
 
     // delete the whole study cache directory
-    var cache_path = config.vdjserver_data_path + 'community/cache/' + study_cache['uuid'];
-    console.log('VDJ-API INFO (clearQueue): deleting ADC directory:', cache_path);
-    fs.rmdirSync(cache_path, { recursive:true });
+    try {
+        var cache_path = config.vdjserver_data_path + 'community/cache/' + study_cache['uuid'];
+        console.log('VDJ-API INFO (clearQueue): deleting ADC directory:', cache_path);
+        fs.rmSync(cache_path, { recursive:true });
+    } catch (e) {
+        config.log.error(context, 'Error while trying to delete ADC cache directory, ignoring: ' + e);
+    }
 
     // for each cached repertoire entry, delete the postit, delete the metadata
     for (let i in cached_reps) {
@@ -1066,12 +1071,12 @@ clearQueue.process(async (job) => {
             }
         }
 
-        await tapisIO.deleteMetadata(ServiceAccount.accessToken(), cached_reps[i]['uuid'])
+        await tapisIO.deleteRecord('tapis_meta', cached_reps[i]['_id']['$oid'])
             .catch(function(error) {
-                msg = 'VDJ-API ERROR (clearQueue): tapisIO.deleteMetadata: ' + cached_reps[i]['uuid'] + ', error ' + error;
+                msg = 'tapisIO.deleteRecord, error: ' + error;
             });
         if (msg) {
-            console.error(msg);
+            msg = config.log.error(context, msg);
             webhookIO.postToSlack(msg);
             return Promise.resolve();
         }
@@ -1091,12 +1096,12 @@ clearQueue.process(async (job) => {
         }
     }
 
-    await tapisIO.deleteMetadata(ServiceAccount.accessToken(), study_cache['uuid'])
+    await tapisIO.deleteRecord('tapis_meta', study_cache['_id']['$oid'])
         .catch(function(error) {
-            msg = 'VDJ-API ERROR (clearQueue): tapisIO.deleteMetadata: ' + study_cache['uuid'] + ', error ' + error;
+            msg = 'tapisIO.deleteRecord, error: ' + error;
         });
     if (msg) {
-        console.error(msg);
+        msg = config.log.error(context, msg);
         webhookIO.postToSlack(msg);
         return Promise.resolve();
     }
