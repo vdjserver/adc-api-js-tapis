@@ -816,8 +816,51 @@ rearrangementLoadQueue.process(async (job) => {
         let jobOutput = null;
         if (primaryDP['analysis_provenance_id']) {
             config.log.info(context, 'data_processing record has analysis_provenance_id: ' + primaryDP['analysis_provenance_id']);
-            // TODO: implement
-            return Promise.resolve();
+
+            // get analysis document
+            let data = await tapisIO.getMetadataForProject(projectUuid, primaryDP['analysis_provenance_id'])
+                .catch(function(error) {
+                    msg = config.log.error(context, 'Error while retrieving analysis document: ' + primaryDP['analysis_provenance_id']);
+                });
+            if (msg) {
+                webhookIO.postToSlack(msg);
+                return Promise.resolve();
+            }
+
+            // some basic checks
+            if (data.length == 0)
+                msg = config.log.error(context, 'Analysis document: ' + primaryDP['analysis_provenance_id'] + ' not found.');
+            if (msg) {
+                webhookIO.postToSlack(msg);
+                return Promise.resolve();
+            }
+            data = data[0];
+
+            if (data['name'] != 'analysis_document')
+                msg = config.log.error(context, 'Object: ' + primaryDP['analysis_provenance_id'] + ' is not an analysis_document.');
+            if (msg) {
+                webhookIO.postToSlack(msg);
+                return Promise.resolve();
+            }
+
+            // status must be FINISHED
+            if (data['value']['status'] != 'FINISHED') {
+                msg = config.log.error(context, 'Analysis: ' + primaryDP['analysis_provenance_id'] + ' is not in FINISHED state.');
+                webhookIO.postToSlack(msg);
+                return Promise.resolve();
+            }
+
+            // get tapis job id
+            let activity_key = 'vdjserver:activity:' + data['value']['workflow_mode'];
+            let job_id = data['value']['activity'][activity_key]['vdjserver:job'];
+            if (!job_id) {
+                msg = config.log.error(context, 'Analysis: ' + primaryDP['analysis_provenance_id'] + 'is missing Tapis job id for activity: ' + activity_key);
+                webhookIO.postToSlack(msg);
+                return Promise.resolve();
+            }
+
+            jobOutput = { archivePath: '/projects/' + projectUuid + '/analyses/' + primaryDP['analysis_provenance_id'] + '/' + job_id };
+
         } else {
 
             // TODO: right now this is a (tapis v2) job, but we should switch to using analysis_provenance_id
