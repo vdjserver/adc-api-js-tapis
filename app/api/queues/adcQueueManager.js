@@ -812,31 +812,47 @@ rearrangementLoadQueue.process(async (job) => {
             return Promise.resolve();
         }
 
-        // get the data processing record
-        // TODO: right now this is a (tapis v2) job, but we should switch to using analysis_provenance_id
-        // which contains the appropriate information
-        config.log.info(context, 'Looking for job archive path for primary data_processing_id: ' + primaryDP['data_processing_id']);
-        var jobOutput = await tapisIO.getDocument(primaryDP['data_processing_id'])
-            .catch(function(error) {
-                msg = 'tapisIO.getDocument, error: ' + error;
-            });
-        if (msg) {
-            msg = config.log.error(context, msg);
-            webhookIO.postToSlack(msg);
-            return Promise.reject();
-        }
-        if (jobOutput.length > 0) {
-            var job = jobOutput[0];
-            console.log(job);
-            if (job['name'] == 'tapis_v2_job') {
-                console.log(job['name']);
-                jobOutput = { archivePath: job['value']['archive_path'] };
-            } else if (job['name'] == 'data_processing') {
-                console.log(job['name']);
+        // check for VDJServer V2 analysis
+        let jobOutput = null;
+        if (primaryDP['analysis_provenance_id']) {
+            config.log.info(context, 'data_processing record has analysis_provenance_id: ' + primaryDP['analysis_provenance_id']);
+            // TODO: implement
+            return Promise.resolve();
+        } else {
+
+            // TODO: right now this is a (tapis v2) job, but we should switch to using analysis_provenance_id
+            // which contains the appropriate information
+            config.log.info(context, 'Looking for job archive path for primary data_processing_id: ' + primaryDP['data_processing_id']);
+            var jobList = await tapisIO.getDocument(primaryDP['data_processing_id'])
+                .catch(function(error) {
+                    msg = 'tapisIO.getDocument, error: ' + error;
+                });
+            if (msg) {
+                msg = config.log.error(context, msg);
+                webhookIO.postToSlack(msg);
+                return Promise.reject();
+            }
+            if (jobList.length > 0) {
+                // it is a vdjserver uuid
+                let job = jobList[0];
+                //console.log(job);
+                if (job['name'] == 'tapis_v2_job') {
+                    config.log.info(context, 'data_processing_id points tapis v2 job record, using archive_path.');
+                    jobOutput = { archivePath: job['value']['archive_path'] };
+                } else if (job['name'] == 'data_processing') {
+                    config.log.info(context, 'data_processing_id points to itself. No analysis_provenance_id so assume project files path.');
+                    jobOutput = { archivePath: '/projects/' + projectUuid + '/files' };
+                }
+            } else {
+                // a user provided external data_processing_id
+                // or possibly an old VDJServer v2 record that was not converted?
+                // there are data_processing_files so assume
+                config.log.info(context, 'data_processing_id is not a known VDJServer uuid: ' + primaryDP['data_processing_id']);
+                config.log.info(context, 'No analysis_provenance_id so assume project files path.');
                 jobOutput = { archivePath: '/projects/' + projectUuid + '/files' };
             }
+            //console.log(jobOutput);
         }
-        //console.log(jobOutput);
 
         if (! jobOutput) {
             msg = 'could not get job: ' + primaryDP['data_processing_id'] + ' for primary data processing: ' + primaryDP['data_processing_id'];
