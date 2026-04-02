@@ -43,6 +43,10 @@ var webhookIO = require('vdj-tapis-js/webhookIO');
 var emailIO = require('vdj-tapis-js/emailIO');
 var adcIO = require('vdj-tapis-js/adcIO');
 
+// ADC Mongo db
+var mongoIO = require('vdj-tapis-js/mongoIO');
+var mongoSettings = require('vdj-tapis-js/mongoSettings');
+
 // Node Libraries
 var Queue = require('bull');
 var fs = require('fs');
@@ -298,7 +302,7 @@ submitQueue.process(async (job) => {
             var vdjserver_uuid = reps[0]['study']['vdjserver_uuid'];
             if (vdjserver_uuid) {
                 console.log('VDJ-API INFO: check project load:', vdjserver_uuid);
-                var projectLoad = await tapisIO.getProjectLoadMetadata(vdjserver_uuid, tapisSettings.mongo_loadCollection)
+                var projectLoad = await tapisIO.getProjectLoadMetadata(vdjserver_uuid, mongoSettings.loadCollection)
                     .catch(function(error) {
                         msg = 'VDJ-API ERROR: ADCDownloadQueueManager submitQueue, tapisIO.createCachedStudyMetadata error ' + error;
                     });
