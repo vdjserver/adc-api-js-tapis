@@ -777,6 +777,7 @@ rearrangementLoadQueue.process(async (job) => {
                     config.log.info(context, 'Successfully updated repertoire with data processing record: ' + repertoire['repertoire_id']);
 
                     // have it reload everything
+                    adcQueueManager.triggerProjectLoad();
                     return Promise.resolve();
                 }
             }
@@ -812,31 +813,90 @@ rearrangementLoadQueue.process(async (job) => {
             return Promise.resolve();
         }
 
-        // get the data processing record
-        // TODO: right now this is a (tapis v2) job, but we should switch to using analysis_provenance_id
-        // which contains the appropriate information
-        config.log.info(context, 'Looking for job archive path for primary data_processing_id: ' + primaryDP['data_processing_id']);
-        var jobOutput = await tapisIO.getDocument(primaryDP['data_processing_id'])
-            .catch(function(error) {
-                msg = 'tapisIO.getDocument, error: ' + error;
-            });
-        if (msg) {
-            msg = config.log.error(context, msg);
-            webhookIO.postToSlack(msg);
-            return Promise.reject();
-        }
-        if (jobOutput.length > 0) {
-            var job = jobOutput[0];
-            console.log(job);
-            if (job['name'] == 'tapis_v2_job') {
-                console.log(job['name']);
-                jobOutput = { archivePath: job['value']['archive_path'] };
-            } else if (job['name'] == 'data_processing') {
-                console.log(job['name']);
+        // check for VDJServer V2 analysis
+        let jobOutput = null;
+        if (primaryDP['analysis_provenance_id']) {
+            config.log.info(context, 'data_processing record has analysis_provenance_id: ' + primaryDP['analysis_provenance_id']);
+
+            // get analysis document
+            let data = await tapisIO.getMetadataForProject(projectUuid, primaryDP['analysis_provenance_id'])
+                .catch(function(error) {
+                    msg = config.log.error(context, 'Error while retrieving analysis document: ' + primaryDP['analysis_provenance_id']);
+                });
+            if (msg) {
+                webhookIO.postToSlack(msg);
+                return Promise.resolve();
+            }
+
+            // some basic checks
+            if (data.length == 0)
+                msg = config.log.error(context, 'Analysis document: ' + primaryDP['analysis_provenance_id'] + ' not found.');
+            if (msg) {
+                webhookIO.postToSlack(msg);
+                return Promise.resolve();
+            }
+            data = data[0];
+
+            if (data['name'] != 'analysis_document')
+                msg = config.log.error(context, 'Object: ' + primaryDP['analysis_provenance_id'] + ' is not an analysis_document.');
+            if (msg) {
+                webhookIO.postToSlack(msg);
+                return Promise.resolve();
+            }
+
+            // status must be FINISHED
+            if (data['value']['status'] != 'FINISHED') {
+                msg = config.log.error(context, 'Analysis: ' + primaryDP['analysis_provenance_id'] + ' is not in FINISHED state.');
+                webhookIO.postToSlack(msg);
+                return Promise.resolve();
+            }
+
+            // get tapis job id
+            let activity_key = 'vdjserver:activity:' + data['value']['workflow_mode'];
+            let job_id = data['value']['activity'][activity_key]['vdjserver:job'];
+            if (!job_id) {
+                msg = config.log.error(context, 'Analysis: ' + primaryDP['analysis_provenance_id'] + 'is missing Tapis job id for activity: ' + activity_key);
+                webhookIO.postToSlack(msg);
+                return Promise.resolve();
+            }
+
+            jobOutput = { archivePath: '/projects/' + projectUuid + '/analyses/' + primaryDP['analysis_provenance_id'] + '/' + job_id };
+
+        } else {
+
+            // TODO: right now this is a (tapis v2) job, but we should switch to using analysis_provenance_id
+            // which contains the appropriate information
+            config.log.info(context, 'Looking for job archive path for primary data_processing_id: ' + primaryDP['data_processing_id']);
+            var jobList = await tapisIO.getDocument(primaryDP['data_processing_id'])
+                .catch(function(error) {
+                    msg = 'tapisIO.getDocument, error: ' + error;
+                });
+            if (msg) {
+                msg = config.log.error(context, msg);
+                webhookIO.postToSlack(msg);
+                return Promise.reject();
+            }
+            if (jobList.length > 0) {
+                // it is a vdjserver uuid
+                let job = jobList[0];
+                //console.log(job);
+                if (job['name'] == 'tapis_v2_job') {
+                    config.log.info(context, 'data_processing_id points tapis v2 job record, using archive_path.');
+                    jobOutput = { archivePath: job['value']['archive_path'] };
+                } else if (job['name'] == 'data_processing') {
+                    config.log.info(context, 'data_processing_id points to itself. No analysis_provenance_id so assume project files path.');
+                    jobOutput = { archivePath: '/projects/' + projectUuid + '/files' };
+                }
+            } else {
+                // a user provided external data_processing_id
+                // or possibly an old VDJServer v2 record that was not converted?
+                // there are data_processing_files so assume
+                config.log.info(context, 'data_processing_id is not a known VDJServer uuid: ' + primaryDP['data_processing_id']);
+                config.log.info(context, 'No analysis_provenance_id so assume project files path.');
                 jobOutput = { archivePath: '/projects/' + projectUuid + '/files' };
             }
+            //console.log(jobOutput);
         }
-        //console.log(jobOutput);
 
         if (! jobOutput) {
             msg = 'could not get job: ' + primaryDP['data_processing_id'] + ' for primary data processing: ' + primaryDP['data_processing_id'];
