@@ -299,23 +299,25 @@ submitQueue.process(async (job) => {
             if (reps.length == 0) continue;
 
             // For VDJServer, verify that the study has been completely loaded
-            var vdjserver_uuid = reps[0]['study']['vdjserver_uuid'];
-            if (vdjserver_uuid) {
-                console.log('VDJ-API INFO: check project load:', vdjserver_uuid);
-                var projectLoad = await tapisIO.getProjectLoadMetadata(vdjserver_uuid, mongoSettings.loadCollection)
-                    .catch(function(error) {
-                        msg = 'VDJ-API ERROR: ADCDownloadQueueManager submitQueue, tapisIO.createCachedStudyMetadata error ' + error;
-                    });
-                if (msg) {
-                    console.error(msg);
-                    webhookIO.postToSlack(msg);
-                    return Promise.resolve();
-                }
-                if (!projectLoad) continue;
-                if (projectLoad.length == 0) continue;
-                if (!projectLoad[0]['value']['isLoaded']) {
-                    console.log('VDJ-API INFO: skipping ADC study:', study_id, 'because not completely loaded, load record:', projectLoad[0]['uuid']);
-                    continue;
+            if (reps[0]['study']['vdjserver']) {
+                var vdjserver_uuid = reps[0]['study']['vdjserver']['vdjserver_uuid'];
+                if (vdjserver_uuid) {
+                    console.log('VDJ-API INFO: check project load:', vdjserver_uuid);
+                    var projectLoad = await tapisIO.getProjectLoadMetadata(vdjserver_uuid, mongoSettings.loadCollection)
+                        .catch(function(error) {
+                            msg = 'VDJ-API ERROR: ADCDownloadQueueManager submitQueue, tapisIO.createCachedStudyMetadata error ' + error;
+                        });
+                    if (msg) {
+                        console.error(msg);
+                        webhookIO.postToSlack(msg);
+                        return Promise.resolve();
+                    }
+                    if (!projectLoad) continue;
+                    if (projectLoad.length == 0) continue;
+                    if (!projectLoad[0]['value']['isLoaded']) {
+                        console.log('VDJ-API INFO: skipping ADC study:', study_id, 'because not completely loaded, load record:', projectLoad[0]['uuid']);
+                        continue;
+                    }
                 }
             }
 
