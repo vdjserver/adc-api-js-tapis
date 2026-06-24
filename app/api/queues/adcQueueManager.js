@@ -777,6 +777,7 @@ rearrangementLoadQueue.process(async (job) => {
                     config.log.info(context, 'Successfully updated repertoire with data processing record: ' + repertoire['repertoire_id']);
 
                     // have it reload everything
+                    adcQueueManager.triggerProjectLoad();
                     return Promise.resolve();
                 }
             }
